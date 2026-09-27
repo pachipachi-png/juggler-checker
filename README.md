@@ -1,4 +1,23 @@
-# 設定示唆くん — 公開手順メモ
+# 設定示唆くん
+
+パチスロの設定判別を、機種ごとに必要な項目を入力するだけで簡易的に計算できるツール集。
+
+## サイト構成（2026-09-27〜）
+
+| URL | ファイル | 内容 |
+| --- | --- | --- |
+| `/` | `index.html` | トップ。機種名検索と機種一覧（一覧は `MACHINES` 配列で管理） |
+| `/juggler/` | `juggler/index.html` | ジャグラーシリーズの判別（機種の特性上1ページにまとめる） |
+| `/privacy.html` | `privacy.html` | プライバシーポリシー |
+| — | `robots.txt` `sitemap.xml` `ogp.png` | 検索・SNS向け |
+
+- 機種を追加するときは `/<機種名英字>/index.html` を作り、トップの `MACHINES` に1件足し、`sitemap.xml` にURLを足す
+- Search Consoleの確認用メタタグ（google-site-verification）はトップの `index.html` にある。削除しない
+- GA4イベント：`judge_run`（判別実行）、`search`（トップの検索）
+
+---
+
+## 公開手順メモ（初回公開時）
 
 ## 公開前チェックリスト（この順番でやるのがおすすめ）
 1. ~~投げ銭リンクを差し込む~~ 完了（OFUSE: https://ofuse.me/cec8e32a）

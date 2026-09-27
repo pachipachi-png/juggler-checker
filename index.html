@@ -4,122 +4,59 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-site-verification" content="wQWS0L7-X1AF9rmuS0Kty16yiRk29R5j4zqBfZrM2Qo" />
-<title>設定示唆くん | ジャグラー系 設定判別ツール</title>
+<title>設定示唆くん | パチスロ設定判別ツール（機種別・入力するだけ）</title>
+<meta name="description" content="パチスロの設定判別を、機種ごとに必要な項目を入力するだけで簡易的に計算できるツール集。機種名で検索して、そのまま判別ページへ。">
+<link rel="canonical" href="https://pachipachi-png.github.io/juggler-checker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="設定示唆くん">
+<meta property="og:title" content="設定示唆くん | パチスロ設定判別ツール">
+<meta property="og:description" content="機種名で検索 → 必要な項目を入力するだけで設定判別。">
+<meta property="og:url" content="https://pachipachi-png.github.io/juggler-checker/">
+<meta property="og:image" content="https://pachipachi-png.github.io/juggler-checker/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg: #14171c; --panel: #1d2229; --panel-2: #262c35; --line: #333b46;
-    --gold: #e8a93b; --gold-dim: #8a6a2a; --teal: #33b6a4; --text: #edeff2;
-    --muted: #8993a1; --joke: #d9668b;
+    --gold: #e8a93b; --gold-dim: #8a6a2a; --teal: #33b6a4; --text: #edeff2; --muted: #8993a1;
   }
   *{ box-sizing: border-box; }
   html,body{ margin:0; padding:0; }
   body{
     background: radial-gradient(1200px 600px at 50% -200px, #23293280, transparent), var(--bg);
-    color: var(--text); font-family: 'Zen Maru Gothic', sans-serif; line-height: 1.7; padding-bottom: 80px;
+    color: var(--text); font-family: 'Zen Maru Gothic', sans-serif; line-height: 1.7; padding-bottom: 60px;
   }
-  h1,h2,h3, .display{ font-family: 'Zen Kaku Gothic New', sans-serif; }
+  h1,h2,h3{ font-family: 'Zen Kaku Gothic New', sans-serif; }
   .wrap{ max-width: 560px; margin: 0 auto; padding: 0 18px; }
-
-  .hero{ padding: 44px 18px 30px; text-align: center; position: relative; overflow: hidden; }
-  .lamp{
-    width: 84px; height: 84px; margin: 0 auto 18px; border-radius: 50%;
-    background: radial-gradient(circle at 40% 35%, #ffe9b8, var(--gold) 55%, var(--gold-dim) 100%);
-    box-shadow: 0 0 40px 6px #e8a93b55, inset 0 0 18px #ffdd9a80;
-    animation: pulse 2.6s ease-in-out infinite;
-    display:flex; align-items:center; justify-content:center;
-    font-weight:900; color:#3a2a05; font-size: 15px; letter-spacing: 0.05em;
-    font-family: 'Zen Kaku Gothic New', sans-serif;
-  }
-  @keyframes pulse{
-    0%,100%{ box-shadow: 0 0 40px 4px #e8a93b40, inset 0 0 18px #ffdd9a70; }
-    50%{ box-shadow: 0 0 56px 10px #e8a93b80, inset 0 0 22px #ffdd9aa0; }
-  }
-  .hero h1{ font-size: 26px; font-weight: 900; margin: 0 0 8px; letter-spacing: 0.02em; }
+  .hero{ padding: 44px 18px 22px; text-align: center; }
+  .hero h1{ font-size: 28px; font-weight: 900; margin: 0 0 6px; }
   .hero p{ color: var(--muted); font-size: 14px; margin: 0; }
-
-  section{ margin: 26px 0; }
-  .card{ background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
-  .card + .card{ margin-top: 14px; }
-  .section-title{ display:flex; align-items:baseline; gap: 10px; margin-bottom: 14px; }
-  .section-title .num{
-    font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900; color: var(--gold); font-size: 15px;
-    border: 1px solid var(--gold-dim); border-radius: 8px;
-    width: 26px; height: 26px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  .search{ position: sticky; top: 0; padding: 12px 0; background: var(--bg); z-index: 2; }
+  .search input{
+    width:100%; background: var(--panel-2); border: 1px solid var(--line); color: var(--text);
+    padding: 13px 14px; border-radius: 11px; font-size: 16px; font-family: inherit;
   }
-  .section-title h2{ font-size: 16px; margin:0; font-weight:700; }
-  .hint{ color: var(--muted); font-size: 12.5px; margin: 6px 0 0; }
-
-  label{ display:block; font-size: 13px; color: var(--muted); margin: 12px 0 6px; }
-  label:first-of-type{ margin-top: 0; }
-  input[type=text], input[type=number], input[type=time], select{
-    width:100%; background: var(--panel-2); border: 1px solid var(--line);
-    color: var(--text); padding: 10px 12px; border-radius: 9px; font-size: 15px; font-family: inherit;
+  .search input:focus{ outline: 2px solid var(--teal); outline-offset: 1px; }
+  h2.group{ font-size: 13px; color: var(--muted); font-weight: 700; margin: 22px 0 8px; letter-spacing: .04em; }
+  .list{ display: grid; gap: 10px; }
+  a.item{
+    display:block; background: var(--panel); border: 1px solid var(--line); border-radius: 13px;
+    padding: 15px 16px; color: var(--text); text-decoration: none;
   }
-  input:focus, select:focus, button:focus-visible{ outline: 2px solid var(--teal); outline-offset: 1px; }
-  .row3{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-  .row2{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-  button{
-    font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 700; font-size: 14.5px;
-    border-radius: 10px; border: none; padding: 12px 16px; cursor:pointer; width: 100%;
-  }
-  .btn-primary{ background: var(--teal); color: #08211d; }
-  .btn-primary:active{ transform: translateY(1px); }
-  .btn-ghost{ background: transparent; border: 1px solid var(--line); color: var(--text); }
-  .btn-small{ width:auto; padding: 9px 14px; font-size: 13px; }
-
-  table.spec{ width:100%; border-collapse: collapse; margin-top: 10px; font-size: 12.5px; }
-  table.spec th, table.spec td{ padding: 6px 3px; text-align:center; border-bottom: 1px solid var(--line); }
-  table.spec th{ color: var(--muted); font-weight: 500; }
-  table.spec td input{ padding: 5px; font-size: 12.5px; text-align:center; }
-
-  .live-rate{
-    display:flex; align-items:center; justify-content:space-between;
-    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px;
-    padding: 12px 14px; margin-top: 10px; font-size: 13px; color: var(--muted);
-  }
-  .live-rate b{ color: var(--teal); font-size: 16px; font-family:'Zen Kaku Gothic New',sans-serif; }
-
-  .optional-panel{ margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); display:none; }
-  .optional-panel.open{ display:block; }
-
-  .pie-wrap{ display:flex; align-items:center; gap: 22px; margin-top: 6px; flex-wrap: wrap; }
-  .pie{ width: 150px; height: 150px; border-radius: 50%; flex-shrink:0; background: var(--panel-2); }
-  .legend{ flex: 1; min-width: 180px; }
-  .legend-row{ display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:7px; }
-  .swatch{ width:11px; height:11px; border-radius:3px; flex-shrink:0; }
-  .legend-row .pct{ margin-left:auto; font-variant-numeric: tabular-nums; color: var(--text); }
-
-  .top-setting{
-    margin-top: 14px; padding: 12px 14px; border-radius: 10px;
-    background: #22303022; border: 1px solid #33665544; font-size: 13.5px;
-  }
-  .top-setting b{ color: var(--teal); }
-
-  .ev-output{ margin-top: 14px; padding: 16px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--line); text-align:center; }
-  .ev-output .num{ font-size: 28px; font-weight: 900; font-family:'Zen Kaku Gothic New',sans-serif; }
-  .ev-output .num.pos{ color: #6fd6a8; }
-  .ev-output .num.neg{ color: #e08787; }
-  .ev-output .sub{ font-size: 12.5px; color: var(--muted); margin-top: 4px; }
-
-  .joke-card{
-    border: 1px dashed var(--joke);
-    background: repeating-linear-gradient(135deg, #23161c, #23161c 10px, #271822 10px, #271822 20px);
-    border-radius: 14px; padding: 20px;
-  }
-  .joke-badge{
-    display:inline-flex; align-items:center; gap:6px; background: var(--joke); color: #2b0d18;
-    font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900; font-size: 12px;
-    padding: 4px 10px; border-radius: 999px; margin-bottom: 12px;
-  }
-  .joke-output{ font-size: 15px; margin: 10px 0; padding: 14px; background: #2b1420; border-radius: 10px; border: 1px solid #4a2536; }
-  .tip-prompt{ margin-top: 14px; padding: 14px; background: #2b1420; border-radius: 10px; border: 1px dashed #7a3a52; }
-  .joke-disclaimer{ font-size: 12px; color: #c98da4; margin-top: 10px; line-height:1.6; }
-
-  .ad-slot{ margin: 26px 0; padding: 14px; text-align:center; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); font-size: 12px; }
-  footer{ text-align:center; color: var(--muted); font-size: 11.5px; padding: 20px 18px 0; }
+  a.item:hover{ border-color: var(--teal); }
+  .item .name{ font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 700; font-size: 16px; }
+  .item .sub{ color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+  .item .inputs{ margin-top: 8px; display:flex; flex-wrap: wrap; gap: 6px; }
+  .chip{ font-size: 11.5px; border: 1px solid var(--line); border-radius: 999px; padding: 1px 9px; color: var(--muted); }
+  .item.soon{ opacity: .55; pointer-events: none; }
+  .badge{ font-size: 11px; color: var(--gold); border: 1px solid var(--gold-dim); border-radius: 6px; padding: 0 6px; margin-left: 6px; vertical-align: 2px; }
+  .empty{ color: var(--muted); font-size: 13.5px; padding: 18px 4px; display:none; }
+  .about{ margin-top: 30px; background: var(--panel); border: 1px solid var(--line); border-radius: 13px; padding: 16px; font-size: 13.5px; }
+  .about h2{ font-size: 15px; margin: 0 0 6px; }
+  .about p{ margin: 0 0 6px; color: var(--muted); }
+  footer{ text-align:center; color: var(--muted); font-size: 11.5px; padding: 26px 18px 0; }
+  footer a{ color: var(--muted); }
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -134,436 +71,110 @@
 <body>
 
 <div class="hero">
-  <div class="lamp">GOGO</div>
   <h1>設定示唆くん</h1>
-  <p>ジャグラー系の差枚データから設定確率を推定するツール</p>
+  <p>機種を選んで、必要な項目を入れるだけの設定判別ツール</p>
 </div>
 
 <div class="wrap">
-
-  <!-- 1. 機種選択 -->
-  <section class="card">
-    <div class="section-title"><span class="num">1</span><h2>機種を選ぶ</h2></div>
-    <label for="machineSelect">機種</label>
-    <select id="machineSelect"></select>
-    <p class="hint">プリセットはメーカー公表値をベースにしていますが、ぶどう確率など一部は逆算・推定値です。実際の判別に使う際は最新の解析情報で書き換えてください。</p>
-    <table class="spec">
-      <thead><tr><th>設定</th><th>BIG(1/n)</th><th>REG(1/n)</th><th>ぶどう(1/n)</th><th>機械割(%)</th></tr></thead>
-      <tbody id="specBody"></tbody>
-    </table>
-    <label for="betPerGame">1ゲームのベット枚数</label>
-    <input type="number" id="betPerGame" value="3">
-  </section>
-
-  <!-- 2. 実戦データ -->
-  <section class="card">
-    <div class="section-title"><span class="num">2</span><h2>実戦データを入力</h2></div>
-    <div class="row3">
-      <div>
-        <label for="todayG">総回転数</label>
-        <input type="number" id="todayG" placeholder="例：3200">
-      </div>
-      <div>
-        <label for="todayBig">BIG回数</label>
-        <input type="number" id="todayBig" placeholder="例：10">
-      </div>
-      <div>
-        <label for="todayReg">REG回数</label>
-        <input type="number" id="todayReg" placeholder="例：9">
-      </div>
-    </div>
-    <div class="live-rate">
-      <span>現在の合成確率</span>
-      <b id="liveRate">ー</b>
-    </div>
-
-    <button class="btn-ghost btn-small" id="toggleOptional" style="margin-top:14px;">＋ ぶどう・チェリー重複も入力する（任意）</button>
-    <div class="optional-panel" id="optionalPanel">
-      <label for="todayGrape">本日のぶどう回数（任意・空欄でも計算できます）</label>
-      <input type="number" id="todayGrape" placeholder="例：520">
-      <label for="todayCherryReg">本日のチェリー重複REG回数（任意・参考表示のみ）</label>
-      <input type="number" id="todayCherryReg" placeholder="例：3">
-    </div>
-  </section>
-
-  <!-- 3. 計算 -->
-  <section class="card">
-    <div class="section-title"><span class="num">3</span><h2>計算する</h2></div>
-    <div class="row2">
-      <div>
-        <label for="closingTime">閉店時刻</label>
-        <input type="time" id="closingTime" value="23:00">
-      </div>
-      <div>
-        <label for="spinsPerHour">1時間あたりの回転数</label>
-        <input type="number" id="spinsPerHour" value="900">
-      </div>
-    </div>
-    <button class="btn-primary" id="calcBtn" style="margin-top:14px;">計算する</button>
-
-    <div class="pie-wrap" id="pieWrap" style="display:none;">
-      <div class="pie" id="pieChart"></div>
-      <div class="legend" id="legend"></div>
-    </div>
-    <div id="topSetting"></div>
-    <div class="ev-output" id="evOutput" style="display:none;"></div>
-    <div class="tip-prompt" id="tipPromptCalc" style="display:none;">
-      <p style="margin:0 0 10px; font-size:13.5px;">勝ったら10円でもいいので投げ銭ください🍶</p>
-      <a class="btn-ghost" style="display:block; text-align:center; border-color:#333b46; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
-    </div>
-    <p class="hint">多項分布の尤度から設定ごとの相対的な可能性をベイズ的に算出し（ぶどう回数を入力した場合はそれも含む）、各設定の機械割と残り回転数から期待差枚を計算しています。統計的な目安であり、実際の設定を保証するものではありません。</p>
-  </section>
-
-  <div class="ad-slot">
-    <!-- ここに広告コード（例: Google AdSenseのユニットタグ）を差し込みます -->
-    広告スペース
+  <div class="search">
+    <label for="q" style="position:absolute; left:-9999px;">機種名で検索</label>
+    <input id="q" type="search" placeholder="機種名で検索（例：マイジャグ）" autocomplete="off">
   </div>
 
-  <!-- 追加機能：ジョーク -->
-  <section class="joke-card">
-    <span class="joke-badge">🎏 追加機能・ネタです</span>
-    <h2 style="margin:0 0 6px; font-size:16px;">AIくんの気分占い（店舗×イベント補正）</h2>
-    <p class="hint" style="margin-top:0;">ここから下は統計的根拠のない占い機能です。先に「3. 計算する」を実行してから使ってください。統計で出た期待設定に、店舗の評判やイベント情報から気分的なシフトをかけるだけのお楽しみコーナーです。信じて台選びをしないでください。</p>
+  <h2 class="group" id="gReady">判別できる機種</h2>
+  <div class="list" id="listReady"></div>
 
-    <label for="storeName">店舗名（手入力）</label>
-    <input type="text" id="storeName" placeholder="例：プラザ本店II">
-    <label for="storeType">この店の評判</label>
-    <select id="storeType">
-      <option value="normal">普通</option>
-      <option value="good">優良店（出玉が良いと評判）</option>
-      <option value="bad">だめ店舗（渋いと評判）</option>
-      <option value="badTempo">だめテンポ（据え置き・重いと評判）</option>
-    </select>
-    <div class="row2">
-      <div>
-        <label for="todayDate">今日の日付</label>
-        <input type="text" id="todayDate" readonly>
-      </div>
-      <div>
-        <label for="isEvent">イベント日か</label>
-        <select id="isEvent">
-          <option value="0">通常営業日</option>
-          <option value="1">イベント日</option>
-        </select>
-      </div>
-    </div>
-    <button class="btn-ghost" id="jokeBtn" style="border-color:#7a3a52; margin-top:14px;">占ってもらう</button>
-    <div class="joke-output" id="jokeOutput" style="display:none;"></div>
-    <div class="tip-prompt" id="tipPrompt" style="display:none;">
-      <p style="margin:0 0 10px; font-size:13.5px;">勝ったら10円でもいいので投げ銭ください🍶</p>
-      <a class="btn-ghost" style="display:block; text-align:center; border-color:#7a3a52; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
-    </div>
-    <p class="joke-disclaimer">※本機能はエンターテインメントであり、パチスロの設定判別・示唆・攻略とは一切関係ありません。実際の設定は店舗のみが把握しており、本ツールを含むいかなる外部ツールでも特定はできません。「だめ店舗」「だめテンポ」の判定もユーザー自身の主観的な入力であり、当ツールが店舗を評価しているわけではありません。店舗のイベント開催情報を自動取得する仕組みは無く、イベント日かどうかはユーザーの申告に基づきます。</p>
+  <h2 class="group" id="gSoon">準備中</h2>
+  <div class="list" id="listSoon"></div>
+
+  <p class="empty" id="empty">見つかりませんでした。別の呼び方（略称・ひらがな）でも探してみてください。</p>
+
+  <section class="about">
+    <h2>このサイトについて</h2>
+    <p>解析サイトの設定差を、ホールで数えた数字から判断できる形にするツールです。機種ごとに「何を数えればいいか」と、その入力欄をまとめています。</p>
+    <p>結果は統計的な目安（参考値）で、設定を保証するものではありません。</p>
   </section>
 
   <footer>
-    本ツールは統計的な参考情報の提供を目的としたエンターテインメントです。実際の遊技は自己責任・適正な範囲でお楽しみください。<br>
-    <a href="privacy.html" style="color:var(--muted);">プライバシーポリシー</a>
+    実際の遊技は自己責任・適正な範囲でお楽しみください。18歳未満の方はパチンコ・パチスロを遊技できません。<br>
+    <a href="privacy.html">プライバシーポリシー</a>
   </footer>
 </div>
 
 <script>
-// ================= 1. 機種プリセット（メーカー公表値ベース） =================
-const machines = {
-  myjuggler6: {
-    label: 'マイジャグラー6（2026年10月導入予定）',
-    big:   [273.1, 270.8, 266.4, 254.0, 240.1, 229.1],
-    reg:   [409.6, 385.8, 336.1, 290.0, 268.6, 229.1],
-    grape: [5.90, 5.86, 5.83, 5.83, 5.83, 5.79],
-    payout:[97.0, 98.0, 99.9, 102.8, 105.3, 109.4]
+// 機種の一覧。ページを追加したらここに1件足す（status: 'ready' | 'soon'）
+// keywords には略称・ひらがな・英字など検索で使われそうな呼び方を入れる
+const MACHINES = [
+  {
+    name: 'ジャグラーシリーズ',
+    sub: 'マイジャグラー6／ネオアイム／ウルトラミラクル／ミスター／ガールズSS／ゴーゴー3／ハッピーV3／マイジャグV／ファンキー2／SアイムEX',
+    inputs: ['総回転数', 'BIG', 'REG', 'ぶどう（任意）'],
+    path: 'juggler/',
+    status: 'ready',
+    keywords: 'ジャグラー じゃぐらー juggler ジャグ マイジャグ まいじゃぐ マイジャグラー6 マイジャグ6 アイム あいむ ネオアイム sアイム ウルトラミラクル ミラクル ミスター ガールズ ゴーゴー ごーごー gogo ハッピー ファンキー ふぁんきー'
   },
-  neoim: {
-    label: 'ネオアイムジャグラーEX',
-    big:   [273.1, 269.7, 269.7, 259.0, 259.0, 255.0],
-    reg:   [439.8, 399.6, 331.0, 315.1, 255.0, 255.0],
-    grape: [6.02, 6.02, 6.02, 6.02, 6.02, 5.80],
-    payout:[97.0, 98.0, 99.5, 101.1, 103.3, 105.5]
+  {
+    name: 'モンキーターン',
+    sub: '判別ページを準備中',
+    inputs: [],
+    path: '',
+    status: 'soon',
+    keywords: 'モンキーターン もんきーたーん モンキー もんきー monkey'
   },
-  ultramiracle: {
-    label: 'ウルトラミラクルジャグラー',
-    big:   [267.5, 261.1, 256.0, 242.7, 233.2, 216.3],
-    reg:   [425.6, 402.1, 350.5, 322.8, 297.9, 277.7],
-    grape: [5.93, 5.93, 5.93, 5.93, 5.87, 5.81],
-    payout:[97.0, 98.1, 99.8, 102.1, 104.5, 108.1]
-  },
-  misterj: {
-    label: 'ミスタージャグラー',
-    big:   [268.6, 267.5, 260.1, 249.2, 240.9, 237.4],
-    reg:   [374.5, 354.2, 331.0, 291.3, 257.0, 237.4],
-    grape: [6.13, 6.07, 6.01, 5.95, 5.88, 5.82],
-    payout:[97.0, 98.0, 99.8, 102.7, 105.5, 107.3]
-  },
-  jugglergirlsss: {
-    label: 'ジャグラーガールズSS',
-    big:   [273.1, 270.8, 260.1, 250.1, 243.6, 226.0],
-    reg:   [381.0, 350.5, 316.6, 281.3, 270.8, 252.1],
-    grape: [5.98, 5.98, 5.98, 5.89, 5.88, 5.83],
-    payout:[97.0, 97.9, 99.9, 102.1, 104.0, 107.5]
-  },
-  gogo3: {
-    label: 'ゴーゴージャグラー3',
-    big:   [259.0, 258.0, 257.0, 254.0, 247.3, 234.9],
-    reg:   [354.2, 332.7, 306.2, 268.6, 247.3, 234.9],
-    grape: [6.25, 6.20, 6.15, 6.07, 6.00, 5.92],
-    payout:[97.2, 98.2, 99.4, 101.6, 103.8, 106.5]
-  },
-  happyv3: {
-    label: 'ハッピージャグラーV3',
-    big:   [273.1, 270.8, 263.2, 254.0, 239.2, 226.0],
-    reg:   [397.2, 362.1, 332.7, 300.6, 273.1, 256.0],
-    grape: [6.07, 6.03, 6.00, 5.86, 5.84, 5.80],
-    payout:[97.0, 98.1, 99.9, 102.9, 105.8, 108.4]
-  },
-  myjuggler5: {
-    label: 'マイジャグラーV',
-    big:   [273.1, 270.8, 266.4, 254.0, 240.1, 229.1],
-    reg:   [409.6, 385.8, 336.1, 290.0, 268.6, 229.1],
-    grape: [5.90, 5.86, 5.83, 5.83, 5.83, 5.79],
-    payout:[97.0, 98.0, 99.9, 102.8, 105.3, 109.4]
-  },
-  funky2: {
-    label: 'ファンキージャグラー2',
-    big:   [266.4, 259.0, 256.0, 249.2, 240.1, 219.9],
-    reg:   [439.8, 407.1, 366.1, 322.8, 299.3, 262.1],
-    grape: [5.94, 5.92, 5.88, 5.83, 5.76, 5.67],
-    payout:[97.0, 98.5, 99.8, 102.0, 104.3, 109.0]
-  },
-  simjuggler: {
-    label: 'SアイムジャグラーEX',
-    big:   [273.1, 269.7, 269.7, 259.0, 259.0, 255.0],
-    reg:   [439.8, 399.6, 331.0, 315.1, 255.0, 255.0],
-    grape: [6.02, 6.02, 6.02, 6.02, 6.02, 5.80],
-    payout:[97.0, 98.0, 99.5, 101.1, 103.3, 105.5]
-  },
-  custom: {
-    label: 'カスタム（手入力）',
-    big:   [273.1, 265, 258, 250, 240, 229.1],
-    reg:   [409.6, 380, 340, 300, 270, 229.1],
-    grape: [6.0, 6.0, 5.9, 5.9, 5.85, 5.8],
-    payout:[97.0, 98.0, 99.9, 102.8, 105.3, 109.4]
+  {
+    name: 'リコリス・リコイル',
+    sub: '判別ページを準備中',
+    inputs: [],
+    path: '',
+    status: 'soon',
+    keywords: 'リコリスリコイル りこりすりこいる リコリコ りこりこ lycoris'
   }
-};
+];
 
-const machineSelect = document.getElementById('machineSelect');
-Object.entries(machines).forEach(([key, m]) => {
-  const opt = document.createElement('option');
-  opt.value = key; opt.textContent = m.label;
-  machineSelect.appendChild(opt);
-});
-
-const specBody = document.getElementById('specBody');
-
-function renderSpecTable(key){
-  const m = machines[key];
-  specBody.innerHTML = '';
-  for(let s=0; s<6; s++){
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>設定${s+1}</td>
-      <td><input type="number" step="0.1" class="bigInput" data-setting="${s+1}" value="${m.big[s]}"></td>
-      <td><input type="number" step="0.1" class="regInput" data-setting="${s+1}" value="${m.reg[s]}"></td>
-      <td><input type="number" step="0.01" class="grapeInput" data-setting="${s+1}" value="${m.grape[s]}"></td>
-      <td><input type="number" step="0.1" class="payoutInput" data-setting="${s+1}" value="${m.payout[s]}"></td>
-    `;
-    specBody.appendChild(tr);
-  }
+// ひらがな→カタカナ、全角英数→半角、小文字化、空白・記号除去で表記ゆれを吸収
+function norm(str){
+  return (str || '')
+    .normalize('NFKC')
+    .toLowerCase()
+    .replace(/[ぁ-ゖ]/g, ch => String.fromCharCode(ch.charCodeAt(0) + 0x60))
+    .replace(/[\s・\-ー_／/]/g, '');
 }
-machineSelect.addEventListener('change', () => renderSpecTable(machineSelect.value));
-renderSpecTable('myjuggler6');
 
-// ================= 2. 本日のデータ + ライブ合成確率 =================
-const todayG = document.getElementById('todayG');
-const todayBig = document.getElementById('todayBig');
-const todayReg = document.getElementById('todayReg');
-const liveRate = document.getElementById('liveRate');
-
-function updateLiveRate(){
-  const g = parseFloat(todayG.value) || 0;
-  const b = parseFloat(todayBig.value) || 0;
-  const r = parseFloat(todayReg.value) || 0;
-  liveRate.textContent = (g > 0 && (b+r) > 0) ? `1/${(g/(b+r)).toFixed(1)}` : 'ー';
+function card(m){
+  const a = document.createElement('a');
+  a.className = 'item' + (m.status === 'soon' ? ' soon' : '');
+  if (m.status === 'ready') a.href = m.path;
+  const chips = m.inputs.map(t => `<span class="chip">${t}</span>`).join('');
+  a.innerHTML = `<div class="name">${m.name}${m.status === 'soon' ? '<span class="badge">準備中</span>' : ''}</div>
+    <div class="sub">${m.sub}</div>
+    ${chips ? `<div class="inputs">${chips}</div>` : ''}`;
+  return a;
 }
-[todayG, todayBig, todayReg].forEach(el => el.addEventListener('input', updateLiveRate));
 
-document.getElementById('toggleOptional').addEventListener('click', (e) => {
-  const panel = document.getElementById('optionalPanel');
-  panel.classList.toggle('open');
-  e.target.textContent = panel.classList.contains('open')
-    ? '－ ぶどう・チェリー重複を閉じる'
-    : '＋ ぶどう・チェリー重複も入力する（任意）';
+const q = document.getElementById('q');
+const listReady = document.getElementById('listReady');
+const listSoon = document.getElementById('listSoon');
+
+function render(){
+  const k = norm(q.value);
+  const hit = MACHINES.filter(m => !k || norm(m.name + m.sub + m.keywords).includes(k));
+  listReady.innerHTML = ''; listSoon.innerHTML = '';
+  hit.filter(m => m.status === 'ready').forEach(m => listReady.appendChild(card(m)));
+  hit.filter(m => m.status === 'soon').forEach(m => listSoon.appendChild(card(m)));
+  document.getElementById('gReady').style.display = listReady.children.length ? '' : 'none';
+  document.getElementById('gSoon').style.display = listSoon.children.length ? '' : 'none';
+  document.getElementById('empty').style.display = hit.length ? 'none' : 'block';
+}
+
+let searchTimer = null;
+q.addEventListener('input', () => {
+  render();
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    if (q.value.trim() && typeof gtag === 'function') gtag('event', 'search', { search_term: q.value.trim() });
+  }, 1200);
 });
-
-// ================= 3. 計算（統計＋期待枚数を一括） =================
-const pieWrap = document.getElementById('pieWrap');
-const pieChart = document.getElementById('pieChart');
-const legend = document.getElementById('legend');
-const topSetting = document.getElementById('topSetting');
-const evOutput = document.getElementById('evOutput');
-let lastPosterior = null;
-let lastExpSetting = null;
-
-const pieColors = ['#e8a93b','#33b6a4','#7fa7d9','#d9668b','#9b7fd9','#6fd6a8'];
-
-document.getElementById('calcBtn').addEventListener('click', () => {
-  const totalG = parseFloat(todayG.value) || 0;
-  const totalB = parseFloat(todayBig.value) || 0;
-  const totalR = parseFloat(todayReg.value) || 0;
-  const grapeVal = document.getElementById('todayGrape').value;
-  const totalGrape = grapeVal === '' ? null : (parseFloat(grapeVal) || 0);
-
-  if(totalG <= 0){
-    topSetting.innerHTML = '<p class="hint">総回転数を入力してください。</p>';
-    pieWrap.style.display = 'none';
-    evOutput.style.display = 'none';
-    document.getElementById('tipPromptCalc').style.display = 'none';
-    lastPosterior = null;
-    return;
-  }
-
-  const logLikelihoods = [];
-  for(let s=1; s<=6; s++){
-    const bigOdds = parseFloat(document.querySelector(`.bigInput[data-setting="${s}"]`).value) || 1;
-    const regOdds = parseFloat(document.querySelector(`.regInput[data-setting="${s}"]`).value) || 1;
-    const pBig = 1/bigOdds;
-    const pReg = 1/regOdds;
-    let ll;
-    if(totalGrape !== null){
-      const grapeOdds = parseFloat(document.querySelector(`.grapeInput[data-setting="${s}"]`).value) || 1;
-      const pGrape = 1/grapeOdds;
-      const pOther = Math.max(1 - pBig - pReg - pGrape, 1e-9);
-      const other = Math.max(totalG - totalB - totalR - totalGrape, 0);
-      ll = totalB*Math.log(pBig) + totalR*Math.log(pReg) + totalGrape*Math.log(pGrape) + other*Math.log(pOther);
-    } else {
-      const pOther = Math.max(1 - pBig - pReg, 1e-9);
-      const other = Math.max(totalG - totalB - totalR, 0);
-      ll = totalB*Math.log(pBig) + totalR*Math.log(pReg) + other*Math.log(pOther);
-    }
-    logLikelihoods.push(ll);
-  }
-
-  const maxLL = Math.max(...logLikelihoods);
-  const weights = logLikelihoods.map(ll => Math.exp(ll - maxLL));
-  const sumW = weights.reduce((a,b)=>a+b, 0);
-  const posterior = weights.map(w => w/sumW);
-  lastPosterior = posterior;
-  lastExpSetting = posterior.reduce((sum, p, i) => sum + p*(i+1), 0);
-
-  // 円グラフ（conic-gradient）
-  let acc = 0;
-  const stops = posterior.map((p, i) => {
-    const start = acc*360; acc += p; const end = acc*360;
-    return `${pieColors[i]} ${start}deg ${end}deg`;
-  }).join(', ');
-  pieChart.style.background = `conic-gradient(${stops})`;
-  pieWrap.style.display = 'flex';
-
-  legend.innerHTML = '';
-  posterior.forEach((p, i) => {
-    const row = document.createElement('div');
-    row.className = 'legend-row';
-    row.innerHTML = `
-      <span class="swatch" style="background:${pieColors[i]}"></span>
-      <span>設定${i+1}</span>
-      <span class="pct">${(p*100).toFixed(1)}%</span>
-    `;
-    legend.appendChild(row);
-  });
-
-  const best = posterior.indexOf(Math.max(...posterior));
-  topSetting.innerHTML = `<div class="top-setting">最も可能性が高いのは <b>設定${best+1}</b>（推定 ${(posterior[best]*100).toFixed(1)}%）。期待設定 <b>${lastExpSetting.toFixed(2)}</b>。総G数 ${totalG} / BIG ${totalB} / REG ${totalR}${totalGrape!==null ? ' / ぶどう '+totalGrape : ''} の入力から算出しました。</div>`;
-
-  // 期待枚数：期待枚数 = 残りG数 × ベット枚数 ×（機械割 -100%）
-  const betPerGame = parseFloat(document.getElementById('betPerGame').value) || 3;
-  const spinsPerHour = parseFloat(document.getElementById('spinsPerHour').value) || 0;
-  const [ch, cm] = document.getElementById('closingTime').value.split(':').map(Number);
-  const now = new Date();
-  const closing = new Date();
-  closing.setHours(ch, cm, 0, 0);
-  let hoursRemaining = (closing - now) / 3600000;
-  if(hoursRemaining < 0) hoursRemaining = 0;
-  const remainingGames = spinsPerHour * hoursRemaining;
-
-  let weightedNet = 0;
-  const netPerSetting = [];
-  for(let s=1; s<=6; s++){
-    const payoutPct = parseFloat(document.querySelector(`.payoutInput[data-setting="${s}"]`).value) || 100;
-    const netPerGame = betPerGame * (payoutPct/100 - 1);
-    const net = netPerGame * remainingGames;
-    netPerSetting.push(net);
-    weightedNet += posterior[s-1] * net;
-  }
-  const rounded = Math.round(weightedNet);
-  const cls = rounded >= 0 ? 'pos' : 'neg';
-
-  const bestRounded = Math.round(netPerSetting[best]);
-  const bestCls = bestRounded >= 0 ? 'pos' : 'neg';
-
-  evOutput.style.display = 'block';
-  evOutput.innerHTML = `
-    <div class="num ${cls}">${rounded >= 0 ? '+' : ''}${rounded.toLocaleString()} 枚</div>
-    <div class="sub">残り約${hoursRemaining.toFixed(1)}時間・約${Math.round(remainingGames).toLocaleString()}G分の期待差枚（各設定の機械割を確率で重み付け平均）</div>
-    <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--line);">
-      <div class="num ${bestCls}" style="font-size:22px;">${bestRounded >= 0 ? '+' : ''}${bestRounded.toLocaleString()} 枚</div>
-      <div class="sub">最有力の設定${best+1}だった場合の期待差枚</div>
-    </div>
-  `;
-  document.getElementById('tipPromptCalc').style.display = 'block';
-});
-
-// ================= 追加機能：ジョーク（店舗×気分シフト） =================
-const storeNameInput = document.getElementById('storeName');
-
-const today = new Date();
-document.getElementById('todayDate').value = today.toLocaleDateString('ja-JP', { year:'numeric', month:'2-digit', day:'2-digit', weekday:'short' });
-
-document.getElementById('jokeBtn').addEventListener('click', () => {
-  const out = document.getElementById('jokeOutput');
-  if(lastExpSetting === null){
-    out.style.display = 'block';
-    out.innerHTML = '<div class="sub">先に「3. 計算する」を実行してください。</div>';
-    return;
-  }
-
-  const store = storeNameInput.value || '名もなきホール';
-  const storeType = document.getElementById('storeType').value;
-  const day = today.getDate();
-  const isGoDay = [5,15,25].includes(day);
-  const isZorome = String(day).length===2 && day%11===0;
-  const isEvent = document.getElementById('isEvent').value === '1';
-
-  // 設定シフト（すべて演出上のジョークで、単位は「設定n個分」の気分シフト）
-  let eventShift = isEvent ? 0.5 : 0;
-  const eventDampMap = { normal: 1.0, good: 1.3, bad: 0.2, badTempo: 0.2 };
-  eventShift *= eventDampMap[storeType];
-
-  let flatShift = 0;
-  if(storeType === 'good') flatShift += 0.15;
-  if(storeType === 'bad') flatShift -= 0.25;
-  if(storeType === 'badTempo') flatShift -= 0.6;
-
-  let dayShift = 0;
-  const tags = [];
-  if(isGoDay){ dayShift += 0.15; tags.push('5の日'); }
-  if(isZorome){ dayShift += 0.1; tags.push('ゾロ目'); }
-  if(isEvent) tags.push(`イベント×${eventDampMap[storeType]}`);
-  if(storeType === 'good') tags.push('優良店');
-  if(storeType === 'bad') tags.push('だめ店舗');
-  if(storeType === 'badTempo') tags.push('だめテンポ');
-  if(tags.length===0) tags.push('通常運転');
-
-  const totalShift = eventShift + flatShift + dayShift;
-  const jokeSetting = Math.min(6, Math.max(1, lastExpSetting + totalShift));
-  const cls = jokeSetting >= lastExpSetting ? 'pos' : 'neg';
-
-  out.style.display = 'block';
-  out.innerHTML = `
-    <div class="num ${cls}" style="font-size:36px; text-align:center;">体感設定 ${jokeSetting.toFixed(1)}</div>
-    <div class="sub" style="text-align:center; margin-top:2px;">統計上の期待設定 ${lastExpSetting.toFixed(2)} を気分でシフト（${tags.join('・')}）</div>
-  `;
-
-  document.getElementById('tipPrompt').style.display = 'block';
-});
+render();
 </script>
-
 </body>
 </html>
