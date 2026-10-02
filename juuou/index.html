@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スマスロ 獣王 設定判別ツール（サバンナチャンス初当り）| 設定示唆くん</title>
+<meta name="description" content="スマスロ 獣王（2026年10月5日導入・サミー）の設定判別ツール。通常時の回転数とサバンナチャンス（AT）初当り回数を入れるだけで設定1・2・4・5・6の可能性と閉店までの期待差枚を計算。設定L・天井の注意点も掲載。">
+<link rel="canonical" href="https://pachipachi-png.github.io/juggler-checker/juuou/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="設定示唆くん">
+<meta property="og:title" content="スマスロ 獣王 設定判別ツール | 設定示唆くん">
+<meta property="og:description" content="通常時G数とAT初当り回数を入れるだけで設定1・2・4・5・6の可能性を計算。">
+<meta property="og:url" content="https://pachipachi-png.github.io/juggler-checker/juuou/">
+<meta property="og:image" content="https://pachipachi-png.github.io/juggler-checker/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14171c; --panel: #1d2229; --panel-2: #262c35; --line: #333b46;
+    --gold: #e8a93b; --gold-dim: #8a6a2a; --teal: #33b6a4; --text: #edeff2;
+    --muted: #8993a1; --red: #e07a7a; --blue: #5aa6e0;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: radial-gradient(1200px 600px at 50% -200px, #23293280, transparent), var(--bg);
+    color: var(--text); font-family: 'Zen Maru Gothic', sans-serif; line-height: 1.7; padding-bottom: 80px;
+  }
+  h1,h2,h3{ font-family: 'Zen Kaku Gothic New', sans-serif; }
+  .wrap{ max-width: 560px; margin: 0 auto; padding: 0 18px; }
+
+  .topnav{ max-width:560px; margin:0 auto; padding:14px 18px 0; font-size:13px; }
+  .topnav a{ color: var(--muted); text-decoration:none; }
+  .hero{ padding: 44px 18px 30px; text-align: center; }
+  .lamp{
+    width: 84px; height: 84px; margin: 0 auto 18px; border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #d4ecff, var(--blue) 55%, #234e74 100%);
+    box-shadow: 0 0 40px 6px #5aa6e055, inset 0 0 18px #d4ecff80;
+    animation: pulse 2.6s ease-in-out infinite;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; color:#0b2236; font-size: 15px; letter-spacing: 0.05em;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow: 0 0 40px 4px #5aa6e040, inset 0 0 18px #d4ecff70; }
+    50%{ box-shadow: 0 0 56px 10px #5aa6e080, inset 0 0 22px #d4ecffa0; }
+  }
+  .hero h1{ font-size: 24px; font-weight: 900; margin: 0 0 8px; }
+  .hero p{ color: var(--muted); font-size: 14px; margin: 0; }
+
+  section{ margin: 26px 0; }
+  .card{ background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .section-title{ display:flex; align-items:baseline; gap: 10px; margin-bottom: 14px; }
+  .section-title .num{
+    font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900; color: var(--gold); font-size: 15px;
+    border: 1px solid var(--gold-dim); border-radius: 8px;
+    width: 26px; height: 26px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .section-title h2{ font-size: 16px; margin:0; font-weight:700; }
+  .hint{ color: var(--muted); font-size: 12.5px; margin: 6px 0 0; }
+
+  label{ display:block; font-size: 13px; color: var(--muted); margin: 12px 0 6px; }
+  input[type=number], input[type=time]{
+    width:100%; background: var(--panel-2); border: 1px solid var(--line);
+    color: var(--text); padding: 10px 12px; border-radius: 9px; font-size: 15px; font-family: inherit;
+  }
+  input:focus, button:focus-visible{ outline: 2px solid var(--teal); outline-offset: 1px; }
+  .row2{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .row2 label{ margin-top: 0; }
+
+  button{
+    font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 700; font-size: 14.5px;
+    border-radius: 10px; border: none; padding: 12px 16px; cursor:pointer; width: 100%;
+  }
+  .btn-primary{ background: var(--teal); color: #08211d; }
+  .btn-primary:active{ transform: translateY(1px); }
+  .btn-ghost{ background: transparent; border: 1px solid var(--line); color: var(--text); }
+  .btn-small{ width:auto; padding: 9px 14px; font-size: 13px; }
+
+  table.spec{ width:100%; border-collapse: collapse; margin-top: 10px; font-size: 12.5px; }
+  table.spec th, table.spec td{ padding: 6px 3px; text-align:center; border-bottom: 1px solid var(--line); }
+  table.spec th{ color: var(--muted); font-weight: 500; }
+  table.spec td:first-child{ white-space: nowrap; width: 3.2em; }
+  table.spec td input{ padding: 5px; font-size: 12.5px; text-align:center; }
+
+  .live-rate{
+    display:flex; align-items:center; justify-content:space-between;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px;
+    padding: 12px 14px; margin-top: 10px; font-size: 13px; color: var(--muted);
+  }
+  .live-rate b{ color: var(--teal); font-size: 16px; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .live-rate small{ display:block; font-size: 11.5px; color: var(--muted); font-weight: 400; text-align:right; }
+
+  .optional-panel{ margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); display:none; }
+  .optional-panel.open{ display:block; }
+
+  .bell-guide{ display:flex; gap: 16px; align-items:center; margin: 4px 0 6px; flex-wrap: wrap; }
+  .bell-guide svg{ width: 150px; height: auto; flex-shrink:0; }
+  .bell-guide ul{ margin:0; padding-left: 18px; font-size: 13px; flex:1; min-width: 180px; }
+  .bell-guide li{ margin-bottom: 3px; }
+  .bell-guide li b{ color: var(--gold); }
+
+  .chk-group{ margin-top: 6px; }
+  .chk-group h3{ font-size: 13.5px; margin: 14px 0 6px; }
+  .chk{
+    display:flex; align-items:center; gap: 10px; padding: 9px 12px; margin: 0 0 6px;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px; cursor: pointer;
+    font-size: 13.5px; color: var(--text);
+  }
+  .chk input{ width: 18px; height: 18px; accent-color: var(--teal); flex-shrink:0; }
+  .chk .tag{ margin-left:auto; font-size: 12px; color: var(--gold); white-space: nowrap; }
+  .chk:has(input:checked){ border-color: var(--teal); }
+  .floor-now{ margin-top: 10px; font-size: 13px; color: var(--muted); }
+  .floor-now b{ color: var(--teal); }
+  .hint-link{ display:block; margin: 10px 0 2px; padding: 10px 12px; border-radius: 9px; border: 1px solid var(--teal); color: var(--teal); text-decoration:none; font-size: 13.5px; font-weight: 700; text-align:center; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .mini-link{ font-size: 11.5px; font-weight: 500; color: var(--teal); margin-left: 6px; }
+  #hints{ scroll-margin-top: 12px; }
+  .ref-list{ font-size: 12.5px; color: var(--muted); margin: 6px 0 0; padding-left: 18px; }
+
+  .pie-wrap{ display:flex; align-items:center; gap: 22px; margin-top: 16px; flex-wrap: wrap; }
+  .pie{ width: 150px; height: 150px; border-radius: 50%; flex-shrink:0; background: var(--panel-2); }
+  .legend{ flex: 1; min-width: 180px; }
+  .legend-row{ display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:7px; }
+  .legend-row.cut{ opacity: .4; text-decoration: line-through; }
+  .swatch{ width:11px; height:11px; border-radius:3px; flex-shrink:0; }
+  .legend-row .pct{ margin-left:auto; font-variant-numeric: tabular-nums; }
+
+  .top-setting{
+    margin-top: 14px; padding: 12px 14px; border-radius: 10px;
+    background: #22303022; border: 1px solid #33665544; font-size: 13.5px;
+  }
+  .top-setting b{ color: var(--teal); }
+
+  .ev-output{ margin-top: 14px; padding: 16px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--line); text-align:center; }
+  .ev-output .num{ font-size: 28px; font-weight: 900; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .ev-output .num.pos{ color: #6fd6a8; }
+  .ev-output .num.neg{ color: #e08787; }
+  .ev-output .sub{ font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+  .tip-prompt{ margin-top: 14px; padding: 14px; background: var(--panel-2); border-radius: 10px; border: 1px dashed var(--line); }
+
+  .ad-slot{ margin: 26px 0; padding: 14px; text-align:center; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); font-size: 12px; }
+  footer{ text-align:center; color: var(--muted); font-size: 11.5px; padding: 20px 18px 0; }
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFM94DE8Y3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZFM94DE8Y3');
+</script>
+</head>
+<body>
+
+<nav class="topnav"><a href="../">← 機種一覧（設定示唆くん）</a></nav>
+<div class="hero">
+  <div class="lamp">AT</div>
+  <h1>スマスロ 獣王<br>設定判別</h1>
+  <p>通常時の回転数とサバンナチャンス（AT）初当り回数から設定1・2・4・5・6の可能性を推定します</p>
+</div>
+
+<div class="wrap">
+
+  <!-- 1. 設定差 -->
+  <section class="card">
+    <div class="section-title"><span class="num">1</span><h2>設定差（編集できます）</h2></div>
+    <table class="spec">
+      <thead><tr><th>設定</th><th>AT初当り(1/n)</th><th>機械割(%)</th></tr></thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    <p class="hint">2026年10月5日導入の新台です。数値は導入前に解析サイトで公開されている値（2026年10月2日時点）。この機種に<b>設定3はなく、代わりに設定L</b>があります。設定Lの確率・機械割は非公表のため計算に入れていません。小役やモード、示唆演出は解析待ちで、判明しだい追加します。</p>
+  </section>
+
+  <!-- 2. 実戦データ -->
+  <section class="card">
+    <div class="section-title"><span class="num">2</span><h2>実戦データを入力</h2></div>
+    <div class="row2">
+      <div>
+        <label for="normalG">通常時の回転数</label>
+        <input type="number" id="normalG" inputmode="numeric" placeholder="例：3000">
+      </div>
+      <div>
+        <label for="atCount">AT初当り回数</label>
+        <input type="number" id="atCount" inputmode="numeric" placeholder="例：10">
+      </div>
+    </div>
+    <div class="live-rate">
+      <span>現在のAT初当り確率</span>
+      <span><b id="liveAt">ー</b><small id="liveAtNote"></small></span>
+    </div>
+    <ul class="ref-list" style="margin-top:12px;">
+      <li>回転数は<b>通常時のみ</b>（AT中のゲーム数は含めない）。データカウンターの「通常時G数」を使ってください</li>
+      <li>設定1と設定6の初当り確率の差は<b>約1.2倍</b>と小さめです。数千G回しても差が出にくいので、結果は大まかな目安として見てください</li>
+      <li><b>設定L</b>は筐体の下パネルが常時点滅するとされています。点滅している台は座らないのが無難です</li>
+      <li>天井は999G＋α（設定変更時は599G＋αとする解析サイトもあります）。<a class="mini-link ref-out" data-sec="spec" href="https://chonborista.com/slot/sammy-slot/263920/" target="_blank" rel="noopener">解析ページ（ちょんぼりすた）↗</a></li>
+    </ul>
+  </section>
+
+  <!-- 3. 示唆（解析待ち） -->
+  <section class="card" id="hints">
+    <div class="section-title"><span class="num">3</span><h2>設定示唆（解析待ち）</h2></div>
+    <p class="hint" style="margin-top:0;">終了画面やトロフィーなどの示唆は、導入前のため多くの解析サイトで「未判明」です。確認が取れしだい、モンキーターンやリコリコのページと同じように「見えた示唆で設定を絞る」機能を追加します。</p>
+    <ul class="ref-list">
+      <li>サミートロフィー（銅＝2以上、銀＝3以上、金＝4以上、キリン柄＝5以上、虹＝6）を掲載している解析サイトもありますが、他のサイトでは未判明のため、現時点では計算に使っていません</li>
+    </ul>
+  </section>
+
+  <!-- 4. 計算 -->
+  <section class="card">
+    <div class="section-title"><span class="num">4</span><h2>計算する</h2></div>
+    <div class="row2">
+      <div>
+        <label for="closingTime">閉店時刻</label>
+        <input type="time" id="closingTime" value="22:45">
+      </div>
+      <div>
+        <label for="spinsPerHour">1時間あたりの回転数</label>
+        <input type="number" id="spinsPerHour" value="700">
+      </div>
+    </div>
+    <button class="btn-primary" id="calcBtn" style="margin-top:14px;">計算する</button>
+
+    <div class="pie-wrap" id="pieWrap" style="display:none;">
+      <div class="pie" id="pieChart"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div id="topSetting"></div>
+    <div class="ev-output" id="evOutput" style="display:none;"></div>
+    <div class="tip-prompt" id="tipPromptCalc" style="display:none;">
+      <p style="margin:0 0 10px; font-size:13.5px;">勝ったら10円でもいいので投げ銭ください🍶</p>
+      <a class="btn-ghost" style="display:block; text-align:center; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
+    </div>
+    <p class="hint">AT初当り回数の二項分布の尤度から、設定ごとの相対的な可能性をベイズ的に算出しています（事前は一様、設定Lは対象外）。期待差枚は各設定の機械割を確率で重み付けした目安です。統計的な目安であり、実際の設定を保証するものではありません。</p>
+  </section>
+
+  <div class="ad-slot">
+    <!-- ここに広告コード（例: Google AdSenseのユニットタグ）を差し込みます -->
+    広告スペース
+  </div>
+
+  <footer>
+    設定差の数値は各解析サイトの公開値（2026年10月2日時点・導入前）をもとにしています。<br>
+    本ツールは統計的な参考情報の提供を目的としたエンターテインメントです。実際の遊技は自己責任・適正な範囲でお楽しみください。<br>
+    18歳未満の方はパチンコ・パチスロを遊技できません。<br>
+    <a href="../" style="color:var(--muted);">機種一覧</a>　<a href="../privacy.html" style="color:var(--muted);">プライバシーポリシー</a>
+  </footer>
+</div>
+
+<script>
+// ================= 1. 設定差（2026年10月2日時点・導入前の公開値） =================
+// 設定3なし・設定L（非公表）は計算対象外
+const SETS = [1, 2, 4, 5, 6];
+const SPEC = {
+  at:     [326.5, 321.6, 295.8, 287.6, 279.7],
+  payout: [97.8, 98.7, 105.6, 108.6, 114.3]
+};
+const BET = 3;
+
+const specBody = document.getElementById('specBody');
+SETS.forEach((s, i) => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>設定${s}</td>
+    <td><input type="number" step="0.1" class="atInput" value="${SPEC.at[i]}"></td>
+    <td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[i]}"></td>`;
+  specBody.appendChild(tr);
+});
+const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
+
+// ================= 2. 実戦データ =================
+const normalG = document.getElementById('normalG');
+const atCount = document.getElementById('atCount');
+const num = el => Math.max(parseFloat(el.value) || 0, 0);
+
+function nearLabel(r, arr){
+  if(r >= arr[0]) return '設定1より重い';
+  if(r <= arr[arr.length-1]) return '設定6より軽い';
+  let best = 0;
+  arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+  return `設定${SETS[best]}付近`;
+}
+function updateLive(){
+  const ng = num(normalG), a = num(atCount);
+  const la = document.getElementById('liveAt'), lan = document.getElementById('liveAtNote');
+  if(ng > 0 && a > 0){ const r = ng/a; la.textContent = `1/${r.toFixed(1)}`; lan.textContent = nearLabel(r, readCol('atInput')); }
+  else { la.textContent = 'ー'; lan.textContent = ''; }
+}
+[normalG, atCount].forEach(el => el.addEventListener('input', updateLive));
+document.querySelectorAll('#specBody input').forEach(el => el.addEventListener('input', updateLive));
+
+// ================= 4. 計算 =================
+const pieColors = ['#e8a93b','#33b6a4','#d9668b','#9b7fd9','#6fd6a8'];
+const topSetting = document.getElementById('topSetting');
+const pieWrap = document.getElementById('pieWrap');
+const evOutput = document.getElementById('evOutput');
+const tipPrompt = document.getElementById('tipPromptCalc');
+
+// 二項分布の対数尤度（組合せ項は設定間で共通なので省略）
+const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
+
+function showMsg(html){
+  topSetting.innerHTML = `<p class="hint">${html}</p>`;
+  pieWrap.style.display = 'none'; evOutput.style.display = 'none'; tipPrompt.style.display = 'none';
+}
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  const ng = num(normalG), a = num(atCount);
+  if(ng <= 0){ showMsg('通常時の回転数とAT初当り回数を入力してください。'); return; }
+  if(a > ng){ showMsg('回数がゲーム数を超えています。入力を確認してください。'); return; }
+
+  const at = readCol('atInput'), payout = readCol('payoutInput');
+  const ll = SETS.map((s, i) => binomLL(a, ng, 1/at[i]));
+  const maxLL = Math.max(...ll);
+  const w = ll.map(v => Math.exp(v - maxLL));
+  const sum = w.reduce((x, y) => x + y, 0);
+  const post = w.map(x => x / sum);
+  const expSetting = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
+
+  if (typeof gtag === 'function') {
+    gtag('event', 'judge_run', { machine_group: 'juuou', machine: 'juuou' });
+  }
+
+  let acc = 0;
+  const stops = post.map((p, i) => { const s0 = acc*360; acc += p; return `${pieColors[i]} ${s0}deg ${acc*360}deg`; }).join(', ');
+  document.getElementById('pieChart').style.background = `conic-gradient(${stops})`;
+  pieWrap.style.display = 'flex';
+  const legend = document.getElementById('legend');
+  legend.innerHTML = '';
+  post.forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'legend-row';
+    row.innerHTML = `<span class="swatch" style="background:${pieColors[i]}"></span><span>設定${SETS[i]}</span><span class="pct">${(p*100).toFixed(1)}%</span>`;
+    legend.appendChild(row);
+  });
+
+  const best = post.indexOf(Math.max(...post));
+  const hi = post.slice(2).reduce((x, y) => x + y, 0); // 設定4・5・6
+  let msg = `最も可能性が高いのは <b>設定${SETS[best]}</b>（推定 ${(post[best]*100).toFixed(1)}%）。設定4以上の合計 <b>${(hi*100).toFixed(1)}%</b>、期待設定 <b>${expSetting.toFixed(2)}</b>。<br><span style="color:var(--muted);font-size:12.5px;">通常時${ng}G / AT ${a}回（1/${a > 0 ? (ng/a).toFixed(1) : '―'}）</span>`;
+  if(ng < 6000) msg += '<br><span style="color:var(--muted);font-size:12.5px;">この機種は初当りの設定差が小さいため、数千Gでは結果がほとんど偏りません。小役などの設定差が判明したら精度を上げられるよう更新します。</span>';
+  topSetting.innerHTML = `<div class="top-setting">${msg}</div>`;
+
+  // 期待差枚 = 残りG × 3枚 ×（機械割 − 100%）
+  const spinsPerHour = parseFloat(document.getElementById('spinsPerHour').value) || 0;
+  const [ch, cm] = document.getElementById('closingTime').value.split(':').map(Number);
+  const closing = new Date(); closing.setHours(ch, cm, 0, 0);
+  const hours = Math.max((closing - new Date()) / 3600000, 0);
+  const remainG = spinsPerHour * hours;
+  const netPer = payout.map(p => BET * (p/100 - 1) * remainG);
+  const ev = Math.round(post.reduce((x, p, i) => x + p*netPer[i], 0)) || 0;
+  const bestNet = Math.round(netPer[best]) || 0;
+  evOutput.style.display = 'block';
+  evOutput.innerHTML = `
+    <div class="num ${ev >= 0 ? 'pos' : 'neg'}">${ev >= 0 ? '+' : ''}${ev.toLocaleString()} 枚</div>
+    <div class="sub">残り約${hours.toFixed(1)}時間・約${Math.round(remainG).toLocaleString()}G分の期待差枚（各設定の機械割を確率で重み付け平均）</div>
+    <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--line);">
+      <div class="num ${bestNet >= 0 ? 'pos' : 'neg'}" style="font-size:22px;">${bestNet >= 0 ? '+' : ''}${bestNet.toLocaleString()} 枚</div>
+      <div class="sub">最有力の設定${SETS[best]}だった場合の期待差枚</div>
+    </div>`;
+  tipPrompt.style.display = 'block';
+});
+
+document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', () => {
+  if (typeof gtag === 'function') gtag('event', 'outbound_ref', { machine: 'juuou', section: a.dataset.sec });
+}));
+</script>
+</body>
+</html>
