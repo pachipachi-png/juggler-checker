@@ -126,6 +126,12 @@
   }
   .joke-output{ font-size: 15px; margin: 10px 0; padding: 14px; background: #2b1420; border-radius: 10px; border: 1px solid #4a2536; }
   .tip-prompt{ margin-top: 14px; padding: 14px; background: #2b1420; border-radius: 10px; border: 1px dashed #7a3a52; }
+  .share-box{ margin-top: 14px; padding: 14px; background: var(--panel-2); border-radius: 10px; border: 1px solid var(--line); }
+  .share-box .share-text{ font-size: 13px; color: var(--muted); white-space: pre-wrap; margin: 0 0 10px; }
+  .share-row{ display: flex; gap: 8px; }
+  .share-row > *{ flex: 1; text-align: center; text-decoration: none; }
+  .share-row a, .share-row button{ font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 700; font-size: 13.5px; border-radius: 10px; padding: 12px 10px; display:block; }
+  .share-x{ background: #edeff2; color: #14171c; }
   .joke-disclaimer{ font-size: 12px; color: #c98da4; margin-top: 10px; line-height:1.6; }
 
   .ad-slot{ margin: 26px 0; padding: 14px; text-align:center; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); font-size: 12px; }
@@ -218,6 +224,14 @@
     </div>
     <div id="topSetting"></div>
     <div class="ev-output" id="evOutput" style="display:none;"></div>
+    <div class="share-box" id="shareBox" style="display:none;">
+      <p class="share-text" id="shareText"></p>
+      <div class="share-row">
+        <a class="btn-primary share-x" id="shareXBtn" href="#" target="_blank" rel="noopener">𝕏で結果をシェア</a>
+        <button class="btn-ghost" id="copyUrlBtn" type="button">URLをコピー</button>
+      </div>
+      <p class="hint" style="margin-bottom:0;">URLを開くと同じ数字が入った状態で判別結果が出ます。</p>
+    </div>
     <div class="tip-prompt" id="tipPromptCalc" style="display:none;">
       <p style="margin:0 0 10px; font-size:13.5px;">勝ったら10円でもいいので投げ銭ください🍶</p>
       <a class="btn-ghost" style="display:block; text-align:center; border-color:#333b46; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
@@ -524,7 +538,57 @@ document.getElementById('calcBtn').addEventListener('click', () => {
     </div>
   `;
   document.getElementById('tipPromptCalc').style.display = 'block';
+  updateShare(totalG, totalB, totalR, totalGrape, posterior);
 });
+
+// ================= 結果のシェア（URLに数字を入れる） =================
+let lastShareUrl = '';
+function updateShare(g, b, r, grape, posterior){
+  const key = machineSelect.value;
+  const name = machines[key].label.replace(/（.*?）/g, '');
+  const params = new URLSearchParams({ m: key, g: String(g), b: String(b), r: String(r) });
+  if(grape !== null) params.set('grape', String(grape));
+  const base = location.origin + location.pathname;
+  lastShareUrl = base + '?' + params.toString();
+  const p4 = Math.round((posterior[3] + posterior[4] + posterior[5]) * 100);
+  const text = `${name} ${g}G BIG${b} REG${r}${grape !== null ? ' ぶどう'+grape : ''}\n→ 設定4以上 ${p4}%・期待設定 ${lastExpSetting.toFixed(1)}（参考値）\n#ジャグラー #設定示唆くん`;
+  document.getElementById('shareText').textContent = text;
+  const shareUrlX = lastShareUrl + '&utm_source=x&utm_medium=share';
+  document.getElementById('shareXBtn').href = 'https://x.com/intent/post?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(shareUrlX);
+  document.getElementById('shareBox').style.display = 'block';
+}
+document.getElementById('shareXBtn').addEventListener('click', () => {
+  if (typeof gtag === 'function') gtag('event', 'share', { method: 'x', machine: machineSelect.value });
+});
+document.getElementById('copyUrlBtn').addEventListener('click', async (e) => {
+  const btn = e.currentTarget;
+  try { await navigator.clipboard.writeText(lastShareUrl + '&utm_source=copy&utm_medium=share'); btn.textContent = 'コピーしました'; }
+  catch(err){ window.prompt('このURLをコピーしてください', lastShareUrl); }
+  setTimeout(() => { btn.textContent = 'URLをコピー'; }, 2000);
+  if (typeof gtag === 'function') gtag('event', 'share', { method: 'copy', machine: machineSelect.value });
+});
+
+// URLに数字が入っていたら、入力して計算まで行う（例 ?m=myjuggler6&g=3000&b=10&r=13）
+(function applyUrlParams(){
+  const q = new URLSearchParams(location.search);
+  if(!q.has('g')) return;
+  const m = q.get('m');
+  if(m && machines[m]){ machineSelect.value = m; renderSpecTable(m); }
+  const num = v => (v !== null && /^\d{1,6}$/.test(v)) ? v : '';
+  todayG.value = num(q.get('g'));
+  todayBig.value = num(q.get('b'));
+  todayReg.value = num(q.get('r'));
+  const grape = num(q.get('grape'));
+  if(grape !== ''){
+    document.getElementById('todayGrape').value = grape;
+    const panel = document.getElementById('optionalPanel');
+    if(!panel.classList.contains('open')) document.getElementById('toggleOptional').click();
+  }
+  updateLiveRate();
+  if (typeof gtag === 'function') gtag('event', 'shared_link_open', { machine: machineSelect.value });
+  document.getElementById('calcBtn').click();
+  pieWrap.scrollIntoView({ block: 'center' });
+})();
 
 // ================= 追加機能：ジョーク（店舗×気分シフト） =================
 const storeNameInput = document.getElementById('storeName');
