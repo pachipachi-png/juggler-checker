@@ -551,7 +551,9 @@ function updateShare(g, b, r, grape, posterior){
   const base = location.origin + location.pathname;
   lastShareUrl = base + '?' + params.toString();
   const p4 = Math.round((posterior[3] + posterior[4] + posterior[5]) * 100);
-  const text = `${name} ${g}G BIG${b} REG${r}${grape !== null ? ' ぶどう'+grape : ''}\n→ 設定4以上 ${p4}%・期待設定 ${lastExpSetting.toFixed(1)}（参考値）\n#ジャグラー #設定示唆くん`;
+  const best = posterior.indexOf(Math.max(...posterior));
+  const bestPct = Math.round(posterior[best] * 100);
+  const text = `${name} ${g}G BIG${b} REG${r}${grape !== null ? ' ぶどう'+grape : ''}\n→ 推定 設定${best+1}（${bestPct}%）\n設定4以上 ${p4}%・期待設定 ${lastExpSetting.toFixed(1)}（参考値）\n#ジャグラー #設定示唆くん`;
   document.getElementById('shareText').textContent = text;
   const shareUrlX = lastShareUrl + '&utm_source=x&utm_medium=share';
   document.getElementById('shareXBtn').href = 'https://x.com/intent/post?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(shareUrlX);
