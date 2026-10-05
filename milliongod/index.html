@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スマスロ ミリオンゴッド-神々の軌跡- 設定判別ツール（AT初当り・青7連・ユニバプレート）| 設定示唆くん</title>
+<meta name="description" content="スマスロ ミリオンゴッド-神々の軌跡-（ゴッド・GOD）の設定判別ツール。通常時の回転数とAT（GOD GAME）初当り回数を入れるだけで設定1〜6の可能性を計算。青7（リプレイ）連のGG当選、押し順ナビの実戦値、ユニバプレートによる絞り込みにも対応。">
+<link rel="canonical" href="https://pachipachi-png.github.io/juggler-checker/milliongod/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="設定示唆くん">
+<meta property="og:title" content="ミリオンゴッド神々の軌跡 設定判別ツール | 設定示唆くん">
+<meta property="og:description" content="通常時G数とAT初当り回数を入れるだけ。青7連・押し順ナビ・ユニバプレートも参考に。">
+<meta property="og:url" content="https://pachipachi-png.github.io/juggler-checker/milliongod/">
+<meta property="og:image" content="https://pachipachi-png.github.io/juggler-checker/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14171c; --panel: #1d2229; --panel-2: #262c35; --line: #333b46;
+    --gold: #e8a93b; --gold-dim: #8a6a2a; --teal: #33b6a4; --text: #edeff2;
+    --muted: #8993a1; --red: #e07a7a; --violet: #8f8ce6; --godgold: #f2c14e;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: radial-gradient(1200px 600px at 50% -200px, #23293280, transparent), var(--bg);
+    color: var(--text); font-family: 'Zen Maru Gothic', sans-serif; line-height: 1.7; padding-bottom: 80px;
+  }
+  h1,h2,h3{ font-family: 'Zen Kaku Gothic New', sans-serif; }
+  .wrap{ max-width: 560px; margin: 0 auto; padding: 0 18px; }
+
+  .topnav{ max-width:560px; margin:0 auto; padding:14px 18px 0; font-size:13px; }
+  .topnav a{ color: var(--muted); text-decoration:none; }
+  .hero{ padding: 44px 18px 30px; text-align: center; }
+  .lamp{
+    width: 84px; height: 84px; margin: 0 auto 18px; border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #fff6d8, var(--godgold) 55%, #6e4a08 100%);
+    box-shadow: 0 0 40px 6px #f2c14e55, inset 0 0 18px #fff6d880;
+    animation: pulse 2.6s ease-in-out infinite;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; color:#3a2a04; font-size: 15px; letter-spacing: 0.05em;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow: 0 0 40px 4px #f2c14e40, inset 0 0 18px #fff6d870; }
+    50%{ box-shadow: 0 0 56px 10px #f2c14e80, inset 0 0 22px #fff6d8a0; }
+  }
+  .hero h1{ font-size: 24px; font-weight: 900; margin: 0 0 8px; }
+  .hero p{ color: var(--muted); font-size: 14px; margin: 0; }
+
+  section{ margin: 26px 0; }
+  .card{ background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .section-title{ display:flex; align-items:baseline; gap: 10px; margin-bottom: 14px; }
+  .section-title .num{
+    font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900; color: var(--gold); font-size: 15px;
+    border: 1px solid var(--gold-dim); border-radius: 8px;
+    width: 26px; height: 26px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .section-title h2{ font-size: 16px; margin:0; font-weight:700; }
+  .hint{ color: var(--muted); font-size: 12.5px; margin: 6px 0 0; }
+
+  label{ display:block; font-size: 13px; color: var(--muted); margin: 12px 0 6px; }
+  input[type=number], input[type=time]{
+    width:100%; background: var(--panel-2); border: 1px solid var(--line);
+    color: var(--text); padding: 10px 12px; border-radius: 9px; font-size: 15px; font-family: inherit;
+  }
+  input:focus, button:focus-visible{ outline: 2px solid var(--teal); outline-offset: 1px; }
+  .row2{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .row2 label{ margin-top: 0; }
+
+  button{
+    font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 700; font-size: 14.5px;
+    border-radius: 10px; border: none; padding: 12px 16px; cursor:pointer; width: 100%;
+  }
+  .btn-primary{ background: var(--teal); color: #08211d; }
+  .btn-primary:active{ transform: translateY(1px); }
+  .btn-ghost{ background: transparent; border: 1px solid var(--line); color: var(--text); }
+  .btn-small{ width:auto; padding: 9px 14px; font-size: 13px; }
+
+  table.spec{ width:100%; border-collapse: collapse; margin-top: 10px; font-size: 12.5px; }
+  table.spec th, table.spec td{ padding: 6px 2px; text-align:center; border-bottom: 1px solid var(--line); }
+  table.spec th{ color: var(--muted); font-weight: 500; }
+  table.spec td:first-child{ white-space: nowrap; width: 3.2em; }
+  table.spec td input{ padding: 5px; font-size: 12.5px; text-align:center; }
+
+  .live-rate{
+    display:flex; align-items:center; justify-content:space-between;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px;
+    padding: 12px 14px; margin-top: 10px; font-size: 13px; color: var(--muted);
+  }
+  .live-rate b{ color: var(--teal); font-size: 16px; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .live-rate small{ display:block; font-size: 11.5px; color: var(--muted); font-weight: 400; text-align:right; }
+
+  .optional-panel{ margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); display:none; }
+  .optional-panel.open{ display:block; }
+
+  .bell-guide{ display:flex; gap: 16px; align-items:center; margin: 4px 0 6px; flex-wrap: wrap; }
+  .bell-guide svg{ width: 150px; height: auto; flex-shrink:0; }
+  .bell-guide ul{ margin:0; padding-left: 18px; font-size: 13px; flex:1; min-width: 180px; }
+  .bell-guide li{ margin-bottom: 3px; }
+  .bell-guide li b{ color: var(--gold); }
+
+  .chk-group{ margin-top: 6px; }
+  .chk-group h3{ font-size: 13.5px; margin: 14px 0 6px; }
+  .chk{
+    display:flex; align-items:center; gap: 10px; padding: 9px 12px; margin: 0 0 6px;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px; cursor: pointer;
+    font-size: 13.5px; color: var(--text);
+  }
+  .chk input{ width: 18px; height: 18px; accent-color: var(--teal); flex-shrink:0; }
+  .chk .tag{ margin-left:auto; font-size: 12px; color: var(--gold); white-space: nowrap; }
+  .chk:has(input:checked){ border-color: var(--teal); }
+  .floor-now{ margin-top: 10px; font-size: 13px; color: var(--muted); }
+  .floor-now b{ color: var(--teal); }
+  .hint-link{ display:block; margin: 10px 0 2px; padding: 10px 12px; border-radius: 9px; border: 1px solid var(--teal); color: var(--teal); text-decoration:none; font-size: 13.5px; font-weight: 700; text-align:center; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .mini-link{ font-size: 11.5px; font-weight: 500; color: var(--teal); margin-left: 6px; }
+  #hints{ scroll-margin-top: 12px; }
+  .ref-list{ font-size: 12.5px; color: var(--muted); margin: 6px 0 0; padding-left: 18px; }
+
+  .pie-wrap{ display:flex; align-items:center; gap: 22px; margin-top: 16px; flex-wrap: wrap; }
+  .pie{ width: 150px; height: 150px; border-radius: 50%; flex-shrink:0; background: var(--panel-2); }
+  .legend{ flex: 1; min-width: 180px; }
+  .legend-row{ display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:7px; }
+  .legend-row.cut{ opacity: .4; text-decoration: line-through; }
+  .swatch{ width:11px; height:11px; border-radius:3px; flex-shrink:0; }
+  .legend-row .pct{ margin-left:auto; font-variant-numeric: tabular-nums; }
+
+  .top-setting{
+    margin-top: 14px; padding: 12px 14px; border-radius: 10px;
+    background: #22303022; border: 1px solid #33665544; font-size: 13.5px;
+  }
+  .top-setting b{ color: var(--teal); }
+
+  .ev-output{ margin-top: 14px; padding: 16px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--line); text-align:center; }
+  .ev-output .num{ font-size: 28px; font-weight: 900; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .ev-output .num.pos{ color: #6fd6a8; }
+  .ev-output .num.neg{ color: #e08787; }
+  .ev-output .sub{ font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+  .tip-prompt{ margin-top: 14px; padding: 14px; background: var(--panel-2); border-radius: 10px; border: 1px dashed var(--line); }
+
+  .ad-slot{ margin: 26px 0; padding: 14px; text-align:center; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); font-size: 12px; }
+  footer{ text-align:center; color: var(--muted); font-size: 11.5px; padding: 20px 18px 0; }
+  #specBody td input{ padding: 5px 2px; font-size: 12px; }
+  table.spec th{ font-size: 11.5px; }
+  .notice{ margin: 0 0 6px; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--gold-dim); background: #e8a93b14; font-size: 12.5px; line-height: 1.7; }
+  .notice b{ color: var(--gold); }
+  .machine{ margin: 0 auto 14px; width: 130px; }
+  .machine img{ display:block; width:100%; height:auto; filter: drop-shadow(0 8px 24px #f2c14e40); }
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFM94DE8Y3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZFM94DE8Y3');
+</script>
+</head>
+<body>
+
+<nav class="topnav"><a href="../">← 機種一覧（設定示唆くん）</a></nav>
+<div class="hero">
+  <div class="lamp">GOD</div>
+  <h1>スマスロ<br>ミリオンゴッド-神々の軌跡-<br>設定判別</h1>
+  <p>通常時の回転数とAT（GOD GAME）初当り回数から設定1〜6の可能性を推定します</p>
+</div>
+
+<div class="wrap">
+
+  <div class="notice">
+    <b>2026年4月20日導入のスマスロ「神々の軌跡」専用</b>です。5号機の「ミリオンゴッド-神々の凱旋-」とは別の機種で、設定差の数値も違います。
+  </div>
+
+  <!-- 1. 設定差 -->
+  <section class="card">
+    <div class="section-title"><span class="num">1</span><h2>設定差（編集できます）</h2></div>
+    <table class="spec">
+      <thead><tr><th>設定</th><th>AT初当り(1/n)</th><th>機械割%</th><th>青7 3連GG%</th><th>青7 4連GG%</th></tr></thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    <p class="hint">解析サイトの公開値です（2026年10月時点）。AT初当りは<b>偶数設定が軽く、奇数設定が重い</b>作りで、設定1と6の差は約1.8倍です。設定5は初当りが重い代わりに、Z-ZONE昇格などで出玉を取る設定です。</p>
+    <p class="hint">青7（リプレイ）連のGG当選率は、公表されているのが<b>設定1・2だけ</b>です。設定3〜6（<span style="color:var(--gold);">金色の数字</span>）は、偶奇で差があるとされることから「奇数＝設定1、偶数＝設定2と同じ」と仮に置いた<b>推定値</b>です。新しい値が出たら表を書き換えて使ってください。</p>
+  </section>
+
+  <!-- 2. 実戦データ -->
+  <section class="card">
+    <div class="section-title"><span class="num">2</span><h2>実戦データを入力</h2></div>
+    <div class="row2">
+      <div>
+        <label for="normalG">通常時の回転数</label>
+        <input type="number" id="normalG" inputmode="numeric" placeholder="例：3000">
+      </div>
+      <div>
+        <label for="atCount">AT初当り回数</label>
+        <input type="number" id="atCount" inputmode="numeric" placeholder="例：8">
+      </div>
+    </div>
+    <div class="live-rate">
+      <span>現在のAT初当り確率</span>
+      <span><b id="liveAt">ー</b><small id="liveAtNote"></small></span>
+    </div>
+    <p class="hint">回転数は<b>通常時のみ</b>（GG・SGG中のゲーム数は含めない）。AT初当りはGOD GAMEの初当り（GOD揃い・天井も1回）で、GG中の上乗せや引き戻しは数えません。<a class="mini-link ref-out" data-sec="spec" href="https://1geki.jp/slot/l_milliongod_kiseki/0/" target="_blank" rel="noopener">設定差↗</a></p>
+
+    <button class="btn-ghost btn-small" id="toggleOpt" style="margin-top:14px;">＋ 青7（リプレイ）連・押し順ナビも入力する（任意）</button>
+    <div class="optional-panel" id="optPanel">
+      <h3 style="font-size:13.5px; margin:4px 0 2px;">青7（リプレイ）連でのGG当選</h3>
+      <p class="hint" style="margin-top:0;">通常時に青7（リプレイ）が3連・4連したときに、その連でGGに当選したかを数えます。黄7連は設定差なしなので数えません。</p>
+      <div class="row2">
+        <div>
+          <label for="r3n">3連した回数</label>
+          <input type="number" id="r3n" inputmode="numeric" placeholder="例：10">
+        </div>
+        <div>
+          <label for="r3w">うち3連でGG当選</label>
+          <input type="number" id="r3w" inputmode="numeric" placeholder="例：1">
+        </div>
+      </div>
+      <div class="row2" style="margin-top:8px;">
+        <div>
+          <label for="r4n">4連した回数</label>
+          <input type="number" id="r4n" inputmode="numeric" placeholder="例：3">
+        </div>
+        <div>
+          <label for="r4w">うち4連でGG当選</label>
+          <input type="number" id="r4w" inputmode="numeric" placeholder="例：1">
+        </div>
+      </div>
+      <p class="hint" style="margin-top:6px;">設定3〜6の当選率は推定値です。結果は参考程度に見てください。5連以上は全設定100%なので数えなくて大丈夫です。</p>
+
+      <h3 style="font-size:13.5px; margin:16px 0 2px;">押し順ナビ（押し順15枚役）※計算には使いません</h3>
+      <label for="naviCount">通常時の押し順ナビ回数</label>
+      <input type="number" id="naviCount" inputmode="numeric" placeholder="例：20">
+      <div class="live-rate">
+        <span>現在の押し順ナビ確率</span>
+        <span><b id="liveNavi">ー</b><small id="liveNaviNote"></small></span>
+      </div>
+      <ul class="ref-list" style="margin-top:8px;">
+        <li>メーカー非公表。実戦値で<b>低設定 約1/300前後、設定4 約1/170、設定5 約1/270、設定6 約1/110</b>（ちょんぼりすた）。設定1 約1/306・設定6 約1/104という報告もあります</li>
+        <li>偶数・高設定ほど軽く、設定1と6で約3倍の差があるとされます。設定2・3の値がないので計算には入れず、目安として表示しています</li>
+        <li>朝一のゲームはサンプルから外して数えたほうが安全です</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. 設定示唆 -->
+  <section class="card" id="hints">
+    <div class="section-title"><span class="num">3</span><h2>見えた示唆で設定を絞る（任意）</h2></div>
+    <p class="hint" style="margin-top:0;">出たものにチェック。「〇以上濃厚」に当てはまらない設定を計算から外します。</p>
+    <div class="chk-group" id="floorGroup">
+      <h3>ユニバプレート（GG終了時）</h3>
+      <label class="chk"><input type="checkbox" data-allow="2,3,4,5,6" data-name="プレート銅">銅<span class="tag">設定2以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="3,4,5,6" data-name="プレート銀">銀<span class="tag">設定3以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="プレート金">金<span class="tag">設定4以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="5,6" data-name="プレート花火柄">花火柄<span class="tag">設定5以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="6" data-name="プレート虹">虹<span class="tag">設定6濃厚</span></label>
+    </div>
+    <p class="floor-now" id="floorNow">絞り込み：なし（設定1〜6すべてで計算）</p>
+
+    <h3 style="font-size:13.5px; margin:14px 0 4px;">参考（計算には使いません）</h3>
+    <ul class="ref-list">
+      <li>GG初当り時のZ-ZONE昇格率：設定1 1.2%、設定2 1.0%、設定3 4.2%、設定4 1.0%、<b>設定5 11.6%</b>、設定6 1.0%。Z-ZONEによく入る台は設定5の可能性が上がります</li>
+      <li>高設定ほど通常時のモードが動きやすく、レア役なしの「謎当り」が増えるとされます（実戦からの考察）</li>
+      <li>コイン持ちは偶数設定ほど良いとされます（実戦値：設定6 約34.4G／50枚）</li>
+    </ul>
+  </section>
+
+  <!-- 4. 計算 -->
+  <section class="card">
+    <div class="section-title"><span class="num">4</span><h2>計算する</h2></div>
+    <div class="row2">
+      <div>
+        <label for="closingTime">閉店時刻</label>
+        <input type="time" id="closingTime" value="22:45">
+      </div>
+      <div>
+        <label for="spinsPerHour">1時間あたりの回転数</label>
+        <input type="number" id="spinsPerHour" value="700">
+      </div>
+    </div>
+    <button class="btn-primary" id="calcBtn" style="margin-top:14px;">計算する</button>
+
+    <div class="pie-wrap" id="pieWrap" style="display:none;">
+      <div class="pie" id="pieChart"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div id="topSetting"></div>
+    <div class="ev-output" id="evOutput" style="display:none;"></div>
+    <div class="tip-prompt" id="tipPromptCalc" style="display:none;">
+      <p style="margin:0 0 10px; font-size:13.5px;">勝ったら10円でもいいので投げ銭ください🍶</p>
+      <a class="btn-ghost" style="display:block; text-align:center; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
+    </div>
+    <p class="hint">AT初当り回数（と青7連のGG当選）の二項分布の尤度から、設定ごとの相対的な可能性をベイズ的に算出しています（事前は一様、示唆にチェックした場合は当てはまらない設定を0%に）。天井（1480G）やモードの影響を受けるため、回転数が少ないうちはブレが大きくなります。統計的な目安であり、実際の設定を保証するものではありません。</p>
+  </section>
+
+  <div class="ad-slot">
+    <!-- ここに広告コード（例: Google AdSenseのユニットタグ）を差し込みます -->
+    広告スペース
+  </div>
+
+  <footer>
+    設定差の数値は各解析サイトの公開値・実戦値（2026年10月時点）をもとにしています。<br>
+    本ツールは統計的な参考情報の提供を目的としたエンターテインメントです。実際の遊技は自己責任・適正な範囲でお楽しみください。<br>
+    18歳未満の方はパチンコ・パチスロを遊技できません。<br>
+    <a href="../" style="color:var(--muted);">機種一覧</a>　<a href="../privacy.html" style="color:var(--muted);">プライバシーポリシー</a>
+  </footer>
+</div>
+
+<script>
+// ================= 1. 設定差（2026年10月時点） =================
+// r3/r4：青7連GG当選率。設定1・2は公表値、設定3〜6は「奇数＝設定1、偶数＝設定2」と置いた推定値
+const SETS = [1,2,3,4,5,6];
+const SPEC = {
+  at:     [532.8, 420.4, 495.9, 338.4, 455.4, 294.8],
+  payout: [97.2, 99.1, 102.1, 106.9, 111.7, 114.6],
+  r3:     [1.2, 10.2, 1.2, 10.2, 1.2, 10.2],
+  r4:     [33.2, 50.0, 33.2, 50.0, 33.2, 50.0]
+};
+const ESTIMATED = [false, false, true, true, true, true];
+const BET = 3;
+
+const specBody = document.getElementById('specBody');
+for(let s=0; s<6; s++){
+  const est = ESTIMATED[s] ? ' style="color:var(--gold);"' : '';
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>設定${s+1}</td>
+    <td><input type="number" step="0.1" class="atInput" value="${SPEC.at[s].toFixed(1)}"></td>
+    <td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>
+    <td><input type="number" step="0.1" class="r3Input" value="${SPEC.r3[s].toFixed(1)}"${est}></td>
+    <td><input type="number" step="0.1" class="r4Input" value="${SPEC.r4[s].toFixed(1)}"${est}></td>`;
+  specBody.appendChild(tr);
+}
+const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
+const readPct = cls => [...document.querySelectorAll('.' + cls)].map(el => Math.min(Math.max((parseFloat(el.value) || 0) / 100, 0.001), 0.999));
+
+// ================= 2. 実戦データ =================
+const $ = id => document.getElementById(id);
+const normalG = $('normalG'), atCount = $('atCount');
+const r3n = $('r3n'), r3w = $('r3w'), r4n = $('r4n'), r4w = $('r4w'), naviCount = $('naviCount');
+const num = el => Math.max(parseFloat(el.value) || 0, 0);
+
+// AT確率は偶奇で上下するので、最も近い値の設定を返す
+function nearLabel(r, arr){
+  const max = Math.max(...arr), min = Math.min(...arr);
+  if(r >= max) return '設定1より重い';
+  if(r <= min) return '設定6より軽い';
+  let best = 0;
+  arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+  return `設定${best+1}付近`;
+}
+function naviLabel(r){
+  if(r >= 250) return '低設定の目安（約1/300前後）に近い';
+  if(r >= 140) return '設定4の目安（約1/170）に近い';
+  return '設定6の目安（約1/110）に近い';
+}
+
+function updateLive(){
+  const g = num(normalG), a = num(atCount), n = num(naviCount);
+  if(g > 0 && a > 0){ const r = g/a; $('liveAt').textContent = `1/${r.toFixed(1)}`; $('liveAtNote').textContent = nearLabel(r, readCol('atInput')); }
+  else { $('liveAt').textContent = 'ー'; $('liveAtNote').textContent = ''; }
+  if(g > 0 && n > 0){ const r = g/n; $('liveNavi').textContent = `1/${r.toFixed(1)}`; $('liveNaviNote').textContent = naviLabel(r) + '（参考）'; }
+  else { $('liveNavi').textContent = 'ー'; $('liveNaviNote').textContent = ''; }
+}
+[normalG, atCount, naviCount].forEach(el => el.addEventListener('input', updateLive));
+document.querySelectorAll('#specBody input').forEach(el => el.addEventListener('input', updateLive));
+
+$('toggleOpt').addEventListener('click', (e) => {
+  const panel = $('optPanel');
+  panel.classList.toggle('open');
+  e.target.textContent = panel.classList.contains('open') ? '－ 追加入力を閉じる' : '＋ 青7（リプレイ）連・押し順ナビも入力する（任意）';
+});
+
+// ================= 3. 示唆による絞り込み =================
+const floorChecks = [...document.querySelectorAll('#floorGroup input[type=checkbox]')];
+function currentAllow(){
+  const on = floorChecks.filter(c => c.checked);
+  let allow = new Set(SETS);
+  on.forEach(c => {
+    const a = new Set(c.dataset.allow.split(',').map(Number));
+    allow = new Set([...allow].filter(s => a.has(s)));
+  });
+  return { allow, names: on.map(c => c.dataset.name) };
+}
+const allowLabel = allow => [...allow].map(s => `設定${s}`).join('・');
+function updateFloorText(){
+  const { allow, names } = currentAllow();
+  const el = $('floorNow');
+  if(names.length === 0) el.innerHTML = '絞り込み：なし（設定1〜6すべてで計算）';
+  else el.innerHTML = `絞り込み：<b>${allowLabel(allow)}</b>で計算（${names.join('・')}）`;
+}
+floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
+
+// ================= 4. 計算 =================
+const pieColors = ['#e8a93b','#33b6a4','#7fa7d9','#d9668b','#9b7fd9','#6fd6a8'];
+const topSetting = $('topSetting'), pieWrap = $('pieWrap'), evOutput = $('evOutput'), tipPrompt = $('tipPromptCalc');
+
+// 二項分布の対数尤度（組合せ項は設定間で共通なので省略）
+const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
+
+function showMsg(html){
+  topSetting.innerHTML = `<p class="hint">${html}</p>`;
+  pieWrap.style.display = 'none'; evOutput.style.display = 'none'; tipPrompt.style.display = 'none';
+}
+
+$('calcBtn').addEventListener('click', () => {
+  const g = num(normalG), a = num(atCount);
+  const optOpen = $('optPanel').classList.contains('open');
+  const n3 = optOpen ? num(r3n) : 0, w3 = optOpen ? num(r3w) : 0;
+  const n4 = optOpen ? num(r4n) : 0, w4 = optOpen ? num(r4w) : 0;
+  const useRep = n3 > 0 || n4 > 0;
+
+  if(g <= 0){ showMsg('通常時の回転数を入力してください。'); return; }
+  if(a > g){ showMsg('回数が回転数を超えています。入力を確認してください。'); return; }
+  if(w3 > n3 || w4 > n4){ showMsg('GG当選回数が、3連・4連した回数を超えています。入力を確認してください。'); return; }
+
+  const { allow, names } = currentAllow();
+  const at = readCol('atInput'), payout = readCol('payoutInput'), p3 = readPct('r3Input'), p4 = readPct('r4Input');
+
+  const ll = [];
+  for(let s=0; s<6; s++){
+    if(!allow.has(s + 1)){ ll.push(-Infinity); continue; }
+    let v = binomLL(a, g, 1/at[s]);
+    if(n3 > 0) v += binomLL(w3, n3, p3[s]);
+    if(n4 > 0) v += binomLL(w4, n4, p4[s]);
+    ll.push(v);
+  }
+  const maxLL = Math.max(...ll);
+  const w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - maxLL));
+  const sum = w.reduce((x, y) => x + y, 0);
+  const post = w.map(x => x / sum);
+  const expSetting = post.reduce((acc, p, i) => acc + p*(i+1), 0);
+
+  if (typeof gtag === 'function') {
+    gtag('event', 'judge_run', { machine_group: 'milliongod', machine: 'milliongod', has_replay: useRep, allow: [...allow].join('') });
+  }
+
+  // 円グラフ
+  let acc = 0;
+  const stops = post.map((p, i) => { const s0 = acc*360; acc += p; return `${pieColors[i]} ${s0}deg ${acc*360}deg`; }).join(', ');
+  $('pieChart').style.background = `conic-gradient(${stops})`;
+  pieWrap.style.display = 'flex';
+  const legend = $('legend');
+  legend.innerHTML = '';
+  post.forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'legend-row' + (!allow.has(i + 1) ? ' cut' : '');
+    row.innerHTML = `<span class="swatch" style="background:${pieColors[i]}"></span><span>設定${i+1}</span><span class="pct">${(p*100).toFixed(1)}%</span>`;
+    legend.appendChild(row);
+  });
+
+  const best = post.indexOf(Math.max(...post));
+  const hi = post.slice(3).reduce((x, y) => x + y, 0);
+  const even = post[1] + post[3] + post[5];
+  const parts = [`通常時${g}G / AT初当り ${a}回（1/${a > 0 ? (g/a).toFixed(1) : '―'}）`];
+  if(n3 > 0) parts.push(`青7 3連 ${w3}/${n3}`);
+  if(n4 > 0) parts.push(`青7 4連 ${w4}/${n4}`);
+  if(names.length) parts.push(`絞り込み：${allowLabel(allow)}（${names.join('・')}）`);
+  let msg = `最も可能性が高いのは <b>設定${best+1}</b>（推定 ${(post[best]*100).toFixed(1)}%）。設定4以上の合計 <b>${(hi*100).toFixed(1)}%</b>、偶数設定の合計 <b>${(even*100).toFixed(1)}%</b>、期待設定 <b>${expSetting.toFixed(2)}</b>。<br><span style="color:var(--muted);font-size:12.5px;">${parts.join(' / ')}</span>`;
+  if(g < 4000) msg += '<br><span style="color:var(--muted);font-size:12.5px;">AT初当りは1/295〜1/533と重いため、4,000G未満では回数が少なくブレが大きいです。押し順ナビやユニバプレートも合わせて見てください。</span>';
+  if(useRep) msg += '<br><span style="color:var(--muted);font-size:12.5px;">青7連の設定3〜6は推定値を使っています。</span>';
+  topSetting.innerHTML = `<div class="top-setting">${msg}</div>`;
+
+  // 期待差枚 = 残りG × 3枚 ×（機械割 − 100%）
+  const spinsPerHour = parseFloat($('spinsPerHour').value) || 0;
+  const [ch, cm] = $('closingTime').value.split(':').map(Number);
+  const closing = new Date(); closing.setHours(ch, cm, 0, 0);
+  const hours = Math.max((closing - new Date()) / 3600000, 0);
+  const remainG = spinsPerHour * hours;
+  const netPer = payout.map(p => BET * (p/100 - 1) * remainG);
+  const ev = Math.round(post.reduce((x, p, i) => x + p*netPer[i], 0)) || 0;
+  const bestNet = Math.round(netPer[best]) || 0;
+  const sign = v => v > 0 ? '+' : (v < 0 ? '' : '±');
+  evOutput.style.display = 'block';
+  evOutput.innerHTML = `
+    <div class="num ${ev >= 0 ? 'pos' : 'neg'}">${sign(ev)}${ev.toLocaleString()} 枚</div>
+    <div class="sub">残り約${hours.toFixed(1)}時間・約${Math.round(remainG).toLocaleString()}G分の期待差枚（各設定の機械割を確率で重み付け平均）</div>
+    <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--line);">
+      <div class="num ${bestNet >= 0 ? 'pos' : 'neg'}" style="font-size:22px;">${sign(bestNet)}${bestNet.toLocaleString()} 枚</div>
+      <div class="sub">最有力の設定${best+1}だった場合の期待差枚</div>
+    </div>`;
+  tipPrompt.style.display = 'block';
+});
+
+document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', () => {
+  if (typeof gtag === 'function') gtag('event', 'outbound_ref', { machine: 'milliongod', section: a.dataset.sec });
+}));
+</script>
+
+</body>
+</html>
