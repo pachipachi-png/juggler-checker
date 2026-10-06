@@ -147,6 +147,18 @@
   .notice b{ color: var(--gold); }
   .machine{ margin: 0 auto 14px; width: 130px; }
   .machine img{ display:block; width:100%; height:auto; filter: drop-shadow(0 8px 24px #e8743b40); }
+
+  /* layout v2: 判別ボタンを必須入力の直下に */
+  .btn-judge{ width:100%; margin-top:16px; font-size:17px; padding:15px 12px; }
+  .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
+  .opt-block:first-of-type{ margin-top:6px; }
+  .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  #recalcBtn{ width:100%; margin-top:16px; }
+  .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
+  .spec-details > summary::-webkit-details-marker{ display:none; }
+  .spec-details > summary::after{ content:'＋ 開く'; margin-left:auto; font-size:12.5px; color:var(--muted); font-weight:400; }
+  .spec-details[open] > summary::after{ content:'－ 閉じる'; }
+  .spec-details[open] > summary{ margin-bottom:14px; }
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -173,19 +185,9 @@
     <b>2026年10月5日導入の新台「サンブレイク」専用</b>です。前作「スマスロ モンスターハンターライズ」とは別の機種で、設定差の数値も示唆の内容も違います。
   </div>
 
-  <!-- 1. 設定差 -->
+  <!-- 1. 実戦データ → 判別（layout v2） -->
   <section class="card">
-    <div class="section-title"><span class="num">1</span><h2>設定差（編集できます）</h2></div>
-    <table class="spec">
-      <thead><tr><th>設定</th><th>AT初当り(1/n)</th><th>機械割%</th></tr></thead>
-      <tbody id="specBody"></tbody>
-    </table>
-    <p class="hint">解析サイトの公開値です（2026年10月時点）。設定1と6の差は<b>約1.44倍</b>。設定3と4の間で大きく軽くなるので、<b>1/290より軽いかどうか</b>がひとつの目安です。CZ・小役の設定差はまだ公表されていません。</p>
-  </section>
-
-  <!-- 2. 実戦データ -->
-  <section class="card">
-    <div class="section-title"><span class="num">2</span><h2>実戦データを入力</h2></div>
+    <div class="section-title"><span class="num">1</span><h2>実戦データを入力して判別</h2></div>
     <div class="row2">
       <div>
         <label for="normalG">通常時の回転数</label>
@@ -201,11 +203,28 @@
       <span><b id="liveAt">ー</b><small id="liveAtNote"></small></span>
     </div>
     <p class="hint">回転数は<b>通常時のみ</b>（CZ・AT中のゲーム数は含めない）。データカウンターの「通常時G数」を使ってください。AT初当りはサンブレイクRUSHの初当り（CZ経由・直撃どちらも1回）で、AT中の引き戻しは数えません。<a class="mini-link ref-out" data-sec="spec" href="https://1geki.jp/slot/l_mh_sun/0/" target="_blank" rel="noopener">AT初当り確率↗</a></p>
+    <button class="btn-primary btn-judge" id="calcBtn">この数字で判別する</button>
+
+
+    <div class="pie-wrap" id="pieWrap" style="display:none;">
+      <div class="pie" id="pieChart"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div id="topSetting"></div>
+    <div class="ev-output" id="evOutput" style="display:none;"></div>
+    <div class="tip-prompt" id="tipPromptCalc" style="display:none;">
+      <p style="margin:0 0 10px; font-size:13.5px;">勝ったら10円でもいいので投げ銭ください🍶</p>
+      <a class="btn-ghost" style="display:block; text-align:center; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
+    </div>
+    <p class="hint">AT初当り回数の二項分布の尤度から、設定ごとの相対的な可能性をベイズ的に算出しています（事前は一様、示唆にチェックした場合は当てはまらない設定を0%に）。天井（999G＋α）やモードの影響を受けるため、回転数が少ないうちはブレが大きくなります。統計的な目安であり、実際の設定を保証するものではありません。</p>
   </section>
 
-  <!-- 3. 設定示唆 -->
-  <section class="card" id="hints">
-    <div class="section-title"><span class="num">3</span><h2>見えた示唆で設定を絞る（任意）</h2></div>
+  <!-- 2. 任意入力 -->
+  <section class="card" id="optionalCard">
+    <div class="section-title"><span class="num">2</span><h2>もっと絞り込む（任意）</h2></div>
+    <p class="hint" style="margin-top:0;">入れなくても判別できます。入力・チェックすると、判別済みの結果に自動で反映されます。</p>
+    <div class="opt-block" id="hints">
+      <h3 class="sub-h">見えた示唆で設定を絞る</h3>
     <p class="hint" style="margin-top:0;">出たものにチェック。「〇以上濃厚」「偶数濃厚」に当てはまらない設定を計算から外します。</p>
     <a class="hint-link ref-out" data-sec="end" href="https://1geki.jp/slot/l_mh_sun/6/" target="_blank" rel="noopener">実際の終了画面を見る（1geki）↗</a>
     <div class="chk-group" id="floorGroup">
@@ -239,11 +258,9 @@
       <li>AT終了画面（1サイトのみ掲載・確認待ち）：ヒノエ＆ミノト＝設定2以上濃厚、フィオレーネ＆ロンディーネ＝設定2否定、ジェイ＋アルロー＋ガレアス（3人）＝設定3否定</li>
       <li>エンディングのスタンプ：青＝奇数示唆、黄＝偶数示唆、緑＝高設定示唆（弱）、赤＝高設定示唆（強）。銅＝2以上・銀＝3以上・金＝4以上濃厚は1サイトのみ掲載で確認待ち</li>
     </ul>
-  </section>
-
-  <!-- 4. 計算 -->
-  <section class="card">
-    <div class="section-title"><span class="num">4</span><h2>計算する</h2></div>
+    </div>
+    <div class="opt-block">
+      <h3 class="sub-h">期待差枚の計算条件</h3>
     <div class="row2">
       <div>
         <label for="closingTime">閉店時刻</label>
@@ -254,19 +271,20 @@
         <input type="number" id="spinsPerHour" value="700">
       </div>
     </div>
-    <button class="btn-primary" id="calcBtn" style="margin-top:14px;">計算する</button>
+    </div>
+    <button class="btn-ghost" id="recalcBtn" type="button">この内容で再計算する</button>
+  </section>
 
-    <div class="pie-wrap" id="pieWrap" style="display:none;">
-      <div class="pie" id="pieChart"></div>
-      <div class="legend" id="legend"></div>
-    </div>
-    <div id="topSetting"></div>
-    <div class="ev-output" id="evOutput" style="display:none;"></div>
-    <div class="tip-prompt" id="tipPromptCalc" style="display:none;">
-      <p style="margin:0 0 10px; font-size:13.5px;">勝ったら10円でもいいので投げ銭ください🍶</p>
-      <a class="btn-ghost" style="display:block; text-align:center; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
-    </div>
-    <p class="hint">AT初当り回数の二項分布の尤度から、設定ごとの相対的な可能性をベイズ的に算出しています（事前は一様、示唆にチェックした場合は当てはまらない設定を0%に）。天井（999G＋α）やモードの影響を受けるため、回転数が少ないうちはブレが大きくなります。統計的な目安であり、実際の設定を保証するものではありません。</p>
+  <!-- 3. 設定差 -->
+  <section class="card" id="specCard">
+    <details class="spec-details">
+      <summary><div class="section-title" style="margin:0;"><span class="num">3</span><h2>設定差を見る・編集する</h2></div></summary>
+    <table class="spec">
+      <thead><tr><th>設定</th><th>AT初当り(1/n)</th><th>機械割%</th></tr></thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    <p class="hint">解析サイトの公開値です（2026年10月時点）。設定1と6の差は<b>約1.44倍</b>。設定3と4の間で大きく軽くなるので、<b>1/290より軽いかどうか</b>がひとつの目安です。CZ・小役の設定差はまだ公表されていません。</p>
+    </details>
   </section>
 
   <div class="ad-slot">
@@ -435,5 +453,34 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 }));
 </script>
 
+
+<script>
+// layout v2: 任意入力・設定差を変えたら判別結果を自動で再計算（GAのjudge_runは送らない）
+(function(){
+  var btn = document.getElementById('calcBtn'); if(!btn) return;
+  var done = false, timer = null;
+  btn.addEventListener('click', function(){ done = true; });
+  function silentCalc(){
+    var g = window.gtag;
+    window.gtag = function(a, b){ if(a === 'event' && b === 'judge_run') return; if(typeof g === 'function') return g.apply(this, arguments); };
+    try { btn.click(); } finally { window.gtag = g; }
+  }
+  function auto(e){
+    if(!done) return;
+    if(e && e.target && (e.target.id === 'recalcBtn' || (e.target.tagName === 'BUTTON'))) return;
+    clearTimeout(timer); timer = setTimeout(silentCalc, 350);
+  }
+  ['optionalCard', 'specCard'].forEach(function(id){
+    var el = document.getElementById(id); if(!el) return;
+    el.addEventListener('input', auto); el.addEventListener('change', auto);
+  });
+  var rb = document.getElementById('recalcBtn');
+  if(rb) rb.addEventListener('click', function(){
+    btn.click();
+    var t = document.getElementById('pieWrap');
+    if(t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+})();
+</script>
 </body>
 </html>
