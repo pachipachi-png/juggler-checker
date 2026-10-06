@@ -136,6 +136,18 @@
 
   .ad-slot{ margin: 26px 0; padding: 14px; text-align:center; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); font-size: 12px; }
   footer{ text-align:center; color: var(--muted); font-size: 11.5px; padding: 20px 18px 0; }
+
+  /* layout v2: 判別ボタンを必須入力の直下に */
+  .btn-judge{ width:100%; margin-top:16px; font-size:17px; padding:15px 12px; }
+  .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
+  .opt-block:first-of-type{ margin-top:6px; }
+  .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  #recalcBtn{ width:100%; margin-top:16px; }
+  .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
+  .spec-details > summary::-webkit-details-marker{ display:none; }
+  .spec-details > summary::after{ content:'＋ 開く'; margin-left:auto; font-size:12.5px; color:var(--muted); font-weight:400; }
+  .spec-details[open] > summary::after{ content:'－ 閉じる'; }
+  .spec-details[open] > summary{ margin-bottom:14px; }
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -158,24 +170,12 @@
 
 <div class="wrap">
 
-  <!-- 1. 機種選択 -->
+  <!-- 1. 実戦データ → 判別（layout v2） -->
   <section class="card">
-    <div class="section-title"><span class="num">1</span><h2>機種を選ぶ</h2></div>
+    <div class="section-title"><span class="num">1</span><h2>機種と実戦データを入力して判別</h2></div>
     <label for="machineSelect">機種</label>
     <select id="machineSelect"></select>
-    <p class="hint">プリセットはメーカー公表値をベースにしていますが、ぶどう確率など一部は逆算・推定値です。実際の判別に使う際は最新の解析情報で書き換えてください。</p>
-    <table class="spec">
-      <thead><tr><th>設定</th><th>BIG(1/n)</th><th>REG(1/n)</th><th>ぶどう(1/n)</th><th>機械割(%)</th></tr></thead>
-      <tbody id="specBody"></tbody>
-    </table>
-    <label for="betPerGame">1ゲームのベット枚数</label>
-    <input type="number" id="betPerGame" value="3">
-  </section>
-
-  <!-- 2. 実戦データ -->
-  <section class="card">
-    <div class="section-title"><span class="num">2</span><h2>実戦データを入力</h2></div>
-    <div class="row3">
+    <div class="row3" style="margin-top:12px;">
       <div>
         <label for="todayG">総回転数</label>
         <input type="number" id="todayG" placeholder="例：3200">
@@ -193,30 +193,8 @@
       <span>現在の合成確率</span>
       <b id="liveRate">ー</b>
     </div>
+    <button class="btn-primary btn-judge" id="calcBtn">この数字で判別する</button>
 
-    <button class="btn-ghost btn-small" id="toggleOptional" style="margin-top:14px;">＋ ぶどう・チェリー重複も入力する（任意）</button>
-    <div class="optional-panel" id="optionalPanel">
-      <label for="todayGrape">本日のぶどう回数（任意・空欄でも計算できます）</label>
-      <input type="number" id="todayGrape" placeholder="例：520">
-      <label for="todayCherryReg">本日のチェリー重複REG回数（任意・参考表示のみ）</label>
-      <input type="number" id="todayCherryReg" placeholder="例：3">
-    </div>
-  </section>
-
-  <!-- 3. 計算 -->
-  <section class="card">
-    <div class="section-title"><span class="num">3</span><h2>計算する</h2></div>
-    <div class="row2">
-      <div>
-        <label for="closingTime">閉店時刻</label>
-        <input type="time" id="closingTime" value="23:00">
-      </div>
-      <div>
-        <label for="spinsPerHour">1時間あたりの回転数</label>
-        <input type="number" id="spinsPerHour" value="900">
-      </div>
-    </div>
-    <button class="btn-primary" id="calcBtn" style="margin-top:14px;">計算する</button>
 
     <div class="pie-wrap" id="pieWrap" style="display:none;">
       <div class="pie" id="pieChart"></div>
@@ -237,6 +215,49 @@
       <a class="btn-ghost" style="display:block; text-align:center; border-color:#333b46; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
     </div>
     <p class="hint">多項分布の尤度から設定ごとの相対的な可能性をベイズ的に算出し（ぶどう回数を入力した場合はそれも含む）、各設定の機械割と残り回転数から期待差枚を計算しています。統計的な目安であり、実際の設定を保証するものではありません。</p>
+  </section>
+
+  <!-- 2. 任意入力 -->
+  <section class="card" id="optionalCard">
+    <div class="section-title"><span class="num">2</span><h2>もっと絞り込む（任意）</h2></div>
+    <p class="hint" style="margin-top:0;">入れなくても判別できます。入力・チェックすると、判別済みの結果に自動で反映されます。</p>
+    <div class="opt-block">
+    <button class="btn-ghost btn-small" id="toggleOptional" style="margin-top:0;">＋ ぶどう・チェリー重複も入力する（任意）</button>
+    <div class="optional-panel" id="optionalPanel">
+      <label for="todayGrape">本日のぶどう回数（任意・空欄でも計算できます）</label>
+      <input type="number" id="todayGrape" placeholder="例：520">
+      <label for="todayCherryReg">本日のチェリー重複REG回数（任意・参考表示のみ）</label>
+      <input type="number" id="todayCherryReg" placeholder="例：3">
+    </div>
+    </div>
+    <div class="opt-block">
+      <h3 class="sub-h">期待差枚の計算条件</h3>
+    <div class="row2">
+      <div>
+        <label for="closingTime">閉店時刻</label>
+        <input type="time" id="closingTime" value="23:00">
+      </div>
+      <div>
+        <label for="spinsPerHour">1時間あたりの回転数</label>
+        <input type="number" id="spinsPerHour" value="900">
+      </div>
+    </div>
+    <label for="betPerGame">1ゲームのベット枚数</label>
+    <input type="number" id="betPerGame" value="3">
+      </div>
+    <button class="btn-ghost" id="recalcBtn" type="button">この内容で再計算する</button>
+  </section>
+
+  <!-- 3. 設定差 -->
+  <section class="card" id="specCard">
+    <details class="spec-details">
+      <summary><div class="section-title" style="margin:0;"><span class="num">3</span><h2>設定差を見る・編集する</h2></div></summary>
+    <p class="hint">プリセットはメーカー公表値をベースにしていますが、ぶどう確率など一部は逆算・推定値です。実際の判別に使う際は最新の解析情報で書き換えてください。</p>
+    <table class="spec">
+      <thead><tr><th>設定</th><th>BIG(1/n)</th><th>REG(1/n)</th><th>ぶどう(1/n)</th><th>機械割(%)</th></tr></thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    </details>
   </section>
 
   <div class="ad-slot">
@@ -647,5 +668,34 @@ document.getElementById('jokeBtn').addEventListener('click', () => {
 });
 </script>
 
+
+<script>
+// layout v2: 任意入力・設定差を変えたら判別結果を自動で再計算（GAのjudge_runは送らない）
+(function(){
+  var btn = document.getElementById('calcBtn'); if(!btn) return;
+  var done = false, timer = null;
+  btn.addEventListener('click', function(){ done = true; });
+  function silentCalc(){
+    var g = window.gtag;
+    window.gtag = function(a, b){ if(a === 'event' && b === 'judge_run') return; if(typeof g === 'function') return g.apply(this, arguments); };
+    try { btn.click(); } finally { window.gtag = g; }
+  }
+  function auto(e){
+    if(!done) return;
+    if(e && e.target && (e.target.id === 'recalcBtn' || (e.target.tagName === 'BUTTON'))) return;
+    clearTimeout(timer); timer = setTimeout(silentCalc, 350);
+  }
+  ['optionalCard', 'specCard'].forEach(function(id){
+    var el = document.getElementById(id); if(!el) return;
+    el.addEventListener('input', auto); el.addEventListener('change', auto);
+  });
+  var rb = document.getElementById('recalcBtn');
+  if(rb) rb.addEventListener('click', function(){
+    btn.click();
+    var t = document.getElementById('pieWrap');
+    if(t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+})();
+</script>
 </body>
 </html>
