@@ -50,6 +50,7 @@
   .item .inputs{ margin-top: 8px; display:flex; flex-wrap: wrap; gap: 6px; }
   .chip{ font-size: 11.5px; border: 1px solid var(--line); border-radius: 999px; padding: 1px 9px; color: var(--muted); }
   .item.soon{ opacity: .55; pointer-events: none; }
+  .badge.hot{ color: #ff8a65; border-color: rgba(255,138,101,.5); }
   .badge{ font-size: 11px; color: var(--gold); border: 1px solid var(--gold-dim); border-radius: 6px; padding: 0 6px; margin-left: 6px; vertical-align: 2px; }
   .empty{ color: var(--muted); font-size: 13.5px; padding: 18px 4px; display:none; }
   .about{ margin-top: 30px; background: var(--panel); border: 1px solid var(--line); border-radius: 13px; padding: 16px; font-size: 13.5px; }
@@ -81,7 +82,7 @@
     <input id="q" type="search" placeholder="機種名で検索（例：マイジャグ）" autocomplete="off">
   </div>
 
-  <h2 class="group" id="gReady">判別できる機種</h2>
+  <h2 class="group" id="gReady">判別できる機種（新台・話題の機種から順に）</h2>
   <div class="list" id="listReady"></div>
 
   <h2 class="group" id="gSoon">準備中</h2>
@@ -103,6 +104,7 @@
 
 <script>
 // 機種の一覧。ページを追加したらここに1件足す（status: 'ready' | 'soon'）
+// hot: 一覧の並び順（小さいほど上）。新台・Xで話題の機種を上にする。tag: 名前の横に出す短いラベル（空なら出さない）
 // keywords には略称・ひらがな・英字など検索で使われそうな呼び方を入れる
 const MACHINES = [
   {
@@ -111,6 +113,8 @@ const MACHINES = [
     inputs: ['総回転数', 'BIG', 'REG', 'ぶどう（任意）'],
     path: 'juggler/',
     status: 'ready',
+    hot: 1,
+    tag: 'マイジャグ6導入',
     keywords: 'ジャグラー じゃぐらー juggler ジャグ マイジャグ まいじゃぐ マイジャグラー6 マイジャグ6 アイム あいむ ネオアイム sアイム ウルトラミラクル ミラクル ミスター ガールズ ゴーゴー ごーごー gogo ハッピー ファンキー ふぁんきー'
   },
   {
@@ -119,6 +123,8 @@ const MACHINES = [
     inputs: ['総G数', '5枚役', 'AT初当り（任意）', 'トロフィー・舟券'],
     path: 'monkey/',
     status: 'ready',
+    hot: 8,
+    tag: '',
     keywords: 'モンキーターン もんきーたーん モンキー もんきー モンキー5 モンキーv モンキーターン5 モンキーターンv もんきーたーんv 5枚役 ごまいやく monkey monkeyturn'
   },
   {
@@ -127,6 +133,8 @@ const MACHINES = [
     inputs: ['通常時G数', 'AT初当り回数'],
     path: 'juuou/',
     status: 'ready',
+    hot: 2,
+    tag: '新台',
     keywords: '獣王 じゅうおう ジュウオウ juuou サバンナチャンス スマスロ すますろ サミー 新台'
   },
   {
@@ -135,6 +143,8 @@ const MACHINES = [
     inputs: ['通常時G数', 'CZ回数', '共通ベル（任意）', '終了画面・トロフィー'],
     path: 'lycoris/',
     status: 'ready',
+    hot: 6,
+    tag: '',
     keywords: 'リコリスリコイル りこりすりこいる リコリコ りこりこ lycoris'
   },
   {
@@ -143,6 +153,8 @@ const MACHINES = [
     inputs: ['通常時G数', 'CZ回数', 'AT・強チャ目B（任意）', '終了画面・トロフィー'],
     path: 'sao2/',
     status: 'ready',
+    hot: 4,
+    tag: 'キリト誕生日示唆',
     keywords: 'ソードアートオンライン そーどあーとおんらいん ソードアート・オンライン2 ソードアートオンライン2 sao sao2 SAOII さお えすえーおー'
   },
   {
@@ -151,6 +163,8 @@ const MACHINES = [
     inputs: ['通常時G数', 'CZ回数', 'ボーナス初当り（任意）', '終了画面・獲得枚数'],
     path: 'kanokari/',
     status: 'ready',
+    hot: 7,
+    tag: '',
     keywords: '彼女お借りします 彼女、お借りします かのじょおかりします かのかり カノカリ kanokari レンタル彼女 れんかの 千鶴 ちづる スマスロ すますろ SANKYO さんきょー 新台'
   },
   {
@@ -159,6 +173,8 @@ const MACHINES = [
     inputs: ['通常時G数', 'AT初当り回数', 'トロフィー・終了画面'],
     path: 'mhsunbreak/',
     status: 'ready',
+    hot: 3,
+    tag: '新台',
     keywords: 'モンスターハンターライズサンブレイク モンハンサンブレイク もんはんさんぶれいく サンブレイク さんぶれいく モンハン もんはん MHR mhrise sunbreak サンブレ さんぶれ スマスロ すますろ アデリオン エンターライズ 新台'
   },
   {
@@ -167,6 +183,8 @@ const MACHINES = [
     inputs: ['通常時G数', 'AT初当り回数', '青7連・押し順ナビ（任意）', 'ユニバプレート'],
     path: 'milliongod/',
     status: 'ready',
+    hot: 5,
+    tag: '',
     keywords: 'ミリオンゴッド みりおんごっど ゴッド ごっど GOD god milliongod 神々の軌跡 かみがみのきせき 軌跡 きせき ミリゴ みりご スマスロ すますろ ミズホ ユニバーサル リプ連 りぷれん 押し順ナビ'
   }
 ];
@@ -185,7 +203,8 @@ function card(m){
   a.className = 'item' + (m.status === 'soon' ? ' soon' : '');
   if (m.status === 'ready') a.href = m.path;
   const chips = m.inputs.map(t => `<span class="chip">${t}</span>`).join('');
-  a.innerHTML = `<div class="name">${m.name}${m.status === 'soon' ? '<span class="badge">準備中</span>' : ''}</div>
+  const tag = m.tag ? `<span class="badge hot">${m.tag}</span>` : '';
+  a.innerHTML = `<div class="name">${m.name}${tag}${m.status === 'soon' ? '<span class="badge">準備中</span>' : ''}</div>
     <div class="sub">${m.sub}</div>
     ${chips ? `<div class="inputs">${chips}</div>` : ''}`;
   return a;
@@ -197,7 +216,8 @@ const listSoon = document.getElementById('listSoon');
 
 function render(){
   const k = norm(q.value);
-  const hit = MACHINES.filter(m => !k || norm(m.name + m.sub + m.keywords).includes(k));
+  const hit = MACHINES.filter(m => !k || norm(m.name + m.sub + m.keywords).includes(k))
+    .sort((a, b) => (a.hot ?? 99) - (b.hot ?? 99));
   listReady.innerHTML = ''; listSoon.innerHTML = '';
   hit.filter(m => m.status === 'ready').forEach(m => listReady.appendChild(card(m)));
   hit.filter(m => m.status === 'soon').forEach(m => listSoon.appendChild(card(m)));
