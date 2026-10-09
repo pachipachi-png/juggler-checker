@@ -219,10 +219,29 @@
     <div class="section-title"><span class="num">2</span><h2>もっと絞り込む（任意）</h2></div>
     <p class="hint" style="margin-top:0;">入れなくても判別できます。入力・チェックすると、判別済みの結果に自動で反映されます。</p>
     <div class="opt-block" id="hints">
-      <h3 class="sub-h">設定示唆（解析待ち）</h3>
-    <p class="hint" style="margin-top:0;">終了画面やトロフィーなどの示唆は、導入前のため多くの解析サイトで「未判明」です。確認が取れしだい、モンキーターンやリコリコのページと同じように「見えた示唆で設定を絞る」機能を追加します。</p>
+      <h3 class="sub-h">見えた示唆で設定を絞る</h3>
+    <p class="hint" style="margin-top:0;">出たものにチェック。濃厚とされる設定以外を計算から外します。</p>
+    <a class="hint-link ref-out" data-sec="index-13" href="https://chonborista.com/slot/sammy-slot/263920/#index-13" target="_blank" rel="noopener">実際の示唆画面を見る（ちょんぼりすた）↗</a>
+    <div class="chk-group" id="floorGroup">
+      <h3>サバンナチャンス（SC）終了画面のサミートロフィー</h3>
+      <label class="chk"><input type="checkbox" data-allow="2,4,5,6" data-name="トロフィー銅">銅<span class="tag">設定2以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="トロフィー銀">銀<span class="tag">設定3以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="トロフィー金">金<span class="tag">設定4以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="5,6" data-name="トロフィーキリン柄">キリン柄<span class="tag">設定5以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="6" data-name="トロフィー虹">虹<span class="tag">設定6濃厚</span></label>
+    </div>
+    <p class="floor-now" id="floorNow">絞り込み：なし（設定1・2・4・5・6すべてで計算）</p>
     <ul class="ref-list">
-      <li>サミートロフィー（銅＝2以上、銀＝3以上、金＝4以上、キリン柄＝5以上、虹＝6）を掲載している解析サイトもありますが、他のサイトでは未判明のため、現時点では計算に使っていません</li>
+      <li>銀は解析サイトでは「設定3以上」ですが、この機種に設定3はないため、設定4以上として計算します</li>
+      <li>虹は「設定5以上」とする解析サイトもあります（多くは設定6）。このページでは設定6として計算します</li>
+      <li>トロフィーは、初回のサバンナチャンス終了画面でだけ出る可能性があるとされています</li>
+    </ul>
+
+    <h3 style="font-size:13.5px; margin:14px 0 4px;">参考（計算には使いません）</h3>
+    <ul class="ref-list">
+      <li><b>謎高確</b>：設定1で約1/1000、設定6はその2倍以上とされています（設定2・4・5は未公表）<a class="mini-link ref-out" data-sec="index-14" href="https://chonborista.com/slot/sammy-slot/263920/#index-14" target="_blank" rel="noopener">解析↗</a></li>
+      <li>百の位が偶数のゲーム数（200G・400G…）を消化した時は、高設定ほどSC高確に移行しやすいとされています（数値は未公表）</li>
+      <li>チェリー（1/64）とチャンス目（1/128）は全設定共通で、数えても設定判別には使えません</li>
     </ul>
     </div>
     <div class="opt-block">
@@ -249,7 +268,7 @@
       <thead><tr><th>設定</th><th>AT初当り(1/n)</th><th>機械割(%)</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
-    <p class="hint">2026年10月5日導入の新台です。数値は導入前に解析サイトで公開されている値（2026年10月2日時点）。この機種に<b>設定3はなく、代わりに設定L</b>があります。設定Lの確率・機械割は非公表のため計算に入れていません。小役やモード、示唆演出は解析待ちで、判明しだい追加します。</p>
+    <p class="hint">2026年10月5日導入。数値は解析サイトの公開値で、2026年10月9日時点で導入前から変更はありません。この機種に<b>設定3はなく、代わりに設定L</b>があります。設定Lの確率・機械割は非公表のため計算に入れていません。チェリー・チャンス目は全設定共通で設定差がなく、サミートロフィー以外の示唆演出は判明していません。</p>
     </details>
   </section>
 
@@ -259,7 +278,7 @@
   </div>
 
   <footer>
-    設定差の数値は各解析サイトの公開値（2026年10月2日時点・導入前）をもとにしています。<br>
+    設定差の数値は各解析サイトの公開値（2026年10月9日時点）をもとにしています。<br>
     本ツールは統計的な参考情報の提供を目的としたエンターテインメントです。実際の遊技は自己責任・適正な範囲でお楽しみください。<br>
     18歳未満の方はパチンコ・パチスロを遊技できません。<br>
     <a href="../" style="color:var(--muted);">機種一覧</a>　<a href="../privacy.html" style="color:var(--muted);">プライバシーポリシー</a>
@@ -267,7 +286,7 @@
 </div>
 
 <script>
-// ================= 1. 設定差（2026年10月2日時点・導入前の公開値） =================
+// ================= 1. 設定差（2026年10月9日確認・導入前の公開値から変更なし） =================
 // 設定3なし・設定L（非公表）は計算対象外
 const SETS = [1, 2, 4, 5, 6];
 const SPEC = {
@@ -308,6 +327,27 @@ function updateLive(){
 [normalG, atCount].forEach(el => el.addEventListener('input', updateLive));
 document.querySelectorAll('#specBody input').forEach(el => el.addEventListener('input', updateLive));
 
+// ================= 3. 示唆による絞り込み =================
+const floorChecks = [...document.querySelectorAll('#floorGroup input[type=checkbox]')];
+function currentAllow(){
+  const on = floorChecks.filter(c => c.checked);
+  let allow = new Set(SETS);
+  on.forEach(c => {
+    const a = new Set(c.dataset.allow.split(',').map(Number));
+    allow = new Set([...allow].filter(s => a.has(s)));
+  });
+  return { allow, names: on.map(c => c.dataset.name) };
+}
+const allowLabel = allow => [...allow].map(s => `設定${s}`).join('・');
+function updateFloorText(){
+  const { allow, names } = currentAllow();
+  const el = document.getElementById('floorNow');
+  if(names.length === 0) el.innerHTML = '絞り込み：なし（設定1・2・4・5・6すべてで計算）';
+  else if(allow.size === 0) el.innerHTML = '<span style="color:var(--red);">チェックした示唆が矛盾しています（当てはまる設定がありません）。見間違いがないか確認してください。</span>';
+  else el.innerHTML = `絞り込み：<b>${allowLabel(allow)}</b>で計算（${names.join('・')}）`;
+}
+floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
+
 // ================= 4. 計算 =================
 const pieColors = ['#e8a93b','#33b6a4','#d9668b','#9b7fd9','#6fd6a8'];
 const topSetting = document.getElementById('topSetting');
@@ -328,16 +368,19 @@ document.getElementById('calcBtn').addEventListener('click', () => {
   if(ng <= 0){ showMsg('通常時の回転数とAT初当り回数を入力してください。'); return; }
   if(a > ng){ showMsg('回数がゲーム数を超えています。入力を確認してください。'); return; }
 
+  const { allow, names } = currentAllow();
+  if(allow.size === 0){ showMsg('チェックした示唆が矛盾しています。見間違いがないか確認してください。'); return; }
+
   const at = readCol('atInput'), payout = readCol('payoutInput');
-  const ll = SETS.map((s, i) => binomLL(a, ng, 1/at[i]));
+  const ll = SETS.map((s, i) => allow.has(s) ? binomLL(a, ng, 1/at[i]) : -Infinity);
   const maxLL = Math.max(...ll);
-  const w = ll.map(v => Math.exp(v - maxLL));
+  const w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - maxLL));
   const sum = w.reduce((x, y) => x + y, 0);
   const post = w.map(x => x / sum);
   const expSetting = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
 
   if (typeof gtag === 'function') {
-    gtag('event', 'judge_run', { machine_group: 'juuou', machine: 'juuou' });
+    gtag('event', 'judge_run', { machine_group: 'juuou', machine: 'juuou', narrowed: names.length > 0 });
   }
 
   let acc = 0;
@@ -348,15 +391,17 @@ document.getElementById('calcBtn').addEventListener('click', () => {
   legend.innerHTML = '';
   post.forEach((p, i) => {
     const row = document.createElement('div');
-    row.className = 'legend-row';
+    row.className = 'legend-row' + (!allow.has(SETS[i]) ? ' cut' : '');
     row.innerHTML = `<span class="swatch" style="background:${pieColors[i]}"></span><span>設定${SETS[i]}</span><span class="pct">${(p*100).toFixed(1)}%</span>`;
     legend.appendChild(row);
   });
 
   const best = post.indexOf(Math.max(...post));
   const hi = post.slice(2).reduce((x, y) => x + y, 0); // 設定4・5・6
-  let msg = `最も可能性が高いのは <b>設定${SETS[best]}</b>（推定 ${(post[best]*100).toFixed(1)}%）。設定4以上の合計 <b>${(hi*100).toFixed(1)}%</b>、期待設定 <b>${expSetting.toFixed(2)}</b>。<br><span style="color:var(--muted);font-size:12.5px;">通常時${ng}G / AT ${a}回（1/${a > 0 ? (ng/a).toFixed(1) : '―'}）</span>`;
-  if(ng < 6000) msg += '<br><span style="color:var(--muted);font-size:12.5px;">この機種は初当りの設定差が小さいため、数千Gでは結果がほとんど偏りません。小役などの設定差が判明したら精度を上げられるよう更新します。</span>';
+  const parts = [`通常時${ng}G / AT ${a}回（1/${a > 0 ? (ng/a).toFixed(1) : '―'}）`];
+  if(names.length) parts.push(`絞り込み：${allowLabel(allow)}（${names.join('・')}）`);
+  let msg = `最も可能性が高いのは <b>設定${SETS[best]}</b>（推定 ${(post[best]*100).toFixed(1)}%）。設定4以上の合計 <b>${(hi*100).toFixed(1)}%</b>、期待設定 <b>${expSetting.toFixed(2)}</b>。<br><span style="color:var(--muted);font-size:12.5px;">${parts.join(' / ')}</span>`;
+  if(ng < 6000) msg += '<br><span style="color:var(--muted);font-size:12.5px;">この機種は初当りの設定差が小さいため、数千Gでは結果がほとんど偏りません。サミートロフィーが出た時は「もっと絞り込む」でチェックすると絞り込めます。</span>';
   topSetting.innerHTML = `<div class="top-setting">${msg}</div>`;
 
   // 期待差枚 = 残りG × 3枚 ×（機械割 − 100%）
