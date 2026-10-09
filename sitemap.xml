@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://pachipachi-png.github.io/juggler-checker/</loc><lastmod>2026-10-03</lastmod></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url><loc>https://pachipachi-png.github.io/juggler-checker/</loc><lastmod>2026-10-10</lastmod></url>
   <url><loc>https://pachipachi-png.github.io/juggler-checker/juggler/</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://pachipachi-png.github.io/juggler-checker/lycoris/</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://pachipachi-png.github.io/juggler-checker/monkey/</loc><lastmod>2026-10-02</lastmod></url>
   <url><loc>https://pachipachi-png.github.io/juggler-checker/juuou/</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://pachipachi-png.github.io/juggler-checker/sao2/</loc><lastmod>2026-10-02</lastmod></url>
   <url><loc>https://pachipachi-png.github.io/juggler-checker/kanokari/</loc><lastmod>2026-10-03</lastmod></url>
-  <url><loc>https://pachipachi-png.github.io/juggler-checker/mhsunbreak/</loc><lastmod>2026-10-04</lastmod></url>
+  <url><loc>https://pachipachi-png.github.io/juggler-checker/mhsunbreak/</loc><lastmod>2026-10-10</lastmod></url>
   <url><loc>https://pachipachi-png.github.io/juggler-checker/milliongod/</loc><lastmod>2026-10-05</lastmod></url>
+  <url><loc>https://pachipachi-png.github.io/juggler-checker/zukai/</loc><lastmod>2026-10-10</lastmod></url>
+  <url><loc>https://pachipachi-png.github.io/juggler-checker/zukai/mhsunbreak/</loc><lastmod>2026-10-10</lastmod><image:image><image:loc>https://pachipachi-png.github.io/juggler-checker/zukai/mhsunbreak/urabutton.webp</image:loc></image:image></url>
   <url><loc>https://pachipachi-png.github.io/juggler-checker/privacy.html</loc><lastmod>2026-09-26</lastmod></url>
 </urlset>

@@ -53,6 +53,13 @@
   .badge.hot{ color: #ff8a65; border-color: rgba(255,138,101,.5); }
   .badge{ font-size: 11px; color: var(--gold); border: 1px solid var(--gold-dim); border-radius: 6px; padding: 0 6px; margin-left: 6px; vertical-align: 2px; }
   .empty{ color: var(--muted); font-size: 13.5px; padding: 18px 4px; display:none; }
+  a.zukai-link{
+    display:flex; align-items:center; gap: 10px; margin: 4px 0 0; padding: 11px 14px;
+    border: 1px solid var(--teal); border-radius: 11px; color: var(--text); text-decoration: none; background: #33b6a40f; font-size: 13.5px;
+  }
+  .zukai-link b{ font-family: 'Zen Kaku Gothic New', sans-serif; }
+  .zukai-link span{ color: var(--muted); font-size: 12px; display:block; }
+  .zukai-link i{ margin-left:auto; color: var(--teal); font-style: normal; font-size: 16px; }
   .about{ margin-top: 30px; background: var(--panel); border: 1px solid var(--line); border-radius: 13px; padding: 16px; font-size: 13.5px; }
   .about h2{ font-size: 15px; margin: 0 0 6px; }
   .about p{ margin: 0 0 6px; color: var(--muted); }
@@ -81,6 +88,10 @@
     <label for="q" style="position:absolute; left:-9999px;">機種名で検索</label>
     <input id="q" type="search" placeholder="機種名で検索（例：マイジャグ）" autocomplete="off">
   </div>
+
+  <a class="zukai-link" id="zukaiLink" href="zukai/">
+    <div><b>打ちながら見られる1枚図解「スロ図解くん」</b><span>裏ボタン・示唆を機種ごとに画像でまとめ</span></div><i>→</i>
+  </a>
 
   <h2 class="group" id="gReady">判別できる機種（新台・話題の機種から順に）</h2>
   <div class="list" id="listReady"></div>
@@ -235,6 +246,7 @@ q.addEventListener('input', () => {
   }, 1200);
 });
 render();
+document.getElementById('zukaiLink').addEventListener('click', () => { if (typeof gtag === 'function') gtag('event', 'to_zukai', { from: 'top' }); });
 </script>
 </body>
 </html>
