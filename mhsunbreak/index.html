@@ -221,13 +221,11 @@
     <p class="hint">AT初当り回数の二項分布の尤度から、設定ごとの相対的な可能性をベイズ的に算出しています（事前は一様、示唆にチェックした場合は当てはまらない設定を0%に）。天井（999G＋α）やモードの影響を受けるため、回転数が少ないうちはブレが大きくなります。統計的な目安であり、実際の設定を保証するものではありません。</p>
   </section>
 
-  <!-- 2. 任意入力 -->
-  <section class="card" id="optionalCard">
-    <div class="section-title"><span class="num">2</span><h2>もっと絞り込む（任意）</h2></div>
-    <p class="hint" style="margin-top:0;">入れなくても判別できます。入力・チェックすると、判別済みの結果に自動で反映されます。</p>
-    <div class="opt-block" id="hints">
-      <h3 class="sub-h">見えた示唆で設定を絞る</h3>
-    <p class="hint" style="margin-top:0;">出たものにチェック。「〇以上濃厚」「偶数濃厚」に当てはまらない設定を計算から外します。</p>
+  <!-- 2. 終了画面・示唆（2026-10-10 任意の上に移動） -->
+  <section class="card" id="hintCard">
+    <div class="section-title"><span class="num">2</span><h2>終了画面・示唆で絞り込む</h2></div>
+    <div id="hints">
+    <p class="hint" style="margin-top:0;">AT終了後の画面で見えたものにチェック。「〇以上濃厚」「〇否定」などに当てはまらない設定を計算から外します。</p>
     <a class="hint-link ref-out" data-sec="end" href="https://1geki.jp/slot/l_mh_sun/6/" target="_blank" rel="noopener">実際の終了画面を見る（1geki）↗</a>
     <div class="chk-group" id="floorGroup">
       <h3>エンタトロフィー（AT終了後）</h3>
@@ -238,6 +236,9 @@
       <label class="chk"><input type="checkbox" data-allow="6" data-name="トロフィー虹">虹<span class="tag">設定6濃厚</span></label>
 
       <h3>AT終了画面</h3>
+      <label class="chk"><input type="checkbox" data-allow="1,3,4,5,6" data-name="フィオレーネ＆ロンディーネ">フィオレーネ＆ロンディーネ（2人）<span class="tag">設定2否定</span></label>
+      <label class="chk"><input type="checkbox" data-allow="1,2,4,5,6" data-name="ジェイ＋アルロー＋ガレアス">ジェイ＋アルロー＋ガレアス（3人）<span class="tag">設定3否定</span></label>
+      <label class="chk"><input type="checkbox" data-allow="2,3,4,5,6" data-name="ヒノエ＆ミノト">ヒノエ＆ミノト<span class="tag">設定2以上濃厚</span></label>
       <label class="chk"><input type="checkbox" data-allow="5,6" data-name="全員集合">全員集合<span class="tag">設定5以上濃厚</span></label>
       <label class="chk"><input type="checkbox" data-allow="6" data-name="エンタライオン">エンタライオン<span class="tag">設定6濃厚</span></label>
 
@@ -256,11 +257,17 @@
 
     <h3 style="font-size:13.5px; margin:14px 0 4px;">参考（計算には使いません）</h3>
     <ul class="ref-list">
-      <li>AT終了画面：ジェイ／アルロー／ガレアス（1人）＝奇数設定示唆、ロンディーネ／ルーチカ＝偶数設定示唆、フィオレーネ＋オトモアイルー＝高設定示唆（弱）、チッチェ＋オトモアイルー＋オトモガルク＝高設定示唆（強）</li>
-      <li>AT終了画面（1サイトのみ掲載・確認待ち）：ヒノエ＆ミノト＝設定2以上濃厚、フィオレーネ＆ロンディーネ＝設定2否定、ジェイ＋アルロー＋ガレアス（3人）＝設定3否定</li>
+      <li>AT終了画面（1人だけの時）：ジェイ／アルロー／ガレアス＝奇数設定示唆、ロンディーネ／ルーチカ＝偶数設定示唆、フィオレーネ＋オトモアイルー＝高設定示唆（弱）、チッチェ＋オトモアイルー＋オトモガルク＝高設定示唆（強）</li>
       <li>エンディングのスタンプ：青＝奇数示唆、黄＝偶数示唆、緑＝高設定示唆（弱）、赤＝高設定示唆（強）。銅＝2以上・銀＝3以上・金＝4以上濃厚は1サイトのみ掲載で確認待ち</li>
     </ul>
+    <p class="hint">否定系（設定2否定・設定3否定）とヒノエ＆ミノトは、1gekiとちょんぼりすたの両方に掲載（2026年10月10日確認）。どれも「濃厚」「否定」とされる示唆で、断定ではありません。</p>
     </div>
+  </section>
+
+  <!-- 3. 任意入力 -->
+  <section class="card" id="optionalCard">
+    <div class="section-title"><span class="num">3</span><h2>もっと絞り込む（任意）</h2></div>
+    <p class="hint" style="margin-top:0;">入れなくても判別できます。変えると、判別済みの結果に自動で反映されます。</p>
     <div class="opt-block">
       <h3 class="sub-h">期待差枚の計算条件</h3>
     <div class="row2">
@@ -280,7 +287,7 @@
   <!-- 3. 設定差 -->
   <section class="card" id="specCard">
     <details class="spec-details">
-      <summary><div class="section-title" style="margin:0;"><span class="num">3</span><h2>設定差を見る・編集する</h2></div></summary>
+      <summary><div class="section-title" style="margin:0;"><span class="num">4</span><h2>設定差を見る・編集する</h2></div></summary>
     <table class="spec">
       <thead><tr><th>設定</th><th>AT初当り(1/n)</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
@@ -473,7 +480,7 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
     if(e && e.target && (e.target.id === 'recalcBtn' || (e.target.tagName === 'BUTTON'))) return;
     clearTimeout(timer); timer = setTimeout(silentCalc, 350);
   }
-  ['optionalCard', 'specCard'].forEach(function(id){
+  ['hintCard', 'optionalCard', 'specCard'].forEach(function(id){
     var el = document.getElementById(id); if(!el) return;
     el.addEventListener('input', auto); el.addEventListener('change', auto);
   });
