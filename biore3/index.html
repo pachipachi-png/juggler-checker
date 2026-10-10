@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スマスロ バイオハザードRE:3 設定判別ツール（フィギュア・CZ確率・5枚ベル・エンタトロフィー）| 設定示唆くん</title>
+<meta name="description" content="スマスロ バイオハザードRE:3（バイオRE3・バイオ3）の設定判別ツール。CZ「ネメシスバトル」の回数での判別と、フィギュア（No.1〜16）の獲得数での判別の2通り。フィギュアは打っていなくても台選びに使えます。AT初当り・5枚ベルの追加入力、エンタトロフィー・獲得枚数表示による絞り込みにも対応。">
+<link rel="canonical" href="https://pachipachi-png.github.io/juggler-checker/biore3/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="設定示唆くん">
+<meta property="og:title" content="スマスロ バイオハザードRE:3 設定判別ツール | 設定示唆くん">
+<meta property="og:description" content="フィギュアの獲得数（打たなくてもOK）とCZ回数の2通りで設定判別。5枚ベル・エンタトロフィー・獲得枚数表示にも対応。">
+<meta property="og:url" content="https://pachipachi-png.github.io/juggler-checker/biore3/">
+<meta property="og:image" content="https://pachipachi-png.github.io/juggler-checker/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14171c; --panel: #1d2229; --panel-2: #262c35; --line: #333b46;
+    --gold: #e8a93b; --gold-dim: #8a6a2a; --teal: #33b6a4; --text: #edeff2;
+    --muted: #8993a1; --red: #e07a7a; --violet: #8f8ce6; --magic: #d8574f;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: radial-gradient(1200px 600px at 50% -200px, #23293280, transparent), var(--bg);
+    color: var(--text); font-family: 'Zen Maru Gothic', sans-serif; line-height: 1.7; padding-bottom: 80px;
+  }
+  h1,h2,h3{ font-family: 'Zen Kaku Gothic New', sans-serif; }
+  .wrap{ max-width: 560px; margin: 0 auto; padding: 0 18px; }
+
+  .topnav{ max-width:560px; margin:0 auto; padding:14px 18px 0; font-size:13px; }
+  .topnav a{ color: var(--muted); text-decoration:none; }
+  .hero{ padding: 44px 18px 30px; text-align: center; }
+  .lamp{
+    width: 84px; height: 84px; margin: 0 auto 18px; border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #ffe3df, var(--magic) 55%, #5a1712 100%);
+    box-shadow: 0 0 40px 6px #d8574f55, inset 0 0 18px #ffe3df80;
+    animation: pulse 2.6s ease-in-out infinite;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; color:#3a0d0a; font-size: 15px; letter-spacing: 0.05em;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow: 0 0 40px 4px #d8574f40, inset 0 0 18px #ffe3df70; }
+    50%{ box-shadow: 0 0 56px 10px #d8574f80, inset 0 0 22px #ffe3dfa0; }
+  }
+  .hero h1{ font-size: 24px; font-weight: 900; margin: 0 0 8px; }
+  .hero p{ color: var(--muted); font-size: 14px; margin: 0; }
+
+  section{ margin: 26px 0; }
+  .card{ background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .section-title{ display:flex; align-items:baseline; gap: 10px; margin-bottom: 14px; }
+  .section-title .num{
+    font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900; color: var(--gold); font-size: 15px;
+    border: 1px solid var(--gold-dim); border-radius: 8px;
+    width: 26px; height: 26px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .section-title h2{ font-size: 16px; margin:0; font-weight:700; }
+  .hint{ color: var(--muted); font-size: 12.5px; margin: 6px 0 0; }
+
+  label{ display:block; font-size: 13px; color: var(--muted); margin: 12px 0 6px; }
+  input[type=number], input[type=time]{
+    width:100%; background: var(--panel-2); border: 1px solid var(--line);
+    color: var(--text); padding: 10px 12px; border-radius: 9px; font-size: 15px; font-family: inherit;
+  }
+  input:focus, button:focus-visible{ outline: 2px solid var(--teal); outline-offset: 1px; }
+  .row2{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .row2 label{ margin-top: 0; }
+
+  button{
+    font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 700; font-size: 14.5px;
+    border-radius: 10px; border: none; padding: 12px 16px; cursor:pointer; width: 100%;
+  }
+  .btn-primary{ background: var(--teal); color: #08211d; }
+  .btn-primary:active{ transform: translateY(1px); }
+  .btn-ghost{ background: transparent; border: 1px solid var(--line); color: var(--text); }
+  .btn-small{ width:auto; padding: 9px 14px; font-size: 13px; }
+
+  table.spec{ width:100%; border-collapse: collapse; margin-top: 10px; font-size: 12.5px; }
+  table.spec th, table.spec td{ padding: 6px 2px; text-align:center; border-bottom: 1px solid var(--line); }
+  table.spec th{ color: var(--muted); font-weight: 500; }
+  table.spec td:first-child{ white-space: nowrap; width: 3.2em; }
+  table.spec td input{ padding: 5px; font-size: 12.5px; text-align:center; }
+
+  .live-rate{
+    display:flex; align-items:center; justify-content:space-between;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px;
+    padding: 12px 14px; margin-top: 10px; font-size: 13px; color: var(--muted);
+  }
+  .live-rate b{ color: var(--teal); font-size: 16px; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .live-rate small{ display:block; font-size: 11.5px; color: var(--muted); font-weight: 400; text-align:right; }
+
+  .optional-panel{ margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); display:none; }
+  .optional-panel.open{ display:block; }
+
+  .bell-guide{ display:flex; gap: 16px; align-items:center; margin: 4px 0 6px; flex-wrap: wrap; }
+  .bell-guide svg{ width: 150px; height: auto; flex-shrink:0; }
+  .bell-guide ul{ margin:0; padding-left: 18px; font-size: 13px; flex:1; min-width: 180px; }
+  .bell-guide li{ margin-bottom: 3px; }
+  .bell-guide li b{ color: var(--gold); }
+
+  .chk-group{ margin-top: 6px; }
+  .chk-group h3{ font-size: 13.5px; margin: 14px 0 6px; }
+  .chk{
+    display:flex; align-items:center; gap: 10px; padding: 9px 12px; margin: 0 0 6px;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px; cursor: pointer;
+    font-size: 13.5px; color: var(--text);
+  }
+  .chk input{ width: 18px; height: 18px; accent-color: var(--teal); flex-shrink:0; }
+  .chk .tag{ margin-left:auto; font-size: 12px; color: var(--gold); white-space: nowrap; }
+  .chk:has(input:checked){ border-color: var(--teal); }
+  .floor-now{ margin-top: 10px; font-size: 13px; color: var(--muted); }
+  .floor-now b{ color: var(--teal); }
+  .hint-link{ display:block; margin: 10px 0 2px; padding: 10px 12px; border-radius: 9px; border: 1px solid var(--teal); color: var(--teal); text-decoration:none; font-size: 13.5px; font-weight: 700; text-align:center; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .mini-link{ font-size: 11.5px; font-weight: 500; color: var(--teal); margin-left: 6px; }
+  #hints{ scroll-margin-top: 12px; }
+  .ref-list{ font-size: 12.5px; color: var(--muted); margin: 6px 0 0; padding-left: 18px; }
+
+  .pie-wrap{ display:flex; align-items:center; gap: 22px; margin-top: 16px; flex-wrap: wrap; }
+  .pie{ width: 150px; height: 150px; border-radius: 50%; flex-shrink:0; background: var(--panel-2); }
+  .legend{ flex: 1; min-width: 180px; }
+  .legend-row{ display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:7px; }
+  .legend-row.cut{ opacity: .4; text-decoration: line-through; }
+  .swatch{ width:11px; height:11px; border-radius:3px; flex-shrink:0; }
+  .legend-row .pct{ margin-left:auto; font-variant-numeric: tabular-nums; }
+
+  .top-setting{
+    margin-top: 14px; padding: 12px 14px; border-radius: 10px;
+    background: #22303022; border: 1px solid #33665544; font-size: 13.5px;
+  }
+  .top-setting b{ color: var(--teal); }
+
+  .ev-output{ margin-top: 14px; padding: 16px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--line); text-align:center; }
+  .ev-output .num{ font-size: 28px; font-weight: 900; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .ev-output .num.pos{ color: #6fd6a8; }
+  .ev-output .num.neg{ color: #e08787; }
+  .ev-output .sub{ font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+  .tip-prompt{ margin-top: 14px; padding: 14px; background: var(--panel-2); border-radius: 10px; border: 1px dashed var(--line); }
+
+  .ad-slot{ margin: 26px 0; padding: 14px; text-align:center; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); font-size: 12px; }
+  footer{ text-align:center; color: var(--muted); font-size: 11.5px; padding: 20px 18px 0; }
+  #specBody td input{ padding: 5px 2px; font-size: 12px; }
+  table.spec th{ font-size: 11.5px; }
+
+  /* layout v2: 判別ボタンを必須入力の直下に */
+  .btn-judge{ width:100%; margin-top:16px; font-size:17px; padding:15px 12px; }
+  .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
+  .opt-block:first-of-type{ margin-top:6px; }
+  .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  #recalcBtn{ width:100%; margin-top:16px; }
+  .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
+  .spec-details > summary::-webkit-details-marker{ display:none; }
+  .spec-details > summary::after{ content:'＋ 開く'; margin-left:auto; font-size:12.5px; color:var(--muted); font-weight:400; }
+  .spec-details[open] > summary::after{ content:'－ 閉じる'; }
+  .spec-details[open] > summary{ margin-bottom:14px; }
+  .fig-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; margin-top: 10px; }
+  .fig-item label{ margin: 0 0 4px; font-size: 12px; color: var(--text); line-height:1.35; }
+  .fig-item label b{ color: var(--gold); margin-right: 2px; }
+  .fig-tag{ display:block; font-size: 10.5px; color: var(--muted); }
+  .fig-item input{ padding: 8px 10px; }
+  .jump{ display:flex; gap:10px; max-width:420px; margin:16px auto 0; }
+  .jump a{ flex:1; padding:10px 8px; border-radius:10px; border:1px solid var(--teal); color:var(--teal); text-decoration:none; font-weight:700; font-size:13.5px; font-family:'Zen Kaku Gothic New',sans-serif; line-height:1.3; }
+  .jump a small{ display:block; font-size:11px; font-weight:500; color:var(--muted); }
+  #czCard, #figCard{ scroll-margin-top: 12px; }
+  #figSpec td, #figSpec th{ padding: 4px 1px; font-size: 11.5px; }
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFM94DE8Y3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZFM94DE8Y3');
+</script>
+</head>
+<body>
+
+<nav class="topnav"><a href="../">← 機種一覧（設定示唆くん）</a></nav>
+<div class="hero">
+  <div class="lamp">CZ</div>
+  <h1>スマスロ<br>バイオハザードRE:3<br>設定判別</h1>
+  <p>CZ「ネメシスバトル」の回数で判別する方法と、台のフィギュア獲得数で判別する方法（打っていなくても使えます）の2通りで、設定1〜6の可能性を推定します</p>
+  <div class="jump"><a href="#czCard">CZ回数で判別</a><a href="#figCard">フィギュアで判別<small>打たなくてもOK</small></a></div>
+</div>
+
+<div class="wrap">
+
+  <!-- 1. 実戦データ → 判別（layout v2） -->
+  <section class="card" id="czCard">
+    <div class="section-title"><span class="num">1</span><h2>CZ回数で判別（実戦データ）</h2></div>
+    <div class="row2">
+      <div>
+        <label for="normalG">通常時の回転数</label>
+        <input type="number" id="normalG" inputmode="numeric" placeholder="例：3000">
+      </div>
+      <div>
+        <label for="czCount">CZ回数（通常時）</label>
+        <input type="number" id="czCount" inputmode="numeric" placeholder="例：25">
+      </div>
+    </div>
+    <div class="live-rate">
+      <span>現在のCZ確率</span>
+      <span><b id="liveCz">ー</b><small id="liveCzNote"></small></span>
+    </div>
+    <p class="hint">CZは<b>通常時のネメシスバトル</b>の回数です（AT中・上位AT中のネメシスバトルは数えません）。回転数は<b>通常時のみ</b>（AT・ボーナス中のゲーム数は含めない）。データカウンターはCZ当選でリセットされるので、通常時の合計G数は履歴から足し合わせてください。<a class="mini-link ref-out" data-sec="spec" href="https://chonborista.com/?p=253191" target="_blank" rel="noopener">CZ・初当り確率↗</a></p>
+    <button class="btn-primary btn-judge" id="calcBtn">この数字で判別する</button>
+
+
+    <div class="pie-wrap" id="pieWrap" style="display:none;">
+      <div class="pie" id="pieChart"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div id="topSetting"></div>
+    <div class="ev-output" id="evOutput" style="display:none;"></div>
+    <div class="tip-prompt" id="tipPromptCalc" style="display:none;">
+      <p style="margin:0 0 10px; font-size:13.5px;">勝ったら10円でもいいので投げ銭ください🍶</p>
+      <a class="btn-ghost" style="display:block; text-align:center; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
+    </div>
+    <p class="hint">CZ回数（とAT初当り・5枚ベルの回数）の二項分布の尤度から、設定ごとの相対的な可能性をベイズ的に算出しています（事前は一様、示唆にチェックした場合は当てはまらない設定を0%に）。天井やポイント・内部状態の影響を受けるため、回転数が少ないうちはブレが大きくなります。統計的な目安であり、実際の設定を保証するものではありません。</p>
+  </section>
+
+  <!-- 2. フィギュアで判別 -->
+  <section class="card" id="figCard">
+    <div class="section-title"><span class="num">2</span><h2>フィギュアで判別（打っていなくてもOK）</h2></div>
+    <p class="hint" style="margin-top:0;">台のフィギュア一覧（十字キーの下）で、No.ごとの獲得数を入れてください。その台で誰かが獲得した分も含まれるので、<b>座る前の台選び</b>にも使えます。0個のNo.は空欄のままでOKです。</p>
+    <div class="fig-grid" id="figGrid"></div>
+    <div class="live-rate">
+      <span>入力したフィギュアの合計</span>
+      <span><b id="figTotal">0個</b><small id="figNote"></small></span>
+    </div>
+    <button class="btn-primary btn-judge" id="figBtn">フィギュアで判別する</button>
+    <div class="pie-wrap" id="figPieWrap" style="display:none;">
+      <div class="pie" id="figPie"></div>
+      <div class="legend" id="figLegend"></div>
+    </div>
+    <div id="figResult"></div>
+    <div class="ev-output" id="figEv" style="display:none;"></div>
+    <button class="btn-ghost btn-small" id="figClear" type="button" style="margin-top:12px;">フィギュアの入力をクリア</button>
+    <p class="hint">各No.の出現率（設定別）の多項分布で、設定ごとの相対的な可能性を出しています（事前は一様）。No.14が1つでもあれば設定1を外し、No.15とNo.16が両方あれば設定4以上に絞ります。No.15・No.16が出たあとは出現率が変わるとされるため、その分は目安と考えてください。下の「もっと絞り込む」のトロフィー・獲得枚数表示のチェックもこちらに反映されます。</p>
+  </section>
+
+  <!-- 3. 任意入力 -->
+  <section class="card" id="optionalCard">
+    <div class="section-title"><span class="num">3</span><h2>もっと絞り込む（任意）</h2></div>
+    <p class="hint" style="margin-top:0;">入れなくても判別できます。入力・チェックすると、判別済みの結果に自動で反映されます。</p>
+    <div class="opt-block">
+    <button class="btn-ghost btn-small" id="toggleOpt" style="margin-top:0;">＋ AT初当り・5枚ベルも入力する（任意）</button>
+    <div class="optional-panel" id="optPanel">
+      <label for="atCount">AT初当り回数（通常時から）</label>
+      <input type="number" id="atCount" inputmode="numeric" placeholder="例：9">
+      <div class="live-rate">
+        <span>現在のAT初当り確率</span>
+        <span><b id="liveAt">ー</b><small id="liveAtNote"></small></span>
+      </div>
+      <ul class="ref-list" style="margin-top:8px;">
+        <li>通常時からAT「ハザードラッシュ」に当たった回数です。AT中の上乗せ・上位AT突入は数えません</li>
+        <li>ATの多くはCZを経由するので、CZと同じ情報を一部二重に数えることになります。結果はやや強めに出る点に注意してください</li>
+      </ul>
+
+      <div class="bell-guide" style="margin-top:16px;">
+        <svg viewBox="0 0 150 100" aria-label="5枚ベルの停止形（模式図）">
+          <rect x="2" y="2" width="146" height="96" rx="8" fill="#262c35" stroke="#333b46"/>
+          <g fill="none" stroke="#333b46"><line x1="50" y1="8" x2="50" y2="92"/><line x1="100" y1="8" x2="100" y2="92"/></g>
+          <g font-family="sans-serif" font-size="13" text-anchor="middle" fill="#8993a1">
+            <text x="26" y="30">リプ</text><text x="75" y="30">スイカ</text><text x="125" y="30">リプ</text>
+            <text x="26" y="58">リプ</text><text x="125" y="58">チェ</text>
+            <text x="26" y="86">チェ</text><text x="75" y="86">リプ</text>
+          </g>
+          <g font-family="sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#e8a93b">
+            <text x="26" y="30" dy="0" opacity="0">.</text>
+          </g>
+          <g fill="#e8a93b"><circle cx="26" cy="25" r="9"/><circle cx="75" cy="53" r="9"/><circle cx="125" cy="81" r="9"/></g>
+          <line x1="14" y1="18" x2="137" y2="88" stroke="#e8a93b" stroke-width="2" stroke-dasharray="4 3"/>
+        </svg>
+        <ul>
+          <li><b>右下がり</b>にベルが揃ったら5枚ベル</li>
+          <li>通常時・AT中どちらでも設定差あり</li>
+          <li>数えたゲーム数（AT中を含めてよい）とセットで入力</li>
+        </ul>
+      </div>
+      <p class="hint" style="margin-top:0;">図は模式図です（図柄の配置は実機と異なります）。<a class="mini-link ref-out" data-sec="bell" href="https://p-town.dmm.com/machines/4974" target="_blank" rel="noopener">5枚ベルの説明↗</a></p>
+      <div class="row2" style="margin-top:8px;">
+        <div>
+          <label for="bellG">ベルを数えたG数</label>
+          <input type="number" id="bellG" inputmode="numeric" placeholder="空欄＝通常時G">
+        </div>
+        <div>
+          <label for="bellCount">5枚ベル回数</label>
+          <input type="number" id="bellCount" inputmode="numeric" placeholder="例：170">
+        </div>
+      </div>
+      <div class="live-rate">
+        <span>現在の5枚ベル確率</span>
+        <span><b id="liveBell">ー</b><small id="liveBellNote"></small></span>
+      </div>
+    </div>
+    </div>
+    <div class="opt-block" id="hints">
+      <h3 class="sub-h">見えた示唆で設定を絞る</h3>
+    <p class="hint" style="margin-top:0;">出たものにチェック。「〇以上濃厚」に当てはまらない設定を計算から外します。</p>
+    <a class="hint-link ref-out" data-sec="settei" href="https://chonborista.com/?p=253191" target="_blank" rel="noopener">実際の示唆画面を見る（ちょんぼりすた）↗</a>
+    <div class="chk-group" id="floorGroup">
+      <h3>エンタトロフィー（終了画面）</h3>
+      <label class="chk"><input type="checkbox" data-allow="2,3,4,5,6" data-name="銅トロフィー">銅<span class="tag">設定2以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="3,4,5,6" data-name="銀トロフィー">銀<span class="tag">設定3以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="金トロフィー">金<span class="tag">設定4以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="5,6" data-name="紅葉トロフィー">紅葉柄<span class="tag">設定5以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="6" data-name="虹トロフィー">虹<span class="tag">設定6濃厚</span></label>
+
+      <h3>獲得枚数表示（AT中）</h3>
+      <label class="chk"><input type="checkbox" data-allow="2,3,4,5,6" data-name="222枚OVER">222枚OVER<span class="tag">設定2以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="3,4,5,6" data-name="333枚OVER">333枚OVER<span class="tag">設定3以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="444枚OVER">444枚OVER<span class="tag">設定4以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="5,6" data-name="555枚OVER">555枚OVER<span class="tag">設定5以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="6" data-name="666枚OVER">666枚OVER<span class="tag">設定6濃厚</span></label>
+
+    </div>
+    <p class="hint">エンタトロフィーはAT終了画面などで出ることがあります（店舗のカスタム設定によって出ない場合もあります）。フィギュアは上の「2. フィギュアで判別」に入力してください（No.14・No.15＋No.16の絞り込みもそちらで行います）。チェックした内容は、CZとフィギュアの両方の判別に反映されます。</p>
+    <p class="floor-now" id="floorNow">絞り込み：なし（設定1〜6すべてで計算）</p>
+
+    <h3 style="font-size:13.5px; margin:14px 0 4px;">参考（計算には使いません）</h3>
+    <ul class="ref-list">
+      <li>AT中・上位AT中のCZ確率にも設定差があります（AT中：設定1 1/222.8〜設定6 1/160.8、上位AT中：設定1 1/122.6〜設定6 1/88.2）</li>
+      <li>心音レベルの転落率：設定1 50.0%〜設定6 43.4%（差が小さく判別向きではありません）</li>
+      <li>CZ成功率は通常時37%・AT中75%・上位AT中98%で全設定共通です</li>
+      <li>小役確率（ベル・リプレイ・スイカ・チェリー・チャンス目）は全設定共通で、設定判別には使えません（5枚ベルを除く）</li>
+      <li>天井はAT間1000G＋α、設定変更後（朝一）は650G＋αに短くなります。朝一の1回目は軽く出やすい点に注意してください</li>
+    </ul>
+    </div>
+    <div class="opt-block">
+      <h3 class="sub-h">期待差枚の計算条件</h3>
+    <div class="row2">
+      <div>
+        <label for="closingTime">閉店時刻</label>
+        <input type="time" id="closingTime" value="22:45">
+      </div>
+      <div>
+        <label for="spinsPerHour">1時間あたりの回転数</label>
+        <input type="number" id="spinsPerHour" value="700">
+      </div>
+    </div>
+    </div>
+    <button class="btn-ghost" id="recalcBtn" type="button">この内容で再計算する</button>
+  </section>
+
+  <!-- 3. 設定差 -->
+  <section class="card" id="specCard">
+    <details class="spec-details">
+      <summary><div class="section-title" style="margin:0;"><span class="num">4</span><h2>設定差を見る・編集する</h2></div></summary>
+    <table class="spec">
+      <thead><tr><th>設定</th><th>CZ(1/n)</th><th>AT初当り(1/n)</th><th>5枚ベル(1/n)</th><th>機械割%</th></tr></thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    <h3 style="font-size:13.5px; margin:16px 0 4px;">フィギュアの出現率（%）</h3>
+    <div style="overflow-x:auto;"><table class="spec" id="figSpec"></table></div>
+    <p class="hint">解析サイトの公開値です（2026年10月10日時点。2026年5月11日導入）。CZは設定1と6で<b>約1.36倍</b>、AT初当りは<b>約1.28倍</b>、5枚ベルは<b>約1.26倍</b>の差です。CZは通常時のネメシスバトル突入率です。フィギュアは、奇数（No.1〜4）・偶数（No.5〜8）・高設定（No.9〜13）で出やすさが変わります。</p>
+    </details>
+  </section>
+
+  <div class="ad-slot">
+    <!-- ここに広告コード（例: Google AdSenseのユニットタグ）を差し込みます -->
+    広告スペース
+  </div>
+
+  <footer>
+    設定差の数値は各解析サイトの公開値（2026年10月時点）をもとにしています。<br>
+    本ツールは統計的な参考情報の提供を目的としたエンターテインメントです。実際の遊技は自己責任・適正な範囲でお楽しみください。<br>
+    18歳未満の方はパチンコ・パチスロを遊技できません。<br>
+    <a href="../" style="color:var(--muted);">機種一覧</a>　<a href="../privacy.html" style="color:var(--muted);">プライバシーポリシー</a>
+  </footer>
+</div>
+
+<script>
+// ================= 1. 設定差（2026年10月時点の公開値） =================
+const SETS = [1,2,3,4,5,6];
+const SPEC = {
+  cz:     [143.3, 140.1, 131.8, 121.9, 110.6, 105.7],
+  at:     [399.0, 391.4, 372.8, 349.8, 323.5, 311.2],
+  bell:   [20.0, 19.3, 18.6, 18.0, 17.2, 15.9],
+  payout: [97.5, 98.6, 100.9, 105.4, 110.5, 113.1]
+};
+const BET = 3;
+
+const specBody = document.getElementById('specBody');
+for(let s=0; s<6; s++){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>設定${s+1}</td>
+    <td><input type="number" step="0.1" class="czInput" value="${SPEC.cz[s].toFixed(1)}"></td>
+    <td><input type="number" step="0.1" class="atInput" value="${SPEC.at[s].toFixed(1)}"></td>
+    <td><input type="number" step="0.1" class="bellInput" value="${SPEC.bell[s].toFixed(1)}"></td>
+    <td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>`;
+  specBody.appendChild(tr);
+}
+const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
+
+// ================= 2. 実戦データ =================
+const normalG = document.getElementById('normalG');
+const czCount = document.getElementById('czCount');
+const atCount = document.getElementById('atCount');
+const bellG = document.getElementById('bellG');
+const bellCount = document.getElementById('bellCount');
+const num = el => Math.max(parseFloat(el.value) || 0, 0);
+const bellGames = () => bellG.value.trim() !== '' ? num(bellG) : num(normalG);
+
+function nearLabel(r, arr){
+  const max = Math.max(...arr), min = Math.min(...arr);
+  if(r >= max) return '設定1より重い';
+  if(r <= min) return '設定6より軽い';
+  let best = 0;
+  arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+  return `設定${best+1}付近`;
+}
+
+function setLive(idB, idN, g, k, col){
+  const b = document.getElementById(idB), n = document.getElementById(idN);
+  if(g > 0 && k > 0){ const r = g/k; b.textContent = `1/${r.toFixed(1)}`; n.textContent = nearLabel(r, readCol(col)); }
+  else { b.textContent = 'ー'; n.textContent = ''; }
+}
+function updateLive(){
+  const g = num(normalG);
+  setLive('liveCz', 'liveCzNote', g, num(czCount), 'czInput');
+  setLive('liveAt', 'liveAtNote', g, num(atCount), 'atInput');
+  setLive('liveBell', 'liveBellNote', bellGames(), num(bellCount), 'bellInput');
+}
+[normalG, czCount, atCount, bellG, bellCount].forEach(el => el.addEventListener('input', updateLive));
+document.querySelectorAll('#specBody input').forEach(el => el.addEventListener('input', updateLive));
+
+document.getElementById('toggleOpt').addEventListener('click', (e) => {
+  const panel = document.getElementById('optPanel');
+  panel.classList.toggle('open');
+  e.target.textContent = panel.classList.contains('open') ? '－ 追加入力を閉じる' : '＋ AT初当り・5枚ベルも入力する（任意）';
+});
+
+// ================= 3. 示唆による絞り込み =================
+const floorChecks = [...document.querySelectorAll('#floorGroup input[type=checkbox]')];
+function currentAllow(){
+  const on = floorChecks.filter(c => c.checked);
+  let allow = new Set(SETS);
+  on.forEach(c => {
+    const a = new Set(c.dataset.allow.split(',').map(Number));
+    allow = new Set([...allow].filter(s => a.has(s)));
+  });
+  return { allow, names: on.map(c => c.dataset.name) };
+}
+const allowLabel = allow => [...allow].map(s => `設定${s}`).join('・');
+function updateFloorText(){
+  const { allow, names } = currentAllow();
+  const el = document.getElementById('floorNow');
+  if(names.length === 0) el.innerHTML = '絞り込み：なし（設定1〜6すべてで計算）';
+  else if(allow.size === 0) el.innerHTML = '<span style="color:var(--red);">チェックした示唆が矛盾しています（当てはまる設定がありません）。見間違いがないか確認してください。</span>';
+  else el.innerHTML = `絞り込み：<b>${allowLabel(allow)}</b>で計算（${names.join('・')}）`;
+}
+floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
+
+// ================= 4. 計算 =================
+const pieColors = ['#e8a93b','#33b6a4','#7fa7d9','#d9668b','#9b7fd9','#6fd6a8'];
+const topSetting = document.getElementById('topSetting');
+const pieWrap = document.getElementById('pieWrap');
+const evOutput = document.getElementById('evOutput');
+const tipPrompt = document.getElementById('tipPromptCalc');
+
+// 二項分布の対数尤度（組合せ項は設定間で共通なので省略）
+const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
+
+function showMsg(html){
+  topSetting.innerHTML = `<p class="hint">${html}</p>`;
+  pieWrap.style.display = 'none'; evOutput.style.display = 'none'; tipPrompt.style.display = 'none';
+}
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  const g = num(normalG), c = num(czCount);
+  const optOpen = document.getElementById('optPanel').classList.contains('open');
+  const useAt = optOpen && atCount.value.trim() !== '';
+  const useBell = optOpen && bellCount.value.trim() !== '' && bellGames() > 0;
+  const a = useAt ? num(atCount) : 0;
+  const bg = useBell ? bellGames() : 0, bk = useBell ? num(bellCount) : 0;
+
+  if(g <= 0){ showMsg('通常時の回転数を入力してください。'); return; }
+  if(c > g || a > g || bk > bg){ showMsg('回数が回転数を超えています。入力を確認してください。'); return; }
+
+  const { allow, names } = currentAllow();
+  if(allow.size === 0){ showMsg('チェックした示唆が矛盾しています。見間違いがないか確認してください。'); return; }
+
+  const cz = readCol('czInput'), at = readCol('atInput'), bell = readCol('bellInput'), payout = readCol('payoutInput');
+
+  const ll = [];
+  for(let s=0; s<6; s++){
+    if(!allow.has(s + 1)){ ll.push(-Infinity); continue; }
+    let v = binomLL(c, g, 1/cz[s]);
+    if(useAt) v += binomLL(a, g, 1/at[s]);
+    if(useBell) v += binomLL(bk, bg, 1/bell[s]);
+    ll.push(v);
+  }
+  const maxLL = Math.max(...ll);
+  const w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - maxLL));
+  const sum = w.reduce((x, y) => x + y, 0);
+  const post = w.map(x => x / sum);
+  const expSetting = post.reduce((acc, p, i) => acc + p*(i+1), 0);
+
+  if (typeof gtag === 'function') {
+    gtag('event', 'judge_run', { machine_group: 'biore3', machine: 'biore3', has_at: useAt, has_bell: useBell, allow: [...allow].join('') });
+  }
+
+  // 円グラフ
+  let acc = 0;
+  const stops = post.map((p, i) => { const s0 = acc*360; acc += p; return `${pieColors[i]} ${s0}deg ${acc*360}deg`; }).join(', ');
+  document.getElementById('pieChart').style.background = `conic-gradient(${stops})`;
+  pieWrap.style.display = 'flex';
+  const legend = document.getElementById('legend');
+  legend.innerHTML = '';
+  post.forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'legend-row' + (!allow.has(i + 1) ? ' cut' : '');
+    row.innerHTML = `<span class="swatch" style="background:${pieColors[i]}"></span><span>設定${i+1}</span><span class="pct">${(p*100).toFixed(1)}%</span>`;
+    legend.appendChild(row);
+  });
+
+  const best = post.indexOf(Math.max(...post));
+  const hi = post.slice(3).reduce((x, y) => x + y, 0);
+  const parts = [`通常時${g}G / CZ ${c}回（1/${c > 0 ? (g/c).toFixed(1) : '―'}）`];
+  if(useAt) parts.push(`AT初当り ${a}回（1/${a > 0 ? (g/a).toFixed(1) : '―'}）`);
+  if(useBell) parts.push(`5枚ベル ${bk}回／${bg}G（1/${bk > 0 ? (bg/bk).toFixed(1) : '―'}）`);
+  if(names.length) parts.push(`絞り込み：${allowLabel(allow)}（${names.join('・')}）`);
+  let msg = `最も可能性が高いのは <b>設定${best+1}</b>（推定 ${(post[best]*100).toFixed(1)}%）。設定4以上の合計 <b>${(hi*100).toFixed(1)}%</b>、期待設定 <b>${expSetting.toFixed(2)}</b>。<br><span style="color:var(--muted);font-size:12.5px;">${parts.join(' / ')}</span>`;
+  if(g < 4000 && !useBell) msg += '<br><span style="color:var(--muted);font-size:12.5px;">設定1と6の差が約1.3倍と小さいため、4,000G未満では差が出にくいです。5枚ベルやエンタトロフィー・獲得枚数表示も合わせて見てください。</span>';
+  topSetting.innerHTML = `<div class="top-setting">${msg}</div>`;
+
+  // 期待差枚 = 残りG × 3枚 ×（機械割 − 100%）
+  const spinsPerHour = parseFloat(document.getElementById('spinsPerHour').value) || 0;
+  const [ch, cm] = document.getElementById('closingTime').value.split(':').map(Number);
+  const closing = new Date(); closing.setHours(ch, cm, 0, 0);
+  const hours = Math.max((closing - new Date()) / 3600000, 0);
+  const remainG = spinsPerHour * hours;
+  const netPer = payout.map(p => BET * (p/100 - 1) * remainG);
+  const ev = Math.round(post.reduce((x, p, i) => x + p*netPer[i], 0)) || 0;
+  const bestNet = Math.round(netPer[best]) || 0;
+  const sign = v => v > 0 ? '+' : (v < 0 ? '' : '±');
+  evOutput.style.display = 'block';
+  evOutput.innerHTML = `
+    <div class="num ${ev >= 0 ? 'pos' : 'neg'}">${sign(ev)}${ev.toLocaleString()} 枚</div>
+    <div class="sub">残り約${hours.toFixed(1)}時間・約${Math.round(remainG).toLocaleString()}G分の期待差枚（各設定の機械割を確率で重み付け平均）</div>
+    <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--line);">
+      <div class="num ${bestNet >= 0 ? 'pos' : 'neg'}" style="font-size:22px;">${sign(bestNet)}${bestNet.toLocaleString()} 枚</div>
+      <div class="sub">最有力の設定${best+1}だった場合の期待差枚</div>
+    </div>`;
+  tipPrompt.style.display = 'block';
+});
+
+
+// ================= 5. フィギュアで判別 =================
+// 出現率（%）。設定1〜6。オーナー提供の表（解析サイト掲載値）
+const FIG = [
+  { no: 1,  name: 'ゾンビ（男）',          tag: '奇数・弱', r: [15.9,12.0,14.2,10.4,12.3,9.7] },
+  { no: 2,  name: 'ゾンビ（女）',          tag: '奇数・弱', r: [15.9,12.0,14.2,10.4,12.3,9.7] },
+  { no: 3,  name: 'ハンターβ',             tag: '奇数・強', r: [10.0,5.0,10.0,5.0,10.0,5.0] },
+  { no: 4,  name: 'ハンターγ',             tag: '奇数・強', r: [10.0,5.0,10.0,5.0,10.0,5.0] },
+  { no: 5,  name: 'ジル',                  tag: '偶数・弱', r: [13.0,14.6,11.6,12.7,10.0,11.8] },
+  { no: 6,  name: 'カルロス',              tag: '偶数・弱', r: [13.0,14.6,11.6,12.7,10.0,11.8] },
+  { no: 7,  name: 'ミハイル',              tag: '偶数・強', r: [5.0,10.0,5.0,10.0,5.0,10.0] },
+  { no: 8,  name: 'タイレル',              tag: '偶数・強', r: [5.0,10.0,5.0,10.0,5.0,10.0] },
+  { no: 9,  name: 'ネメシス第一形態',      tag: '高設定・弱', r: [2.0,2.0,2.0,3.9,3.9,3.9] },
+  { no: 10, name: 'ブラッド',              tag: '高設定・弱', r: [2.0,2.0,2.0,3.9,3.9,3.9] },
+  { no: 11, name: 'ネメシス第二形態',      tag: '高設定・中', r: [0.8,1.2,1.6,2.0,2.3,2.7] },
+  { no: 12, name: 'ニコライ',              tag: '高設定・中', r: [0.8,1.2,1.6,2.0,2.3,2.7] },
+  { no: 13, name: 'ネメシス第三形態',      tag: '高設定・強', r: [0.4,1.2,2.0,2.7,3.5,4.3] },
+  { no: 14, name: 'チャーリーくん',        tag: '設定1否定', r: [0,3.1,3.1,3.1,3.1,3.1] },
+  { no: 15, name: 'ジル（感染）',          tag: '16と両方で4以上', r: [3.1,3.1,3.1,3.1,3.1,3.1] },
+  { no: 16, name: 'カルロス（感染）',      tag: '15と両方で4以上', r: [3.1,3.1,3.1,3.1,3.1,3.1] }
+];
+// 設定ごとに合計100%へ正規化した確率
+const FIG_P = SETS.map((_, s) => { const t = FIG.reduce((x, f) => x + f.r[s], 0); return FIG.map(f => f.r[s] / t); });
+
+const figGrid = document.getElementById('figGrid');
+FIG.forEach(f => {
+  const d = document.createElement('div');
+  d.className = 'fig-item';
+  d.innerHTML = `<label for="fig${f.no}"><b>No.${f.no}</b> ${f.name}<span class="fig-tag">${f.tag}</span></label><input type="number" min="0" inputmode="numeric" id="fig${f.no}" class="figIn" placeholder="0">`;
+  figGrid.appendChild(d);
+});
+const figInputs = [...document.querySelectorAll('.figIn')];
+const figCounts = () => figInputs.map(el => Math.floor(num(el)));
+
+// 設定差の表にフィギュア出現率を表示
+(function(){
+  const t = document.getElementById('figSpec');
+  let h = '<thead><tr><th>No.</th>' + SETS.map(s => `<th>設${s}</th>`).join('') + '</tr></thead><tbody>';
+  FIG.forEach(f => { h += `<tr><td>${f.no}</td>` + f.r.map(v => `<td>${v ? v.toFixed(1) : '―'}</td>`).join('') + '</tr>'; });
+  t.innerHTML = h + '</tbody>';
+})();
+
+function updateFigTotal(){
+  const c = figCounts(), tot = c.reduce((x, y) => x + y, 0);
+  document.getElementById('figTotal').textContent = `${tot}個`;
+  const notes = [];
+  if(c[13] > 0) notes.push('No.14あり＝設定1否定');
+  if(c[14] > 0 && c[15] > 0) notes.push('No.15＋16＝4以上');
+  document.getElementById('figNote').textContent = notes.join('・');
+}
+figInputs.forEach(el => el.addEventListener('input', updateFigTotal));
+
+function drawPie(pieEl, legendEl, post, allow){
+  let acc = 0;
+  const stops = post.map((p, i) => { const s0 = acc*360; acc += p; return `${pieColors[i]} ${s0}deg ${acc*360}deg`; }).join(', ');
+  pieEl.style.background = `conic-gradient(${stops})`;
+  legendEl.innerHTML = '';
+  post.forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'legend-row' + (!allow.has(i + 1) ? ' cut' : '');
+    row.innerHTML = `<span class="swatch" style="background:${pieColors[i]}"></span><span>設定${i+1}</span><span class="pct">${(p*100).toFixed(1)}%</span>`;
+    legendEl.appendChild(row);
+  });
+}
+function evHtml(post){
+  const payout = readCol('payoutInput');
+  const spinsPerHour = parseFloat(document.getElementById('spinsPerHour').value) || 0;
+  const [ch, cm] = document.getElementById('closingTime').value.split(':').map(Number);
+  const closing = new Date(); closing.setHours(ch, cm, 0, 0);
+  const hours = Math.max((closing - new Date()) / 3600000, 0);
+  const remainG = spinsPerHour * hours;
+  const ev = Math.round(post.reduce((x, p, i) => x + p * BET * (payout[i]/100 - 1) * remainG, 0)) || 0;
+  const sign = v => v > 0 ? '+' : (v < 0 ? '' : '±');
+  return `<div class="num ${ev >= 0 ? 'pos' : 'neg'}">${sign(ev)}${ev.toLocaleString()} 枚</div>
+    <div class="sub">今から閉店まで（約${hours.toFixed(1)}時間・約${Math.round(remainG).toLocaleString()}G）打った場合の期待差枚</div>`;
+}
+const normPost = ll => { const m = Math.max(...ll); const w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - m)); const s = w.reduce((x, y) => x + y, 0); return w.map(x => x / s); };
+
+function figLL(c, allow){
+  return SETS.map((_, s) => {
+    if(!allow.has(s + 1)) return -Infinity;
+    let v = 0;
+    for(let i = 0; i < FIG.length; i++){
+      if(c[i] === 0) continue;
+      const p = FIG_P[s][i];
+      if(p <= 0) return -Infinity;
+      v += c[i] * Math.log(p);
+    }
+    return v;
+  });
+}
+
+let figDone = false;
+function runFig(sendGa){
+  const out = document.getElementById('figResult');
+  const c = figCounts(), tot = c.reduce((x, y) => x + y, 0);
+  const pw = document.getElementById('figPieWrap'), evEl = document.getElementById('figEv');
+  if(tot === 0){ out.innerHTML = '<p class="hint">フィギュアの獲得数を1つ以上入力してください。</p>'; pw.style.display = 'none'; evEl.style.display = 'none'; return; }
+  const base = currentAllow();
+  let allow = new Set(base.allow); const names = [...base.names];
+  if(c[13] > 0){ allow.delete(1); names.push('No.14'); }
+  if(c[14] > 0 && c[15] > 0){ [1,2,3].forEach(s => allow.delete(s)); names.push('No.15＋No.16'); }
+  if(allow.size === 0){ out.innerHTML = '<p class="hint" style="color:var(--red);">チェックした示唆とフィギュアが矛盾しています。入力を確認してください。</p>'; pw.style.display = 'none'; evEl.style.display = 'none'; return; }
+  const post = normPost(figLL(c, allow));
+  if(post.some(isNaN)){ out.innerHTML = '<p class="hint">この組み合わせでは計算できません。入力を確認してください。</p>'; return; }
+  drawPie(document.getElementById('figPie'), document.getElementById('figLegend'), post, allow);
+  pw.style.display = 'flex';
+  const best = post.indexOf(Math.max(...post));
+  const hi = post.slice(3).reduce((x, y) => x + y, 0);
+  const odd = post[0] + post[2] + post[4];
+  const expS = post.reduce((a, p, i) => a + p*(i+1), 0);
+  let msg = `フィギュアから見て最も可能性が高いのは <b>設定${best+1}</b>（推定 ${(post[best]*100).toFixed(1)}%）。設定4以上の合計 <b>${(hi*100).toFixed(1)}%</b>、奇数 ${(odd*100).toFixed(1)}%／偶数 ${((1-odd)*100).toFixed(1)}%、期待設定 <b>${expS.toFixed(2)}</b>。`;
+  msg += `<br><span style="color:var(--muted);font-size:12.5px;">フィギュア ${tot}個` + (names.length ? ` / 絞り込み：${allowLabel(allow)}（${names.join('・')}）` : '') + '</span>';
+  if(tot < 15) msg += '<br><span style="color:var(--muted);font-size:12.5px;">フィギュアが少ないうちはブレが大きいです。No.9〜13（高設定示唆）やNo.14・No.15＋16の有無を特に見てください。</span>';
+  // CZの入力があれば合算
+  const g = num(normalG), cc = num(czCount);
+  if(g > 0 && cc <= g){
+    const czv = readCol('czInput');
+    const fl = figLL(c, allow);
+    const comb = normPost(fl.map((v, s) => v === -Infinity ? -Infinity : v + binomLL(cc, g, 1/czv[s])));
+    const cb = comb.indexOf(Math.max(...comb));
+    const chi = comb.slice(3).reduce((x, y) => x + y, 0);
+    msg += `<div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--line);">CZ（通常時${g}G・${cc}回）と合わせると：最有力 <b>設定${cb+1}</b>（${(comb[cb]*100).toFixed(1)}%）、設定4以上 <b>${(chi*100).toFixed(1)}%</b></div>`;
+  }
+  out.innerHTML = `<div class="top-setting">${msg}</div>`;
+  evEl.innerHTML = evHtml(post); evEl.style.display = 'block';
+  if(sendGa && typeof gtag === 'function') gtag('event', 'judge_run', { machine_group: 'biore3', machine: 'biore3', mode: 'figure', fig_total: tot });
+}
+document.getElementById('figBtn').addEventListener('click', () => { figDone = true; runFig(true); });
+document.getElementById('figClear').addEventListener('click', () => { figInputs.forEach(el => el.value = ''); updateFigTotal(); if(figDone) runFig(false); });
+let figTimer = null;
+const figAuto = () => { if(!figDone) return; clearTimeout(figTimer); figTimer = setTimeout(() => runFig(false), 350); };
+figInputs.forEach(el => el.addEventListener('input', figAuto));
+['optionalCard', 'specCard'].forEach(id => { const el = document.getElementById(id); el.addEventListener('input', figAuto); el.addEventListener('change', figAuto); });
+[normalG, czCount].forEach(el => el.addEventListener('input', figAuto));
+
+document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', () => {
+  if (typeof gtag === 'function') gtag('event', 'outbound_ref', { machine: 'biore3', section: a.dataset.sec });
+}));
+</script>
+
+
+<script>
+// layout v2: 任意入力・設定差を変えたら判別結果を自動で再計算（GAのjudge_runは送らない）
+(function(){
+  var btn = document.getElementById('calcBtn'); if(!btn) return;
+  var done = false, timer = null;
+  btn.addEventListener('click', function(){ done = true; });
+  function silentCalc(){
+    var g = window.gtag;
+    window.gtag = function(a, b){ if(a === 'event' && b === 'judge_run') return; if(typeof g === 'function') return g.apply(this, arguments); };
+    try { btn.click(); } finally { window.gtag = g; }
+  }
+  function auto(e){
+    if(!done) return;
+    if(e && e.target && (e.target.id === 'recalcBtn' || (e.target.tagName === 'BUTTON'))) return;
+    clearTimeout(timer); timer = setTimeout(silentCalc, 350);
+  }
+  ['optionalCard', 'specCard'].forEach(function(id){
+    var el = document.getElementById(id); if(!el) return;
+    el.addEventListener('input', auto); el.addEventListener('change', auto);
+  });
+  var rb = document.getElementById('recalcBtn');
+  if(rb) rb.addEventListener('click', function(){
+    btn.click();
+    var t = document.getElementById('pieWrap');
+    if(t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+})();
+</script>
+</body>
+</html>
