@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pachipachi-png.github.io/juggler-checker/sitemap.xml
+Sitemap: https://pachipachi-png.com/sitemap.xml

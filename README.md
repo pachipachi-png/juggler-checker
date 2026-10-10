@@ -23,7 +23,7 @@
 1. ~~投げ銭リンクを差し込む~~ 完了（OFUSE: https://ofuse.me/cec8e32a）
 2. **プライバシーポリシーを確認**（`privacy.html`を同梱済み。内容が実態と合っているか目を通す）
 3. ~~Googleアナリティクスを設定~~ 完了（測定ID: G-ZFM94DE8Y3）
-4. ~~公開する~~ 完了（https://pachipachi-png.github.io/juggler-checker/ ）
+4. ~~公開する~~ 完了（https://pachipachi-png.com/ ）
 5. ~~Google Search Consoleに登録~~ 完了（HTMLタグ方式。`index.html`の`google-site-verification`メタタグは削除しないこと）
 6. **広告を検討**（AdSense申請 or 忍者AdMax/A8.net）
 
