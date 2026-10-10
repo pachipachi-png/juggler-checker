@@ -521,5 +521,12 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
   });
 })();
 </script>
+<script src="../share.js"></script>
+<script>
+(function(){
+  var cfg = {"key": "monkey", "name": "スマスロ モンキーターンV", "tags": "#モンキーターン #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "fields": [{"id": "totalG", "q": "tg", "label": "総", "unit": "G"}, {"id": "fiveCount", "q": "five", "label": "5枚役", "unit": "回", "rateOf": "totalG"}, {"id": "normalG", "q": "g", "label": "通常時", "unit": "G", "opt": {"panel": "atPanel", "toggle": "toggleAt"}}, {"id": "atCount", "q": "at", "label": "AT", "unit": "回", "rateOf": "normalG", "opt": {"panel": "atPanel", "toggle": "toggleAt"}}]}], "hints": "#floorGroup input[type=checkbox]"};
+  SettiShare.init(cfg);
+})();
+</script>
 </body>
 </html>
