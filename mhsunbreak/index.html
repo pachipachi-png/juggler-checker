@@ -137,6 +137,12 @@
   .ev-output .num.pos{ color: #6fd6a8; }
   .ev-output .num.neg{ color: #e08787; }
   .ev-output .sub{ font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+  .share-box{ margin-top: 14px; padding: 14px; background: var(--panel-2); border-radius: 10px; border: 1px solid var(--line); }
+  .share-box .share-text{ font-size: 13px; color: var(--muted); white-space: pre-wrap; margin: 0 0 10px; }
+  .share-row{ display: flex; gap: 8px; }
+  .share-row > *{ flex: 1; text-align: center; text-decoration: none; }
+  .share-row a, .share-row button{ font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 700; font-size: 13.5px; border-radius: 10px; padding: 12px 10px; display:block; }
+  .share-x{ background: #edeff2; color: #14171c; }
   .tip-prompt{ margin-top: 14px; padding: 14px; background: var(--panel-2); border-radius: 10px; border: 1px dashed var(--line); }
 
   .ad-slot{ display:none; }
@@ -215,6 +221,14 @@
     </div>
     <div id="topSetting"></div>
     <div class="ev-output" id="evOutput" style="display:none;"></div>
+    <div class="share-box" id="shareBox" style="display:none;">
+      <p class="share-text" id="shareText"></p>
+      <div class="share-row">
+        <a class="btn-primary share-x" id="shareXBtn" href="#" target="_blank" rel="noopener">𝕏で結果をシェア</a>
+        <button class="btn-ghost" id="copyUrlBtn" type="button">URLをコピー</button>
+      </div>
+      <p class="hint" style="margin-bottom:0;">URLを開くと、同じ数字とチェックが入った状態で判別結果が出ます。</p>
+    </div>
     <div class="tip-prompt" id="tipPromptCalc" style="display:none;">
       <p style="margin:0 0 10px; font-size:13.5px;">勝ったら10円でもいいので投げ銭ください🍶</p>
       <a class="btn-ghost" style="display:block; text-align:center; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
@@ -387,6 +401,7 @@ const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.ma
 function showMsg(html){
   topSetting.innerHTML = `<p class="hint">${html}</p>`;
   pieWrap.style.display = 'none'; evOutput.style.display = 'none'; tipPrompt.style.display = 'none';
+  document.getElementById('shareBox').style.display = 'none';
 }
 
 document.getElementById('calcBtn').addEventListener('click', () => {
@@ -456,6 +471,49 @@ document.getElementById('calcBtn').addEventListener('click', () => {
       <div class="sub">最有力の設定${best+1}だった場合の期待差枚</div>
     </div>`;
   tipPrompt.style.display = 'block';
+  updateShare(g, a, names, post, best, hi, expSetting);
+});
+
+// ================= 結果のシェア（URLに数字とチェックを入れる） =================
+let lastShareUrl = '';
+function updateShare(g, a, names, post, best, hi, expSetting){
+  const params = new URLSearchParams({ g: String(g), at: String(a) });
+  if(names.length) params.set('h', names.join(','));
+  lastShareUrl = location.origin + location.pathname + '?' + params.toString();
+  const rate = a > 0 ? `（1/${(g/a).toFixed(1)}）` : '';
+  let text = `サンブレイク 通常時${g}G・AT${a}回${rate}`;
+  if(names.length) text += `\n示唆：${names.join('・')}`;
+  text += `\n→ 推定 設定${best+1}（${Math.round(post[best]*100)}%）\n設定4以上 ${Math.round(hi*100)}%・期待設定 ${expSetting.toFixed(1)}（参考値）\n#サンブレイク #設定示唆くん`;
+  document.getElementById('shareText').textContent = text;
+  const shareUrlX = lastShareUrl + '&utm_source=x&utm_medium=share';
+  document.getElementById('shareXBtn').href = 'https://x.com/intent/post?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(shareUrlX);
+  document.getElementById('shareBox').style.display = 'block';
+}
+document.getElementById('shareXBtn').addEventListener('click', () => {
+  if (typeof gtag === 'function') gtag('event', 'share', { method: 'x', machine: 'mhsunbreak' });
+});
+document.getElementById('copyUrlBtn').addEventListener('click', async (e) => {
+  const btn = e.currentTarget;
+  try { await navigator.clipboard.writeText(lastShareUrl + '&utm_source=copy&utm_medium=share'); btn.textContent = 'コピーしました'; }
+  catch(err){ window.prompt('このURLをコピーしてください', lastShareUrl); }
+  setTimeout(() => { btn.textContent = 'URLをコピー'; }, 2000);
+  if (typeof gtag === 'function') gtag('event', 'share', { method: 'copy', machine: 'mhsunbreak' });
+});
+
+// URLに数字が入っていたら、入力・チェックして判別まで行う（例 ?g=3000&at=11&h=トロフィー金）
+window.addEventListener('load', function applyUrlParams(){
+  const q = new URLSearchParams(location.search);
+  if(!q.has('g')) return;
+  const n = v => (v !== null && /^\d{1,6}$/.test(v)) ? v : '';
+  normalG.value = n(q.get('g'));
+  atCount.value = n(q.get('at'));
+  const hs = (q.get('h') || '').split(',').filter(Boolean);
+  floorChecks.forEach(c => { c.checked = hs.includes(c.dataset.name); });
+  updateFloorText();
+  updateLive();
+  if (typeof gtag === 'function') gtag('event', 'shared_link_open', { machine: 'mhsunbreak' });
+  document.getElementById('calcBtn').click();
+  pieWrap.scrollIntoView({ block: 'center' });
 });
 
 document.getElementById('zukaiLink').addEventListener('click', () => { if (typeof gtag === 'function') gtag('event', 'to_zukai', { from: 'mhsunbreak' }); });
