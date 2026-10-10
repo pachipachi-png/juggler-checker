@@ -721,5 +721,25 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
   });
 })();
 </script>
+<script src="../share.js"></script>
+<script>
+(function(){
+  var cfg = {"key": "biore3", "name": "スマスロ バイオハザードRE:3", "tags": "#バイオRE3 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "fields": [{"id": "normalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "normalG"}, {"id": "atCount", "q": "at", "label": "AT", "unit": "回", "rateOf": "normalG", "opt": {"panel": "optPanel", "toggle": "toggleOpt"}}, {"id": "bellG", "q": "bellg", "label": "ベル計測", "unit": "G", "opt": {"panel": "optPanel", "toggle": "toggleOpt"}}, {"id": "bellCount", "q": "bell", "label": "5枚ベル", "unit": "回", "opt": {"panel": "optPanel", "toggle": "toggleOpt"}}], "label": "CZ判別", "title": "CZ判別の結果をシェア", "xLabel": "𝕏でシェア"}, {"id": "fig", "btn": "figBtn", "wrap": "figPieWrap", "legend": "figLegend", "after": "figEv", "label": "フィギュア判別", "title": "フィギュア判別の結果をシェア", "xLabel": "𝕏でシェア", "fields": []}], "hints": "#floorGroup input[type=checkbox]"};
+  cfg.boxes[1].serialize = function(){
+    var ins=[].slice.call(document.querySelectorAll('.figIn')), c=ins.map(function(el){return Math.max(0,Math.floor(parseFloat(el.value)||0));});
+    var tot=c.reduce(function(a,b){return a+b;},0), last=c.length; while(last>0&&c[last-1]===0) last--;
+    var notes=[]; if(c[13]>0) notes.push('No.14あり'); if(c[14]>0&&c[15]>0) notes.push('No.15＋16あり');
+    var hi=c.slice(8,13).reduce(function(a,b){return a+b;},0); if(hi>0) notes.push('No.9〜13が'+hi+'個');
+    return { params:{ f:c.slice(0,last).join('.') }, summary:'フィギュア'+tot+'個'+(notes.length?'（'+notes.join('・')+'）':'') };
+  };
+  cfg.boxes[1].deserialize = function(q){
+    var v=(q.get('f')||''); if(!/^[0-9.]{1,80}$/.test(v)) return false;
+    var c=v.split('.'), ins=[].slice.call(document.querySelectorAll('.figIn')), any=false;
+    ins.forEach(function(el,i){ var n=c[i]&&/^\d{1,3}$/.test(c[i])?c[i]:''; el.value=(n==='0')?'':n; if(el.value) any=true; el.dispatchEvent(new Event('input',{bubbles:true})); });
+    return any;
+  };
+  SettiShare.init(cfg);
+})();
+</script>
 </body>
 </html>
