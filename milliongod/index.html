@@ -537,5 +537,12 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
   });
 })();
 </script>
+<script src="../share.js"></script>
+<script>
+(function(){
+  var cfg = {"key": "milliongod", "name": "ミリオンゴッド-神々の軌跡-", "tags": "#ミリオンゴッド #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "fields": [{"id": "normalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT", "unit": "回", "rateOf": "normalG"}, {"id": "r3n", "q": "r3n", "label": "青7 3連", "unit": "回", "opt": {"panel": "optPanel", "toggle": "toggleOpt"}}, {"id": "r3w", "q": "r3w", "label": "うちGG", "unit": "回", "opt": {"panel": "optPanel", "toggle": "toggleOpt"}}, {"id": "r4n", "q": "r4n", "label": "4連", "unit": "回", "opt": {"panel": "optPanel", "toggle": "toggleOpt"}}, {"id": "r4w", "q": "r4w", "label": "うちGG", "unit": "回", "opt": {"panel": "optPanel", "toggle": "toggleOpt"}}]}], "hints": "#floorGroup input[type=checkbox]"};
+  SettiShare.init(cfg);
+})();
+</script>
 </body>
 </html>
