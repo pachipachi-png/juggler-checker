@@ -513,5 +513,12 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
   });
 })();
 </script>
+<script src="../share.js"></script>
+<script>
+(function(){
+  var cfg = {"key": "tenten", "name": "L転生王女と天才令嬢の魔法革命", "tags": "#転天 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "fields": [{"id": "normalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "normalG"}, {"id": "bnCount", "q": "bn", "label": "ボーナス", "unit": "回", "rateOf": "normalG", "opt": {"panel": "optPanel", "toggle": "toggleOpt"}}]}], "hints": "#floorGroup input[type=checkbox]"};
+  SettiShare.init(cfg);
+})();
+</script>
 </body>
 </html>
