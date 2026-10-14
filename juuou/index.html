@@ -176,6 +176,8 @@
 
 <div class="wrap">
 
+  <a class="hint-link" id="zukaiLink" href="../zukai/juuou/" style="margin:0 0 14px;">やめどきを1枚の画像で見る（スロ図解くん）→</a>
+
   <!-- 1. 実戦データ → 判別（layout v2） -->
   <section class="card">
     <div class="section-title"><span class="num">1</span><h2>実戦データを入力して判別</h2></div>
@@ -457,6 +459,7 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
     if(t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 })();
+document.getElementById('zukaiLink').addEventListener('click', () => { if (typeof gtag === 'function') gtag('event', 'to_zukai', { from: 'juuou' }); });
 </script>
 <script src="../share.js"></script>
 <script>
