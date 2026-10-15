@@ -97,8 +97,15 @@
       var c = checks[i]; if (!c || c.checked === on) return;
       c.checked = on; c.dispatchEvent(new Event('change', { bubbles: true }));
     }
+    var G2 = cfg.g2 || [];
+    function openPanelOf(c) {
+      if (!c || !c.openPanel) return;
+      var p = $(c.openPanel.panel); if (p && !p.classList.contains('open')) { var b = $(c.openPanel.btn); if (b) b.click(); }
+    }
+    var itemById = function (id) { return (cfg.counts || []).filter(function (c) { return c.id === id; })[0]; };
     function save() {
       var v = {}; (cfg.counts || []).forEach(function (c) { v[c.id] = val(c.id); }); v[cfg.g.id] = val(cfg.g.id);
+      G2.forEach(function (g) { v[g.id] = val(g.id); });
       store.set(KEY, { v: v, c: checks.map(function (c) { return c.checked ? 1 : 0; }), s: stash, t: Date.now() });
     }
     function used() {
@@ -149,6 +156,8 @@
       + (cfg.select ? '<select class="sc-msel" aria-label="機種"></select>' : '')
       + '<div class="sc-g"><label for="scG">' + cfg.g.label + '</label>'
       + '<input id="scG" type="number" inputmode="numeric" placeholder="データカウンターの数字"></div>'
+      + G2.map(function (g, j) { return '<div class="sc-g sc-g2" data-j="' + j + '"><label for="scG2_' + j + '">' + g.label + '</label>'
+        + '<input id="scG2_' + j + '" type="number" inputmode="numeric" placeholder="データカウンターの数字"></div>'; }).join('')
       + (opts.length ? '<div class="sc-use"><span>数える項目：</span>' + opts.map(function (o) { return '<button type="button" class="sc-uchip" data-k="' + o.k + '"></button>'; }).join('') + '</div>' : '')
       + '<div class="sc-grid">' + tiles + '</div>'
       + (chips ? '<div class="sc-checks"><div class="sc-sub">' + cfg.checks.title + '（タップで ON/OFF）</div><div class="sc-chips">' + chips + '</div></div>' : '')
@@ -177,10 +186,16 @@
         else ov.querySelector('.sc-tile[data-i="' + o.i + '"]').classList.toggle('sc-off', !on);
       });
       if (document.activeElement !== gIn) gIn.value = g > 0 ? g : '';
+      G2.forEach(function (gg, j) {
+        var row = ov.querySelector('.sc-g2[data-j="' + j + '"]'), inp = row.querySelector('input'), n2 = val(gg.id);
+        if (document.activeElement !== inp) inp.value = n2 > 0 ? n2 : '';
+        row.classList.toggle('sc-off', !!gg.item && !isOn(gg.item));
+      });
       (cfg.counts || []).forEach(function (c, i) {
         var t = ov.querySelector('.sc-tile[data-i="' + i + '"]'), n = val(c.id);
         t.querySelector('.sc-n').textContent = n;
-        t.querySelector('.sc-rt').textContent = (c.rate !== false && g > 0 && n > 0) ? '1/' + (g / n).toFixed(1) : (c.hint || '');
+        var gb = c.rateG ? val(c.rateG) : g;
+        t.querySelector('.sc-rt').textContent = (c.rate !== false && gb > 0 && n > 0) ? '1/' + (gb / n).toFixed(1) : (c.hint || '');
       });
       checks.forEach(function (c, i) { ov.querySelector('.sc-chip[data-i="' + i + '"]').classList.toggle('on', c.checked); });
       undoBtn.disabled = !undo.length; undoBtn.style.opacity = undo.length ? 1 : .45;
@@ -224,8 +239,12 @@
         if (!on) { stash.__checks = checks.map(function (c) { return c.checked ? 1 : 0; }); checks.forEach(function (c, i) { setCheck(i, false); }); }
         else if (stash.__checks) { stash.__checks.forEach(function (x, i) { if (x) setCheck(i, true); }); delete stash.__checks; }
       } else {
-        if (!on) { var n = val(k); if (n > 0) stash[k] = n; write(k, 0); }
-        else if (stash[k] > 0 && val(k) === 0) { write(k, stash[k]); delete stash[k]; }
+        var ids = [k].concat(G2.filter(function (g) { return g.item === k; }).map(function (g) { return g.id; }));
+        ids.forEach(function (id) {
+          if (!on) { var n = val(id); if (n > 0) stash[id] = n; write(id, 0); }
+          else if (stash[id] > 0 && val(id) === 0) { write(id, stash[id]); delete stash[id]; }
+        });
+        if (on && val(k) > 0) openPanelOf(itemById(k));
       }
       ga('counter_item', { machine: cfg.key, item: k, on: on });
       changed();
@@ -248,6 +267,16 @@
       el.dispatchEvent(new Event('input', { bubbles: true }));
       save(); clearTimeout(gIn._t); gIn._t = setTimeout(function () { silentCalc(); render(); }, 300);
     });
+    G2.forEach(function (gg, j) {
+      var inp = ov.querySelector('#scG2_' + j);
+      inp.addEventListener('input', function () {
+        var n = Math.max(parseInt(inp.value, 10) || 0, 0);
+        var el = $(gg.id); el.value = n > 0 ? String(n) : '';
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        if (n > 0 && gg.item) openPanelOf(itemById(gg.item));
+        save(); clearTimeout(inp._t); inp._t = setTimeout(function () { silentCalc(); render(); }, 300);
+      });
+    });
     undoBtn.addEventListener('click', function () {
       var u = undo.pop(); if (!u) return;
       if (u.t === 'n') write(u.id, u.prev); else setCheck(u.i, u.prev);
@@ -263,6 +292,7 @@
       clearTimeout(armT); resetBtn.classList.remove('arm'); resetBtn.textContent = 'リセット';
       (cfg.counts || []).forEach(function (c) { write(c.id, 0); });
       write(cfg.g.id, 0);
+      G2.forEach(function (g) { write(g.id, 0); });
       checks.forEach(function (c, i) { setCheck(i, false); });
       undo = []; stash = {}; store.del(KEY);
       var wr = $(cfg.wrap); if (wr) wr.style.display = 'none';
