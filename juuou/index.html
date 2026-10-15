@@ -474,7 +474,7 @@ SettiCounter.init({
   key: 'juuou', name: 'スマスロ獣王',
   g: { id: 'normalG', label: '通常時G数' },
   counts: [ { id: 'atCount', label: 'AT初当り（サバンナチャンス）', wide: true } ],
-  checks: { selector: '#floorGroup input[type=checkbox]', title: 'SC終了画面のサミートロフィー' },
+  checks: { selector: '#floorGroup input[type=checkbox]', title: 'SC終了画面のサミートロフィー', short: 'トロフィー', optional: true },
   judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend',
   note: 'G数は通常時のみ（AT中は含めない）。データカウンターの「通常時G数」を入れてください。'
 });
