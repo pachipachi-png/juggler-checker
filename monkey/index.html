@@ -528,5 +528,20 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
   SettiShare.init(cfg);
 })();
 </script>
+<script src="../counter.js"></script>
+<script>
+SettiCounter.init({
+  key: 'monkey', name: 'モンキーターンV',
+  g: { id: 'totalG', label: '総ゲーム数' },
+  g2: [ { id: 'normalG', label: '通常時G数', item: 'atCount' } ],
+  counts: [
+    { id: 'fiveCount', label: '5枚役', wide: true },
+    { id: 'atCount', label: 'AT初当り', wide: true, optional: true, defaultOff: true, rateG: 'normalG', openPanel: { panel: 'atPanel', btn: 'toggleAt' } }
+  ],
+  checks: { selector: '#floorGroup input[type=checkbox]', title: 'トロフィー・舟券・獲得枚数などの示唆', short: '示唆（トロフィー等）', optional: true },
+  judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend',
+  note: '5枚役は通常時もAT中も数えます（総ゲーム数もAT中を含める）。AT初当りの確率は通常時G数で計算します。'
+});
+</script>
 </body>
 </html>
