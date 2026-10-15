@@ -551,5 +551,9 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
   });
 })();
 </script>
+<script src="../counter.js"></script>
+<script>
+SettiCounter.init({"key": "mhsunbreak", "name": "モンハン サンブレイク", "g": {"id": "normalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り", "wide": true}], checks: { selector: '#floorGroup input[type=checkbox]', title: "AT終了画面・エンタトロフィー", short: '示唆（終了画面等）', optional: true }, judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend', note: "G数・小役は通常時のみ数える（AT・ボーナス中は数えない）。"});
+</script>
 </body>
 </html>
