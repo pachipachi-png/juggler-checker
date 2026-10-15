@@ -698,5 +698,20 @@ document.getElementById('jokeBtn').addEventListener('click', () => {
   });
 })();
 </script>
+<script src="../counter.js"></script>
+<script>
+SettiCounter.init({
+  key: 'juggler', name: 'ジャグラー',
+  g: { id: 'todayG', label: '総回転数' },
+  counts: [
+    { id: 'todayBig', label: 'BIG' },
+    { id: 'todayReg', label: 'REG' },
+    { id: 'todayGrape', label: 'ぶどう', wide: true, openPanel: { panel: 'optionalPanel', btn: 'toggleOptional' } },
+    { id: 'todayCherryReg', label: 'チェリー重複REG', wide: true, openPanel: { panel: 'optionalPanel', btn: 'toggleOptional' } }
+  ],
+  select: 'machineSelect',
+  judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend'
+});
+</script>
 </body>
 </html>
