@@ -520,5 +520,9 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
   SettiShare.init(cfg);
 })();
 </script>
+<script src="../counter.js"></script>
+<script>
+SettiCounter.init({"key": "tenten", "name": "転生王女", "g": {"id": "normalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ当選"}, {"id": "bnCount", "label": "ボーナス初当り", "optional": true, "openPanel": {"panel": "optPanel", "btn": "toggleOpt"}}], checks: { selector: '#floorGroup input[type=checkbox]', title: "終了画面のスタンプなど", short: '示唆（終了画面等）', optional: true }, judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend', note: "G数・小役は通常時のみ数える（AT・ボーナス中は数えない）。"});
+</script>
 </body>
 </html>
