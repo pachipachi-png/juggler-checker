@@ -544,5 +544,9 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
   SettiShare.init(cfg);
 })();
 </script>
+<script src="../counter.js"></script>
+<script>
+SettiCounter.init({"key": "milliongod", "name": "ミリオンゴッド 神々の軌跡", "g": {"id": "normalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り", "wide": true}, {"id": "naviCount", "label": "押し順ナビ", "optional": true, "defaultOff": true, "openPanel": {"panel": "optPanel", "btn": "toggleOpt"}}, {"id": "r3n", "label": "青7 3連", "optional": true, "defaultOff": true, "rate": false, "openPanel": {"panel": "optPanel", "btn": "toggleOpt"}}, {"id": "r3w", "label": "うち3連でGG", "optional": true, "defaultOff": true, "rate": false, "openPanel": {"panel": "optPanel", "btn": "toggleOpt"}}, {"id": "r4n", "label": "青7 4連", "optional": true, "defaultOff": true, "rate": false, "openPanel": {"panel": "optPanel", "btn": "toggleOpt"}}, {"id": "r4w", "label": "うち4連でGG", "optional": true, "defaultOff": true, "rate": false, "openPanel": {"panel": "optPanel", "btn": "toggleOpt"}}], checks: { selector: '#floorGroup input[type=checkbox]', title: "ユニバプレート（GG終了時）など", short: '示唆（終了画面等）', optional: true }, judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend', note: "G数・小役は通常時のみ数える（AT・ボーナス中は数えない）。"});
+</script>
 </body>
 </html>
