@@ -44,6 +44,12 @@
     + 'border:1px solid var(--line);background:var(--panel-2);color:var(--muted);font-size:22px;line-height:1;'
     + 'cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;}'
     + '.sc-tile.wide{grid-column:1 / -1;min-height:96px;}'
+    + '.sc-use{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 14px;}'
+    + '.sc-use>span{font-size:12.5px;color:var(--muted);margin-right:2px;}'
+    + '.sc-ov .sc-uchip{background:transparent;border:1px dashed var(--line);border-radius:999px;padding:7px 12px;'
+    + 'font-size:12.5px;color:var(--muted);cursor:pointer;font-family:inherit;touch-action:manipulation;}'
+    + '.sc-ov .sc-uchip.on{border-style:solid;border-color:var(--teal);color:var(--teal);background:#16302c;}'
+    + '.sc-off{display:none !important;}'
     + '.sc-sub{margin:18px 0 8px;font-size:13px;color:var(--muted);font-weight:700;}'
     + '.sc-chips{display:flex;flex-wrap:wrap;gap:8px;}'
     + '.sc-chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:10px 14px;'
@@ -72,6 +78,12 @@
     var KEY = 'settiCounter:' + cfg.key;
     var checks = cfg.checks ? [].slice.call(document.querySelectorAll(cfg.checks.selector)) : [];
     var undo = [], taps = 0;
+    var UKEY = 'settiCounterUse:' + cfg.key;
+    var opts = (cfg.counts || []).map(function (c, i) { return c.optional ? { k: c.id, label: c.label, i: i, def: !c.defaultOff } : null; }).filter(Boolean);
+    if (cfg.checks && cfg.checks.optional) opts.push({ k: '__checks', label: cfg.checks.short || cfg.checks.title, def: !cfg.checks.defaultOff });
+    var useP = store.get(UKEY) || {};
+    var stash = {};
+    var isOn = function (k) { return useP[k] === undefined ? (opts.filter(function (o) { return o.k === k; })[0] || { def: true }).def : !!useP[k]; };
 
     // ---------- 値の読み書き（判別ページの入力欄が正） ----------
     var val = function (id) { var el = $(id); return el ? Math.max(parseInt(el.value, 10) || 0, 0) : 0; };
@@ -87,7 +99,7 @@
     }
     function save() {
       var v = {}; (cfg.counts || []).forEach(function (c) { v[c.id] = val(c.id); }); v[cfg.g.id] = val(cfg.g.id);
-      store.set(KEY, { v: v, c: checks.map(function (c) { return c.checked ? 1 : 0; }), t: Date.now() });
+      store.set(KEY, { v: v, c: checks.map(function (c) { return c.checked ? 1 : 0; }), s: stash, t: Date.now() });
     }
     function used() {
       if (val(cfg.g.id) > 0) return true;
@@ -137,8 +149,9 @@
       + (cfg.select ? '<select class="sc-msel" aria-label="機種"></select>' : '')
       + '<div class="sc-g"><label for="scG">' + cfg.g.label + '</label>'
       + '<input id="scG" type="number" inputmode="numeric" placeholder="データカウンターの数字"></div>'
+      + (opts.length ? '<div class="sc-use"><span>数える項目：</span>' + opts.map(function (o) { return '<button type="button" class="sc-uchip" data-k="' + o.k + '"></button>'; }).join('') + '</div>' : '')
       + '<div class="sc-grid">' + tiles + '</div>'
-      + (chips ? '<div class="sc-sub">' + cfg.checks.title + '（タップで ON/OFF）</div><div class="sc-chips">' + chips + '</div>' : '')
+      + (chips ? '<div class="sc-checks"><div class="sc-sub">' + cfg.checks.title + '（タップで ON/OFF）</div><div class="sc-chips">' + chips + '</div></div>' : '')
       + '<p class="sc-note">押した数は判別ページの入力欄にそのまま入ります。この端末に自動で保存されるので、画面を閉じても消えません。'
       + (cfg.note ? '<br>' + cfg.note : '') + '</p>'
       + '</div>'
@@ -157,6 +170,12 @@
 
     function render() {
       var g = val(cfg.g.id);
+      opts.forEach(function (o) {
+        var on = isOn(o.k), b = ov.querySelector('.sc-uchip[data-k="' + o.k + '"]');
+        b.classList.toggle('on', on); b.textContent = (on ? '✓ ' : '＋ ') + o.label;
+        if (o.k === '__checks') { var cs = ov.querySelector('.sc-checks'); if (cs) cs.classList.toggle('sc-off', !on); }
+        else ov.querySelector('.sc-tile[data-i="' + o.i + '"]').classList.toggle('sc-off', !on);
+      });
       if (document.activeElement !== gIn) gIn.value = g > 0 ? g : '';
       (cfg.counts || []).forEach(function (c, i) {
         var t = ov.querySelector('.sc-tile[data-i="' + i + '"]'), n = val(c.id);
@@ -199,6 +218,23 @@
       t.classList.add('hit'); setTimeout(function () { t.classList.remove('hit'); }, 90);
       bump(+t.dataset.i, 1);
     });
+    function setUse(k, on) {
+      useP[k] = on; store.set(UKEY, useP);
+      if (k === '__checks') {
+        if (!on) { stash.__checks = checks.map(function (c) { return c.checked ? 1 : 0; }); checks.forEach(function (c, i) { setCheck(i, false); }); }
+        else if (stash.__checks) { stash.__checks.forEach(function (x, i) { if (x) setCheck(i, true); }); delete stash.__checks; }
+      } else {
+        if (!on) { var n = val(k); if (n > 0) stash[k] = n; write(k, 0); }
+        else if (stash[k] > 0 && val(k) === 0) { write(k, stash[k]); delete stash[k]; }
+      }
+      ga('counter_item', { machine: cfg.key, item: k, on: on });
+      changed();
+    }
+    var useBox = ov.querySelector('.sc-use');
+    if (useBox) useBox.addEventListener('click', function (e) {
+      var b = e.target.closest('.sc-uchip'); if (!b) return;
+      setUse(b.dataset.k, !isOn(b.dataset.k));
+    });
     var chipBox = ov.querySelector('.sc-chips');
     if (chipBox) chipBox.addEventListener('click', function (e) {
       var ch = e.target.closest('.sc-chip'); if (!ch) return;
@@ -228,7 +264,7 @@
       (cfg.counts || []).forEach(function (c) { write(c.id, 0); });
       write(cfg.g.id, 0);
       checks.forEach(function (c, i) { setCheck(i, false); });
-      undo = []; store.del(KEY);
+      undo = []; stash = {}; store.del(KEY);
       var wr = $(cfg.wrap); if (wr) wr.style.display = 'none';
       ga('counter_reset', { machine: cfg.key });
       render();
@@ -256,6 +292,7 @@
     if (saved && !fromShare && Date.now() - saved.t < 20 * 3600 * 1000) {
       Object.keys(saved.v || {}).forEach(function (id) { if (saved.v[id] > 0 && $(id) && !$(id).value) write(id, saved.v[id]); });
       (saved.c || []).forEach(function (on, i) { if (on) setCheck(i, true); });
+      if (saved.s) stash = saved.s;
       (cfg.counts || []).forEach(function (c) {
         if (c.openPanel && val(c.id) > 0) { var p = $(c.openPanel.panel); if (p && !p.classList.contains('open')) { var b = $(c.openPanel.btn); if (b) b.click(); } }
       });
