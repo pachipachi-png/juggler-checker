@@ -742,5 +742,9 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
   SettiShare.init(cfg);
 })();
 </script>
+<script src="../counter.js"></script>
+<script>
+SettiCounter.init({"key": "ghoul", "name": "東京喰種", "g": {"id": "normalG", "label": "通常時G数"}, "g2": [{"id": "totalG", "label": "総回転数", "item": "lrCount"}], "counts": [{"id": "atCount", "label": "AT初当り", "wide": true}, {"id": "remCount", "label": "レミニセンス", "optional": true, "defaultOff": true, "openPanel": {"panel": "czPanel", "btn": "toggleCz"}}, {"id": "rizeCount", "label": "大喰いの利世", "optional": true, "defaultOff": true, "openPanel": {"panel": "czPanel", "btn": "toggleCz"}}, {"id": "ebCount", "label": "エピソードボーナス", "optional": true, "defaultOff": true, "openPanel": {"panel": "ebPanel", "btn": "toggleEb"}}, {"id": "atEndCount", "label": "AT終了", "optional": true, "defaultOff": true, "rate": false, "openPanel": {"panel": "hkPanel", "btn": "toggleHk"}}, {"id": "hkCount", "label": "うち引き戻し", "optional": true, "defaultOff": true, "rate": false, "openPanel": {"panel": "hkPanel", "btn": "toggleHk"}}, {"id": "lrCount", "label": "下段リプレイ", "optional": true, "defaultOff": true, "rateG": "totalG", "openPanel": {"panel": "lrPanel", "btn": "toggleLr"}}], checks: { selector: '#floorGroup input[type=checkbox]', title: "終了画面・示唆", short: '示唆（終了画面等）', optional: true }, judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend', note: "G数・小役は通常時のみ数える（AT・ボーナス中は数えない）。"});
+</script>
 </body>
 </html>
