@@ -706,8 +706,8 @@ SettiCounter.init({
   counts: [
     { id: 'todayBig', label: 'BIG' },
     { id: 'todayReg', label: 'REG' },
-    { id: 'todayGrape', label: 'ぶどう', wide: true, openPanel: { panel: 'optionalPanel', btn: 'toggleOptional' } },
-    { id: 'todayCherryReg', label: 'チェリー重複REG', wide: true, openPanel: { panel: 'optionalPanel', btn: 'toggleOptional' } }
+    { id: 'todayGrape', label: 'ぶどう', wide: true, optional: true, openPanel: { panel: 'optionalPanel', btn: 'toggleOptional' } },
+    { id: 'todayCherryReg', label: 'チェリー重複REG', wide: true, optional: true, defaultOff: true, openPanel: { panel: 'optionalPanel', btn: 'toggleOptional' } }
   ],
   select: 'machineSelect',
   judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend'
