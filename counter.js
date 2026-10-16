@@ -62,6 +62,11 @@
     + 'color:var(--text);font-weight:700;font-size:14px;font-family:inherit;cursor:pointer;touch-action:manipulation;}'
     + '.sc-foot .sc-reset.arm{border-color:var(--red);color:var(--red);}'
     + '.sc-note{font-size:11.5px;color:var(--muted);margin:14px 0 0;line-height:1.6;}'
+    + '.sc-tip{margin:16px 0 0;padding:12px 14px;border:1px dashed var(--line);border-radius:12px;background:var(--panel);'
+    + 'display:flex;align-items:center;gap:10px;}'
+    + '.sc-tip p{margin:0;flex:1;font-size:12.5px;color:var(--muted);line-height:1.5;}'
+    + '.sc-tip a{flex-shrink:0;padding:9px 14px;border-radius:10px;border:1px solid var(--gold);color:var(--gold);'
+    + 'font-size:13px;font-weight:700;text-decoration:none;}'
     + '.sc-ov .sc-tile .sc-edit{position:absolute;right:8px;bottom:8px;padding:5px 9px;border-radius:8px;border:1px solid var(--line);'
     + 'background:var(--panel-2);color:var(--muted);font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;line-height:1.2;}'
     + '.sc-pad{position:absolute;inset:0;z-index:5;background:#000a;display:none;align-items:flex-end;justify-content:center;}'
@@ -194,6 +199,8 @@
       + (chips ? '<div class="sc-checks"><div class="sc-sub">' + cfg.checks.title + '（タップで ON/OFF）</div><div class="sc-chips">' + chips + '</div></div>' : '')
       + '<p class="sc-note">押した数は判別ページの入力欄にそのまま入ります。数字は「✎ 入力」で直接入れられます。この端末に自動で保存されるので、画面を閉じても消えません。'
       + (cfg.note ? '<br>' + cfg.note : '') + '</p>'
+      + '<div class="sc-tip"><p>勝ったら10円でもいいので投げ銭ください🍶</p>'
+      + '<a class="sc-tip-a" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a></div>'
       + '</div>'
       + '<div class="sc-toast" role="status"><span>リセットしました</span><button type="button" class="sc-toast-undo">元に戻す</button></div>'
       + '<div class="sc-pad" role="dialog" aria-label="数を入力"><div class="sc-pad-box"><h3></h3>'
@@ -388,6 +395,7 @@
     }
     fab.addEventListener('click', open);
     ov.querySelector('.sc-close').addEventListener('click', close);
+    ov.querySelector('.sc-tip-a').addEventListener('click', function () { ga('tip_click', { machine: cfg.key, from: 'counter' }); });
 
     // ---------- 保存分の復元（共有URLで開いた時は復元しない） ----------
     var saved = store.get(KEY);
