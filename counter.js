@@ -61,7 +61,26 @@
     + '.sc-foot button{flex:1;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--panel-2);'
     + 'color:var(--text);font-weight:700;font-size:14px;font-family:inherit;cursor:pointer;touch-action:manipulation;}'
     + '.sc-foot .sc-reset.arm{border-color:var(--red);color:var(--red);}'
-    + '.sc-note{font-size:11.5px;color:var(--muted);margin:14px 0 0;line-height:1.6;}';
+    + '.sc-note{font-size:11.5px;color:var(--muted);margin:14px 0 0;line-height:1.6;}'
+    + '.sc-ov .sc-tile .sc-edit{position:absolute;right:8px;bottom:8px;padding:5px 9px;border-radius:8px;border:1px solid var(--line);'
+    + 'background:var(--panel-2);color:var(--muted);font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;line-height:1.2;}'
+    + '.sc-pad{position:absolute;inset:0;z-index:5;background:#000a;display:none;align-items:flex-end;justify-content:center;}'
+    + '.sc-pad.open{display:flex;}'
+    + '.sc-pad-box{width:100%;max-width:560px;background:var(--panel);border-top:1px solid var(--line);border-radius:16px 16px 0 0;'
+    + 'padding:16px 16px calc(16px + env(safe-area-inset-bottom));}'
+    + '.sc-pad-box h3{margin:0 0 10px;font-size:15px;font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;}'
+    + '.sc-pad-box input{width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:12px;color:var(--text);'
+    + 'font-size:30px;font-weight:900;padding:12px 14px;font-family:inherit;box-sizing:border-box;}'
+    + '.sc-pad-box .sc-pad-btns{display:flex;gap:10px;margin-top:12px;}'
+    + '.sc-ov .sc-pad-box .sc-pad-btns button{flex:1;padding:13px;border-radius:10px;border:1px solid var(--line);background:var(--panel-2);'
+    + 'color:var(--text);font-weight:700;font-size:15px;font-family:inherit;cursor:pointer;}'
+    + '.sc-ov .sc-pad-box .sc-pad-btns .sc-pad-ok{background:var(--gold);border-color:var(--gold);color:#1a1408;}'
+    + '.sc-toast{position:absolute;left:16px;right:16px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:4;display:none;'
+    + 'align-items:center;gap:10px;background:#2a2312;border:1px solid var(--gold-dim);border-radius:12px;padding:10px 12px;font-size:13.5px;color:#f0d9a6;}'
+    + '.sc-toast.show{display:flex;}'
+    + '.sc-toast span{flex:1;}'
+    + '.sc-ov .sc-toast button{background:var(--gold);color:#1a1408;border:none;border-radius:8px;padding:8px 12px;font-weight:900;'
+    + 'font-size:13.5px;font-family:inherit;cursor:pointer;}';
 
   var $ = function (id) { return document.getElementById(id); };
   var ga = function (name, p) { if (typeof gtag === 'function') gtag('event', name, p); };
@@ -75,7 +94,7 @@
 
   function init(cfg) {
     var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
-    var KEY = 'settiCounter:' + cfg.key;
+    var KEY = 'settiCounter:' + cfg.key, BKEY = 'settiCounterBak:' + cfg.key;
     var checks = cfg.checks ? [].slice.call(document.querySelectorAll(cfg.checks.selector)) : [];
     var undo = [], taps = 0;
     var UKEY = 'settiCounterUse:' + cfg.key;
@@ -107,6 +126,17 @@
       var v = {}; (cfg.counts || []).forEach(function (c) { v[c.id] = val(c.id); }); v[cfg.g.id] = val(cfg.g.id);
       G2.forEach(function (g) { v[g.id] = val(g.id); });
       store.set(KEY, { v: v, c: checks.map(function (c) { return c.checked ? 1 : 0; }), s: stash, t: Date.now() });
+    }
+    function snap() {
+      var v = {}; (cfg.counts || []).forEach(function (c) { v[c.id] = val(c.id); }); v[cfg.g.id] = val(cfg.g.id);
+      G2.forEach(function (g) { v[g.id] = val(g.id); });
+      return { v: v, c: checks.map(function (c) { return c.checked ? 1 : 0; }), s: JSON.parse(JSON.stringify(stash)), t: Date.now() };
+    }
+    function restore(sn) {
+      Object.keys(sn.v || {}).forEach(function (id) { write(id, sn.v[id]); });
+      (sn.c || []).forEach(function (on, i) { setCheck(i, !!on); });
+      stash = sn.s || {};
+      (cfg.counts || []).forEach(function (c) { if (val(c.id) > 0) openPanelOf(c); });
     }
     function used() {
       if (val(cfg.g.id) > 0) return true;
@@ -142,7 +172,8 @@
       return '<div class="sc-tile' + (c.wide ? ' wide' : '') + '" data-i="' + i + '" role="button" aria-label="' + c.label + 'を1つ増やす">'
         + '<div class="sc-lb">' + c.label + '</div>'
         + '<button type="button" class="sc-minus" data-i="' + i + '" aria-label="' + c.label + 'を1つ減らす">−</button>'
-        + '<div class="sc-n">0</div><div class="sc-rt"></div></div>';
+        + '<div class="sc-n">0</div><div class="sc-rt"></div>'
+        + '<button type="button" class="sc-edit" data-i="' + i + '" aria-label="' + c.label + 'の数を入力">✎ 入力</button></div>';
     }).join('');
     var chips = checks.map(function (c, i) {
       var tag = c.parentNode && c.parentNode.querySelector('.tag');
@@ -161,9 +192,13 @@
       + (opts.length ? '<div class="sc-use"><span>数える項目：</span>' + opts.map(function (o) { return '<button type="button" class="sc-uchip" data-k="' + o.k + '"></button>'; }).join('') + '</div>' : '')
       + '<div class="sc-grid">' + tiles + '</div>'
       + (chips ? '<div class="sc-checks"><div class="sc-sub">' + cfg.checks.title + '（タップで ON/OFF）</div><div class="sc-chips">' + chips + '</div></div>' : '')
-      + '<p class="sc-note">押した数は判別ページの入力欄にそのまま入ります。この端末に自動で保存されるので、画面を閉じても消えません。'
+      + '<p class="sc-note">押した数は判別ページの入力欄にそのまま入ります。数字は「✎ 入力」で直接入れられます。この端末に自動で保存されるので、画面を閉じても消えません。'
       + (cfg.note ? '<br>' + cfg.note : '') + '</p>'
       + '</div>'
+      + '<div class="sc-toast" role="status"><span>リセットしました</span><button type="button" class="sc-toast-undo">元に戻す</button></div>'
+      + '<div class="sc-pad" role="dialog" aria-label="数を入力"><div class="sc-pad-box"><h3></h3>'
+      + '<input type="number" inputmode="numeric" min="0">'
+      + '<div class="sc-pad-btns"><button type="button" class="sc-pad-no">キャンセル</button><button type="button" class="sc-pad-ok">決定</button></div></div></div>'
       + '<div class="sc-foot"><button type="button" class="sc-undo">1つ戻す</button><button type="button" class="sc-reset">リセット</button></div>';
     document.body.appendChild(ov);
 
@@ -198,7 +233,9 @@
         t.querySelector('.sc-rt').textContent = (c.rate !== false && gb > 0 && n > 0) ? '1/' + (gb / n).toFixed(1) : (c.hint || '');
       });
       checks.forEach(function (c, i) { ov.querySelector('.sc-chip[data-i="' + i + '"]').classList.toggle('on', c.checked); });
-      undoBtn.disabled = !undo.length; undoBtn.style.opacity = undo.length ? 1 : .45;
+      var bak = !undo.length && store.get(BKEY);
+      undoBtn.textContent = bak ? 'リセット前に戻す' : '1つ戻す';
+      undoBtn.disabled = !undo.length && !bak; undoBtn.style.opacity = (undo.length || bak) ? 1 : .45;
       fab.classList.toggle('on', used());
 
       var post = readPost();
@@ -218,6 +255,7 @@
       var c = cfg.counts[i], n = val(c.id);
       if (d < 0 && n <= 0) return;
       undo.push({ t: 'n', id: c.id, prev: n });
+      store.del(BKEY); hideToast();
       write(c.id, n + d);
       if (d > 0) {
         taps++; buzz();
@@ -227,6 +265,8 @@
     }
 
     ov.querySelector('.sc-grid').addEventListener('click', function (e) {
+      var ed = e.target.closest('.sc-edit');
+      if (ed) { e.stopPropagation(); openPad(+ed.dataset.i); return; }
       var m = e.target.closest('.sc-minus');
       if (m) { e.stopPropagation(); bump(+m.dataset.i, -1); return; }
       var t = e.target.closest('.sc-tile'); if (!t) return;
@@ -278,8 +318,11 @@
       });
     });
     undoBtn.addEventListener('click', function () {
-      var u = undo.pop(); if (!u) return;
-      if (u.t === 'n') write(u.id, u.prev); else setCheck(u.i, u.prev);
+      var u = undo.pop();
+      if (!u) { var bk = store.get(BKEY); if (!bk) return; restore(bk); store.del(BKEY); hideToast(); ga('counter_reset_undo', { machine: cfg.key }); changed(); return; }
+      if (u.t === 'n') write(u.id, u.prev);
+      else if (u.t === 'r') { restore(u.snap); store.del(BKEY); hideToast(); ga('counter_reset_undo', { machine: cfg.key }); }
+      else setCheck(u.i, u.prev);
       changed();
     });
     var armT = null;
@@ -290,19 +333,49 @@
         return;
       }
       clearTimeout(armT); resetBtn.classList.remove('arm'); resetBtn.textContent = 'リセット';
+      var before = snap(), had = used();
       (cfg.counts || []).forEach(function (c) { write(c.id, 0); });
       write(cfg.g.id, 0);
       G2.forEach(function (g) { write(g.id, 0); });
       checks.forEach(function (c, i) { setCheck(i, false); });
-      undo = []; stash = {}; store.del(KEY);
+      undo = had ? [{ t: 'r', snap: before }] : []; stash = {}; store.del(KEY);
+      if (had) { store.set(BKEY, before); showToast(); }
       var wr = $(cfg.wrap); if (wr) wr.style.display = 'none';
       ga('counter_reset', { machine: cfg.key });
       render();
     });
 
+    // ---------- 直接入力 ----------
+    var pad = ov.querySelector('.sc-pad'), padIn = pad.querySelector('input'), padI = -1;
+    function openPad(i) {
+      padI = i; pad.querySelector('h3').textContent = cfg.counts[i].label + 'の数を入力';
+      padIn.value = val(cfg.counts[i].id) || ''; pad.classList.add('open');
+      setTimeout(function () { padIn.focus(); padIn.select(); }, 30);
+    }
+    function closePad() { pad.classList.remove('open'); padI = -1; padIn.blur(); }
+    function commitPad() {
+      if (padI < 0) return;
+      var c = cfg.counts[padI], n = Math.max(parseInt(padIn.value, 10) || 0, 0), prev = val(c.id);
+      closePad();
+      if (n === prev) return;
+      undo.push({ t: 'n', id: c.id, prev: prev }); store.del(BKEY);
+      write(c.id, n); if (n > 0) openPanelOf(c);
+      ga('counter_direct', { machine: cfg.key, item: c.id });
+      changed();
+    }
+    pad.querySelector('.sc-pad-ok').addEventListener('click', commitPad);
+    pad.querySelector('.sc-pad-no').addEventListener('click', closePad);
+    pad.addEventListener('click', function (e) { if (e.target === pad) closePad(); });
+    padIn.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); commitPad(); } else if (e.key === 'Escape') closePad(); });
+    // ---------- リセットの取り消し ----------
+    var toast = ov.querySelector('.sc-toast'), toastT = null;
+    function showToast() { toast.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(hideToast, 10000); }
+    function hideToast() { toast.classList.remove('show'); clearTimeout(toastT); }
+    toast.querySelector('.sc-toast-undo').addEventListener('click', function () { undoBtn.click(); });
+
     var openedAt = 0;
     function open() {
-      undo = []; taps = 0; openedAt = Date.now();
+      undo = []; taps = 0; openedAt = Date.now(); hideToast(); closePad();
       ov.classList.add('open'); document.documentElement.style.overflow = 'hidden';
       silentCalc(); render();
       ga('counter_open', { machine: cfg.key });
