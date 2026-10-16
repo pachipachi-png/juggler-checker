@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スマスロ 北斗の拳 転生の章2 設定判別ツール（AT初当り・天破の刻・ランプ・サミートロフィー）| 設定示唆くん</title>
+<meta name="description" content="スマスロ 北斗の拳 転生の章2（北斗転生2・2026年1月導入）の設定判別ツール。通常時の回転数とAT初当り回数を入れるだけで設定1〜6の可能性を計算。天破の刻の回数や上部ランプの白点灯・白点滅を足したり、サミートロフィー・ランプで絞り込んだりできます。小役カウンター付き・無料・登録不要。">
+<link rel="canonical" href="https://pachipachi-png.com/hokuto-tensei2/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="設定示唆くん">
+<meta property="og:title" content="北斗転生2 設定判別ツール | 設定示唆くん">
+<meta property="og:description" content="通常時G数とAT初当り回数を入れるだけ。天破の刻・上部ランプ・サミートロフィーで設定を絞り込み。">
+<meta property="og:url" content="https://pachipachi-png.com/hokuto-tensei2/">
+<meta property="og:image" content="https://pachipachi-png.com/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14171c; --panel: #1d2229; --panel-2: #262c35; --line: #333b46;
+    --gold: #e8a93b; --gold-dim: #8a6a2a; --teal: #33b6a4; --text: #edeff2;
+    --muted: #8993a1; --red: #e07a7a; --violet: #8f8ce6; --tensei: #6b7cf0;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: radial-gradient(1200px 600px at 50% -200px, #23293280, transparent), var(--bg);
+    color: var(--text); font-family: 'Zen Maru Gothic', sans-serif; line-height: 1.7; padding-bottom: 80px;
+  }
+  h1,h2,h3{ font-family: 'Zen Kaku Gothic New', sans-serif; }
+  .wrap{ max-width: 560px; margin: 0 auto; padding: 0 18px; }
+
+  .topnav{ max-width:560px; margin:0 auto; padding:14px 18px 0; font-size:13px; }
+  .topnav a{ color: var(--muted); text-decoration:none; }
+  .hero{ padding: 44px 18px 30px; text-align: center; }
+  .lamp{
+    width: 84px; height: 84px; margin: 0 auto 18px; border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #e4e8ff, var(--tensei) 55%, #141a52 100%);
+    box-shadow: 0 0 40px 6px #6b7cf055, inset 0 0 18px #e4e8ff80;
+    animation: pulse 2.6s ease-in-out infinite;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; color:#0c1040; font-size: 14px; letter-spacing: 0.05em;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow: 0 0 40px 4px #6b7cf040, inset 0 0 18px #e4e8ff70; }
+    50%{ box-shadow: 0 0 56px 10px #6b7cf080, inset 0 0 22px #e4e8ffa0; }
+  }
+  .hero h1{ font-size: 24px; font-weight: 900; margin: 0 0 8px; }
+  .hero p{ color: var(--muted); font-size: 14px; margin: 0; }
+
+  section{ margin: 26px 0; }
+  .card{ background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .section-title{ display:flex; align-items:baseline; gap: 10px; margin-bottom: 14px; }
+  .section-title .num{
+    font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900; color: var(--gold); font-size: 15px;
+    border: 1px solid var(--gold-dim); border-radius: 8px;
+    width: 26px; height: 26px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .section-title h2{ font-size: 16px; margin:0; font-weight:700; }
+  .hint{ color: var(--muted); font-size: 12.5px; margin: 6px 0 0; }
+
+  label{ display:block; font-size: 13px; color: var(--muted); margin: 12px 0 6px; }
+  input[type=number], input[type=time]{
+    width:100%; background: var(--panel-2); border: 1px solid var(--line);
+    color: var(--text); padding: 10px 12px; border-radius: 9px; font-size: 15px; font-family: inherit;
+  }
+  input:focus, button:focus-visible{ outline: 2px solid var(--teal); outline-offset: 1px; }
+  .row2{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .row2 label{ margin-top: 0; }
+
+  button{
+    font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 700; font-size: 14.5px;
+    border-radius: 10px; border: none; padding: 12px 16px; cursor:pointer; width: 100%;
+  }
+  .btn-primary{ background: var(--teal); color: #08211d; }
+  .btn-primary:active{ transform: translateY(1px); }
+  .btn-ghost{ background: transparent; border: 1px solid var(--line); color: var(--text); }
+  .btn-small{ width:auto; padding: 9px 14px; font-size: 13px; }
+
+  table.spec{ width:100%; border-collapse: collapse; margin-top: 10px; font-size: 12.5px; }
+  table.spec th, table.spec td{ padding: 6px 2px; text-align:center; border-bottom: 1px solid var(--line); }
+  table.spec th{ color: var(--muted); font-weight: 500; }
+  table.spec td:first-child{ white-space: nowrap; width: 3.2em; }
+  table.spec td input{ padding: 5px; font-size: 12.5px; text-align:center; }
+
+  .live-rate{
+    display:flex; align-items:center; justify-content:space-between;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px;
+    padding: 12px 14px; margin-top: 10px; font-size: 13px; color: var(--muted);
+  }
+  .live-rate b{ color: var(--teal); font-size: 16px; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .live-rate small{ display:block; font-size: 11.5px; color: var(--muted); font-weight: 400; text-align:right; }
+
+  .optional-panel{ margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); display:none; }
+  .optional-panel.open{ display:block; }
+
+  .bell-guide{ display:flex; gap: 16px; align-items:center; margin: 4px 0 6px; flex-wrap: wrap; }
+  .bell-guide svg{ width: 150px; height: auto; flex-shrink:0; }
+  .bell-guide ul{ margin:0; padding-left: 18px; font-size: 13px; flex:1; min-width: 180px; }
+  .bell-guide li{ margin-bottom: 3px; }
+  .bell-guide li b{ color: var(--gold); }
+
+  .chk-group{ margin-top: 6px; }
+  .chk-group h3{ font-size: 13.5px; margin: 14px 0 6px; }
+  .chk{
+    display:flex; align-items:center; gap: 10px; padding: 9px 12px; margin: 0 0 6px;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px; cursor: pointer;
+    font-size: 13.5px; color: var(--text);
+  }
+  .chk input{ width: 18px; height: 18px; accent-color: var(--teal); flex-shrink:0; }
+  .chk .tag{ margin-left:auto; font-size: 12px; color: var(--gold); white-space: nowrap; }
+  .chk:has(input:checked){ border-color: var(--teal); }
+  .floor-now{ margin-top: 10px; font-size: 13px; color: var(--muted); }
+  .floor-now b{ color: var(--teal); }
+  .hint-link{ display:block; margin: 10px 0 2px; padding: 10px 12px; border-radius: 9px; border: 1px solid var(--teal); color: var(--teal); text-decoration:none; font-size: 13.5px; font-weight: 700; text-align:center; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .mini-link{ font-size: 11.5px; font-weight: 500; color: var(--teal); margin-left: 6px; }
+  #hints{ scroll-margin-top: 12px; }
+  .ref-list{ font-size: 12.5px; color: var(--muted); margin: 6px 0 0; padding-left: 18px; }
+
+  .pie-wrap{ display:flex; align-items:center; gap: 22px; margin-top: 16px; flex-wrap: wrap; }
+  .pie{ width: 150px; height: 150px; border-radius: 50%; flex-shrink:0; background: var(--panel-2); }
+  .legend{ flex: 1; min-width: 180px; }
+  .legend-row{ display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:7px; }
+  .legend-row.cut{ opacity: .4; text-decoration: line-through; }
+  .swatch{ width:11px; height:11px; border-radius:3px; flex-shrink:0; }
+  .legend-row .pct{ margin-left:auto; font-variant-numeric: tabular-nums; }
+
+  .top-setting{
+    margin-top: 14px; padding: 12px 14px; border-radius: 10px;
+    background: #22303022; border: 1px solid #33665544; font-size: 13.5px;
+  }
+  .top-setting b{ color: var(--teal); }
+
+  .ev-output{ margin-top: 14px; padding: 16px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--line); text-align:center; }
+  .ev-output .num{ font-size: 28px; font-weight: 900; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .ev-output .num.pos{ color: #6fd6a8; }
+  .ev-output .num.neg{ color: #e08787; }
+  .ev-output .sub{ font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+  .tip-prompt{ margin-top: 14px; padding: 14px; background: var(--panel-2); border-radius: 10px; border: 1px dashed var(--line); }
+
+  .ad-slot{ display:none; }
+  footer{ text-align:center; color: var(--muted); font-size: 11.5px; padding: 20px 18px 0; }
+  #specBody td input, #specBody2 td input{ padding: 5px 2px; font-size: 12px; }
+  table.spec th{ font-size: 11.5px; }
+
+  /* layout v2: 判別ボタンを必須入力の直下に */
+  .btn-judge{ width:100%; margin-top:16px; font-size:17px; padding:15px 12px; }
+  .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
+  .opt-block:first-of-type{ margin-top:6px; }
+  .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  #recalcBtn{ width:100%; margin-top:16px; }
+  .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
+  .spec-details > summary::-webkit-details-marker{ display:none; }
+  .spec-details > summary::after{ content:'＋ 開く'; margin-left:auto; font-size:12.5px; color:var(--muted); font-weight:400; }
+  .spec-details[open] > summary::after{ content:'－ 閉じる'; }
+  .spec-details[open] > summary{ margin-bottom:14px; }
+  .machine{ margin: 0 auto 14px; width: 130px; }
+  .machine img{ display:block; width:100%; height:auto; filter: drop-shadow(0 8px 24px #6b7cf045); }
+  /* 示唆グループの折りたたみ */
+  .hint-acc{ border:1px solid var(--line); border-radius:10px; margin:0 0 8px; background:#1a1f26; }
+  .hint-acc > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:8px; padding:12px 12px; font-size:13.5px; font-weight:700; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .hint-acc > summary::-webkit-details-marker{ display:none; }
+  .hint-acc > summary::after{ content:'＋'; color:var(--muted); font-weight:400; font-size:15px; flex-shrink:0; }
+  .hint-acc[open] > summary::after{ content:'－'; }
+  .hint-acc .acc-title{ flex:1; min-width:0; }
+  .hint-acc .acc-title small{ display:block; font-weight:400; font-size:11.5px; color:var(--muted); font-family:'Zen Maru Gothic',sans-serif; }
+  .hint-acc .acc-cnt{ font-size:11.5px; font-weight:700; color:#08211d; background:var(--teal); border-radius:999px; padding:1px 9px; white-space:nowrap; display:none; }
+  .hint-acc.has-on{ border-color:var(--teal); }
+  .hint-acc.has-on .acc-cnt{ display:inline-block; }
+  .hint-acc > .chk{ margin:0 10px 6px; }
+  .hint-acc > .chk:last-child{ margin-bottom:10px; }
+  .ref-acc{ margin-top:12px; }
+  .ref-acc > .ref-list{ margin:0 12px 8px 0; }
+  .ref-acc > .hint{ margin:0 12px 12px; }
+  .notice{ margin:0 0 4px; padding:10px 14px; border:1px solid var(--gold-dim); border-radius:10px; background:#2a2312; color:#f0d9a6; font-size:13px; }
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFM94DE8Y3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZFM94DE8Y3');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9150472731628445" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav class="topnav"><a href="../">← 機種一覧（設定示唆くん）</a></nav>
+<div class="hero">
+  <figure class="machine"><img src="machine.webp" width="130" height="221" alt="スマスロ 北斗の拳 転生の章2の筐体"></figure>
+  <h1>スマスロ 北斗の拳<br>転生の章2 設定判別</h1>
+  <p>通常時の回転数とAT初当り回数から設定1〜6の可能性を推定。天破の刻や上部ランプの白点灯・白点滅を足したり、トロフィー・ランプで絞り込んだりできます</p>
+</div>
+
+<div class="wrap">
+
+  <p class="notice">2026年1月導入の「スマスロ 北斗の拳 転生の章2」のページです。2023年導入の「スマスロ北斗の拳」（無印）とは別の機種です。無印は<a href="../hokuto/" style="color:#f0d9a6;">こちら</a>。</p>
+
+  <!-- 1. 実戦データ → 判別 -->
+  <section class="card">
+    <div class="section-title"><span class="num">1</span><h2>実戦データを入力して判別</h2></div>
+    <div class="row2">
+      <div>
+        <label for="normalG">通常時の回転数</label>
+        <input type="number" id="normalG" inputmode="numeric" placeholder="例：3000">
+      </div>
+      <div>
+        <label for="atCount">AT初当り回数</label>
+        <input type="number" id="atCount" inputmode="numeric" placeholder="例：10">
+      </div>
+    </div>
+    <div class="live-rate">
+      <span>現在のAT初当り確率</span>
+      <span><b id="liveAt">ー</b><small id="liveAtNote"></small></span>
+    </div>
+    <p class="hint">通常時から当たったAT（神拳勝舞）を1回と数えます。AT中の継続は含めません。回転数は<b>通常時のみ</b>（AT中のゲーム数は含めない）。<a class="mini-link ref-out" data-sec="spec" href="https://pachiseven.jp/machines/7282" target="_blank" rel="noopener">初当り確率↗</a></p>
+    <button class="btn-primary btn-judge" id="calcBtn">この数字で判別する</button>
+
+    <div class="pie-wrap" id="pieWrap" style="display:none;">
+      <div class="pie" id="pieChart"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div id="topSetting"></div>
+    <div class="ev-output" id="evOutput" style="display:none;"></div>
+    <div class="tip-prompt" id="tipPromptCalc" style="display:none;">
+      <p style="margin:0 0 10px; font-size:13.5px;">勝ったら10円でもいいので投げ銭ください🍶</p>
+      <a class="btn-ghost" style="display:block; text-align:center; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
+    </div>
+    <p class="hint">AT初当り回数（と、追加で入れた項目）の二項分布の尤度から、設定ごとの相対的な可能性をベイズ的に算出しています（事前は一様、示唆にチェックした場合は当てはまらない設定を0%に）。あべし天井やモードの影響を受けるため、回転数が少ないうちはブレが大きくなります。統計的な目安であり、実際の設定を保証するものではありません。</p>
+  </section>
+
+  <!-- 2. 任意入力 -->
+  <section class="card" id="optionalCard">
+    <div class="section-title"><span class="num">2</span><h2>もっと絞り込む（任意）</h2></div>
+    <p class="hint" style="margin-top:0;">入れなくても判別できます。数えたものだけ開いて入力すると、判別済みの結果に自動で反映されます。</p>
+
+    <div class="opt-block">
+      <button class="btn-ghost btn-small opt-toggle" id="toggleTenpa" data-panel="tenpaPanel" data-label="＋ 天破の刻の回数を入力する" style="margin-top:0;">＋ 天破の刻の回数を入力する</button>
+      <div class="optional-panel" id="tenpaPanel">
+        <div class="row2">
+          <div>
+            <label for="tenpaCount">天破の刻の回数</label>
+            <input type="number" id="tenpaCount" inputmode="numeric" placeholder="例：33">
+          </div>
+          <div class="live-rate" style="margin:22px 0 0;">
+            <span>天破の刻</span>
+            <span><b id="liveTenpa">ー</b><small id="liveTenpaNote"></small></span>
+          </div>
+        </div>
+        <ul class="ref-list" style="margin-top:8px;">
+          <li>通常時に突入した天破の刻の回数です。分母は上の通常時の回転数（天破の刻中のゲーム数は含めない）</li>
+          <li>設定1 1/100.2〜設定6 1/81.3（約1.2倍）。回数が多く出るので、AT初当りより早く差が見えてきます</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="opt-block">
+      <button class="btn-ghost btn-small opt-toggle" id="toggleLamp" data-panel="lampPanel" data-label="＋ 上部ランプの白点灯・白点滅を入力する">＋ 上部ランプの白点灯・白点滅を入力する</button>
+      <div class="optional-panel" id="lampPanel">
+        <div class="row2">
+          <div>
+            <label for="whiteOn">白点灯</label>
+            <input type="number" id="whiteOn" inputmode="numeric" placeholder="例：4">
+          </div>
+          <div>
+            <label for="whiteBlink">白点滅</label>
+            <input type="number" id="whiteBlink" inputmode="numeric" placeholder="例：2">
+          </div>
+        </div>
+        <div class="live-rate">
+          <span>白点灯の割合</span>
+          <span><b id="liveLamp">ー</b><small id="liveLampNote"></small></span>
+        </div>
+        <ul class="ref-list" style="margin-top:8px;">
+          <li>通常時100Gごとに光ることがある、筐体上部の<b>中央ランプ</b>の色です（左右のランプではありません）</li>
+          <li>白点灯は設定2・4で60%、白点滅は設定3・5で60%。設定1・6は半々です。<b>偶数か奇数か</b>を見分けるのに向いています</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="opt-block">
+      <h3 class="sub-h">期待差枚の計算条件</h3>
+      <div class="row2">
+        <div>
+          <label for="closingTime">閉店時刻</label>
+          <input type="time" id="closingTime" value="22:45">
+        </div>
+        <div>
+          <label for="spinsPerHour">1時間あたりの回転数</label>
+          <input type="number" id="spinsPerHour" value="700">
+        </div>
+      </div>
+    </div>
+    <button class="btn-ghost" id="recalcBtn" type="button">この内容で再計算する</button>
+  </section>
+
+  <!-- 3. 終了画面・示唆 -->
+  <section class="card" id="hintCard">
+    <div class="section-title"><span class="num">3</span><h2>終了画面・示唆で絞り込む</h2></div>
+    <div id="hints">
+    <p class="hint" style="margin-top:0;">見えたものがある項目を開いてチェック。「〇以上濃厚」に当てはまらない設定を計算から外します。</p>
+    <a class="hint-link ref-out" data-sec="settei" href="https://1geki.jp/slot/l_hokuto_tensei2/0/" target="_blank" rel="noopener">設定示唆の解説を見る（1geki）↗</a>
+    <div class="chk-group" id="floorGroup">
+      <details class="hint-acc"><summary><span class="acc-title">サミートロフィー<small>AT（神拳勝舞）終了時</small></span><span class="acc-cnt"></span></summary>
+      <label class="chk"><input type="checkbox" data-allow="2,3,4,5,6" data-name="トロフィー銅">銅<span class="tag">設定2以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="3,4,5,6" data-name="トロフィー銀">銀<span class="tag">設定3以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="トロフィー金">金<span class="tag">設定4以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="5,6" data-name="トロフィーキリン柄">キリン柄<span class="tag">設定5以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="6" data-name="トロフィー虹">虹<span class="tag">設定6濃厚</span></label>
+      </details>
+      <details class="hint-acc"><summary><span class="acc-title">上部の中央ランプ<small>通常時100Gごと</small></span><span class="acc-cnt"></span></summary>
+      <label class="chk"><input type="checkbox" data-allow="2,3,4,5,6" data-name="中央ランプ黄緑点灯">黄緑点灯<span class="tag">設定2以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="中央ランプ黄緑点滅">黄緑点滅<span class="tag">設定4以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="6" data-name="中央ランプ金点灯">金点灯<span class="tag">設定6濃厚</span></label>
+      </details>
+      <details class="hint-acc"><summary><span class="acc-title">左右のランプが外れた時<small>モード示唆が否定された時だけ</small></span><span class="acc-cnt"></span></summary>
+      <label class="chk"><input type="checkbox" data-allow="2,3,4,5,6" data-name="左右ランプ緑・否定">緑が光ったのに示唆どおりにならなかった<span class="tag">設定2以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="左右ランプ金・否定">金が光ったのに示唆どおりにならなかった<span class="tag">設定4以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="6" data-name="左右ランプ紫・否定">紫が光ったのに示唆どおりにならなかった<span class="tag">設定6濃厚</span></label>
+      </details>
+    </div>
+    <p class="floor-now" id="floorNow">絞り込み：なし（設定1〜6すべてで計算）</p>
+
+    <details class="hint-acc ref-acc"><summary><span class="acc-title">参考・注記<small>計算には使いません</small></span><span class="acc-cnt"></span></summary>
+    <ul class="ref-list">
+      <li>中央ランプ：白点灯＝設定2・4示唆、白点滅＝設定3・5示唆（上の任意入力で割合として使えます）、水色点灯＝高設定示唆（弱）、水色点滅＝高設定示唆（強）</li>
+      <li>左右のランプ：緑・金・紫は通常モードB以上／C以上の示唆。示唆どおりにならなかった（否定された）時だけ、上の絞り込みが使えます。白・水色は規定あべしの近さの示唆で、設定とは関係ありません</li>
+      <li>トロフィーの出現率（何らかのトロフィー）：8000Gまでに設定2 8.1%・設定4 16.2%・設定6 22.4%。出なくても低設定とは限りません。店舗カスタム使用時は対象外です</li>
+      <li>ボイス・獲得枚数表示・エンディングの設定示唆は、解析サイトに記載がありません</li>
+    </ul>
+    </details>
+    </div>
+  </section>
+
+  <!-- 4. 設定差 -->
+  <section class="card" id="specCard">
+    <details class="spec-details">
+      <summary><div class="section-title" style="margin:0;"><span class="num">4</span><h2>設定差を見る・編集する</h2></div></summary>
+    <table class="spec">
+      <thead><tr><th>設定</th><th>AT初当り(1/n)</th><th>天破の刻(1/n)</th><th>機械割%</th></tr></thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    <table class="spec" style="margin-top:16px;">
+      <thead><tr><th>設定</th><th>中央ランプ 白点灯%</th><th>白点滅%</th></tr></thead>
+      <tbody id="specBody2"></tbody>
+    </table>
+    <p class="hint">解析サイトの公開値です（2026年10月16日時点）。AT初当りは設定1と6で<b>約1.3倍</b>、天破の刻は約1.2倍の差です。設定3と4の間で大きく変わります（AT 1/336.3→1/298.7）。天破の刻の設定6は1/81.3（1geki・altema・DMM）と1/81.8（パチセブン）で食い違いがあり、多数の1/81.3にしています。</p>
+    <h3 style="font-size:13.5px; margin:18px 0 4px;">ほかの数値（計算には使いません）</h3>
+    <ul class="ref-list">
+      <li>天撃（CZ）の成功率：設定1 50.6%〜設定6 60.8%。突入時・最終ゲームのハズレで成功した時の割合は設定1 4.7%〜設定6 16.4%</li>
+      <li>設定変更後に256あべし以内が選ばれる割合：設定1 36.4%〜設定6 52.6%</li>
+      <li>伝承モード終了時に低確へ移る割合：設定1〜3 約70〜72%、設定4 50.0%、設定5 43.8%、設定6 39.1%</li>
+      <li>低確中のレア役（弱チェリー・スイカ・チャンス目）からの状態アップ・天破の刻突入にも設定差があります（強チェリーは共通）</li>
+    </ul>
+    </details>
+  </section>
+
+  <div class="ad-slot">
+    <!-- ここに広告コード（例: Google AdSenseのユニットタグ）を差し込みます -->
+    広告スペース
+  </div>
+
+  <footer>
+    設定差の数値は各解析サイトの公開値（2026年10月時点）をもとにしています。<br>
+    本ツールは統計的な参考情報の提供を目的としたエンターテインメントです。実際の遊技は自己責任・適正な範囲でお楽しみください。<br>
+    18歳未満の方はパチンコ・パチスロを遊技できません。<br>
+    <a href="../" style="color:var(--muted);">機種一覧</a>　<a href="../privacy.html" style="color:var(--muted);">プライバシーポリシー</a>
+  </footer>
+</div>
+
+<script>
+// ================= 1. 設定差（2026年10月時点の公開値） =================
+const SETS = [1,2,3,4,5,6];
+const SPEC = {
+  at:     [366.0, 357.0, 336.3, 298.7, 283.2, 273.1],
+  tenpa:  [100.2, 99.4, 97.1, 91.4, 85.8, 81.3],
+  payout: [97.6, 98.4, 100.7, 106.2, 111.1, 114.9],
+  won:    [50.0, 60.0, 40.0, 60.0, 40.0, 50.0],   // 中央ランプ 白点灯（%）
+  wbl:    [50.0, 40.0, 60.0, 40.0, 60.0, 50.0]    // 中央ランプ 白点滅（%）
+};
+const N = SETS.length, BET = 3;
+const $ = id => document.getElementById(id);
+
+for(let i=0; i<N; i++){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>設定${SETS[i]}</td>
+    <td><input type="number" step="0.1" class="atInput" value="${SPEC.at[i].toFixed(1)}"></td>
+    <td><input type="number" step="0.1" class="tenpaInput" value="${SPEC.tenpa[i].toFixed(1)}"></td>
+    <td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[i].toFixed(1)}"></td>`;
+  $('specBody').appendChild(tr);
+  const tr2 = document.createElement('tr');
+  tr2.innerHTML = `
+    <td>設定${SETS[i]}</td>
+    <td><input type="number" step="0.1" class="wonInput" value="${SPEC.won[i].toFixed(1)}"></td>
+    <td><input type="number" step="0.1" class="wblInput" value="${SPEC.wbl[i].toFixed(1)}"></td>`;
+  $('specBody2').appendChild(tr2);
+}
+const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
+const onShare = () => { const a = readCol('wonInput'), b = readCol('wblInput'); return a.map((v, i) => v / (v + b[i])); };
+
+// ================= 2. 実戦データ =================
+const num = el => Math.max(parseFloat(el.value) || 0, 0);
+const filled = id => $(id).value.trim() !== '';
+const isOpen = id => $(id).classList.contains('open');
+
+function nearLabel(r, arr){
+  const max = Math.max(...arr), min = Math.min(...arr);
+  if(r >= max) return `設定${SETS[0]}より重い`;
+  if(r <= min) return `設定${SETS[N-1]}より軽い`;
+  let best = 0;
+  arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+  return `設定${SETS[best]}付近`;
+}
+function setLive(idB, idN, text, note){ $(idB).textContent = text; $(idN).textContent = note; }
+
+function updateLive(){
+  const g = num($('normalG')), a = num($('atCount')), t = num($('tenpaCount'));
+  if(g > 0 && a > 0) setLive('liveAt', 'liveAtNote', `1/${(g/a).toFixed(1)}`, nearLabel(g/a, readCol('atInput')));
+  else setLive('liveAt', 'liveAtNote', 'ー', '');
+  if(g > 0 && t > 0) setLive('liveTenpa', 'liveTenpaNote', `1/${(g/t).toFixed(1)}`, nearLabel(g/t, readCol('tenpaInput')));
+  else setLive('liveTenpa', 'liveTenpaNote', 'ー', '');
+  const on = num($('whiteOn')), bl = num($('whiteBlink'));
+  if(on + bl > 0){
+    const p = on / (on + bl) * 100;
+    setLive('liveLamp', 'liveLampNote', `${p.toFixed(1)}%`, p >= 55 ? '偶数設定（2・4）寄り' : (p <= 45 ? '奇数設定（3・5）寄り' : '半々（設定1・6寄り）'));
+  } else setLive('liveLamp', 'liveLampNote', 'ー', '');
+}
+['normalG','atCount','tenpaCount','whiteOn','whiteBlink'].forEach(id => $(id).addEventListener('input', updateLive));
+document.querySelectorAll('#specBody input, #specBody2 input').forEach(el => el.addEventListener('input', updateLive));
+
+document.querySelectorAll('.opt-toggle').forEach(btn => btn.addEventListener('click', () => {
+  const panel = $(btn.dataset.panel);
+  panel.classList.toggle('open');
+  btn.textContent = panel.classList.contains('open') ? '－ 閉じる（この項目を計算から外す）' : btn.dataset.label;
+}));
+
+// ================= 3. 示唆による絞り込み =================
+const floorChecks = [...document.querySelectorAll('#floorGroup input[type=checkbox]')];
+function currentAllow(){
+  const on = floorChecks.filter(c => c.checked);
+  let allow = new Set(SETS);
+  on.forEach(c => {
+    const a = new Set(c.dataset.allow.split(',').map(Number));
+    allow = new Set([...allow].filter(s => a.has(s)));
+  });
+  return { allow, names: on.map(c => c.dataset.name) };
+}
+const allowLabel = allow => [...allow].map(s => `設定${s}`).join('・');
+function updateFloorText(){
+  const { allow, names } = currentAllow();
+  const el = $('floorNow');
+  if(names.length === 0) el.innerHTML = '絞り込み：なし（設定1〜6すべてで計算）';
+  else if(allow.size === 0) el.innerHTML = '<span style="color:var(--red);">チェックした示唆が矛盾しています（当てはまる設定がありません）。見間違いがないか確認してください。</span>';
+  else el.innerHTML = `絞り込み：<b>${allowLabel(allow)}</b>で計算（${names.join('・')}）`;
+}
+function updateAccCount(){
+  document.querySelectorAll('#floorGroup .hint-acc').forEach(d => {
+    const n = d.querySelectorAll('input[type=checkbox]:checked').length;
+    d.classList.toggle('has-on', n > 0);
+    d.querySelector('.acc-cnt').textContent = n > 0 ? `${n}件チェック` : '';
+  });
+}
+floorChecks.forEach(c => c.addEventListener('change', () => { updateFloorText(); updateAccCount(); }));
+
+// ================= 4. 計算 =================
+const pieColors = ['#e8a93b','#33b6a4','#7fa7d9','#d9668b','#9b7fd9','#6fd6a8'];
+const topSetting = $('topSetting'), pieWrap = $('pieWrap'), evOutput = $('evOutput'), tipPrompt = $('tipPromptCalc');
+const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
+function showMsg(html){
+  topSetting.innerHTML = `<p class="hint">${html}</p>`;
+  pieWrap.style.display = 'none'; evOutput.style.display = 'none'; tipPrompt.style.display = 'none';
+}
+
+$('calcBtn').addEventListener('click', () => {
+  const g = num($('normalG')), a = num($('atCount'));
+  const useTenpa = isOpen('tenpaPanel') && filled('tenpaCount');
+  const useLamp  = isOpen('lampPanel') && (filled('whiteOn') || filled('whiteBlink'));
+  const t = num($('tenpaCount')), on = num($('whiteOn')), bl = num($('whiteBlink'));
+
+  if(g <= 0){ showMsg('通常時の回転数を入力してください。'); return; }
+  if(a > g || (useTenpa && t > g)){ showMsg('回数が回転数を超えています。入力を確認してください。'); return; }
+
+  const { allow, names } = currentAllow();
+  if(allow.size === 0){ showMsg('チェックした示唆が矛盾しています。見間違いがないか確認してください。'); return; }
+
+  const at = readCol('atInput'), tp = readCol('tenpaInput'), payout = readCol('payoutInput'), os = onShare();
+  const ll = [];
+  for(let i=0; i<N; i++){
+    if(!allow.has(SETS[i])){ ll.push(-Infinity); continue; }
+    let x = binomLL(a, g, 1/at[i]);
+    if(useTenpa) x += binomLL(t, g, 1/tp[i]);
+    if(useLamp && on + bl > 0) x += binomLL(on, on + bl, Math.min(Math.max(os[i], 1e-6), 0.999999));
+    ll.push(x);
+  }
+  const maxLL = Math.max(...ll);
+  const w = ll.map(x => x === -Infinity ? 0 : Math.exp(x - maxLL));
+  const sum = w.reduce((x, y) => x + y, 0);
+  const post = w.map(x => x / sum);
+  const expSetting = post.reduce((acc, q, i) => acc + q*SETS[i], 0);
+
+  if (typeof gtag === 'function') {
+    gtag('event', 'judge_run', { machine_group: 'hokuto-tensei2', machine: 'hokuto-tensei2', has_tenpa: useTenpa, has_lamp: useLamp, allow: [...allow].join('') });
+  }
+
+  let acc = 0;
+  const stops = post.map((q, i) => { const s0 = acc*360; acc += q; return `${pieColors[i]} ${s0}deg ${acc*360}deg`; }).join(', ');
+  $('pieChart').style.background = `conic-gradient(${stops})`;
+  pieWrap.style.display = 'flex';
+  const legend = $('legend'); legend.innerHTML = '';
+  post.forEach((q, i) => {
+    const row = document.createElement('div');
+    row.className = 'legend-row' + (!allow.has(SETS[i]) ? ' cut' : '');
+    row.innerHTML = `<span class="swatch" style="background:${pieColors[i]}"></span><span>設定${SETS[i]}</span><span class="pct">${(q*100).toFixed(1)}%</span>`;
+    legend.appendChild(row);
+  });
+
+  const best = post.indexOf(Math.max(...post));
+  const hi = post.reduce((x, q, i) => x + (SETS[i] >= 4 ? q : 0), 0);
+  const even = post.reduce((x, q, i) => x + (SETS[i] % 2 === 0 ? q : 0), 0);
+  const rate = (n, k) => k > 0 ? (n/k).toFixed(1) : '―';
+  const parts = [`通常時${g}G / AT初当り ${a}回（1/${rate(g, a)}）`];
+  if(useTenpa) parts.push(`天破の刻 ${t}回（1/${rate(g, t)}）`);
+  if(useLamp && on + bl > 0) parts.push(`中央ランプ 白点灯${on}・白点滅${bl}`);
+  if(names.length) parts.push(`絞り込み：${allowLabel(allow)}（${names.join('・')}）`);
+  let msg = `最も可能性が高いのは <b>設定${SETS[best]}</b>（推定 ${(post[best]*100).toFixed(1)}%）。設定4以上の合計 <b>${(hi*100).toFixed(1)}%</b>、偶数設定の合計 <b>${(even*100).toFixed(1)}%</b>、期待設定 <b>${expSetting.toFixed(2)}</b>。<br><span style="color:var(--muted);font-size:12.5px;">${parts.join(' / ')}</span>`;
+  if(g < 3000) msg += '<br><span style="color:var(--muted);font-size:12.5px;">3,000G未満ではブレが大きく、差が出にくいです。天破の刻やトロフィーも合わせて見てください。</span>';
+  topSetting.innerHTML = `<div class="top-setting">${msg}</div>`;
+
+  const spinsPerHour = parseFloat($('spinsPerHour').value) || 0;
+  const [ch, cm] = $('closingTime').value.split(':').map(Number);
+  const closing = new Date(); closing.setHours(ch, cm, 0, 0);
+  const hours = Math.max((closing - new Date()) / 3600000, 0);
+  const remainG = spinsPerHour * hours;
+  const netPer = payout.map(x => BET * (x/100 - 1) * remainG);
+  const ev = Math.round(post.reduce((x, q, i) => x + q*netPer[i], 0)) || 0;
+  const bestNet = Math.round(netPer[best]) || 0;
+  const sign = val => val > 0 ? '+' : (val < 0 ? '' : '±');
+  evOutput.style.display = 'block';
+  evOutput.innerHTML = `
+    <div class="num ${ev >= 0 ? 'pos' : 'neg'}">${sign(ev)}${ev.toLocaleString()} 枚</div>
+    <div class="sub">残り約${hours.toFixed(1)}時間・約${Math.round(remainG).toLocaleString()}G分の期待差枚（各設定の機械割を確率で重み付け平均）</div>
+    <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--line);">
+      <div class="num ${bestNet >= 0 ? 'pos' : 'neg'}" style="font-size:22px;">${sign(bestNet)}${bestNet.toLocaleString()} 枚</div>
+      <div class="sub">最有力の設定${SETS[best]}だった場合の期待差枚</div>
+    </div>`;
+  tipPrompt.style.display = 'block';
+});
+
+document.querySelectorAll('a.ref-out').forEach(el => el.addEventListener('click', () => {
+  if (typeof gtag === 'function') gtag('event', 'outbound_ref', { machine: 'hokuto-tensei2', section: el.dataset.sec });
+}));
+</script>
+
+
+<script>
+// layout v2: 任意入力・設定差を変えたら判別結果を自動で再計算（GAのjudge_runは送らない）
+(function(){
+  var btn = document.getElementById('calcBtn'); if(!btn) return;
+  var done = false, timer = null;
+  btn.addEventListener('click', function(){ done = true; });
+  function silentCalc(){
+    var g = window.gtag;
+    window.gtag = function(a, b){ if(a === 'event' && b === 'judge_run') return; if(typeof g === 'function') return g.apply(this, arguments); };
+    try { btn.click(); } finally { window.gtag = g; }
+  }
+  function auto(e){
+    if(!done) return;
+    if(e && e.target && e.target.id === 'recalcBtn') return;
+    clearTimeout(timer); timer = setTimeout(silentCalc, 350);
+  }
+  ['hintCard', 'optionalCard', 'specCard'].forEach(function(id){
+    var el = document.getElementById(id); if(!el) return;
+    el.addEventListener('input', auto); el.addEventListener('change', auto);
+  });
+  document.querySelectorAll('.opt-toggle').forEach(function(b){ b.addEventListener('click', auto); });
+  var rb = document.getElementById('recalcBtn');
+  if(rb) rb.addEventListener('click', function(){
+    btn.click();
+    var t = document.getElementById('pieWrap');
+    if(t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+})();
+</script>
+<script src="../share.js"></script>
+<script>
+(function(){
+  var tp = {"panel": "tenpaPanel", "toggle": "toggleTenpa"}, lp = {"panel": "lampPanel", "toggle": "toggleLamp"};
+  var cfg = {"key": "hokuto-tensei2", "name": "スマスロ 北斗の拳 転生の章2", "tags": "#北斗転生2 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "fields": [
+    {"id": "normalG", "q": "g", "label": "通常時", "unit": "G"},
+    {"id": "atCount", "q": "at", "label": "AT", "unit": "回", "rateOf": "normalG"},
+    {"id": "tenpaCount", "q": "tp", "label": "天破の刻", "unit": "回", "rateOf": "normalG", "opt": tp},
+    {"id": "whiteOn", "q": "wo", "label": "白点灯", "unit": "回", "opt": lp},
+    {"id": "whiteBlink", "q": "wb", "label": "白点滅", "unit": "回", "opt": lp}
+  ]}], "hints": "#floorGroup input[type=checkbox]"};
+  SettiShare.init(cfg);
+})();
+</script>
+<script src="../counter.js"></script>
+<script>
+SettiCounter.init({"key": "hokuto-tensei2", "name": "北斗転生2", "g": {"id": "normalG", "label": "通常時G数"}, "counts": [
+  {"id": "atCount", "label": "AT初当り"},
+  {"id": "tenpaCount", "label": "天破の刻", "optional": true, "openPanel": {"panel": "tenpaPanel", "btn": "toggleTenpa"}},
+  {"id": "whiteOn", "label": "中央ランプ 白点灯", "optional": true, "defaultOff": true, "rate": false, "openPanel": {"panel": "lampPanel", "btn": "toggleLamp"}},
+  {"id": "whiteBlink", "label": "中央ランプ 白点滅", "optional": true, "defaultOff": true, "rate": false, "openPanel": {"panel": "lampPanel", "btn": "toggleLamp"}}
+], checks: { selector: '#floorGroup input[type=checkbox]', title: "トロフィー・ランプ", short: '示唆（トロフィー等）', optional: true }, judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend', note: "G数・AT・天破の刻は通常時のみ数える（AT中は数えない）。"});
+</script>
+</body>
+</html>
