@@ -105,10 +105,19 @@
   </div>
 
   <h2 class="group" id="gNew">新着の図解</h2>
-  <div class="grid" id="gridNew"></div>
+  <!-- 下の2つの中身は検索スクリプトが描き直す。JSなしでも機種ページへのリンクが読めるよう、初期表示をHTMLにも書いておく（図解を足したらここも足す） -->
+  <div class="grid" id="gridNew">
+    <a class="shot" href="juuou/#shinkyu"><img class="thumb" src="juuou/shinkyu.webp" alt="スマスロ 獣王 新旧比較 初代 vs スマスロ（ゲーム性・押し順・突入音・リセット）" loading="lazy" width="765" height="1024"><div class="cap"><div class="ttl">新旧比較（初代 vs スマスロ）</div><div class="meta">獣王<br>2026年10月15日</div></div></a>
+    <a class="shot" href="juuou/#yamedoki"><img class="thumb" src="juuou/yamedoki.webp" alt="スマスロ 獣王 やめちゃダメなタイミング（SC終了後の潜伏29G・サバ連後100G・夕方背景・朝一の天井599Gほか）" loading="lazy" width="765" height="1024"><div class="cap"><div class="ttl">やめちゃダメなタイミング</div><div class="meta">獣王<br>2026年10月15日</div></div></a>
+    <a class="shot" href="mhsunbreak/#yamedoki"><img class="thumb" src="mhsunbreak/yamedoki.webp" alt="スマスロ モンスターハンターライズ：サンブレイク やめちゃダメなタイミング（AT終了後1G目・CZスルー・CZ間天井・高確ステージほか）" loading="lazy" width="765" height="1024"><div class="cap"><div class="ttl">やめちゃダメなタイミング</div><div class="meta">モンスターハンターライズ：サンブレイク<br>2026年10月11日</div></div></a>
+    <a class="shot" href="mhsunbreak/#urabutton"><img class="thumb" src="mhsunbreak/urabutton.webp" alt="スマスロ モンスターハンターライズ：サンブレイク 裏ボタンまとめ（BZ継続ジャッジ・福引・剥ぎ取りRUSHほか）" loading="lazy" width="765" height="1024"><div class="cap"><div class="ttl">裏ボタンまとめ</div><div class="meta">モンスターハンターライズ：サンブレイク<br>2026年10月10日</div></div></a>
+  </div>
 
   <h2 class="group" id="gMachine">機種から探す</h2>
-  <div class="list" id="listMachine"></div>
+  <div class="list" id="listMachine">
+    <a class="item" href="mhsunbreak/"><div class="name">スマスロ モンスターハンターライズ：サンブレイク<span class="badge">新台</span></div><div class="sub">図解 2枚</div><div class="inputs"><span class="chip">やめちゃダメなタイミング</span><span class="chip">裏ボタンまとめ</span></div></a>
+    <a class="item" href="juuou/"><div class="name">スマスロ 獣王<span class="badge">新台</span></div><div class="sub">図解 2枚</div><div class="inputs"><span class="chip">新旧比較（初代 vs スマスロ）</span><span class="chip">やめちゃダメなタイミング</span></div></a>
+  </div>
 
   <p class="empty" id="empty">見つかりませんでした。別の呼び方（略称・ひらがな）でも探してみてください。</p>
 
@@ -150,7 +159,7 @@ const MACHINES = [
   }
 ];
 
-// 図解の一覧。画像を1枚足したらここに1件足す（新しいものを上に）
+// 図解の一覧。画像を1枚足したらここに1件足す（新しいものを上に）。上の #gridNew・#listMachine の初期HTMLにも同じ内容を足す
 // machine: MACHINES の id。slug: 機種ページ内のアンカー（#slug）。img: zukai/ からの画像パス
 const ZUKAI = [
   {
