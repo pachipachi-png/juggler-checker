@@ -666,5 +666,9 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
   SettiShare.init(cfg);
 })();
 </script>
+<script src="../counter.js"></script>
+<script>
+SettiCounter.init({"key": "kabaneri2", "name": "カバネリ 海門決戦", "g": {"id": "normalG", "label": "通常時G数"}, "g2": [{"id": "totalG", "label": "総回転数", "item": "bellCount"}], "counts": [{"id": "bnCount", "label": "ボーナス初当り", "wide": true}, {"id": "bellCount", "label": "下段ベル", "optional": true, "rateG": "totalG", "openPanel": {"panel": "bellPanel", "btn": "toggleBell"}}, {"id": "femCount", "label": "女性キャラ", "optional": true, "defaultOff": true, "rate": false, "openPanel": {"panel": "charaPanel", "btn": "toggleChara"}}, {"id": "maleCount", "label": "男性キャラ", "optional": true, "defaultOff": true, "rate": false, "openPanel": {"panel": "charaPanel", "btn": "toggleChara"}}], checks: { selector: '#floorGroup input[type=checkbox]', title: "終了画面・示唆", short: '示唆（終了画面等）', optional: true }, judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend', note: "G数・小役は通常時のみ数える（AT・ボーナス中は数えない）。"});
+</script>
 </body>
 </html>
