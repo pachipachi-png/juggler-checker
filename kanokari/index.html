@@ -233,7 +233,7 @@
     </div>
     <div class="opt-block" id="hints">
       <h3 class="sub-h">見えた示唆で設定を絞る</h3>
-    <p class="hint" style="margin-top:0;">出たものにチェック。「〇以上濃厚」「偶数濃厚」に当てはまらない設定を計算から外します。</p>
+    <p class="hint" style="margin-top:0;">出たものにチェック。「〇以上濃厚」「偶数濃厚」「〇否定」に当てはまらない設定を計算から外します。</p>
     <a class="hint-link ref-out" data-sec="settei" href="https://chonborista.com/slot/sankyo-slot/263079/" target="_blank" rel="noopener">実際の示唆画面を見る（ちょんぼりすた）↗</a>
     <div class="chk-group" id="floorGroup">
       <h3>ボーナス終了画面の枠</h3>
@@ -259,6 +259,18 @@
       <label class="chk"><input type="checkbox" data-allow="5,6" data-name="墨ボイス">墨「今日は私がおもてなし」<span class="tag">設定5以上濃厚</span></label>
       <label class="chk"><input type="checkbox" data-allow="6" data-name="千鶴ボイス">千鶴「私どんな顔してたかな」<span class="tag">設定6濃厚</span></label>
 
+      <h3>RB中のキャラ紹介</h3>
+      <label class="chk"><input type="checkbox" data-allow="2,3,4,5,6" data-name="RB紹介 麻美→麻美(水着)"><span>麻美→<b>麻美(水着)</b>→瑠夏→墨→千鶴</span><span class="tag">設定2以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="3,4,5,6" data-name="RB紹介 瑠夏→瑠夏(水着)"><span>麻美→瑠夏→<b>瑠夏(水着)</b>→墨→千鶴</span><span class="tag">設定3以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="RB紹介 墨→墨(水着)"><span>麻美→瑠夏→墨→<b>墨(水着)</b>→千鶴</span><span class="tag">設定4以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="5,6" data-name="RB紹介 千鶴→千鶴(水着)"><span>麻美→瑠夏→墨→千鶴→<b>千鶴(水着)</b></span><span class="tag">設定5以上濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="6" data-name="RB紹介 2人目の麻美が水着"><span>和也→<b>麻美(水着)</b>→瑠夏→墨→千鶴（麻美は1回だけ）</span><span class="tag">設定6濃厚</span></label>
+      <label class="chk"><input type="checkbox" data-allow="2,3,4,5,6" data-name="RB紹介 肺魚1人目">肺魚が1人目に出た<span class="tag">設定1否定</span></label>
+      <label class="chk"><input type="checkbox" data-allow="1,3,4,5,6" data-name="RB紹介 肺魚2人目">肺魚が2人目に出た<span class="tag">設定2否定</span></label>
+      <label class="chk"><input type="checkbox" data-allow="1,2,4,5,6" data-name="RB紹介 肺魚3人目">肺魚が3人目に出た<span class="tag">設定3否定</span></label>
+      <label class="chk"><input type="checkbox" data-allow="1,2,3,5,6" data-name="RB紹介 肺魚4人目">肺魚が4人目に出た<span class="tag">設定4否定</span></label>
+      <label class="chk"><input type="checkbox" data-allow="1,2,3,4,6" data-name="RB紹介 肺魚5人目">肺魚が5人目に出た<span class="tag">設定5否定</span></label>
+
       <h3>1GレンCHANCEのシナリオ（初回のみ）</h3>
       <label class="chk"><input type="checkbox" data-allow="5,6" data-name="1Gレン同シナリオ連続">前回と同じシナリオが連続した<span class="tag">設定5以上濃厚</span></label>
     </div>
@@ -269,7 +281,7 @@
     <ul class="ref-list">
       <li>終了画面：白枠（BBQ）＝高設定示唆（弱）、白枠（浜辺）＝高設定示唆（強）</li>
       <li>RB中のキャラ紹介：コスプレ1人（千鶴だけ）＝奇数設定示唆、2人＝偶数設定示唆、3人＝高設定示唆（弱）、4人＝高設定示唆（強）。パターン数や区分の書き方はサイトによって異なります</li>
-      <li>RB中のキャラ紹介は全15パターンあり、設定6濃厚・設定1〜5否定・設定2〜5以上濃厚のパターンもあるとされます（ちょんぼりすた）。ただ、どの紹介がどのパターンかは画像でしか載っておらず、altemaは8パターンだけ判明・表記も異なるため、絞り込みには入れていません。見かけたら<a href="https://chonborista.com/slot/sankyo-slot/263079/" target="_blank" rel="noopener" style="color:var(--teal);">ちょんぼりすたの画像</a>と見比べてください</li>
+      <li>RB中のキャラ紹介は全15パターン（コスプレ・水着6種、肺魚の位置5種、同じヒロインの水着連続4種）。上の絞り込みは、ちょんぼりすたとスロパチクエストの2サイトで一致した内容です。設定6濃厚の見た目は、スロパチクエストが「2人目の麻美が水着」と書いていて、ちょんぼりすたは画像のみです。<a href="https://chonborista.com/slot/sankyo-slot/263079/" target="_blank" rel="noopener" style="color:var(--teal);">ちょんぼりすたの画像</a>とも見比べてください。肺魚が出た時は和也が出ません</li>
       <li>1GレンCHANCEのシナリオ：麻美→瑠夏→墨→千鶴、墨→千鶴→麻美→瑠夏＝偶数設定示唆、瑠夏→墨→千鶴→麻美、千鶴→麻美→瑠夏→墨＝奇数設定示唆。最初のシナリオだけが対象で、引き戻しも初回扱い。4人攻略後に切り替わるシナリオには示唆がありません</li>
       <li>エンディングボイス：麻美「あれー嫉妬させちゃった？」＝高設定示唆（弱）、瑠夏「私が一番好きだもん」＝（中）、墨「私もいるから」＝（強）</li>
       <li>ユメカノモードの引き戻し、ななかりDREAM当選率、モード選択率にも設定差あり（数値は非公表）</li>
