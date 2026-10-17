@@ -107,6 +107,7 @@
   <h2 class="group" id="gNew">新着の図解</h2>
   <!-- 下の2つの中身は検索スクリプトが描き直す。JSなしでも機種ページへのリンクが読めるよう、初期表示をHTMLにも書いておく（図解を足したらここも足す） -->
   <div class="grid" id="gridNew">
+    <a class="shot" href="juuou/#nazokoukaku"><img class="thumb" src="juuou/nazokoukaku.webp" alt="スマスロ 獣王 謎高確の見極め方＆演出法則（昼のまま・ダチョウ・青ドット・ルーレットA停止・フェイクなし）" loading="lazy" width="1024" height="1024"><div class="cap"><div class="ttl">謎高確の見極め方</div><div class="meta">獣王<br>2026年10月17日</div></div></a>
     <a class="shot" href="monkey/#mame"><img class="thumb" src="monkey/mame.webp" alt="スマスロ モンキーターンV モンキーターン打ちの1割は知ってる（波多野憲二の最初の夢は「プロ野球選手」）" loading="lazy" width="1080" height="1350"><div class="cap"><div class="ttl">モンキーターン打ちの1割は知ってる</div><div class="meta">モンキーターンV<br>2026年10月17日</div></div></a>
     <a class="shot" href="hokuto-tensei2/#mame"><img class="thumb" src="hokuto-tensei2/mame.webp" alt="スマスロ 北斗の拳 転生の章2 北斗の拳打ちの1割は知ってる（ラオウは弱い相手とは馬から降りない）" loading="lazy" width="1080" height="1350"><div class="cap"><div class="ttl">北斗の拳打ちの1割は知ってる</div><div class="meta">北斗の拳 転生の章2<br>2026年10月17日</div></div></a>
     <a class="shot" href="ghoul/#mame"><img class="thumb" src="ghoul/mame.webp" alt="L 東京喰種 東京喰種打ちの1割は知ってる（金木の白髪は、拷問のストレスで色が抜けたから）" loading="lazy" width="1080" height="1350"><div class="cap"><div class="ttl">東京喰種打ちの1割は知ってる</div><div class="meta">東京喰種<br>2026年10月17日</div></div></a>
@@ -124,7 +125,7 @@
     <a class="item" href="ghoul/"><div class="name">L 東京喰種</div><div class="sub">図解 1枚</div><div class="inputs"><span class="chip">原作の豆知識</span></div></a>
     <a class="item" href="enen2/"><div class="name">Lパチスロ 炎炎ノ消防隊2</div><div class="sub">図解 1枚</div><div class="inputs"><span class="chip">原作の豆知識</span></div></a>
     <a class="item" href="mhsunbreak/"><div class="name">スマスロ モンスターハンターライズ：サンブレイク<span class="badge">新台</span></div><div class="sub">図解 2枚</div><div class="inputs"><span class="chip">やめちゃダメなタイミング</span><span class="chip">裏ボタンまとめ</span></div></a>
-    <a class="item" href="juuou/"><div class="name">スマスロ 獣王<span class="badge">新台</span></div><div class="sub">図解 2枚</div><div class="inputs"><span class="chip">新旧比較（初代 vs スマスロ）</span><span class="chip">やめちゃダメなタイミング</span></div></a>
+    <a class="item" href="juuou/"><div class="name">スマスロ 獣王<span class="badge">新台</span></div><div class="sub">図解 3枚</div><div class="inputs"><span class="chip">謎高確の見極め方</span><span class="chip">新旧比較（初代 vs スマスロ）</span><span class="chip">やめちゃダメなタイミング</span></div></a>
   </div>
 
   <p class="empty" id="empty">見つかりませんでした。別の呼び方（略称・ひらがな）でも探してみてください。</p>
@@ -201,6 +202,15 @@ const MACHINES = [
 // 図解の一覧。画像を1枚足したらここに1件足す（新しいものを上に）。上の #gridNew・#listMachine の初期HTMLにも同じ内容を足す
 // machine: MACHINES の id。slug: 機種ページ内のアンカー（#slug）。img: zukai/ からの画像パス
 const ZUKAI = [
+  {
+    machine: 'juuou',
+    slug: 'nazokoukaku',
+    title: '謎高確の見極め方＆演出法則（昼のまま・ダチョウ・青ドット・ルーレットA停止・フェイクなし）',
+    short: '謎高確の見極め方',
+    img: 'juuou/nazokoukaku.webp',
+    date: '2026-10-17',
+    keywords: '謎高確 なぞこうかく 謎の高確 高確 SC高確 見極め 見分け方 昼 昼間 夕方 背景 ダチョウ 青ドット 青いドット ルーレット A停止 フェイク 即ヤメ やめどき 潜伏'
+  },
   {
     machine: 'monkey',
     slug: 'mame',
