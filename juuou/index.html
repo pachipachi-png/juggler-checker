@@ -153,6 +153,20 @@
   .spec-details > summary::after{ content:'＋ 開く'; margin-left:auto; font-size:12.5px; color:var(--muted); font-weight:400; }
   .spec-details[open] > summary::after{ content:'－ 閉じる'; }
   .spec-details[open] > summary{ margin-bottom:14px; }
+
+  /* quickstart: スマホではヘッダーを小さく、判別ボタンを入力のすぐ下に */
+  .qs-sample{ width:100%; margin-top:10px; font-size:13.5px; }
+  .qs-note{ margin:0 0 10px; padding:8px 10px; border-radius:8px; background:var(--panel-2); color:var(--muted); font-size:12.5px; }
+  .qs-notes{ margin-top:14px; }
+  @media (max-width: 480px){
+    .hero{ padding: 18px 16px 14px; }
+    .hero .lamp{ display:none; }
+    .hero h1{ font-size: 21px; }
+    .hero p{ font-size: 13px; }
+    .hero figure.machine img{ height: 92px; width: auto; }
+    .hero figure.machine{ margin: 0 0 6px; }
+    .notice{ font-size: 12.5px; padding: 9px 11px; }
+  }
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -176,8 +190,6 @@
 
 <div class="wrap">
 
-  <a class="hint-link" id="zukaiLink" href="../zukai/juuou/" style="margin:0 0 14px;">やめどきを1枚の画像で見る（スロ図解くん）→</a>
-
   <!-- 1. 実戦データ → 判別（layout v2） -->
   <section class="card">
     <div class="section-title"><span class="num">1</span><h2>実戦データを入力して判別</h2></div>
@@ -195,13 +207,8 @@
       <span>現在のAT初当り確率</span>
       <span><b id="liveAt">ー</b><small id="liveAtNote"></small></span>
     </div>
-    <ul class="ref-list" style="margin-top:12px;">
-      <li>回転数は<b>通常時のみ</b>（AT中のゲーム数は含めない）。データカウンターの「通常時G数」を使ってください</li>
-      <li>設定1と設定6の初当り確率の差は<b>約1.2倍</b>と小さめです。数千G回しても差が出にくいので、結果は大まかな目安として見てください</li>
-      <li><b>設定L</b>は筐体の下パネルが常時点滅するとされています。点滅している台は座らないのが無難です</li>
-      <li>天井は999G＋α（設定変更時は599G＋αとする解析サイトもあります）。<a class="mini-link ref-out" data-sec="spec" href="https://chonborista.com/slot/sammy-slot/263920/" target="_blank" rel="noopener">解析ページ（ちょんぼりすた）↗</a></li>
-    </ul>
     <button class="btn-primary btn-judge" id="calcBtn">この数字で判別する</button>
+    <button class="btn-ghost qs-sample" id="qsSample" type="button">例の数字で試す（3000G・AT12回）</button>
 
 
     <div class="pie-wrap" id="pieWrap" style="display:none;">
@@ -214,8 +221,16 @@
       <p style="margin:0 0 10px; font-size:13.5px;">勝ったら10円でもいいので投げ銭ください🍶</p>
       <a class="btn-ghost" style="display:block; text-align:center; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
     </div>
+    <div class="qs-notes"><ul class="ref-list" style="margin-top:12px;">
+      <li>回転数は<b>通常時のみ</b>（AT中のゲーム数は含めない）。データカウンターの「通常時G数」を使ってください</li>
+      <li>設定1と設定6の初当り確率の差は<b>約1.2倍</b>と小さめです。数千G回しても差が出にくいので、結果は大まかな目安として見てください</li>
+      <li><b>設定L</b>は筐体の下パネルが常時点滅するとされています。点滅している台は座らないのが無難です</li>
+      <li>天井は999G＋α（設定変更時は599G＋αとする解析サイトもあります）。<a class="mini-link ref-out" data-sec="spec" href="https://chonborista.com/slot/sammy-slot/263920/" target="_blank" rel="noopener">解析ページ（ちょんぼりすた）↗</a></li>
+    </ul></div>
     <p class="hint">AT初当り回数の二項分布の尤度から、設定ごとの相対的な可能性をベイズ的に算出しています（事前は一様、設定Lは対象外）。期待差枚は各設定の機械割を確率で重み付けした目安です。統計的な目安であり、実際の設定を保証するものではありません。</p>
   </section>
+
+  <a class="hint-link" id="zukaiLink" href="../zukai/juuou/" style="margin:0 0 14px;">やめどきを1枚の画像で見る（スロ図解くん）→</a>
 
   <!-- 2. 任意入力 -->
   <section class="card" id="optionalCard">
@@ -478,6 +493,49 @@ SettiCounter.init({
   judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend',
   note: 'G数は通常時のみ（AT中は含めない）。データカウンターの「通常時G数」を入れてください。'
 });
+</script>
+<script>
+// quickstart: 2つの数字が入ったら自動で結果を出す／例の数字で試す
+(function(){
+  var btn = document.getElementById('calcBtn'); if(!btn) return;
+  var gEl = document.getElementById('normalG'), nEl = document.getElementById('atCount');
+  var MACHINE = 'juuou', SG = 3000, SN = 12, LABEL = '3000G・AT12回';
+  var sentAuto = false, t = null;
+  function silent(){
+    var g = window.gtag;
+    window.gtag = function(a, b){ if(a === 'event' && b === 'judge_run') return; if(typeof g === 'function') return g.apply(this, arguments); };
+    try { btn.click(); } finally { window.gtag = g; }
+  }
+  function ok(){ var g = parseFloat(gEl.value)||0, n = parseFloat(nEl.value); return g >= 100 && n >= 0 && nEl.value !== '' && n <= g; }
+  function onType(e){
+    if(!e.isTrusted) return;
+    clearTimeout(t);
+    t = setTimeout(function(){
+      if(!ok()) return;
+      silent();
+      if(!sentAuto && typeof gtag === 'function'){ sentAuto = true; gtag('event', 'judge_run', { machine_group: MACHINE, machine: MACHINE, auto: true }); }
+    }, 900);
+  }
+  gEl.addEventListener('input', onType); nEl.addEventListener('input', onType);
+  // 自動で数えた後のボタン押下は judge_run を重ねて送らない（1ページ1回）
+  window.addEventListener('click', function(e){
+    if(!e.isTrusted || e.target !== btn) return;
+    if(!sentAuto){ sentAuto = true; return; }
+    var g = window.gtag;
+    window.gtag = function(a, b){ if(a === 'event' && b === 'judge_run') return; if(typeof g === 'function') return g.apply(this, arguments); };
+    setTimeout(function(){ window.gtag = g; }, 0);
+  }, true);
+  var sb = document.getElementById('qsSample');
+  if(sb) sb.addEventListener('click', function(){
+    gEl.value = SG; nEl.value = SN;
+    gEl.dispatchEvent(new Event('input', { bubbles: true })); nEl.dispatchEvent(new Event('input', { bubbles: true }));
+    silent();
+    var ts = document.getElementById('topSetting');
+    if(ts) ts.insertAdjacentHTML('afterbegin', '<p class="qs-note">例の数字（' + LABEL + '）での結果です。自分の台の数字に書き換えると、その場で判別し直します。</p>');
+    if(typeof gtag === 'function') gtag('event', 'sample_run', { machine: MACHINE });
+    var pw = document.getElementById('pieWrap'); if(pw) pw.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+})();
 </script>
 </body>
 </html>
