@@ -227,6 +227,15 @@
     <div class="optional-panel" id="optionalPanel">
       <label for="todayGrape">本日のぶどう回数（任意・空欄でも計算できます）</label>
       <input type="number" id="todayGrape" placeholder="例：520">
+      <button class="btn-ghost btn-small" id="toggleSasa" type="button" style="margin-top:8px;">差枚から逆算する</button>
+      <div id="sasaBox" style="display:none; margin-top:8px; padding:12px; border:1px dashed var(--line); border-radius:10px;">
+        <p class="hint" style="margin-top:0;">データサイトやスランプグラフで見た<b>差枚</b>から、ぶどう回数を逆算して上の欄に入れます。座る前の台選びにも使えます。</p>
+        <label for="todaySasa" style="margin-top:6px;">差枚（マイナスは「-」をつける）</label>
+        <input type="number" id="todaySasa" inputmode="text" placeholder="例：-350">
+        <div class="live-rate"><span>逆算したぶどう</span><span><b id="liveSasa">ー</b><small id="liveSasaNote"></small></span></div>
+        <button class="btn-primary btn-small" id="applySasa" type="button" style="margin-top:10px; width:100%;">この回数をぶどうに入れる</button>
+        <p class="hint" id="sasaNote"></p>
+      </div>
       <label for="todayCherryReg">本日のチェリー重複REG回数（任意・参考表示のみ）</label>
       <input type="number" id="todayCherryReg" placeholder="例：3">
     </div>
@@ -439,6 +448,65 @@ document.getElementById('toggleOptional').addEventListener('click', (e) => {
   e.target.textContent = panel.classList.contains('open')
     ? '－ ぶどう・チェリー重複を閉じる'
     : '＋ ぶどう・チェリー重複も入力する（任意）';
+});
+
+// ================= 2.5 差枚からぶどう逆算 =================
+// 機種ごとの逆算用の値（チェリー狙い前提。取得チェリーは設定3相当の代表値、リプレイ1/7.298は全機種共通）
+// 出典：1geki（払い出し・BIG/REG枚数）、kenslo65536（取得チェリー・リプレイ）、DMMぱちタウン・nana-press（ガリぞう調べ）
+const SASA_BY = {
+  myjuggler6:     { bb: 240, cherry: 34.62,  cherryPay: 2 },
+  neoim:          { bb: 252, cherry: 33.30,  cherryPay: 2 },
+  ultramiracle:   { bb: 240, cherry: 35.027, cherryPay: 2 },
+  misterj:        { bb: 240, cherry: 37.236, cherryPay: 4 },
+  jugglergirlsss: { bb: 240, cherry: 33.335, cherryPay: 2 },
+  gogo3:          { bb: 240, cherry: 33.539, cherryPay: 2 },
+  happyv3:        { bb: 240, cherry: 56.840, cherryPay: 4 },
+  myjuggler5:     { bb: 240, cherry: 34.62,  cherryPay: 2 },
+  funky2:         { bb: 240, cherry: 33.73,  cherryPay: 2 },
+  simjuggler:     { bb: 252, cherry: 33.30,  cherryPay: 2 },
+  custom:         { bb: 240, cherry: 34.62,  cherryPay: 2 }
+};
+const sasaOf = () => Object.assign({ rb: 96, replay: 7.298, grapePay: 8 }, SASA_BY[machineSelect.value] || SASA_BY.custom);
+function sasaNote(){
+  const k = sasaOf(), el = document.getElementById('sasaNote'); if(!el) return;
+  el.textContent = `前の人がチェリーを狙っていた前提で計算します（この機種：チェリー1/${k.cherry}・${k.cherryPay}枚、リプレイ1/${k.replay}・3枚、BIG約${k.bb}枚・REG約${k.rb}枚、ぶどう8枚）。総回転数は通常時のG数です。チェリーを狙っていない台や、グラフから読んだ差枚がずれていると結果もずれます（数十枚で、ぶどう確率が0.1前後変わります）。`;
+}
+machineSelect.addEventListener('change', () => { sasaNote(); if(typeof updateSasa === 'function') updateSasa(); });
+function grapeFromSasa(s){
+  const g = parseFloat(todayG.value) || 0, b = parseFloat(todayBig.value) || 0, r = parseFloat(todayReg.value) || 0;
+  if(g <= 0 || s === null || isNaN(s)) return null;
+  const k = sasaOf();
+  const out = s + 3*g - k.bb*b - k.rb*r - 3*g/k.replay - k.cherryPay*g/k.cherry;
+  return Math.max(Math.round(out / k.grapePay), 0);
+}
+function grapeLabel(e){
+  const g = parseFloat(todayG.value) || 0;
+  if(e === null) return '総回転数・BIG・REGを先に入れてください';
+  if(e <= 0) return 'ぶどう 0回';
+  const odds = g/e, grapes = [...document.querySelectorAll('.grapeInput')].map(x => parseFloat(x.value) || 0);
+  let best = 0; grapes.forEach((v,i) => { if(Math.abs(v - odds) < Math.abs(grapes[best] - odds)) best = i; });
+  const near = odds > Math.max(...grapes) ? '設定1より重い' : (odds < Math.min(...grapes) ? '設定6より軽い' : `設定${best+1}付近`);
+  return `ぶどう ${e}回（1/${odds.toFixed(2)}）・${near}`;
+}
+function updateSasa(){
+  const v = document.getElementById('todaySasa').value.trim();
+  const e = v === '' ? null : grapeFromSasa(parseFloat(v));
+  document.getElementById('liveSasa').textContent = e === null ? 'ー' : `${e}回`;
+  document.getElementById('liveSasaNote').textContent = e === null ? '' : grapeLabel(e).replace(/^ぶどう \d+回/, '');
+}
+['todaySasa','todayG','todayBig','todayReg'].forEach(id => document.getElementById(id).addEventListener('input', updateSasa));
+sasaNote();
+document.getElementById('toggleSasa').addEventListener('click', () => {
+  const b = document.getElementById('sasaBox'); const open = b.style.display === 'none';
+  b.style.display = open ? 'block' : 'none';
+  document.getElementById('toggleSasa').textContent = open ? '逆算を閉じる' : '差枚から逆算する';
+});
+document.getElementById('applySasa').addEventListener('click', () => {
+  const v = document.getElementById('todaySasa').value.trim();
+  const e = v === '' ? null : grapeFromSasa(parseFloat(v));
+  if(e === null) return;
+  const el = document.getElementById('todayGrape'); el.value = String(e);
+  el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true }));
 });
 
 // ================= 3. 計算（統計＋期待枚数を一括） =================
@@ -706,7 +774,10 @@ SettiCounter.init({
   counts: [
     { id: 'todayBig', label: 'BIG' },
     { id: 'todayReg', label: 'REG' },
-    { id: 'todayGrape', label: 'ぶどう', wide: true, optional: true, openPanel: { panel: 'optionalPanel', btn: 'toggleOptional' } },
+    { id: 'todayGrape', label: 'ぶどう', wide: true, optional: true, openPanel: { panel: 'optionalPanel', btn: 'toggleOptional' },
+      calc: { label: '逆算', title: '差枚からぶどうを逆算', ph: '差枚（例：-350）',
+        hint: 'データサイトやグラフで見た差枚を入れてください（マイナスは「-」）。総回転数・BIG・REGから、ぶどう回数を逆算して入れます。前の人がチェリーを狙っていた前提です。',
+        fn: v => grapeFromSasa(v), show: e => grapeLabel(e), empty: '差枚を入れると、ぶどう回数が出ます' } },
     { id: 'todayCherryReg', label: 'チェリー重複REG', wide: true, optional: true, defaultOff: true, openPanel: { panel: 'optionalPanel', btn: 'toggleOptional' } }
   ],
   select: 'machineSelect',

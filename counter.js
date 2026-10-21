@@ -69,6 +69,10 @@
     + 'font-size:13px;font-weight:700;text-decoration:none;}'
     + '.sc-ov .sc-tile .sc-edit{position:absolute;right:8px;bottom:8px;padding:5px 9px;border-radius:8px;border:1px solid var(--line);'
     + 'background:var(--panel-2);color:var(--muted);font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;line-height:1.2;}'
+    + '.sc-ov .sc-tile .sc-calc{position:absolute;right:74px;bottom:8px;padding:5px 9px;border-radius:8px;border:1px solid var(--teal);'
+    + 'background:var(--panel-2);color:var(--teal);font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;line-height:1.2;}'
+    + '.sc-pad-hint{margin:-4px 0 10px;font-size:12.5px;color:var(--muted);line-height:1.6;}'
+    + '.sc-pad-res{margin:8px 0 0;font-size:13.5px;color:var(--teal);min-height:1.2em;}'
     + '.sc-pad{position:absolute;inset:0;z-index:5;background:#000a;display:none;align-items:flex-end;justify-content:center;}'
     + '.sc-pad.open{display:flex;}'
     + '.sc-pad-box{width:100%;max-width:560px;background:var(--panel);border-top:1px solid var(--line);border-radius:16px 16px 0 0;'
@@ -188,6 +192,7 @@
         + '<div class="sc-lb">' + c.label + '</div>'
         + '<button type="button" class="sc-minus" data-i="' + i + '" aria-label="' + c.label + 'を1つ減らす">−</button>'
         + '<div class="sc-n">0</div><div class="sc-rt"></div>'
+        + (c.calc ? '<button type="button" class="sc-calc" data-i="' + i + '" aria-label="' + c.label + 'を' + (c.calc.label || '逆算') + '">' + (c.calc.label || '逆算') + '</button>' : '')
         + '<button type="button" class="sc-edit" data-i="' + i + '" aria-label="' + c.label + 'の数を入力">✎ 入力</button></div>';
     }).join('');
     var chips = checks.map(function (c, i) {
@@ -213,9 +218,9 @@
       + '<a class="sc-tip-a" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a></div>'
       + '</div>'
       + '<div class="sc-toast" role="status"><span>リセットしました</span><button type="button" class="sc-toast-undo">元に戻す</button></div>'
-      + '<div class="sc-pad" role="dialog" aria-label="数を入力"><div class="sc-pad-box"><h3></h3>'
+      + '<div class="sc-pad" role="dialog" aria-label="数を入力"><div class="sc-pad-box"><h3></h3><p class="sc-pad-hint" hidden></p>'
       + '<input type="number" inputmode="numeric" min="0">'
-      + '<div class="sc-pad-btns"><button type="button" class="sc-pad-no">キャンセル</button><button type="button" class="sc-pad-ok">決定</button></div></div></div>'
+      + '<p class="sc-pad-res" hidden></p><div class="sc-pad-btns"><button type="button" class="sc-pad-no">キャンセル</button><button type="button" class="sc-pad-ok">決定</button></div></div></div>'
       + '<div class="sc-foot"><button type="button" class="sc-undo">1つ戻す</button><button type="button" class="sc-reset">リセット</button></div>';
     document.body.appendChild(ov);
 
@@ -284,6 +289,8 @@
     ov.querySelector('.sc-grid').addEventListener('click', function (e) {
       var ed = e.target.closest('.sc-edit');
       if (ed) { e.stopPropagation(); openPad(+ed.dataset.i); return; }
+      var ca = e.target.closest('.sc-calc');
+      if (ca) { e.stopPropagation(); openPad(+ca.dataset.i, true); return; }
       var m = e.target.closest('.sc-minus');
       if (m) { e.stopPropagation(); bump(+m.dataset.i, -1); return; }
       var t = e.target.closest('.sc-tile'); if (!t) return;
@@ -364,16 +371,38 @@
     });
 
     // ---------- 直接入力 ----------
-    var pad = ov.querySelector('.sc-pad'), padIn = pad.querySelector('input'), padI = -1;
-    function openPad(i) {
-      padI = i; pad.querySelector('h3').textContent = cfg.counts[i].label + 'の数を入力';
-      padIn.value = val(cfg.counts[i].id) || ''; pad.classList.add('open');
+    // calc を付けた項目は「逆算」ボタンから別の数（例：差枚）を入れて、項目の数を計算して入れる
+    var pad = ov.querySelector('.sc-pad'), padIn = pad.querySelector('input'), padI = -1, padCalc = false;
+    var padHint = pad.querySelector('.sc-pad-hint'), padRes = pad.querySelector('.sc-pad-res');
+    function calcPreview() {
+      if (!padCalc || padI < 0) return null;
+      var c = cfg.counts[padI], v = padIn.value.trim();
+      var r = (v === '' || isNaN(parseInt(v, 10))) ? null : c.calc.fn(parseInt(v, 10));
+      padRes.textContent = r === null || r === undefined ? (c.calc.empty || '') : (c.calc.show ? c.calc.show(r) : (c.label + ' ' + r));
+      return r;
+    }
+    function openPad(i, calc) {
+      padI = i; padCalc = !!calc; var c = cfg.counts[i];
+      pad.querySelector('h3').textContent = calc ? (c.calc.title || c.label + 'を逆算') : c.label + 'の数を入力';
+      padHint.hidden = !calc; padRes.hidden = !calc; padHint.textContent = calc ? (c.calc.hint || '') : '';
+      padIn.setAttribute('inputmode', calc ? 'text' : 'numeric');
+      padIn.removeAttribute('min'); if (!calc) padIn.setAttribute('min', '0');
+      padIn.placeholder = calc ? (c.calc.ph || '') : '';
+      padIn.value = calc ? (c.calc.last !== undefined ? c.calc.last : '') : (val(c.id) || '');
+      if (calc) calcPreview();
+      pad.classList.add('open');
       setTimeout(function () { padIn.focus(); padIn.select(); }, 30);
     }
-    function closePad() { pad.classList.remove('open'); padI = -1; padIn.blur(); }
+    padIn.addEventListener('input', calcPreview);
+    function closePad() { pad.classList.remove('open'); padI = -1; padCalc = false; padIn.blur(); }
     function commitPad() {
       if (padI < 0) return;
-      var c = cfg.counts[padI], n = Math.max(parseInt(padIn.value, 10) || 0, 0), prev = val(c.id);
+      var c = cfg.counts[padI], prev = val(c.id), n;
+      if (padCalc) {
+        var r = calcPreview(); if (r === null || r === undefined) { closePad(); return; }
+        c.calc.last = padIn.value.trim(); n = Math.max(Math.round(r), 0);
+        ga('counter_calc', { machine: cfg.key, item: c.id });
+      } else n = Math.max(parseInt(padIn.value, 10) || 0, 0);
       closePad();
       if (n === prev) return;
       undo.push({ t: 'n', id: c.id, prev: prev }); store.del(BKEY);
