@@ -103,7 +103,17 @@
     var checks = cfg.checks ? [].slice.call(document.querySelectorAll(cfg.checks.selector)) : [];
     var undo = [], taps = 0;
     var UKEY = 'settiCounterUse:' + cfg.key;
-    var opts = (cfg.counts || []).map(function (c, i) { return c.optional ? { k: c.id, label: c.label, i: i, def: !c.defaultOff } : null; }).filter(Boolean);
+    // group を付けた任意項目は「数える項目」のボタン1つでまとめてON/OFFする
+    var opts = [], grpSeen = {};
+    (cfg.counts || []).forEach(function (c, i) {
+      if (!c.optional) return;
+      if (c.group) {
+        var gk = 'grp:' + c.group;
+        if (grpSeen[gk]) { grpSeen[gk].is.push(i); grpSeen[gk].ids.push(c.id); return; }
+        grpSeen[gk] = { k: gk, label: c.group, i: i, is: [i], ids: [c.id], def: !c.defaultOff };
+        opts.push(grpSeen[gk]);
+      } else opts.push({ k: c.id, label: c.label, i: i, is: [i], ids: [c.id], def: !c.defaultOff });
+    });
     if (cfg.checks && cfg.checks.optional) opts.push({ k: '__checks', label: cfg.checks.short || cfg.checks.title, def: !cfg.checks.defaultOff });
     var useP = store.get(UKEY) || {};
     var stash = {};
@@ -225,7 +235,7 @@
         var on = isOn(o.k), b = ov.querySelector('.sc-uchip[data-k="' + o.k + '"]');
         b.classList.toggle('on', on); b.textContent = (on ? '✓ ' : '＋ ') + o.label;
         if (o.k === '__checks') { var cs = ov.querySelector('.sc-checks'); if (cs) cs.classList.toggle('sc-off', !on); }
-        else ov.querySelector('.sc-tile[data-i="' + o.i + '"]').classList.toggle('sc-off', !on);
+        else o.is.forEach(function (ti) { ov.querySelector('.sc-tile[data-i="' + ti + '"]').classList.toggle('sc-off', !on); });
       });
       if (document.activeElement !== gIn) gIn.value = g > 0 ? g : '';
       G2.forEach(function (gg, j) {
@@ -286,12 +296,13 @@
         if (!on) { stash.__checks = checks.map(function (c) { return c.checked ? 1 : 0; }); checks.forEach(function (c, i) { setCheck(i, false); }); }
         else if (stash.__checks) { stash.__checks.forEach(function (x, i) { if (x) setCheck(i, true); }); delete stash.__checks; }
       } else {
-        var ids = [k].concat(G2.filter(function (g) { return g.item === k; }).map(function (g) { return g.id; }));
+        var og = opts.filter(function (x) { return x.k === k; })[0], members = og ? og.ids : [k];
+        var ids = members.concat(G2.filter(function (g) { return g.item === k; }).map(function (g) { return g.id; }));
         ids.forEach(function (id) {
           if (!on) { var n = val(id); if (n > 0) stash[id] = n; write(id, 0); }
           else if (stash[id] > 0 && val(id) === 0) { write(id, stash[id]); delete stash[id]; }
         });
-        if (on && val(k) > 0) openPanelOf(itemById(k));
+        if (on) members.forEach(function (id) { if (val(id) > 0) openPanelOf(itemById(id)); });
       }
       ga('counter_item', { machine: cfg.key, item: k, on: on });
       changed();
