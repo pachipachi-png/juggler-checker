@@ -167,6 +167,8 @@
     .hero figure.machine{ margin: 0 0 6px; }
     .notice{ font-size: 12.5px; padding: 9px 11px; }
   }
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -243,17 +245,34 @@
     <div class="chk-group" id="floorGroup">
       <h3>サバンナチャンス（SC）終了画面のサミートロフィー</h3>
       <label class="chk"><input type="checkbox" data-allow="2,4,5,6" data-name="トロフィー銅">銅<span class="tag">設定2以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="トロフィー銀">銀<span class="tag">設定3以上濃厚</span></label>
       <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="トロフィー金">金<span class="tag">設定4以上濃厚</span></label>
       <label class="chk"><input type="checkbox" data-allow="5,6" data-name="トロフィーキリン柄">キリン柄<span class="tag">設定5以上濃厚</span></label>
       <label class="chk"><input type="checkbox" data-allow="6" data-name="トロフィー虹">虹<span class="tag">設定6濃厚</span></label>
     </div>
     <p class="floor-now" id="floorNow">絞り込み：なし（設定1・2・4・5・6すべてで計算）</p>
     <ul class="ref-list">
-      <li>銀は解析サイトでは「設定3以上」ですが、この機種に設定3はないため、設定4以上として計算します</li>
+      <li>銀トロフィーは搭載されていません（この機種に設定3がないため。DMMぱちタウン・スロベース・ちょんぼりすたで確認）</li>
       <li>虹は「設定5以上」とする解析サイトもあります（多くは設定6）。このページでは設定6として計算します</li>
       <li>トロフィーは、初回のサバンナチャンス終了画面でだけ出る可能性があるとされています</li>
     </ul>
+
+    <h3 class="sub-h" style="margin-top:18px;">BIG中のマングースの向き（奇数・偶数の示唆）</h3>
+    <p class="hint" style="margin-top:0;">BIG中のラスト5Gに、サブ液晶をマングースが走ります。その向きをBIGごとに数えて入れてください。左向きは奇数設定（1・5）、右向きは偶数設定（2・4）で出やすく、設定6は半々です。</p>
+    <div class="row2">
+      <div>
+        <label for="mgLeft">左向き（回）</label>
+        <input type="number" id="mgLeft" inputmode="numeric" placeholder="例：4">
+      </div>
+      <div>
+        <label for="mgRight">右向き（回）</label>
+        <input type="number" id="mgRight" inputmode="numeric" placeholder="例：2">
+      </div>
+    </div>
+    <table class="spec" style="margin-top:8px;">
+      <thead><tr><th>設定</th><th>1</th><th>2</th><th>4</th><th>5</th><th>6</th></tr></thead>
+      <tbody><tr><td>左向き</td><td>60%</td><td>40%</td><td>40%</td><td>60%</td><td>50%</td></tr><tr><td>右向き</td><td>40%</td><td>60%</td><td>60%</td><td>40%</td><td>50%</td></tr></tbody>
+    </table>
+    <p class="hint">数値はDMMぱちタウン・スロベース・ちょんぼりすたで一致（2026年10月23日確認）。示唆止まりの要素なので、数回だけでは大きくは動きません。設定6は左右半々のため、向きだけでは設定6を見分けられません。</p>
 
     <h3 style="font-size:13.5px; margin:14px 0 4px;">参考（計算には使いません）</h3>
     <ul class="ref-list">
@@ -286,8 +305,24 @@
       <thead><tr><th>設定</th><th>AT初当り(1/n)</th><th>機械割(%)</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
-    <p class="hint">2026年10月5日導入。数値は解析サイトの公開値で、2026年10月9日時点で導入前から変更はありません。この機種に<b>設定3はなく、代わりに設定L</b>があります。設定Lの確率・機械割は非公表のため計算に入れていません。チェリー・チャンス目は全設定共通で設定差がなく、サミートロフィー以外の示唆演出は判明していません。</p>
+    <p class="hint">2026年10月5日導入。数値は解析サイトの公開値で、2026年10月9日時点で導入前から変更はありません。この機種に<b>設定3はなく、代わりに設定L</b>があります。設定Lの確率・機械割は非公表のため計算に入れていません。チェリー・チャンス目は全設定共通で設定差がなく、確定系の示唆はサミートロフィー（銅・金・キリン柄・虹）のみで、BIG中のマングースの向きに奇数・偶数の設定差があります。</p>
     </details>
+  </section>
+
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">4</span><h2>スマスロ獣王の設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">初当りだけで見抜くのは難しい機種</h3>
+    <p>獣王の設定は1・2・4・5・6の5段階です（このツールでは設定Lは計算の対象外）。AT初当りは設定1が1/326.5、設定6が1/279.7で、差は約1.17倍しかありません。機械割は97.8％〜114.3％と大きく開いているのに、通常時の当たりやすさの差は小さい、というのがこの機種の難しいところです。</p>
+    <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
+    <p>3000G回したときのAT初当りの平均は、設定1で約9.2回、設定6で約10.7回です。差は1.5回ほどですが、1回ごとのブレ（標準偏差）は約3回あります。設定1の台が設定6の平均以上に当たる確率は約32％、設定6の台が設定1の平均以下にとどまる確率は約37％もあります。初当り回数だけで「高設定っぽい」と判断するのは危険です。</p>
+    <h3 class="sub-h">回転数を増やしても結果は伸びにくい</h3>
+    <p>このツールの計算方法で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、3000Gで約3％、5000Gで約6％、8000Gでも約14％でした。初当りの差が小さいため、1日打ち切っても確率の数字だけでははっきりしません。ツールの％は「少し寄っているかどうか」を見る目安として使ってください。</p>
+    <h3 class="sub-h">大事なのはサミートロフィー</h3>
+    <p>その分、サバンナチャンス終了画面のサミートロフィーが効いてきます。銅なら設定2以上、金なら設定4以上、キリン柄なら設定5以上、虹なら設定6が濃厚です（設定3がない機種なので、銀は出ません）。たとえば金が1回出れば、設定1・2の可能性は0％になり、残りは4・5・6の比べ合いになります。トロフィーは初回のサバンナチャンス終了画面でだけ出る可能性があるので、見逃さないようにしてください。</p>
+    <h3 class="sub-h">マングースの向きで奇数・偶数を見る</h3>
+    <p>もう1つの材料が、BIG中のラスト5Gに出るマングースの向きです。左向きは設定1・5で60％、右向きは設定2・4で60％、設定6は左右半々で出ます。1回ごとの差は小さいものの、BIGのたびに数えて積み上げると効いてきます。たとえば10回見て左7回・右3回なら、設定1と設定2の比べ合いでは、設定1のほうが約5倍ありそう、という計算になります。「設定4・5のどちらか」まで絞れたときに、どちらに寄っているかを見る材料として特に役立ちます。</p>
+    <h3 class="sub-h">数えるときのコツ</h3>
+    <p>回転数は通常時のゲーム数を使い、AT中のゲーム数は入れません。AT初当りは、通常時から当たった回数を数えます（AT中の上乗せや継続は数えません）。マングースの向きは小役カウンターの「数える項目」でONにすると、BIGのたびにタップで数えられます。チェリーやチャンス目は全設定共通なので、数えても判別には使えません。謎高確や200G・400Gなど偶数の百の位でのSC高確移行にも設定差があるとされていますが、数値が公表されていないため、ページでは参考として載せるだけにしています。</p>
   </section>
 
   <div class="ad-slot">
@@ -390,7 +425,9 @@ document.getElementById('calcBtn').addEventListener('click', () => {
   if(allow.size === 0){ showMsg('チェックした示唆が矛盾しています。見間違いがないか確認してください。'); return; }
 
   const at = readCol('atInput'), payout = readCol('payoutInput');
-  const ll = SETS.map((s, i) => allow.has(s) ? binomLL(a, ng, 1/at[i]) : -Infinity);
+  const MG_LEFT = [0.6, 0.4, 0.4, 0.6, 0.5]; // BIG中ラスト5Gのマングース左向き率（設定1・2・4・5・6）
+  const mgL = num(document.getElementById('mgLeft')), mgR = num(document.getElementById('mgRight'));
+  const ll = SETS.map((s, i) => allow.has(s) ? binomLL(a, ng, 1/at[i]) + mgL*Math.log(MG_LEFT[i]) + mgR*Math.log(1 - MG_LEFT[i]) : -Infinity);
   const maxLL = Math.max(...ll);
   const w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - maxLL));
   const sum = w.reduce((x, y) => x + y, 0);
@@ -418,6 +455,7 @@ document.getElementById('calcBtn').addEventListener('click', () => {
   const hi = post.slice(2).reduce((x, y) => x + y, 0); // 設定4・5・6
   const parts = [`通常時${ng}G / AT ${a}回（1/${a > 0 ? (ng/a).toFixed(1) : '―'}）`];
   if(names.length) parts.push(`絞り込み：${allowLabel(allow)}（${names.join('・')}）`);
+  if(mgL + mgR > 0) parts.push(`マングース 左${mgL}回・右${mgR}回`);
   let msg = `最も可能性が高いのは <b>設定${SETS[best]}</b>（推定 ${(post[best]*100).toFixed(1)}%）。設定4以上の合計 <b>${(hi*100).toFixed(1)}%</b>、期待設定 <b>${expSetting.toFixed(2)}</b>。<br><span style="color:var(--muted);font-size:12.5px;">${parts.join(' / ')}</span>`;
   if(ng < 6000) msg += '<br><span style="color:var(--muted);font-size:12.5px;">この機種は初当りの設定差が小さいため、数千Gでは結果がほとんど偏りません。サミートロフィーが出た時は「もっと絞り込む」でチェックすると絞り込めます。</span>';
   topSetting.innerHTML = `<div class="top-setting">${msg}</div>`;
@@ -479,7 +517,7 @@ document.getElementById('zukaiLink').addEventListener('click', () => { if (typeo
 <script src="../share.js"></script>
 <script>
 (function(){
-  var cfg = {"key": "juuou", "name": "スマスロ獣王", "tags": "#スマスロ獣王 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "fields": [{"id": "normalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT", "unit": "回", "rateOf": "normalG"}]}], "hints": "#floorGroup input[type=checkbox]"};
+  var cfg = {"key": "juuou", "name": "スマスロ獣王", "tags": "#スマスロ獣王 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "fields": [{"id": "normalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT", "unit": "回", "rateOf": "normalG"}, {"id": "mgLeft", "q": "ml", "label": "マングース左", "unit": "回"}, {"id": "mgRight", "q": "mr", "label": "マングース右", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"};
   SettiShare.init(cfg);
 })();
 </script>
@@ -488,10 +526,10 @@ document.getElementById('zukaiLink').addEventListener('click', () => { if (typeo
 SettiCounter.init({
   key: 'juuou', name: 'スマスロ獣王',
   g: { id: 'normalG', label: '通常時G数' },
-  counts: [ { id: 'atCount', label: 'AT初当り（サバンナチャンス）', wide: true } ],
+  counts: [ { id: 'atCount', label: 'AT初当り（サバンナチャンス）', wide: true }, { id: 'mgLeft', label: 'マングース左', group: 'マングースの向き', optional: true, rate: false, hint: 'BIG中ラスト5G' }, { id: 'mgRight', label: 'マングース右', group: 'マングースの向き', optional: true, rate: false, hint: 'BIG中ラスト5G' } ],
   checks: { selector: '#floorGroup input[type=checkbox]', title: 'SC終了画面のサミートロフィー', short: 'トロフィー', optional: true },
   judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend',
-  note: 'G数は通常時のみ（AT中は含めない）。データカウンターの「通常時G数」を入れてください。'
+  note: 'G数は通常時のみ（AT中は含めない）。データカウンターの「通常時G数」を入れてください。マングースはBIG中ラスト5Gの向き（左＝奇数・右＝偶数の示唆）を数えます。'
 });
 </script>
 <script>
