@@ -95,7 +95,36 @@
   </a>
 
   <h2 class="group" id="gReady">判別できる機種（新台・話題の機種から順に）</h2>
-  <div class="list" id="listReady"></div>
+  <div class="list" id="listReady">
+    <!-- 静的リスト（build_toplist.js で生成。JSが同じ内容で描き直す） -->
+    <a class="item" href="juggler/"><div class="name">ジャグラーシリーズ<span class="badge hot">マイジャグ6導入</span></div><div class="sub">マイジャグラー6／ネオアイム／ウルトラミラクル／ミスター／ガールズSS／ゴーゴー3／ハッピーV3／マイジャグV／ファンキー2／SアイムEX</div><div class="inputs"><span class="chip">総回転数</span><span class="chip">BIG</span><span class="chip">REG</span><span class="chip">ぶどう（任意）</span></div></a>
+    <a class="item" href="mahoako/"><div class="name">L魔法少女にあこがれて<span class="badge hot">10/19新台</span></div><div class="sub">AT初当り＋CZ回数・CZの種類、ギンちゃんトロフィーで絞り込み（10/19導入）</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">CZ・CZの種類（任意）</span><span class="chip">トロフィー</span></div></a>
+    <a class="item" href="juuou/"><div class="name">スマスロ 獣王<span class="badge hot">新台</span></div><div class="sub">2026年10月5日導入の新台。サバンナチャンス（AT）初当りで判別</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span></div></a>
+    <a class="item" href="mhsunbreak/"><div class="name">スマスロ モンスターハンターライズ：サンブレイク<span class="badge hot">新台</span></div><div class="sub">2026年10月5日導入の新台（前作ライズとは別機種）。AT初当り、トロフィー・終了画面・獲得枚数で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">トロフィー・終了画面</span></div></a>
+    <a class="item" href="tenten/"><div class="name">L転生王女と天才令嬢の魔法革命<span class="badge hot">新台</span></div><div class="sub">2026年10月5日導入の新台。CZ確率＋ボーナス初当り、終了画面のスタンプ・獲得枚数表示・隠れ凪で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">CZ回数</span><span class="chip">ボーナス初当り（任意）</span><span class="chip">スタンプ・獲得枚数</span></div></a>
+    <a class="item" href="paripi/"><div class="name">スマスロ パリピ孔明<span class="badge hot">新台</span></div><div class="sub">2026年10月5日導入の新台。ボーナス初当り＋CZ確率、ST終了画面で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">ボーナス初当り</span><span class="chip">CZ回数（任意）</span><span class="chip">ST終了画面</span></div></a>
+    <a class="item" href="ghoul/"><div class="name">L 東京喰種<span class="badge hot">人気機種</span></div><div class="sub">AT初当り＋CZ・エピソードボーナス・引き戻し、終了画面・招待状・カード・トロフィーで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">CZ・引き戻し（任意）</span><span class="chip">終了画面・招待状・カード</span></div></a>
+    <a class="item" href="kabaneri2/"><div class="name">スマスロ 甲鉄城のカバネリ 海門決戦<span class="badge hot">人気機種</span></div><div class="sub">ボーナス初当り＋下段ベル・キャラ紹介、トロフィー・おみくじ・ボイス・上乗せ表示で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">ボーナス初当り回数</span><span class="chip">下段ベル（任意）</span><span class="chip">トロフィー・おみくじ・ボイス</span></div></a>
+    <a class="item" href="hokuto/"><div class="name">スマスロ北斗の拳<span class="badge hot">人気機種</span></div><div class="sub">BB初当り＋レア小役・BB終了後ボイス、サミートロフィー・獲得枚数・初代演出で絞り込み（設定3なし）</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">BB初当り回数</span><span class="chip">レア小役・ボイス（任意）</span><span class="chip">トロフィー・獲得枚数</span></div></a>
+    <a class="item" href="hokuto-tensei2/"><div class="name">スマスロ 北斗の拳 転生の章2<span class="badge hot">人気機種</span></div><div class="sub">AT初当り＋天破の刻・上部ランプの白点灯/白点滅、サミートロフィー・ランプで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">天破の刻・ランプ（任意）</span><span class="chip">トロフィー・ランプ</span></div></a>
+    <a class="item" href="otome5/"><div class="name">L戦国乙女5 業火を穿つ宿焔の双刃<span class="badge hot">人気機種</span></div><div class="sub">AT初当り＋戦国乙女ボーナス・乙女アタック突入率、出陣ボーナス終了画面・獲得枚数・ゴエモンボイスで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">乙女ボーナス・乙女アタック（任意）</span><span class="chip">終了画面・ボイス</span></div></a>
+    <a class="item" href="karakuri2/"><div class="name">Lパチスロ からくりサーカス2<span class="badge hot">人気機種</span></div><div class="sub">AT初当り＋CZ・強チェリーからのAT直撃、AT終了画面・獲得枚数・エンディングランプ・オリンピアで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">CZ・強チェ直撃（任意）</span><span class="chip">AT終了画面・ランプ</span></div></a>
+    <a class="item" href="index2/"><div class="name">Lとある魔術の禁書目録2<span class="badge hot">人気機種</span></div><div class="sub">AT初当り＋CZ・AT直撃、AT終了画面・藤丸コイン・獲得枚数・打ち止めのセリフで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">CZ・AT直撃（任意）</span><span class="chip">AT終了画面・コイン</span></div></a>
+    <a class="item" href="sao2/"><div class="name">スロット ソードアート・オンラインⅡ<span class="badge hot">キリト誕生日示唆</span></div><div class="sub">CZ確率＋AT・強チャンス目B、終了画面・トロフィー・ミニキャラで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">CZ回数</span><span class="chip">AT・強チャ目B（任意）</span><span class="chip">終了画面・トロフィー</span></div></a>
+    <a class="item" href="milliongod/"><div class="name">スマスロ ミリオンゴッド-神々の軌跡-</div><div class="sub">AT初当り＋青7（リプレイ）連のGG当選、押し順ナビ（実戦値）とユニバプレートも参考に</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">青7連・押し順ナビ（任意）</span><span class="chip">ユニバプレート</span></div></a>
+    <a class="item" href="lycoris/"><div class="name">スマスロ リコリス・リコイル</div><div class="sub">CZ確率＋共通ベル、終了画面・トロフィーで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">CZ回数</span><span class="chip">共通ベル（任意）</span><span class="chip">終了画面・トロフィー</span></div></a>
+    <a class="item" href="kanokari/"><div class="name">Lパチスロ 彼女、お借りします</div><div class="sub">CZ確率＋ボーナス初当り、終了画面・センチ・獲得枚数・ボイスで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">CZ回数</span><span class="chip">ボーナス初当り（任意）</span><span class="chip">終了画面・獲得枚数</span></div></a>
+    <a class="item" href="monkey/"><div class="name">スマスロ モンキーターンV</div><div class="sub">5枚役＋AT初当り、トロフィー・舟券・獲得枚数で絞り込み</div><div class="inputs"><span class="chip">総G数</span><span class="chip">5枚役</span><span class="chip">AT初当り（任意）</span><span class="chip">トロフィー・舟券</span></div></a>
+    <a class="item" href="biore3/"><div class="name">スマスロ バイオハザードRE:3</div><div class="sub">CZ確率での判別と、フィギュア獲得数での判別（打たなくても台選びに使える）。5枚ベル・トロフィー・獲得枚数表示にも対応</div><div class="inputs"><span class="chip">フィギュア獲得数</span><span class="chip">通常時G数</span><span class="chip">CZ回数</span><span class="chip">5枚ベル（任意）</span></div></a>
+    <a class="item" href="magihallo8/"><div class="name">スマスロ マジカルハロウィン8</div><div class="sub">ART初当り＋どこまじ（設定差約15倍）で判別。共通コインの追加入力、アリストロフィー・終了画面のキャラ人数・獲得枚数表示で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">ART初当り回数</span><span class="chip">★どこまじ（おすすめ）</span><span class="chip">トロフィー・終了画面</span></div></a>
+    <a class="item" href="magihallobt/"><div class="name">マジカルハロウィン ボーナストリガー</div><div class="sub">設定1・2・5・6の4段階。通常時のBIG・REG（REGの差が約1.49倍）で判別。ベル・リーチ目の追加入力、ミニキャラの台座（紫・金）で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">BIG</span><span class="chip">REG</span><span class="chip">ベル（任意）</span></div></a>
+    <a class="item" href="magihallotot/"><div class="name">マジカルハロウィン～Trick or Treat!～</div><div class="sub">ART初当りで判別。ART中の共通コイン・ハズレ（設定差4倍）の追加入力、アリスインワンダーランド・獲得枚数表示で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">ART初当り回数</span><span class="chip">★ART中の共通コイン・ハズレ</span><span class="chip">アリワン・獲得枚数</span></div></a>
+    <a class="item" href="hanahana-houou/"><div class="name">ハナハナホウオウ～天翔～</div><div class="sub">BIG・REGで判別。ベル・BIG中スイカ・サイドランプ・BIG後ランプ（推定値）の追加入力にも対応</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">BIG</span><span class="chip">REG</span><span class="chip">ベル・ランプ（任意）</span></div></a>
+    <a class="item" href="hanahana-newkingv/"><div class="name">ニューキングハナハナV</div><div class="sub">BIG・REGで判別（設定1・2・3・4・V）。ベル・BIG前半スイカ・サイドランプ・BIG後ランプ（推定値）にも対応</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">BIG</span><span class="chip">REG</span><span class="chip">ベル・ランプ（任意）</span></div></a>
+    <a class="item" href="hanahana-king/"><div class="name">キングハナハナ-30</div><div class="sub">BIG・REGで判別。REG後のフェザーランプ（確定系）、ベル・BIG中スイカ・ランプ（推定値）で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">BIG</span><span class="chip">REG</span><span class="chip">REG後ランプ</span></div></a>
+    <a class="item" href="hanahana-star/"><div class="name">スターハナハナ-30</div><div class="sub">BIG・REGで判別。REG後のフェザーランプ（確定系）、ベル・BIG中スイカ・ランプ（推定値）で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">BIG</span><span class="chip">REG</span><span class="chip">REG後ランプ</span></div></a>
+    <a class="item" href="hanahana-dragon/"><div class="name">ドラゴンハナハナ～閃光～</div><div class="sub">BIG・REGで判別。REG後のフェザーランプ（確定系）、ベル・BIG中スイカ・ランプ（推定値）で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">BIG</span><span class="chip">REG</span><span class="chip">REG後ランプ</span></div></a>
+  </div>
 
   <h2 class="group" id="gSoon">準備中</h2>
   <div class="list" id="listSoon"></div>
@@ -105,12 +134,14 @@
   <section class="about">
     <h2>このサイトについて</h2>
     <p>解析サイトの設定差を、ホールで数えた数字から判断できる形にするツールです。機種ごとに「何を数えればいいか」と、その入力欄をまとめています。</p>
-    <p>結果は統計的な目安（参考値）で、設定を保証するものではありません。</p>
+    <p>たとえばジャグラーなら、通常時の回転数とBIG・REGの回数（できればぶどうの回数も）を入れると、設定1〜6それぞれの可能性を％で出します。終了画面やランプのように「〇以上濃厚」と分かる示唆は、チェックを入れると当てはまらない設定を外して計算し直します。打ちながら数えられる小役カウンターも、各機種のページに付いています。</p>
+    <p>数値はメーカーの公表値と複数の解析サイトの公開値を突き合わせて使い、公表されていない値は「推定値」と明記しています。結果は統計的な目安（参考値）で、設定を保証するものではありません。</p>
+    <p><a href="about.html">運営者情報・このサイトについて</a>　<a href="contact.html">お問い合わせ</a></p>
   </section>
 
   <footer>
     実際の遊技は自己責任・適正な範囲でお楽しみください。18歳未満の方はパチンコ・パチスロを遊技できません。<br>
-    <a href="privacy.html">プライバシーポリシー</a>
+    <a href="privacy.html">プライバシーポリシー</a>　<a href="about.html">運営者情報</a>　<a href="contact.html">お問い合わせ</a>
   </footer>
 </div>
 

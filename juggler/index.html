@@ -148,6 +148,9 @@
   .spec-details > summary::after{ content:'＋ 開く'; margin-left:auto; font-size:12.5px; color:var(--muted); font-weight:400; }
   .spec-details[open] > summary::after{ content:'－ 閉じる'; }
   .spec-details[open] > summary{ margin-bottom:14px; }
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
+  .guide-table td, .guide-table th{ padding:6px 4px; }
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -270,6 +273,28 @@
     </details>
   </section>
 
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">4</span><h2>ジャグラーの設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">いちばん大事なのはREG確率</h3>
+    <p>ジャグラーはBIG・REG・ぶどうのどれにも設定差がありますが、差がいちばん大きいのはREGです。マイジャグラー6だと、REGは設定1が1/409.6、設定6が1/229.1で、約1.8倍の差があります。BIGは1/273.1と1/229.1で約1.2倍、ぶどうは1/5.90と1/5.79で2％ほどの差しかありません。まずはBIGとREGを分けて数え、REGが重いか軽いかを見るのが基本です。</p>
+    <h3 class="sub-h">3000G回すと、どれくらい差が出る？</h3>
+    <p>このツールの計算方法で、マイジャグラー6を3000G回したときの平均を出すと、次のようになります。</p>
+    <table class="spec guide-table">
+      <thead><tr><th></th><th>BIG</th><th>REG</th><th>合算</th></tr></thead>
+      <tbody>
+        <tr><td>設定1</td><td>約11.0回</td><td>約7.3回</td><td>約18.3回</td></tr>
+        <tr><td>設定6</td><td>約13.1回</td><td>約13.1回</td><td>約26.2回</td></tr>
+      </tbody>
+    </table>
+    <p>平均では合算で8回近い差がありますが、実際の回数はブレます。設定1でもREGが13回以上つく確率は約3.6％、設定6でもREGが7回以下にとどまる確率は約5.1％あります。「数百GでREGが3回ついたから高設定」とは言い切れないのはこのためです。</p>
+    <h3 class="sub-h">回転数が増えるほど結果は安定する</h3>
+    <p>設定6の台を打ったときに、このツールで「設定4以上の合計が80％以上」になる割合をシミュレーションすると、1000Gでは約12％、3000Gで約44％、5000Gで約66％、8000Gで約82％でした。逆に設定1の台で同じ結果が出てしまうのは、どの回転数でも1〜2％程度です。少ない回転数で高い％が出ても、まずは「可能性がある」くらいに受け止めて、回転数を重ねて確かめてください。</p>
+    <h3 class="sub-h">ぶどうは「長く打つときの補助」</h3>
+    <p>ぶどうは設定差が小さいので、3000Gくらいでは判別の結果をほとんど変えません。数える意味が出てくるのは、5000G、8000Gと長く打つときです。数え忘れた場合は、差枚数からぶどうの回数を逆算する機能（ぶどうの入力欄の「逆算」）も使えます。ただし差枚数は目押しのミスや入力のずれで大きく動くので、逆算の結果は目安として見てください。</p>
+    <h3 class="sub-h">数えるときのコツ</h3>
+    <p>回転数はデータカウンターの総回転数を入れます。BIGとREGは合算ではなく、必ず分けて入れてください。途中から打つ場合も、データカウンターの数字をそのまま入れれば前の人の分まで含めて計算できます。ただし、ぶどうは自分が打った分しか数えられません。このツールのぶどう確率は総回転数で割って出すので、ぶどうを入れるときは、自分が打ったG数・BIG・REGで計算するか、差枚数からの逆算を使ってください。小役カウンターを使えば、打ちながらタップするだけで数えられます。</p>
+  </section>
+
   <div class="ad-slot">
     <!-- ここに広告コード（例: Google AdSenseのユニットタグ）を差し込みます -->
     広告スペース
@@ -315,7 +340,7 @@
   <footer>
     本ツールは統計的な参考情報の提供を目的としたエンターテインメントです。実際の遊技は自己責任・適正な範囲でお楽しみください。<br>
     18歳未満の方はパチンコ・パチスロを遊技できません。<br>
-    <a href="../" style="color:var(--muted);">機種一覧</a>　<a href="../privacy.html" style="color:var(--muted);">プライバシーポリシー</a>
+    <a href="../" style="color:var(--muted);">機種一覧</a>　<a href="../privacy.html" style="color:var(--muted);">プライバシーポリシー</a>　<a href="../about.html" style="color:var(--muted);">運営者情報</a>　<a href="../contact.html" style="color:var(--muted);">お問い合わせ</a>
   </footer>
 </div>
 
