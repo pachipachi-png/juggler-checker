@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>キングハナハナ-30 設定判別ツール（BIG・REG・ベル・BIG中スイカ・ランプ）| 設定示唆くん</title>
+<meta name="description" content="キングハナハナ-30（キンハナ・Sキングハナハナ）の設定判別ツール。通常時の回転数とBIG・REG回数を入れるだけで設定の可能性を計算。ベル・BIG中スイカ・サイドランプ・BIG後ランプ（推定値）・REG後のフェザーランプでの絞り込みにも対応。">
+<link rel="canonical" href="https://pachipachi-png.com/hanahana-king/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="設定示唆くん">
+<meta property="og:title" content="キングハナハナ-30 設定判別ツール | 設定示唆くん">
+<meta property="og:description" content="BIG・REG回数で設定判別。ベル・BIG中スイカ・ランプ・REG後ランプにも対応。">
+<meta property="og:url" content="https://pachipachi-png.com/hanahana-king/">
+<meta property="og:image" content="https://pachipachi-png.com/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14171c; --panel: #1d2229; --panel-2: #262c35; --line: #333b46;
+    --gold: #e8a93b; --gold-dim: #8a6a2a; --teal: #33b6a4; --text: #edeff2;
+    --muted: #8993a1; --red: #e07a7a; --violet: #8f8ce6; --magic: #e2557a;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: radial-gradient(1200px 600px at 50% -200px, #23293280, transparent), var(--bg);
+    color: var(--text); font-family: 'Zen Maru Gothic', sans-serif; line-height: 1.7; padding-bottom: 80px;
+  }
+  h1,h2,h3{ font-family: 'Zen Kaku Gothic New', sans-serif; }
+  .wrap{ max-width: 560px; margin: 0 auto; padding: 0 18px; }
+
+  .topnav{ max-width:560px; margin:0 auto; padding:14px 18px 0; font-size:13px; }
+  .topnav a{ color: var(--muted); text-decoration:none; }
+  .hero{ padding: 44px 18px 30px; text-align: center; }
+  .lamp{
+    width: 84px; height: 84px; margin: 0 auto 18px; border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #ffe3ec, var(--magic) 55%, #5a0f25 100%);
+    box-shadow: 0 0 40px 6px #e2557a55, inset 0 0 18px #ffeedd80;
+    animation: pulse 2.6s ease-in-out infinite;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; color:#3a0614; font-size: 26px; letter-spacing: 0.05em;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow: 0 0 40px 4px #e2557a40, inset 0 0 18px #ffeedd70; }
+    50%{ box-shadow: 0 0 56px 10px #e2557a80, inset 0 0 22px #ffeedda0; }
+  }
+  .hero h1{ font-size: 24px; font-weight: 900; margin: 0 0 8px; }
+  .hero p{ color: var(--muted); font-size: 14px; margin: 0; }
+
+  section{ margin: 26px 0; }
+  .card{ background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .section-title{ display:flex; align-items:baseline; gap: 10px; margin-bottom: 14px; }
+  .section-title .num{
+    font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900; color: var(--gold); font-size: 15px;
+    border: 1px solid var(--gold-dim); border-radius: 8px;
+    width: 26px; height: 26px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .section-title h2{ font-size: 16px; margin:0; font-weight:700; }
+  .hint{ color: var(--muted); font-size: 12.5px; margin: 6px 0 0; }
+
+  label{ display:block; font-size: 13px; color: var(--muted); margin: 12px 0 6px; }
+  input[type=number], input[type=time]{
+    width:100%; background: var(--panel-2); border: 1px solid var(--line);
+    color: var(--text); padding: 10px 12px; border-radius: 9px; font-size: 15px; font-family: inherit;
+  }
+  input:focus, button:focus-visible{ outline: 2px solid var(--teal); outline-offset: 1px; }
+  .row2{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .row2 label{ margin-top: 0; }
+
+  button{
+    font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 700; font-size: 14.5px;
+    border-radius: 10px; border: none; padding: 12px 16px; cursor:pointer; width: 100%;
+  }
+  .btn-primary{ background: var(--teal); color: #08211d; }
+  .btn-primary:active{ transform: translateY(1px); }
+  .btn-ghost{ background: transparent; border: 1px solid var(--line); color: var(--text); }
+  .btn-small{ width:auto; padding: 9px 14px; font-size: 13px; }
+
+  table.spec{ width:100%; border-collapse: collapse; margin-top: 10px; font-size: 12.5px; }
+  table.spec th, table.spec td{ padding: 6px 2px; text-align:center; border-bottom: 1px solid var(--line); }
+  table.spec th{ color: var(--muted); font-weight: 500; }
+  table.spec td:first-child{ white-space: nowrap; width: 3.2em; }
+  table.spec td input{ padding: 5px; font-size: 12.5px; text-align:center; }
+
+  .live-rate{
+    display:flex; align-items:center; justify-content:space-between;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px;
+    padding: 12px 14px; margin-top: 10px; font-size: 13px; color: var(--muted);
+  }
+  .live-rate b{ color: var(--teal); font-size: 16px; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .live-rate small{ display:block; font-size: 11.5px; color: var(--muted); font-weight: 400; text-align:right; }
+
+  .optional-panel{ margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); display:none; }
+  .optional-panel.open{ display:block; }
+
+  .bell-guide{ display:flex; gap: 16px; align-items:center; margin: 4px 0 6px; flex-wrap: wrap; }
+  .bell-guide svg{ width: 150px; height: auto; flex-shrink:0; }
+  .bell-guide ul{ margin:0; padding-left: 18px; font-size: 13px; flex:1; min-width: 180px; }
+  .bell-guide li{ margin-bottom: 3px; }
+  .bell-guide li b{ color: var(--gold); }
+
+  .chk-group{ margin-top: 6px; }
+  .chk-group h3{ font-size: 13.5px; margin: 14px 0 6px; }
+  .chk{
+    display:flex; align-items:center; gap: 10px; padding: 9px 12px; margin: 0 0 6px;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px; cursor: pointer;
+    font-size: 13.5px; color: var(--text);
+  }
+  .chk input{ width: 18px; height: 18px; accent-color: var(--teal); flex-shrink:0; }
+  .chk .tag{ margin-left:auto; font-size: 12px; color: var(--gold); white-space: nowrap; }
+  .chk:has(input:checked){ border-color: var(--teal); }
+  .floor-now{ margin-top: 10px; font-size: 13px; color: var(--muted); }
+  .floor-now b{ color: var(--teal); }
+  .hint-link{ display:block; margin: 10px 0 2px; padding: 10px 12px; border-radius: 9px; border: 1px solid var(--teal); color: var(--teal); text-decoration:none; font-size: 13.5px; font-weight: 700; text-align:center; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .mini-link{ font-size: 11.5px; font-weight: 500; color: var(--teal); margin-left: 6px; }
+  #hints{ scroll-margin-top: 12px; }
+  .ref-list{ font-size: 12.5px; color: var(--muted); margin: 6px 0 0; padding-left: 18px; }
+
+  .pie-wrap{ display:flex; align-items:center; gap: 22px; margin-top: 16px; flex-wrap: wrap; }
+  .pie{ width: 150px; height: 150px; border-radius: 50%; flex-shrink:0; background: var(--panel-2); }
+  .legend{ flex: 1; min-width: 180px; }
+  .legend-row{ display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:7px; }
+  .legend-row.cut{ opacity: .4; text-decoration: line-through; }
+  .swatch{ width:11px; height:11px; border-radius:3px; flex-shrink:0; }
+  .legend-row .pct{ margin-left:auto; font-variant-numeric: tabular-nums; }
+
+  .top-setting{
+    margin-top: 14px; padding: 12px 14px; border-radius: 10px;
+    background: #22303022; border: 1px solid #33665544; font-size: 13.5px;
+  }
+  .top-setting b{ color: var(--teal); }
+
+  .ev-output{ margin-top: 14px; padding: 16px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--line); text-align:center; }
+  .ev-output .num{ font-size: 28px; font-weight: 900; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .ev-output .num.pos{ color: #6fd6a8; }
+  .ev-output .num.neg{ color: #e08787; }
+  .ev-output .sub{ font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+  .tip-prompt{ margin-top: 14px; padding: 14px; background: var(--panel-2); border-radius: 10px; border: 1px dashed var(--line); }
+
+  .ad-slot{ display:none; }
+  footer{ text-align:center; color: var(--muted); font-size: 11.5px; padding: 20px 18px 0; }
+  #specBody td input{ padding: 5px 2px; font-size: 12px; }
+  table.spec th{ font-size: 11.5px; }
+
+  /* layout v2: 判別ボタンを必須入力の直下に */
+  .btn-judge{ width:100%; margin-top:16px; font-size:17px; padding:15px 12px; }
+  .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
+  .opt-block:first-of-type{ margin-top:6px; }
+  .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  #recalcBtn{ width:100%; margin-top:16px; }
+  .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
+  .spec-details > summary::-webkit-details-marker{ display:none; }
+  .spec-details > summary::after{ content:'＋ 開く'; margin-left:auto; font-size:12.5px; color:var(--muted); font-weight:400; }
+  .spec-details[open] > summary::after{ content:'－ 閉じる'; }
+  .spec-details[open] > summary{ margin-bottom:14px; }
+  .fig-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; margin-top: 10px; }
+  .fig-item label{ margin: 0 0 4px; font-size: 12px; color: var(--text); line-height:1.35; }
+  .fig-item label b{ color: var(--gold); margin-right: 2px; }
+  .fig-tag{ display:block; font-size: 10.5px; color: var(--muted); }
+  .fig-item input{ padding: 8px 10px; }
+  .jump{ display:flex; gap:10px; max-width:420px; margin:16px auto 0; }
+  .jump a{ flex:1; padding:10px 8px; border-radius:10px; border:1px solid var(--teal); color:var(--teal); text-decoration:none; font-weight:700; font-size:13.5px; font-family:'Zen Kaku Gothic New',sans-serif; line-height:1.3; }
+  .jump a small{ display:block; font-size:11px; font-weight:500; color:var(--muted); }
+  .reco{ max-width:460px; margin:16px auto 0; padding:12px 14px; border-radius:12px; border:1px solid var(--gold); background:#e8a93b14; text-align:left; font-size:13px; color:var(--text); line-height:1.6; }
+  .reco b:first-child{ display:block; color:var(--gold); font-size:14.5px; margin-bottom:2px; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .reco-box{ margin-top:14px; padding:12px 14px 14px; border-radius:12px; border:1px solid var(--gold); background:#e8a93b0f; }
+  .reco-box .reco-h{ margin:0 0 2px; font-size:14px; font-weight:900; color:var(--gold); font-family:'Zen Kaku Gothic New',sans-serif; }
+  .reco-box label{ margin-top:8px; }
+  #mainCard{ scroll-margin-top: 12px; }
+  .machine{ margin: 0 auto 14px; width: 130px; }
+  .machine img{ display:block; width:100%; height:auto; filter: drop-shadow(0 8px 24px #e2557a55); }
+  #figSpec td, #figSpec th{ padding: 4px 1px; font-size: 11.5px; }
+  .msel{ width:100%; background: var(--panel-2); border:1px solid var(--line); color: var(--text); padding: 10px 12px; border-radius: 9px; font-size: 14.5px; font-family: inherit; }
+  .chk-group.off{ display:none; }
+  .sister{ margin-top:12px !important; font-size:12px !important; line-height:1.9; }
+  .sister a{ color: var(--teal); margin: 0 4px; white-space: nowrap; }
+  .lamp-grid{ display:grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .lamp-grid label{ margin:0 0 3px; font-size:12px; text-align:center; color: var(--text); }
+  .lamp-grid label i{ display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:3px; vertical-align:0; }
+  .lamp-grid input{ padding: 8px 4px; text-align:center; }
+  table.est td, table.est th{ font-size: 11.5px; }
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFM94DE8Y3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZFM94DE8Y3');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9150472731628445" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav class="topnav"><a href="../">← 機種一覧（設定示唆くん）</a></nav>
+<div class="hero">
+  <figure class="machine"><img src="machine.webp" width="130" height="224" alt="キングハナハナ-30の筐体"></figure>
+  <h1>キングハナハナ-30<br>設定判別</h1>
+  <p>通常時の回転数とBIG・REGの回数を入れるだけで、設定の可能性を推定します。ベル・BIG中スイカ・ランプ・REG後の確定系での絞り込みにも対応</p>
+  <p class="sister">ほかのハナハナ：<a href="../hanahana-houou/">ハナハナホウオウ天翔</a> <a href="../hanahana-newkingv/">ニューキングハナハナV</a> <a href="../hanahana-star/">スターハナハナ</a> <a href="../hanahana-dragon/">ドラゴンハナハナ閃光</a></p>
+</div>
+
+<div class="wrap">
+
+  <section class="card" id="mainCard">
+    <div class="section-title"><span class="num">1</span><h2>実戦データで判別</h2></div>
+    <select id="machineSelect" class="msel" hidden aria-hidden="true"></select>
+    <p class="hint" id="machineNote" style="margin-top:0;"></p>
+    <label for="totalG">通常時の回転数</label>
+    <input type="number" id="totalG" inputmode="numeric" placeholder="例：4000">
+    <div class="row2" style="margin-top:12px;">
+      <div>
+        <label for="bbCount">BIG回数</label>
+        <input type="number" id="bbCount" inputmode="numeric" placeholder="例：15">
+      </div>
+      <div>
+        <label for="rbCount">REG回数</label>
+        <input type="number" id="rbCount" inputmode="numeric" placeholder="例：10">
+      </div>
+    </div>
+    <div class="live-rate">
+      <span>BIG／REG／合算</span>
+      <span><b id="liveBonus">ー</b><small id="liveBonusNote"></small></span>
+    </div>
+    <p class="hint">回転数はデータカウンターの通常時のG数です（ボーナス中のゲーム数は含めない）。設定差はREGがいちばん大きいので、BIGとREGを分けて入れてください。</p>
+    <button class="btn-primary btn-judge" id="calcBtn">この数字で判別する</button>
+
+    <div class="pie-wrap" id="pieWrap" style="display:none;">
+      <div class="pie" id="pieChart"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div id="topSetting"></div>
+    <div class="ev-output" id="evOutput" style="display:none;"></div>
+    <div class="tip-prompt" id="tipPromptCalc" style="display:none;">
+      <p style="margin:0 0 10px; font-size:13.5px;">勝ったら10円でもいいので投げ銭ください🍶</p>
+      <a class="btn-ghost" style="display:block; text-align:center; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
+    </div>
+    <p class="hint">BIG・REGの回数の多項分布の尤度から、設定ごとの相対的な可能性をベイズ的に算出しています（事前は一様、示唆にチェックした場合は当てはまらない設定を0%に）。回転数が少ないうちはブレが大きくなります。統計的な目安であり、実際の設定を保証するものではありません。</p>
+  </section>
+
+  <section class="card" id="optionalCard">
+    <div class="section-title"><span class="num">2</span><h2>もっと絞り込む（任意）</h2></div>
+    <div class="opt-block" id="hints" style="margin-top:0; padding-top:0; border-top:none;">
+      <h3 class="sub-h">見えた示唆で設定を絞る</h3>
+      <div class="chk-group" id="floorGroup"></div>
+      <p class="hint" id="noChecks" style="margin:0; display:none;">この機種は、絞り込みに使える確定系が公表されていません。</p>
+      <p class="hint" id="floorHint"></p>
+      <p class="floor-now" id="floorNow">絞り込み：なし</p>
+      <h3 style="font-size:13.5px; margin:14px 0 4px;">参考（計算には使いません）</h3>
+      <ul class="ref-list" id="refList"></ul>
+      <a class="hint-link ref-out" data-sec="settei" id="refLink" href="#" target="_blank" rel="noopener">解析ページを見る ↗</a>
+    </div>
+    <div class="opt-block" id="koyakuBlock">
+      <h3 class="sub-h">小役・ランプでさらに絞る（推定値）</h3>
+      <label class="chk" style="margin-bottom:8px;"><input type="checkbox" id="useEst" checked>推定値（非公式）も判別に使う<span class="tag" id="estState">使う</span></label>
+      <p class="hint" style="margin-top:0;">ベル・BIG中スイカ・サイドランプ・BIG後ランプは、メーカーが設定別の数値を出していません。ここでは<b>個人の解析サイトの推測値と、過去のハナハナ（5号機）のメーカー公表値</b>を使います。外れている可能性があるので、結果は「目安」として見てください。チェックを外すと、公表値（BIG・REG・REG後ランプ）だけで判別します。</p>
+      <div class="fig-grid">
+        <div class="fig-item"><label for="bellCount"><b>ベル</b><span class="fig-tag">通常時</span></label><input type="number" id="bellCount" inputmode="numeric" placeholder="回数"></div>
+        <div class="fig-item"><label for="bigSuika"><b>BIG中スイカ</b><span class="fig-tag" id="bigSuikaTag">BIG中の合計</span></label><input type="number" id="bigSuika" inputmode="numeric" placeholder="回数"></div>
+      </div>
+      <div class="live-rate"><span>ベル／BIG中スイカ</span><span><b id="liveKoyaku">ー</b><small id="liveKoyakuNote"></small></span></div>
+      <h3 class="sub-h" style="margin-top:16px;" id="sideTitle">REG中のサイドランプ（色ごとの回数）</h3>
+      <div class="lamp-grid" id="sideGrid"></div>
+      <p class="hint" id="sideHint"></p>
+      <h3 class="sub-h" style="margin-top:16px;" id="fbTitle">BIG後のフェザーランプ（色ごとの回数）</h3>
+      <div class="lamp-grid" id="fbGrid"></div>
+      <label for="fbBig" style="margin-top:8px;">ランプを見たBIGの回数（空欄ならBIG回数で計算）</label>
+      <input type="number" id="fbBig" inputmode="numeric" placeholder="例：設定変更後1回目のBIGを除いた回数">
+      <p class="hint">BIG後に色が付かなかった（白・消灯）回は数えません。設定変更後1回目のBIGは光りやすいので、除いて数えてください。</p>
+      <h3 class="sub-h" style="margin-top:16px;">数えるだけ（判別には使いません）</h3>
+      <div class="fig-grid">
+        <div class="fig-item"><label for="cherryCount"><b>チェリー</b><span class="fig-tag">通常時</span></label><input type="number" id="cherryCount" inputmode="numeric" placeholder="回数"></div>
+        <div class="fig-item"><label for="regSuika"><b>REG中スイカ</b><span class="fig-tag">REG中の合計</span></label><input type="number" id="regSuika" inputmode="numeric" placeholder="回数"></div>
+      </div>
+      <div class="live-rate"><span>チェリー／REG中スイカ</span><span><b id="liveSub">ー</b></span></div>
+      <a class="hint-link ref-out" data-sec="estimate" id="estLink" href="#" target="_blank" rel="noopener">推定値の出典（kenslo）を見る ↗</a>
+    </div>
+    <div class="opt-block">
+      <h3 class="sub-h">期待差枚の計算条件</h3>
+    <div class="row2">
+      <div>
+        <label for="closingTime">閉店時刻</label>
+        <input type="time" id="closingTime" value="22:45">
+      </div>
+      <div>
+        <label for="spinsPerHour">1時間あたりの回転数</label>
+        <input type="number" id="spinsPerHour" value="800">
+      </div>
+    </div>
+    </div>
+    <button class="btn-ghost" id="recalcBtn" type="button">この内容で再計算する</button>
+  </section>
+
+  <section class="card" id="specCard">
+    <details class="spec-details">
+      <summary><div class="section-title" style="margin:0;"><span class="num">3</span><h2>設定差を見る・編集する</h2></div></summary>
+    <table class="spec">
+      <thead><tr><th>設定</th><th>BIG(1/n)</th><th>REG(1/n)</th><th>機械割%</th></tr></thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    <p class="hint" id="specNote"></p>
+    <h3 class="sub-h" style="margin-top:16px;">推定値（非公式・判別の目安に使う値）</h3>
+    <table class="spec est">
+      <thead><tr><th>設定</th><th>ベル</th><th id="estSuikaTh">BIG中スイカ</th><th>サイド 青/黄/緑/赤%</th><th>BIG後 色付き</th></tr></thead>
+      <tbody id="estBody"></tbody>
+    </table>
+    <p class="hint" id="estNote"></p>
+    </details>
+  </section>
+
+  <div class="ad-slot">
+    広告スペース
+  </div>
+
+  <footer>
+    設定差の数値は各解析サイトの公開値（2026年10月時点）をもとにしています。<br>
+    本ツールは統計的な参考情報の提供を目的としたエンターテインメントです。実際の遊技は自己責任・適正な範囲でお楽しみください。<br>
+    18歳未満の方はパチンコ・パチスロを遊技できません。<br>
+    <a href="../" style="color:var(--muted);">機種一覧</a>　<a href="../privacy.html" style="color:var(--muted);">プライバシーポリシー</a>
+  </footer>
+</div>
+
+<script>
+// ================= 機種データ（2026年10月時点の公開値。設置店数の多い順） =================
+// ボーナス確率・機械割は 1geki・パチセブン・ちょんぼりすた で一致した値
+const REG_AFTER = [
+  { name: 'REG後 青', allow: [2,3,4,5,6], tag: '設定2以上濃厚' },
+  { name: 'REG後 黄', allow: [3,4,5,6], tag: '設定3以上濃厚' },
+  { name: 'REG後 緑', allow: [4,5,6], tag: '設定4以上濃厚' },
+  { name: 'REG後 赤', allow: [5,6], tag: '設定5以上濃厚' },
+  { name: 'REG後 虹', allow: [6], tag: '設定6濃厚' }
+];
+// ===== 推定値（非公式）=====
+// サイドランプ・BIG後ランプ：5号機ハナハナのメーカー公表値（BIG後は過去機種の合算に合わせた調整値）。kenslo の各機種解析ページに掲載
+const SIDE_PCT = [[35.994,23.991,23.991,16.002,0.021],[23.190,34.781,16.789,25.191,0.049],[33.569,22.380,26.369,17.581,0.101],[21.556,32.336,18.365,27.545,0.197],[31.076,20.718,28.691,19.124,0.391],[24.805,24.805,24.805,24.805,0.781]];
+const FB_PCT = [[3.67,2.87,1.92,1.28,0.01],[4.06,3.01,2.07,1.37,0.04],[4.30,3.53,2.33,1.50,0.06],[4.88,3.85,2.52,1.57,0.07],[5.36,4.10,2.67,1.74,0.20],[5.77,4.50,3.07,1.89,0.40]];
+const SUIKA_BIG = [47.127,42.864,39.667,36.991,34.707,31.266];
+const LAMP_COLORS = ['#5b8def','#e8c93b','#4fbf6a','#e05a5a','linear-gradient(90deg,#e05a5a,#e8c93b,#4fbf6a,#5b8def)'];
+const SIDE_REF = 'REG中のサイドランプ（白7ビタ押しでスイカをそろえると1回点灯）：青＝奇数、緑＝奇数（強）、黄＝偶数、赤＝偶数（強）、虹＝高設定示唆';
+const MACHINES = {
+  houou: {
+    label: 'ハナハナホウオウ～天翔～（-30・25パイ）', sets: ['1','2','3','4','5','6'],
+    big: [297,284,273,262,249,236], reg: [496,458,425,397,366,337], payout: [97,99,101,103,106,109],
+    note: '2022年1月導入・6号機。BIG最大240枚・REG最大120枚。設置店はシリーズ最多。',
+    checks: [], checkHint: 'ボーナス後のフェザーランプは「色なし＜青＜黄＜緑＜赤＜虹」でREG後のほうが期待大とされていますが、天翔のREG後の確定系は大手解析サイトで確認できていないため、絞り込みには使っていません。',
+    refs: [SIDE_REF, 'ボーナス後のフェザーランプ：色なし＜青＜黄＜緑＜赤＜虹（REG後のほうが期待大）', 'BIG中のスイカに設定差あり（高設定ほど出やすい。設定別の数値は大手サイトでは未公表）', '通常時のベル確率は大手サイトでは調査中'],
+    est: { bell: [7.50,7.45,7.40,7.35,7.298,7.22], suika: SUIKA_BIG, bigLen: 24, bellSrc: 'ベルはkensloの独自調査値（スロタイガーのアプリ実戦100万Gの値 1/7.50〜1/7.25 ともほぼ一致）', url: 'https://kenslo65536.com/kaiseki/hanahana-houou-tensyou.html' },
+    link: 'https://1geki.jp/slot/s_hanahana_houoh_tensho30/0/'
+  },
+  newkingv: {
+    label: 'ニューキングハナハナV（スマート沖スロ・-30）', sets: ['1','2','3','4','V'],
+    big: [299,291,281,268,253], reg: [496,471,442,409,372], payout: [97,99,101,104,108],
+    note: '2026年1月導入。設定は1・2・3・4・Vの5段階。BIG約312枚（BT込み）・REG約130枚。',
+    checks: [], checkHint: 'ボーナス後のハイビスカスランプ（BIG後：白＜青＜黄＜緑＜紫＜虹）は示唆止まりで、確定系は公表されていないため絞り込みには使っていません。',
+    refs: ['今作のサイドランプはBIG後半のスイカ獲得時に1回点灯（REG中は示唆なし）：青＝奇数、黄＝偶数、緑＝奇数かつ高設定、赤＝偶数かつ高設定、虹＝高設定示唆', 'ボーナス後のハイビスカスランプ：白＜青＜黄＜緑＜紫＜虹', 'BIG前半（14G）・REG中（10G）のスイカに設定差あり（数値は大手サイトでは未公表）', '新王戴冠フリーズ：BIG濃厚'],
+    est: { bell: [7.628,7.502,7.474,7.379,7.266], suika: [29.79,27.31,24.27,20.81,18.89], bigLen: 14, suikaLabel: 'BIG前半スイカ', fbName: 'BIG後のハイビスカスランプ', red: '紫', side: 'BIG後半', bellSrc: 'ベルはkensloの推測値（チェリー・スイカを全設定共通として、公表の機械割から逆算）', url: 'https://kenslo65536.com/kaiseki/lb-new-king-hanahana-v.html' },
+    link: 'https://1geki.jp/slot/l_new_king_hanahana_v/0/'
+  },
+  king30: {
+    label: 'キングハナハナ-30', sets: ['1','2','3','4','5','6'],
+    big: [292,280,268,257,244,232], reg: [489,452,420,390,360,332], payout: [97,99,101,104,107,110],
+    note: '2023年3月導入・6号機。BIG最大260枚・REG最大120枚。',
+    checks: REG_AFTER, checkHint: 'REG終了後、フェザーランプが一度消えてから点灯した色です（1geki・DMMぱちタウン）。BIG後の色は示唆止まりなので使いません。',
+    refs: [SIDE_REF, 'BIG後のフェザーランプ：白＜青＜黄＜緑＜赤＜虹（示唆止まり）', 'BIG中のスイカに設定差あり（数値は大手サイトでは未公表）'],
+    est: { bell: [7.149,7.140,7.139,7.002,6.946,6.910], suika: SUIKA_BIG, bigLen: 20, bellSrc: 'ベルはkensloの独自解析値（公表の機械割から算出）', url: 'https://kenslo65536.com/kaiseki/s-king-hanahana-30.html' },
+    link: 'https://1geki.jp/slot/s_kinghanahana2023/0/'
+  },
+  star: {
+    label: 'スターハナハナ（-30・スマート沖スロ）', sets: ['1','2','3','4','5','6'],
+    big: [270,262,252,240,229,218], reg: [387,354,322,293,267,242], payout: [97,99,101,104,107,110],
+    note: '2025年1月導入。BIG最大240枚・REG最大96枚。',
+    checks: REG_AFTER, checkHint: 'REG終了後、フェザーランプが一度消えてから点灯した色です（1gekiは「濃厚!?」の表記。ほかの大手サイトは「REG後のほうが強い示唆」とだけ記載）。',
+    refs: [SIDE_REF, 'BIG後のフェザーランプ：白＜青＜黄＜緑＜赤＜虹（示唆止まり）', 'BIG中のスイカに設定差あり（数値は大手サイトでは未公表）', 'ライブフリーズ：BIG確定'],
+    est: { bell: [6.358,6.303,6.300,6.260,6.204,6.200], suika: SUIKA_BIG, bigLen: 20, bellSrc: 'ベルはkensloの独自解析値（公表の機械割から算出）', url: 'https://kenslo65536.com/kaiseki/star-hanahana-30.html' },
+    link: 'https://1geki.jp/slot/s_starhnhn30/0/'
+  },
+  dragon: {
+    label: 'ドラゴンハナハナ～閃光～（-30・スマート沖スロ・25パイ）', sets: ['1','2','3','4','5','6'],
+    big: [256,246,235,224,212,199], reg: [642,585,537,489,442,399], payout: [97,99,101,104,107,110],
+    note: '2023年12月導入（スマート沖スロは2024年3月）。BIG最大252枚・REG最大96枚。REGが重い分、設定差はREGに集中しています。',
+    checks: REG_AFTER, checkHint: 'REG終了後、フェザーランプが一度消えてから点灯した色です（1geki に記載。ほかは「?」付きの記載のみ）。',
+    refs: [SIDE_REF, 'BIG後のフェザーランプ：白＜青＜黄＜緑＜赤＜虹（示唆止まり）', 'BIG中のスイカに設定差あり（数値は大手サイトでは未公表）', '昇龍フリーズ：BIG確定'],
+    est: { bell: [7.131,7.093,7.09,7.016,6.973,6.97], suika: SUIKA_BIG, bigLen: 21, bellSrc: 'ベルはkensloの予測値（公表の機械割から算出）', url: 'https://kenslo65536.com/kaiseki/dragon-hanahana-senkou-30.html' },
+    link: 'https://1geki.jp/slot/s_drahana_senko30/0/'
+  }
+};
+const BET = 3;
+const $ = id => document.getElementById(id);
+Object.keys(MACHINES).forEach(key => { if(key !== 'king30') delete MACHINES[key]; });
+const machineSelect = $('machineSelect');
+Object.entries(MACHINES).forEach(([k, m]) => { const o = document.createElement('option'); o.value = k; o.textContent = m.label; machineSelect.appendChild(o); });
+const M = () => MACHINES[machineSelect.value];
+// REG後ランプのチェックは固定（小役カウンター・シェアと共有するため）。確定系のない機種では隠して外す
+$('floorGroup').innerHTML = '<h3>REG後のフェザーランプ</h3>' + REG_AFTER.map(c => `<label class="chk"><input type="checkbox" data-allow="${c.allow.join(',')}" data-name="${c.name}">${c.name.replace('REG後 ','')}<span class="tag">${c.tag}</span></label>`).join('');
+document.querySelectorAll('#floorGroup input[type=checkbox]').forEach(c => c.addEventListener('change', () => { if(!M().checks.length && c.checked){ c.checked = false; } updateFloorText(); }));
+const num = el => Math.max(parseFloat(el.value) || 0, 0);
+const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
+const setNum = l => l === 'V' ? 5 : parseInt(l, 10);
+
+function buildMachine(){
+  const m = M();
+  $('machineNote').textContent = m.note;
+  const sb = $('specBody'); sb.innerHTML = '';
+  m.sets.forEach((s, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>設定${s}</td><td><input type="number" step="1" class="bbInput" value="${m.big[i]}"></td><td><input type="number" step="1" class="rbInput" value="${m.reg[i]}"></td><td><input type="number" step="0.1" class="payoutInput" value="${m.payout[i]}"></td>`;
+    sb.appendChild(tr);
+  });
+  sb.querySelectorAll('input').forEach(el => el.addEventListener('input', updateLive));
+  const has = m.checks.length > 0;
+  $('floorGroup').classList.toggle('off', !has);
+  $('noChecks').style.display = has ? 'none' : 'block';
+  if(!has) document.querySelectorAll('#floorGroup input[type=checkbox]').forEach(c => { if(c.checked){ c.checked = false; c.dispatchEvent(new Event('change', { bubbles: true })); } });
+  $('floorHint').textContent = m.checkHint;
+  $('refList').innerHTML = m.refs.map(r => `<li>${r}</li>`).join('');
+  $('refLink').href = m.link;
+  const e = m.est, red = e.red || '赤';
+  const names = ['青','黄','緑',red,'虹'];
+  const keep = id => { const el = $(id); return el ? el.value : ''; };
+  const sideVals = [0,1,2,3,4].map(i => keep('sl'+i)), fbVals = [0,1,2,3,4].map(i => keep('fl'+i));
+  $('sideGrid').innerHTML = ['青','黄','緑','赤','虹'].map((n, i) => `<div><label for="sl${i}"><i style="background:${LAMP_COLORS[i]}"></i>${n}</label><input type="number" id="sl${i}" inputmode="numeric" value="${sideVals[i]}"></div>`).join('');
+  $('fbGrid').innerHTML = names.map((n, i) => `<div><label for="fl${i}"><i style="background:${LAMP_COLORS[i]}"></i>${n}</label><input type="number" id="fl${i}" inputmode="numeric" value="${fbVals[i]}"></div>`).join('');
+  $('sideTitle').textContent = `${e.side ? 'BIG後半' : 'REG中'}のサイドランプ（色ごとの回数）`;
+  $('sideHint').textContent = e.side ? 'BIG後半のスイカ獲得時に1回点灯する色を数えます。' : 'REG中に白7ビタ押しでスイカをそろえた時に点灯する色を数えます（REG1回につき1回）。';
+  $('fbTitle').textContent = `${e.fbName || 'BIG後のフェザーランプ'}（色ごとの回数）`;
+  $('bigSuikaTag').textContent = `${e.suikaLabel || 'BIG中'}・1回${e.bigLen}Gで計算`;
+  $('estSuikaTh').textContent = e.suikaLabel || 'BIG中スイカ';
+  $('estLink').href = e.url;
+  $('estBody').innerHTML = m.sets.map((s, i) => `<tr><td>設定${s}</td><td>1/${e.bell[i]}</td><td>1/${e.suika[i]}</td><td>${SIDE_PCT[i].slice(0,4).map(v => Math.round(v)).join('/')}</td><td>${FB_PCT[i].reduce((a,b)=>a+b,0).toFixed(1)}%</td></tr>`).join('');
+  $('estNote').textContent = `${e.bellSrc}。${e.suikaLabel || 'BIG中スイカ'}はkensloの独自解析値（BIG1回＝${e.bigLen}Gとして計算）。サイドランプとBIG後ランプは過去機種（5号機ハナハナ）のメーカー公表値・調整値で、この機種の公表値ではありません。`;
+  document.querySelectorAll('#sideGrid input, #fbGrid input').forEach(el => el.addEventListener('input', updateKoyaku));
+  $('specNote').textContent = `解析サイトの公開値です（2026年10月時点。1geki・パチセブン・ちょんぼりすたで一致）。設定${m.sets[0]}と${m.sets[m.sets.length-1]}の差は、REGが約${(m.reg[0]/m.reg[m.reg.length-1]).toFixed(2)}倍、BIGが約${(m.big[0]/m.big[m.big.length-1]).toFixed(2)}倍です。`;
+  updateFloorText(); updateLive(); updateKoyaku();
+}
+
+function nearLabel(r, arr){
+  const m = M();
+  if(r >= Math.max(...arr)) return `設定${m.sets[0]}より重い`;
+  if(r <= Math.min(...arr)) return `設定${m.sets[m.sets.length-1]}より軽い`;
+  let best = 0; arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+  return `設定${m.sets[best]}付近`;
+}
+const rate = (g, k) => k > 0 ? `1/${(g/k).toFixed(1)}` : '―';
+function updateLive(){
+  const g = num($('totalG')), b = num($('bbCount')), r = num($('rbCount'));
+  if(g > 0 && (b > 0 || r > 0)){
+    $('liveBonus').textContent = `${rate(g, b)}／${rate(g, r)}／${rate(g, b + r)}`;
+    $('liveBonusNote').textContent = r > 0 ? `REGは${nearLabel(g/r, readCol('rbInput'))}` : '';
+  } else { $('liveBonus').textContent = 'ー'; $('liveBonusNote').textContent = ''; }
+}
+['totalG','bbCount','rbCount'].forEach(id => $(id).addEventListener('input', updateLive));
+function updateKoyaku(){
+  const m = M(), e = m.est, g = num($('totalG')), b = num($('bbCount')), r = num($('rbCount'));
+  const bell = num($('bellCount')), bs = num($('bigSuika')), ch = num($('cherryCount')), rs = num($('regSuika'));
+  const parts = [], notes = [];
+  if(g > 0 && bell > 0){ parts.push(rate(g, bell)); notes.push(`ベルは${nearLabel(g/bell, e.bell)}`); } else parts.push('―');
+  if(b > 0 && bs > 0){ parts.push(rate(b * e.bigLen, bs)); notes.push(`スイカは${nearLabel(b*e.bigLen/bs, e.suika)}`); } else parts.push('―');
+  $('liveKoyaku').textContent = (bell > 0 || bs > 0) ? parts.join('／') : 'ー';
+  $('liveKoyakuNote').textContent = notes.length ? notes.join('・') + '（推定値）' : '';
+  const per = (n, k) => k > 0 ? (n / k).toFixed(2) + '個/REG' : '―';
+  $('liveSub').textContent = (ch > 0 || rs > 0) ? `${rate(g, ch)}／${per(rs, r)}` : 'ー';
+  $('estState').textContent = $('useEst').checked ? '使う' : '使わない';
+}
+['totalG','bbCount','rbCount','bellCount','cherryCount','bigSuika','regSuika'].forEach(id => $(id).addEventListener('input', updateKoyaku));
+$('useEst').addEventListener('change', updateKoyaku);
+
+function currentAllow(){
+  const m = M(), on = m.checks.length ? [...document.querySelectorAll('#floorGroup input[type=checkbox]')].filter(c => c.checked) : [];
+  let allow = new Set(m.sets.map(setNum));
+  on.forEach(c => { const a = new Set(c.dataset.allow.split(',').map(Number)); allow = new Set([...allow].filter(s => a.has(s))); });
+  return { allow, names: on.map(c => c.dataset.name) };
+}
+const allowLabel = allow => { const m = M(); return m.sets.filter(s => allow.has(setNum(s))).map(s => `設定${s}`).join('・'); };
+function updateFloorText(){
+  const { allow, names } = currentAllow(), el = $('floorNow');
+  if(names.length === 0) el.innerHTML = '絞り込み：なし（すべての設定で計算）';
+  else if(allow.size === 0) el.innerHTML = '<span style="color:var(--red);">チェックした示唆が矛盾しています。見間違いがないか確認してください。</span>';
+  else el.innerHTML = `絞り込み：<b>${allowLabel(allow)}</b>で計算（${names.join('・')}）`;
+}
+
+const pieColors = ['#e8a93b','#33b6a4','#7fa7d9','#d9668b','#9b7fd9','#6fd6a8'];
+const topSetting = $('topSetting'), pieWrap = $('pieWrap'), evOutput = $('evOutput'), tipPrompt = $('tipPromptCalc');
+function showMsg(html){ topSetting.innerHTML = `<p class="hint">${html}</p>`; pieWrap.style.display = 'none'; evOutput.style.display = 'none'; tipPrompt.style.display = 'none'; }
+
+$('calcBtn').addEventListener('click', () => {
+  const m = M(), g = num($('totalG')), b = num($('bbCount')), r = num($('rbCount'));
+  if(g <= 0){ showMsg('通常時の回転数を入力してください。'); return; }
+  if(b + r > g){ showMsg('回数が回転数を超えています。入力を確認してください。'); return; }
+  const { allow, names } = currentAllow();
+  if(allow.size === 0){ showMsg('チェックした示唆が矛盾しています。見間違いがないか確認してください。'); return; }
+  const bbv = readCol('bbInput'), rbv = readCol('rbInput'), payout = readCol('payoutInput');
+  const llOff = m.sets.map((s, i) => {
+    if(!allow.has(setNum(s))) return -Infinity;
+    const pb = 1/bbv[i], pr = 1/rbv[i];
+    return b*Math.log(pb) + r*Math.log(pr) + Math.max(g - b - r, 0)*Math.log(Math.max(1 - pb - pr, 1e-12));
+  });
+  // 推定値（非公式）の項
+  const e = m.est, used = [];
+  const bell = num($('bellCount')), bs = num($('bigSuika'));
+  const sl = [0,1,2,3,4].map(i => num($('sl'+i))), fl = [0,1,2,3,4].map(i => num($('fl'+i)));
+  const fbN = num($('fbBig')) || b, flSum = fl.reduce((x, y) => x + y, 0), bigG = b * e.bigLen;
+  const useEst = $('useEst').checked;
+  const estLL = m.sets.map((s, i) => {
+    let v = 0;
+    if(bell > 0 && g >= bell){ const p = 1/e.bell[i]; v += bell*Math.log(p) + (g - bell)*Math.log(1 - p); }
+    if(bs > 0 && bigG >= bs){ const p = 1/e.suika[i]; v += bs*Math.log(p) + (bigG - bs)*Math.log(1 - p); }
+    if(sl.some(x => x > 0)){ const t = SIDE_PCT[i].reduce((x, y) => x + y, 0); sl.forEach((n, j) => { if(n > 0) v += n*Math.log(SIDE_PCT[i][j]/t); }); }
+    if(flSum > 0 && fbN >= flSum){ const ps = FB_PCT[i].map(x => x/100), rest = 1 - ps.reduce((x, y) => x + y, 0); fl.forEach((n, j) => { if(n > 0) v += n*Math.log(ps[j]); }); v += (fbN - flSum)*Math.log(rest); }
+    return v;
+  });
+  if(bell > 0 && g >= bell) used.push(`ベル${bell}回（${rate(g, bell)}）`);
+  if(bs > 0 && bigG >= bs) used.push(`${e.suikaLabel || 'BIG中スイカ'}${bs}回`);
+  if(sl.some(x => x > 0)) used.push(`サイドランプ${sl.reduce((x, y) => x + y, 0)}回`);
+  if(flSum > 0 && fbN >= flSum) used.push(`BIG後ランプ${flSum}回`);
+  const toPost = arr => { const mx = Math.max(...arr), w = arr.map(v => v === -Infinity ? 0 : Math.exp(v - mx)), sm = w.reduce((x, y) => x + y, 0); return w.map(x => x / sm); };
+  const postOff = toPost(llOff);
+  const estOn = useEst && used.length > 0;
+  const post = estOn ? toPost(llOff.map((v, i) => v + estLL[i])) : postOff;
+  if (typeof gtag === 'function') gtag('event', 'judge_run', { machine: 'hanahana-king', allow: [...allow].join(''), est: estOn ? used.length : 0 });
+  let acc = 0;
+  $('pieChart').style.background = `conic-gradient(${post.map((p, i) => { const s0 = acc*360; acc += p; return `${pieColors[i]} ${s0}deg ${acc*360}deg`; }).join(', ')})`;
+  pieWrap.style.display = 'flex';
+  $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${!allow.has(setNum(m.sets[i])) ? ' cut' : ''}"><span class="swatch" style="background:${pieColors[i]}"></span><span>設定${m.sets[i]}</span><span class="pct">${(p*100).toFixed(1)}%</span></div>`).join('');
+  const best = post.indexOf(Math.max(...post));
+  const hiFrom = 3; // 設定4以上（ニューキングVは4・V）
+  const hi = post.slice(hiFrom).reduce((x, y) => x + y, 0);
+  const parts = [`通常時${g}G / BIG ${b}回（${rate(g, b)}）・REG ${r}回（${rate(g, r)}）・合算 ${rate(g, b + r)}`];
+  if(names.length) parts.push(`絞り込み：${allowLabel(allow)}（${names.join('・')}）`);
+  if(estOn) parts.push(`推定値も使用：${used.join('・')}`);
+  let msg = `最も可能性が高いのは <b>設定${m.sets[best]}</b>（推定 ${(post[best]*100).toFixed(1)}%）。${m.sets.length === 5 ? '設定4・V' : '設定4以上'}の合計 <b>${(hi*100).toFixed(1)}%</b>。<br><span style="color:var(--muted);font-size:12.5px;">${parts.join(' / ')}</span>`;
+  if(estOn){ const hiOff = postOff.slice(hiFrom).reduce((x, y) => x + y, 0); msg += `<br><span style="color:var(--muted);font-size:12.5px;">※推定値（非公式）を含む結果です。公表値（BIG・REG${names.length ? '・REG後ランプ' : ''}）だけなら${m.sets.length === 5 ? '設定4・V' : '設定4以上'} ${(hiOff*100).toFixed(1)}%。</span>`; }
+  if(g < 3000) msg += '<br><span style="color:var(--muted);font-size:12.5px;">3,000G未満ではブレが大きいです。REG確率を中心に見てください。</span>';
+  topSetting.innerHTML = `<div class="top-setting">${msg}</div>`;
+  const sph = parseFloat($('spinsPerHour').value) || 0, [ch, cm] = $('closingTime').value.split(':').map(Number);
+  const closing = new Date(); closing.setHours(ch, cm, 0, 0);
+  const hours = Math.max((closing - new Date()) / 3600000, 0), remainG = sph * hours;
+  const netPer = payout.map(p => BET * (p/100 - 1) * remainG);
+  const ev = Math.round(post.reduce((x, p, i) => x + p*netPer[i], 0)) || 0, bestNet = Math.round(netPer[best]) || 0;
+  const sign = v => v > 0 ? '+' : (v < 0 ? '' : '±');
+  evOutput.style.display = 'block';
+  evOutput.innerHTML = `<div class="num ${ev >= 0 ? 'pos' : 'neg'}">${sign(ev)}${ev.toLocaleString()} 枚</div>
+    <div class="sub">残り約${hours.toFixed(1)}時間・約${Math.round(remainG).toLocaleString()}G分の期待差枚（各設定の機械割を確率で重み付け平均）</div>
+    <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--line);">
+      <div class="num ${bestNet >= 0 ? 'pos' : 'neg'}" style="font-size:22px;">${sign(bestNet)}${bestNet.toLocaleString()} 枚</div>
+      <div class="sub">最有力の設定${m.sets[best]}だった場合の期待差枚</div>
+    </div>`;
+  tipPrompt.style.display = 'block';
+});
+
+machineSelect.addEventListener('change', () => { buildMachine(); if(pieWrap.style.display !== 'none') $('calcBtn').click(); });
+document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', () => { if (typeof gtag === 'function') gtag('event', 'outbound_ref', { machine: 'hanahana-king', section: a.dataset.sec }); }));
+buildMachine();
+</script>
+
+<script>
+(function(){
+  var btn = document.getElementById('calcBtn'); if(!btn) return;
+  var done = false, timer = null;
+  btn.addEventListener('click', function(){ done = true; });
+  function silentCalc(){
+    var g = window.gtag;
+    window.gtag = function(a, b){ if(a === 'event' && b === 'judge_run') return; if(typeof g === 'function') return g.apply(this, arguments); };
+    try { btn.click(); } finally { window.gtag = g; }
+  }
+  function auto(e){
+    if(!done) return;
+    if(e && e.target && (e.target.id === 'recalcBtn' || (e.target.tagName === 'BUTTON'))) return;
+    clearTimeout(timer); timer = setTimeout(silentCalc, 350);
+  }
+  ['optionalCard', 'specCard'].forEach(function(id){
+    var el = document.getElementById(id); if(!el) return;
+    el.addEventListener('input', auto); el.addEventListener('change', auto);
+  });
+  var rb = document.getElementById('recalcBtn');
+  if(rb) rb.addEventListener('click', function(){ btn.click(); var t = document.getElementById('pieWrap'); if(t) t.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+})();
+</script>
+<script src="../share.js"></script>
+<script>
+SettiShare.init({"key": "hanahana-king", "name": "キングハナハナ-30", "tags": "#キングハナハナ #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア",
+  "serialize": function(){ var s = document.getElementById('machineSelect'); var pr = { m: s.value }; if(!document.getElementById('useEst').checked) pr.est = '0'; return { params: pr, summary: pr.est ? '公表値のみで判別' : '' }; },
+  "deserialize": function(q){ var m = q.get('m'); if(!m || !MACHINES[m]) return false; if(q.get('est') === '0') document.getElementById('useEst').checked = false; var s = document.getElementById('machineSelect'); s.value = m; s.dispatchEvent(new Event('change', { bubbles: true })); return false; },
+  "fields": [
+    {"id": "totalG", "q": "g", "label": "通常時", "unit": "G"},
+    {"id": "bbCount", "q": "bb", "label": "BIG", "unit": "回", "rateOf": "totalG"},
+    {"id": "rbCount", "q": "rb", "label": "REG", "unit": "回", "rateOf": "totalG"},
+    {"id": "bellCount", "q": "bell", "label": "ベル", "unit": "回", "rateOf": "totalG"},
+    {"id": "bigSuika", "q": "bs", "label": "BIG中スイカ", "unit": "回"},
+    {"id": "sl0", "q": "sl0", "label": "サイド青", "unit": "回"},
+    {"id": "sl1", "q": "sl1", "label": "サイド黄", "unit": "回"},
+    {"id": "sl2", "q": "sl2", "label": "サイド緑", "unit": "回"},
+    {"id": "sl3", "q": "sl3", "label": "サイド赤", "unit": "回"},
+    {"id": "sl4", "q": "sl4", "label": "サイド虹", "unit": "回"},
+    {"id": "fl0", "q": "fl0", "label": "BIG後青", "unit": "回"},
+    {"id": "fl1", "q": "fl1", "label": "BIG後黄", "unit": "回"},
+    {"id": "fl2", "q": "fl2", "label": "BIG後緑", "unit": "回"},
+    {"id": "fl3", "q": "fl3", "label": "BIG後赤", "unit": "回"},
+    {"id": "fl4", "q": "fl4", "label": "BIG後虹", "unit": "回"},
+    {"id": "fbBig", "q": "fbb", "label": "ランプ確認BIG", "unit": "回"},
+    {"id": "cherryCount", "q": "ch", "label": "チェリー", "unit": "回", "rateOf": "totalG"},
+    {"id": "regSuika", "q": "rs", "label": "REG中スイカ", "unit": "回"}
+  ]}], "hints": "#floorGroup input[type=checkbox]"});
+</script>
+<script src="../counter.js"></script>
+<script>
+SettiCounter.init({"key": "hanahana-king", "name": "キングハナハナ-30", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "bbCount", "label": "BIG"}, {"id": "rbCount", "label": "REG"}, {"id": "bellCount", "label": "ベル", "optional": true, "group": "ベル・スイカ"}, {"id": "bigSuika", "label": "BIG中スイカ", "optional": true, "group": "ベル・スイカ", "rate": false, "hint": "BIG中に数える"}, {"id": "sl0", "label": "サイド 青", "optional": true, "defaultOff": true, "group": "サイドランプ", "rate": false, "hint": "REG中ビタ押し"}, {"id": "sl1", "label": "サイド 黄", "optional": true, "defaultOff": true, "group": "サイドランプ", "rate": false, "hint": "REG中ビタ押し"}, {"id": "sl2", "label": "サイド 緑", "optional": true, "defaultOff": true, "group": "サイドランプ", "rate": false, "hint": "REG中ビタ押し"}, {"id": "sl3", "label": "サイド 赤", "optional": true, "defaultOff": true, "group": "サイドランプ", "rate": false, "hint": "REG中ビタ押し"}, {"id": "sl4", "label": "サイド 虹", "optional": true, "defaultOff": true, "group": "サイドランプ", "rate": false, "hint": "REG中ビタ押し"}, {"id": "fl0", "label": "BIG後 青", "optional": true, "defaultOff": true, "group": "BIG後ランプ", "rate": false, "hint": "BIG終了後"}, {"id": "fl1", "label": "BIG後 黄", "optional": true, "defaultOff": true, "group": "BIG後ランプ", "rate": false, "hint": "BIG終了後"}, {"id": "fl2", "label": "BIG後 緑", "optional": true, "defaultOff": true, "group": "BIG後ランプ", "rate": false, "hint": "BIG終了後"}, {"id": "fl3", "label": "BIG後 赤/紫", "optional": true, "defaultOff": true, "group": "BIG後ランプ", "rate": false, "hint": "BIG終了後"}, {"id": "fl4", "label": "BIG後 虹", "optional": true, "defaultOff": true, "group": "BIG後ランプ", "rate": false, "hint": "BIG終了後"}, {"id": "cherryCount", "label": "チェリー", "optional": true, "defaultOff": true, "group": "チェリー・REG中スイカ"}, {"id": "regSuika", "label": "REG中スイカ", "optional": true, "defaultOff": true, "group": "チェリー・REG中スイカ", "rate": false, "hint": "REG中に数える"}], checks: { selector: '#floorGroup input[type=checkbox]', title: "REG後のフェザーランプ", short: 'REG後ランプ', optional: true }, judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend', note: "G数は通常時のみ。ベルは通常時、スイカはボーナス中に数えてください。ベル・BIG中スイカ・サイドランプ・BIG後ランプは推定値（非公式）で判別に加わります（ページのチェックで外せます）。REG後のフェザーランプ（確定系）はチップをタップして入れてください。サイドランプ・BIG後ランプは「数える項目」でONにすると出ます。"});
+</script>
+</body>
+</html>

@@ -16,8 +16,8 @@
   function readPosterior(legend) {
     var rows = [].slice.call(legend.querySelectorAll('.legend-row'));
     return rows.map(function (r) {
-      var s = r.textContent.match(/設定(\d)/), p = r.querySelector('.pct');
-      return { s: s ? +s[1] : 0, p: p ? parseFloat(p.textContent) / 100 : 0 };
+      var s = r.textContent.match(/設定(\d|V)/), p = r.querySelector('.pct');
+      return { s: s ? (s[1] === 'V' ? 5 : +s[1]) : 0, l: s ? s[1] : '', p: p ? parseFloat(p.textContent) / 100 : 0 };
     }).filter(function (x) { return x.s > 0; });
   }
   function panelOpen(f) { return !f.opt || ($(f.opt.panel) && $(f.opt.panel).classList.contains('open')); }
@@ -72,7 +72,7 @@
       var exp = post.reduce(function (a, b) { return a + b.s * b.p; }, 0);
       var text = cfg.name + (box.label ? '【' + box.label + '】' : '') + '\n' + parts.join('・');
       if (names.length) text += '\n示唆：' + names.join('・');
-      text += '\n→ 推定 設定' + best.s + '（' + Math.round(best.p * 100) + '%）\n設定4以上 ' + Math.round(hi * 100) + '%・期待設定 ' + exp.toFixed(1) + '（参考値）\n' + cfg.tags;
+      text += '\n→ 推定 設定' + best.l + '（' + Math.round(best.p * 100) + '%）\n設定4以上 ' + Math.round(hi * 100) + '%・期待設定 ' + exp.toFixed(1) + '（参考値）\n' + cfg.tags;
       textEl.textContent = text;
       xBtn.href = 'https://x.com/intent/post?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url + '&utm_source=x&utm_medium=share');
       el.style.display = 'block';
