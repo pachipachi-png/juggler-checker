@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スマスロ ハナビ 設定判別・打ち方・合成確率（BIG・REG・風鈴）| 設定示唆くん</title>
+<meta name="description" content="スマスロ ハナビ（L花火・ハナビ スマスロ）の設定判別ツール。設定1・2・5・6に対応し、回転数とBIG・REG回数を入れるだけで設定の可能性を計算。風鈴の追加入力、REG終了画面のピース花火で絞り込み。合成確率の一覧、通常時・ボーナス中・RT中の打ち方もまとめています。">
+<link rel="canonical" href="https://pachipachi-png.com/hanabi/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="設定示唆くん">
+<meta property="og:title" content="スマスロ ハナビ 設定判別・打ち方・合成確率 | 設定示唆くん">
+<meta property="og:description" content="BIG・REG・風鈴で設定1・2・5・6を判別。合成確率と打ち方もまとめて確認できます。">
+<meta property="og:url" content="https://pachipachi-png.com/hanabi/">
+<meta property="og:image" content="https://pachipachi-png.com/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #14171c; --panel: #1d2229; --panel-2: #262c35; --line: #333b46;
+    --gold: #e8a93b; --gold-dim: #8a6a2a; --teal: #33b6a4; --text: #edeff2;
+    --muted: #8993a1; --red: #e07a7a; --violet: #8f8ce6; --magic: #e8613b;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: radial-gradient(1200px 600px at 50% -200px, #23293280, transparent), var(--bg);
+    color: var(--text); font-family: 'Zen Maru Gothic', sans-serif; line-height: 1.7; padding-bottom: 80px;
+  }
+  h1,h2,h3{ font-family: 'Zen Kaku Gothic New', sans-serif; }
+  .wrap{ max-width: 560px; margin: 0 auto; padding: 0 18px; }
+
+  .topnav{ max-width:560px; margin:0 auto; padding:14px 18px 0; font-size:13px; }
+  .topnav a{ color: var(--muted); text-decoration:none; }
+  .hero{ padding: 44px 18px 30px; text-align: center; }
+  .lamp{
+    width: 84px; height: 84px; margin: 0 auto 18px; border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #fff1d6, var(--magic) 55%, #5a1608 100%);
+    box-shadow: 0 0 40px 6px #e8613b55, inset 0 0 18px #fff1d680;
+    animation: pulse 2.6s ease-in-out infinite;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; color:#3a0c04; font-size: 15px; letter-spacing: 0.05em;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow: 0 0 40px 4px #e8613b40, inset 0 0 18px #fff1d670; }
+    50%{ box-shadow: 0 0 56px 10px #e8613b80, inset 0 0 22px #fff1d6a0; }
+  }
+  .hero h1{ font-size: 24px; font-weight: 900; margin: 0 0 8px; }
+  .hero p{ color: var(--muted); font-size: 14px; margin: 0; }
+
+  section{ margin: 26px 0; }
+  .card{ background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .section-title{ display:flex; align-items:baseline; gap: 10px; margin-bottom: 14px; }
+  .section-title .num{
+    font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900; color: var(--gold); font-size: 15px;
+    border: 1px solid var(--gold-dim); border-radius: 8px;
+    width: 26px; height: 26px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .section-title h2{ font-size: 16px; margin:0; font-weight:700; }
+  .hint{ color: var(--muted); font-size: 12.5px; margin: 6px 0 0; }
+
+  label{ display:block; font-size: 13px; color: var(--muted); margin: 12px 0 6px; }
+  input[type=number], input[type=time]{
+    width:100%; background: var(--panel-2); border: 1px solid var(--line);
+    color: var(--text); padding: 10px 12px; border-radius: 9px; font-size: 15px; font-family: inherit;
+  }
+  input:focus, button:focus-visible{ outline: 2px solid var(--teal); outline-offset: 1px; }
+  .row2{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .row2 label{ margin-top: 0; }
+
+  button{
+    font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 700; font-size: 14.5px;
+    border-radius: 10px; border: none; padding: 12px 16px; cursor:pointer; width: 100%;
+  }
+  .btn-primary{ background: var(--teal); color: #08211d; }
+  .btn-primary:active{ transform: translateY(1px); }
+  .btn-ghost{ background: transparent; border: 1px solid var(--line); color: var(--text); }
+  .btn-small{ width:auto; padding: 9px 14px; font-size: 13px; }
+
+  table.spec{ width:100%; border-collapse: collapse; margin-top: 10px; font-size: 12.5px; }
+  table.spec th, table.spec td{ padding: 6px 2px; text-align:center; border-bottom: 1px solid var(--line); }
+  table.spec th{ color: var(--muted); font-weight: 500; }
+  table.spec td:first-child{ white-space: nowrap; width: 3.2em; }
+  table.spec td input{ padding: 5px; font-size: 12.5px; text-align:center; }
+
+  .live-rate{
+    display:flex; align-items:center; justify-content:space-between;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px;
+    padding: 12px 14px; margin-top: 10px; font-size: 13px; color: var(--muted);
+  }
+  .live-rate b{ color: var(--teal); font-size: 16px; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .live-rate small{ display:block; font-size: 11.5px; color: var(--muted); font-weight: 400; text-align:right; }
+
+  .optional-panel{ margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); display:none; }
+  .optional-panel.open{ display:block; }
+
+  .bell-guide{ display:flex; gap: 16px; align-items:center; margin: 4px 0 6px; flex-wrap: wrap; }
+  .bell-guide svg{ width: 150px; height: auto; flex-shrink:0; }
+  .bell-guide ul{ margin:0; padding-left: 18px; font-size: 13px; flex:1; min-width: 180px; }
+  .bell-guide li{ margin-bottom: 3px; }
+  .bell-guide li b{ color: var(--gold); }
+
+  .chk-group{ margin-top: 6px; }
+  .chk-group h3{ font-size: 13.5px; margin: 14px 0 6px; }
+  .chk{
+    display:flex; align-items:center; gap: 10px; padding: 9px 12px; margin: 0 0 6px;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px; cursor: pointer;
+    font-size: 13.5px; color: var(--text);
+  }
+  .chk input{ width: 18px; height: 18px; accent-color: var(--teal); flex-shrink:0; }
+  .chk .tag{ margin-left:auto; font-size: 12px; color: var(--gold); white-space: nowrap; }
+  .chk:has(input:checked){ border-color: var(--teal); }
+  .floor-now{ margin-top: 10px; font-size: 13px; color: var(--muted); }
+  .floor-now b{ color: var(--teal); }
+  .hint-link{ display:block; margin: 10px 0 2px; padding: 10px 12px; border-radius: 9px; border: 1px solid var(--teal); color: var(--teal); text-decoration:none; font-size: 13.5px; font-weight: 700; text-align:center; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .mini-link{ font-size: 11.5px; font-weight: 500; color: var(--teal); margin-left: 6px; }
+  #hints{ scroll-margin-top: 12px; }
+  .ref-list{ font-size: 12.5px; color: var(--muted); margin: 6px 0 0; padding-left: 18px; }
+
+  .pie-wrap{ display:flex; align-items:center; gap: 22px; margin-top: 16px; flex-wrap: wrap; }
+  .pie{ width: 150px; height: 150px; border-radius: 50%; flex-shrink:0; background: var(--panel-2); }
+  .legend{ flex: 1; min-width: 180px; }
+  .legend-row{ display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:7px; }
+  .legend-row.cut{ opacity: .4; text-decoration: line-through; }
+  .swatch{ width:11px; height:11px; border-radius:3px; flex-shrink:0; }
+  .legend-row .pct{ margin-left:auto; font-variant-numeric: tabular-nums; }
+
+  .top-setting{
+    margin-top: 14px; padding: 12px 14px; border-radius: 10px;
+    background: #22303022; border: 1px solid #33665544; font-size: 13.5px;
+  }
+  .top-setting b{ color: var(--teal); }
+
+  .ev-output{ margin-top: 14px; padding: 16px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--line); text-align:center; }
+  .ev-output .num{ font-size: 28px; font-weight: 900; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .ev-output .num.pos{ color: #6fd6a8; }
+  .ev-output .num.neg{ color: #e08787; }
+  .ev-output .sub{ font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+  .tip-prompt{ margin-top: 14px; padding: 14px; background: var(--panel-2); border-radius: 10px; border: 1px dashed var(--line); }
+
+  .ad-slot{ display:none; }
+  footer{ text-align:center; color: var(--muted); font-size: 11.5px; padding: 20px 18px 0; }
+  #specBody td input{ padding: 5px 2px; font-size: 12px; }
+  table.spec th{ font-size: 11.5px; }
+
+  /* layout v2: 判別ボタンを必須入力の直下に */
+  .btn-judge{ width:100%; margin-top:16px; font-size:17px; padding:15px 12px; }
+  .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
+  .opt-block:first-of-type{ margin-top:6px; }
+  .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  #recalcBtn{ width:100%; margin-top:16px; }
+  .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
+  .spec-details > summary::-webkit-details-marker{ display:none; }
+  .spec-details > summary::after{ content:'＋ 開く'; margin-left:auto; font-size:12.5px; color:var(--muted); font-weight:400; }
+  .spec-details[open] > summary::after{ content:'－ 閉じる'; }
+  .spec-details[open] > summary{ margin-bottom:14px; }
+  .fig-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; margin-top: 10px; }
+  .fig-item label{ margin: 0 0 4px; font-size: 12px; color: var(--text); line-height:1.35; }
+  .fig-item label b{ color: var(--gold); margin-right: 2px; }
+  .fig-tag{ display:block; font-size: 10.5px; color: var(--muted); }
+  .fig-item input{ padding: 8px 10px; }
+  .jump{ display:flex; gap:10px; max-width:420px; margin:16px auto 0; }
+  .jump a{ flex:1; padding:10px 8px; border-radius:10px; border:1px solid var(--teal); color:var(--teal); text-decoration:none; font-weight:700; font-size:13.5px; font-family:'Zen Kaku Gothic New',sans-serif; line-height:1.3; }
+  .jump a small{ display:block; font-size:11px; font-weight:500; color:var(--muted); }
+  .reco{ max-width:460px; margin:16px auto 0; padding:12px 14px; border-radius:12px; border:1px solid var(--gold); background:#e8a93b14; text-align:left; font-size:13px; color:var(--text); line-height:1.6; }
+  .reco b:first-child{ display:block; color:var(--gold); font-size:14.5px; margin-bottom:2px; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .reco-box{ margin-top:14px; padding:12px 14px 14px; border-radius:12px; border:1px solid var(--gold); background:#e8a93b0f; }
+  .reco-box .reco-h{ margin:0 0 2px; font-size:14px; font-weight:900; color:var(--gold); font-family:'Zen Kaku Gothic New',sans-serif; }
+  .reco-box label{ margin-top:8px; }
+  #mainCard{ scroll-margin-top: 12px; }
+  .machine{ margin: 0 auto 14px; width: 130px; }
+  .machine img{ display:block; width:100%; height:auto; filter: drop-shadow(0 8px 24px #e8613b55); }
+  .hero p + p{ margin-top:6px; }
+  #figSpec td, #figSpec th{ padding: 4px 1px; font-size: 11.5px; }
+
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
+  .tagnav{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; max-width:460px; margin:16px auto 0; }
+  .tagnav a{ padding:7px 13px; border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--text); text-decoration:none; font-size:13px; font-weight:700; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .tagnav a::before{ content:'# '; color:var(--gold); }
+  .tagnav a:active{ border-color:var(--teal); }
+  #gousei, #uchikata, #guide{ scroll-margin-top: 12px; }
+  table.rate{ width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; font-variant-numeric: tabular-nums; }
+  table.rate th, table.rate td{ padding:7px 3px; text-align:center; border-bottom:1px solid var(--line); }
+  table.rate th{ color:var(--muted); font-weight:500; font-size:12px; }
+  table.rate td:first-child{ white-space:nowrap; }
+  table.rate tr.hi td{ color:var(--gold); }
+  .steps{ margin:6px 0 4px; padding-left:20px; font-size:13.5px; }
+  .steps li{ margin-bottom:6px; }
+  .steps b{ color:var(--gold); }
+  .uchi h3{ font-size:14.5px; margin:18px 0 6px; }
+  .uchi h3:first-of-type{ margin-top:4px; }
+  .note-s{ font-size:12px; color:var(--muted); margin:4px 0 0; }
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFM94DE8Y3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZFM94DE8Y3');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9150472731628445" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav class="topnav"><a href="../">← 機種一覧（設定示唆くん）</a></nav>
+<div class="hero">
+  <figure class="machine"><img src="machine.webp" width="130" height="194" alt="スマスロ ハナビの筐体"></figure>
+  <h1>スマスロ ハナビ<br>設定判別</h1>
+  <p>回転数とBIG・REGの回数を入れるだけで、設定1・2・5・6の可能性を推定します</p>
+  <p style="font-size:12.5px; margin-top:6px;">2026年2月導入のスマスロ版（アクロス）です。初代（1998年）や2015年のハナビ、ハナビ通とは数値が違います</p>
+  <nav class="tagnav" aria-label="ページ内の目次">
+    <a href="#mainCard">判別する</a>
+    <a href="#gousei">合成確率</a>
+    <a href="#uchikata">打ち方</a>
+    <a href="#guide">判別のコツ</a>
+  </nav>
+  <div class="reco"><b>風鈴を数えると精度が大きく上がります</b>ボーナスだけだと設定1と6の差は合成で約1.22倍。風鈴（平行・斜めの合計）は設定1 1/9.68〜設定6 1/8.64で、回数が多いぶん判別によく効きます</div>
+</div>
+
+<div class="wrap">
+
+  <!-- 1. 実戦データ → 判別 -->
+  <section class="card" id="mainCard">
+    <div class="section-title"><span class="num">1</span><h2>実戦データで判別</h2></div>
+    <label for="totalG" style="margin-top:0;">総回転数</label>
+    <input type="number" id="totalG" inputmode="numeric" placeholder="例：4000">
+    <div class="row2" style="margin-top:12px;">
+      <div>
+        <label for="bbCount">BIG回数</label>
+        <input type="number" id="bbCount" inputmode="numeric" placeholder="例：14">
+      </div>
+      <div>
+        <label for="rbCount">REG回数</label>
+        <input type="number" id="rbCount" inputmode="numeric" placeholder="例：12">
+      </div>
+    </div>
+    <div class="live-rate">
+      <span>BIG／REG／合算</span>
+      <span><b id="liveBonus">ー</b><small id="liveBonusNote"></small></span>
+    </div>
+    <p class="hint">データカウンターの総回転数とBIG・REGをそのまま入れてOKです（RT中もボーナス確率は通常時と同じ扱い）。ドン揃い・赤7揃いはどちらもBIGに数えます。<a class="mini-link ref-out" data-sec="spec" href="https://chonborista.com/slot/universal-slot/248529/" target="_blank" rel="noopener">ボーナス確率↗</a></p>
+    <button class="btn-primary btn-judge" id="calcBtn">この数字で判別する</button>
+
+    <div class="pie-wrap" id="pieWrap" style="display:none;">
+      <div class="pie" id="pieChart"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div id="topSetting"></div>
+    <div class="ev-output" id="evOutput" style="display:none;"></div>
+    <div class="tip-prompt" id="tipPromptCalc" style="display:none;">
+      <p style="margin:0 0 10px; font-size:13.5px;">勝ったら10円でもいいので投げ銭ください🍶</p>
+      <a class="btn-ghost" style="display:block; text-align:center; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
+    </div>
+    <p class="hint">BIG・REG（と風鈴）の回数の二項分布の尤度から、設定ごとの相対的な可能性をベイズ的に算出しています（事前は一様、示唆にチェックした場合は当てはまらない設定を0%に）。回転数が少ないうちはブレが大きくなります。統計的な目安であり、実際の設定を保証するものではありません。</p>
+  </section>
+
+  <!-- 2. 任意入力 -->
+  <section class="card" id="optionalCard">
+    <div class="section-title"><span class="num">2</span><h2>もっと絞り込む（任意）</h2></div>
+    <p class="hint" style="margin-top:0;">入れなくても判別できます。入力・チェックすると、判別済みの結果に自動で反映されます。</p>
+    <div class="opt-block">
+    <button class="btn-ghost btn-small" id="toggleOpt" style="margin-top:0;">＋ 風鈴も入力する（任意）</button>
+    <div class="optional-panel" id="optPanel">
+      <p class="hint" style="margin-top:0;">風鈴は<b>通常時</b>に数えた回数を、数えたG数とセットで入れてください（空欄なら上の総回転数を使います）。平行に揃う風鈴Aと、斜めに揃う風鈴Bの合計です。</p>
+      <label for="koG">風鈴を数えたG数</label>
+      <input type="number" id="koG" inputmode="numeric" placeholder="空欄＝総回転数">
+      <label for="furinCount">風鈴回数（平行＋斜め）</label>
+      <input type="number" id="furinCount" inputmode="numeric" placeholder="例：440">
+      <div class="live-rate">
+        <span>風鈴</span>
+        <span><b id="liveKo">ー</b><small id="liveKoNote"></small></span>
+      </div>
+      <ul class="ref-list" style="margin-top:8px;">
+        <li>風鈴合算：設定1 1/9.68・設定2 1/9.45・設定5 1/9.06・設定6 1/8.64（約1.12倍）</li>
+        <li>内訳は風鈴A（平行）1/12.9〜1/11.5、風鈴B（斜め）1/38.4〜1/34.5</li>
+        <li>チェリーB（1/307.7〜1/297.9）や氷にも差はありますが、ごく小さいので計算には入れていません</li>
+      </ul>
+    </div>
+    </div>
+    <div class="opt-block" id="hints">
+      <h3 class="sub-h">見えた示唆で設定を絞る</h3>
+    <p class="hint" style="margin-top:0;">REG終了時、画面の左上あたりに出る「ピース花火」にチェック。</p>
+    <a class="hint-link ref-out" data-sec="settei" href="https://1geki.jp/slot/l_hanabi/0/" target="_blank" rel="noopener">REG終了画面の見え方を見る（1geki）↗</a>
+    <div class="chk-group" id="floorGroup">
+      <h3>REG終了画面</h3>
+      <label class="chk"><input type="checkbox" data-allow="2,5,6" data-name="ピース花火">ピース花火が出た<span class="tag">設定2以上濃厚</span></label>
+    </div>
+    <p class="floor-now" id="floorNow">絞り込み：なし（設定1・2・5・6すべてで計算）</p>
+
+    <h3 style="font-size:13.5px; margin:14px 0 4px;">参考（計算には使いません）</h3>
+    <ul class="ref-list">
+      <li>ピース花火はREG中の1枚役が多いほど出やすくなります（1枚役2回以下3.1%、3〜4回10.0%、5回以上25.0%）。設定2・5・6での出やすさは同じなので、出た回数で高設定かどうかは分かりません</li>
+      <li>BIG中の斜め風鈴（風鈴B）：設定1・5は1/10.0、設定2・6は1/7.0。多ければ偶数設定寄り</li>
+      <li>BIG中のバラケ目（15枚・第3停止後にフラッシュ）：設定1・2は1/16384、設定5・6は1/819.2。出れば設定5以上の期待が大きく上がります</li>
+      <li>REG中のバラケ目：設定6だけ1/1092.3（ほかは1/16384）。REG中の1枚役も設定1・2は1/8.0、設定5・6は1/7.0とわずかに差があります</li>
+      <li>RT中のハズレ：花火チャレンジ中 1/4.7〜1/4.2、花火GAME中 1/6.4〜1/5.4（設定1〜6）。高設定ほどハズレが多くなります</li>
+      <li>チェリーBのボーナス同時当選期待度：設定1 7.8%〜設定6 10.2%</li>
+    </ul>
+    </div>
+    <div class="opt-block">
+      <h3 class="sub-h">期待差枚の計算条件</h3>
+    <div class="row2">
+      <div>
+        <label for="closingTime">閉店時刻</label>
+        <input type="time" id="closingTime" value="22:45">
+      </div>
+      <div>
+        <label for="spinsPerHour">1時間あたりの回転数</label>
+        <input type="number" id="spinsPerHour" value="700">
+      </div>
+    </div>
+    </div>
+    <button class="btn-ghost" id="recalcBtn" type="button">この内容で再計算する</button>
+  </section>
+
+  <!-- 3. 合成確率 -->
+  <section class="card" id="gousei">
+    <div class="section-title"><span class="num">3</span><h2>合成確率・機械割の一覧</h2></div>
+    <table class="rate">
+      <thead><tr><th>設定</th><th>BIG</th><th>REG</th><th>合成</th><th>機械割</th></tr></thead>
+      <tbody>
+        <tr><td>設定1</td><td>1/297.9</td><td>1/394.8</td><td>1/169.8</td><td>98.6%</td></tr>
+        <tr><td>設定2</td><td>1/292.6</td><td>1/358.1</td><td>1/161.0</td><td>100.4%</td></tr>
+        <tr class="hi"><td>設定5</td><td>1/284.9</td><td>1/313.6</td><td>1/149.3</td><td>103.0%</td></tr>
+        <tr class="hi"><td>設定6</td><td>1/273.1</td><td>1/282.5</td><td>1/138.8</td><td>106.4%</td></tr>
+      </tbody>
+    </table>
+    <p class="note-s">機械割はふつうに消化した場合の値です（完全攻略時は 100.2%・102.0%・104.6%・108.0%）。公表されているのは設定1・2・5・6のみです。天井はありません。</p>
+    <h3 class="sub-h" style="margin-top:18px;">通常時の小役</h3>
+    <table class="rate">
+      <thead><tr><th>設定</th><th>風鈴A<br>(平行)</th><th>風鈴B<br>(斜め)</th><th>風鈴<br>合算</th><th>チェリーB</th></tr></thead>
+      <tbody>
+        <tr><td>設定1</td><td>1/12.9</td><td>1/38.4</td><td>1/9.68</td><td>1/307.7</td></tr>
+        <tr><td>設定2</td><td>1/12.5</td><td>1/38.7</td><td>1/9.45</td><td>1/306.2</td></tr>
+        <tr class="hi"><td>設定5</td><td>1/12.1</td><td>1/36.2</td><td>1/9.06</td><td>1/300.6</td></tr>
+        <tr class="hi"><td>設定6</td><td>1/11.5</td><td>1/34.5</td><td>1/8.64</td><td>1/297.9</td></tr>
+      </tbody>
+    </table>
+    <p class="note-s">リプレイ 1/7.3、氷A 約1/46〜1/47 は差がほぼありません。</p>
+  </section>
+
+  <!-- 4. 打ち方 -->
+  <section class="card uchi" id="uchikata">
+    <div class="section-title"><span class="num">4</span><h2>ハナビの打ち方</h2></div>
+    <h3>通常時</h3>
+    <ol class="steps">
+      <li>左リールの<b>枠上〜上段にBAR</b>を狙う（チェリーの取りこぼしを防ぐため）</li>
+      <li>右リールはフリーで止め、<b>氷がテンパイしたか</b>を見る</li>
+      <li>氷がテンパイしたときだけ、中リールで<b>氷</b>を狙う。テンパイしなければ中リールもフリーでOK</li>
+      <li>左リールにチェリーが止まったら、中・右はフリーでOK</li>
+    </ol>
+    <h3>ボーナスが揃わないとき（そろえ方）</h3>
+    <ol class="steps">
+      <li>中リールの<b>上段〜中段にBAR</b>を狙う</li>
+      <li>中段にBARが止まったら左・右もBARを狙う。中段に赤7が止まったら左・右も赤7を狙う</li>
+    </ol>
+    <h3>BIG中</h3>
+    <ol class="steps">
+      <li>最初の1回だけ、順押しで左リール<b>中段に赤7をビタ押し</b>（14枚の取得を狙う枚数調整）</li>
+      <li>あとは逆押しのフリー打ちで消化（最大239枚）。BIGのあとは必ずRTに入ります</li>
+    </ol>
+    <h3>REG中</h3>
+    <ol class="steps">
+      <li>予告音が鳴ったときだけ、左リールに<b>3連ドン</b>を狙う（1枚役を外して15枚役を取る）</li>
+      <li>予告音がなければ全リールフリーでOK（最大96枚）</li>
+    </ol>
+    <h3>RT中（BIGのあと）</h3>
+    <ol class="steps">
+      <li><b>花火チャレンジ（最大20G）</b>：残り8Gまでは、予告音と逆押しナビが出たら逆押しで左リール枠上〜上段にBARを狙い、JACを外して引き延ばす</li>
+      <li>残り7G以降は、順押しナビに従ってフリー打ちし、JACを入賞させて花火GAMEへ</li>
+      <li><b>花火GAME（20G）</b>：通常時と同じ打ち方でOK</li>
+    </ol>
+    <p class="note-s">打ち方は解析サイトの記載をもとにまとめたものです。リールの図・停止形・目押しの目安は、次のページが詳しいです。</p>
+    <a class="hint-link ref-out" data-sec="uchikata" href="https://1geki.jp/slot/l_hanabi/2/" target="_blank" rel="noopener">打ち方とレア役の停止形を図で見る（1geki）↗</a>
+    <a class="hint-link ref-out" data-sec="uchikata2" href="https://pachiseven.jp/machines_v2/7313#mpanel5" target="_blank" rel="noopener">ボーナス中・RT中の打ち方を見る（パチセブン）↗</a>
+  </section>
+
+  <!-- 5. 解説 -->
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">5</span><h2>ハナビの設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">ボーナスだけでは差が出にくい</h3>
+    <p>スマスロ ハナビのボーナス確率は、BIGが設定1で1/297.9、設定6で1/273.1（約1.09倍）、REGが1/394.8と1/282.5（約1.40倍）で、合成では1/169.8と1/138.8（約1.22倍）です。設定差はREGのほうが大きいものの、ボーナスは回数そのものが少ないため、短い時間ではブレに埋もれがちです。</p>
+    <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
+    <p>3000G回したときのボーナス合算の平均は、設定1で約17.7回、設定6で約21.6回で、差は4回ほどしかありません。設定1の台が設定6の平均以上に当たる確率は約18％、設定6の台が設定1の平均以下にとどまる確率も約19％あります。ボーナスだけで判断すると、低設定を高設定と見間違えることが珍しくありません。</p>
+    <h3 class="sub-h">風鈴を足すと精度が大きく上がる</h3>
+    <p>このツールの計算方法で、設定6の台を打ったときに「設定5以上の合計が80％以上」になる割合をシミュレーションすると、BIG・REGだけでは3000Gで約11％、5000Gで約23％、8000Gで約37％でした。ここに風鈴の回数を足すと、3000Gで約64％、5000Gで約81％、8000Gで約93％まで上がります。設定1の台で同じ結果になってしまう割合は、風鈴を足しても1〜2％ほどです。風鈴は設定1と6で約1.12倍の差ですが、3000Gで300回以上出るため、回数の多さで判別に効いてきます。</p>
+    <h3 class="sub-h">示唆と、数えるときのコツ</h3>
+    <p>REG終了画面にピース花火が出たら設定2以上が濃厚なので、チェックを入れて計算し直してください。BIG中の斜め風鈴が多いと偶数設定寄り、BIG中にバラケ目が出ると設定5以上の期待が大きく上がります。風鈴は平行と斜めの合計を数え、数え始めたG数もメモしておきましょう。天井はないので、ハマりの途中から打ち始めても数字の偏りは気にしなくて大丈夫です。</p>
+  </section>
+
+  <!-- 6. 設定差 -->
+  <section class="card" id="specCard">
+    <details class="spec-details">
+      <summary><div class="section-title" style="margin:0;"><span class="num">6</span><h2>計算に使う設定差を見る・編集する</h2></div></summary>
+    <div style="overflow-x:auto;">
+    <table class="spec">
+      <thead><tr><th>設定</th><th>BIG(1/n)</th><th>REG(1/n)</th><th>風鈴(1/n)</th><th>機械割%</th></tr></thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    </div>
+    <p class="hint">解析サイトの公開値です（2026年10月24日時点。2026年2月2日導入、メーカーはアクロス）。パチセブン・1geki・ちょんぼりすたで一致。設定は1・2・5・6のみ公表。</p>
+    </details>
+  </section>
+
+  <div class="ad-slot">
+    <!-- ここに広告コード（例: Google AdSenseのユニットタグ）を差し込みます -->
+    広告スペース
+  </div>
+
+  <footer>
+    設定差の数値は各解析サイトの公開値（2026年10月時点）をもとにしています。<br>
+    本ツールは統計的な参考情報の提供を目的としたエンターテインメントです。実際の遊技は自己責任・適正な範囲でお楽しみください。<br>
+    18歳未満の方はパチンコ・パチスロを遊技できません。<br>
+    <a href="../" style="color:var(--muted);">機種一覧</a>　<a href="../privacy.html" style="color:var(--muted);">プライバシーポリシー</a>　<a href="../about.html" style="color:var(--muted);">運営者情報</a>　<a href="../contact.html" style="color:var(--muted);">お問い合わせ</a>
+  </footer>
+</div>
+
+<script>
+// ================= 1. 設定差（2026年10月時点の公開値。設定1・2・5・6） =================
+const SETS = [1,2,5,6];
+const N = SETS.length;
+const SPEC = {
+  bb:     [297.9, 292.6, 284.9, 273.1],
+  rb:     [394.8, 358.1, 313.6, 282.5],
+  furin:  [9.68, 9.45, 9.06, 8.64],
+  payout: [98.6, 100.4, 103.0, 106.4]
+};
+const BET = 3;
+
+const specBody = document.getElementById('specBody');
+for(let s=0; s<N; s++){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>設定${SETS[s]}</td>
+    <td><input type="number" step="0.1" class="bbInput" value="${SPEC.bb[s].toFixed(1)}"></td>
+    <td><input type="number" step="0.1" class="rbInput" value="${SPEC.rb[s].toFixed(1)}"></td>
+    <td><input type="number" step="0.01" class="furinInput" value="${SPEC.furin[s].toFixed(2)}"></td>
+    <td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>`;
+  specBody.appendChild(tr);
+}
+const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
+
+// ================= 2. 実戦データ =================
+const totalG = document.getElementById('totalG');
+const bbCount = document.getElementById('bbCount');
+const rbCount = document.getElementById('rbCount');
+const koG = document.getElementById('koG');
+const furinCount = document.getElementById('furinCount');
+const num = el => Math.max(parseFloat(el.value) || 0, 0);
+const koGames = () => koG.value.trim() !== '' ? num(koG) : num(totalG);
+
+function nearLabel(r, arr){
+  const max = Math.max(...arr), min = Math.min(...arr);
+  if(r >= max) return `設定${SETS[0]}より重い`;
+  if(r <= min) return `設定${SETS[N-1]}より軽い`;
+  let best = 0;
+  arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+  return `設定${SETS[best]}付近`;
+}
+const rate = (g, k) => k > 0 ? `1/${(g/k).toFixed(1)}` : '―';
+const gousei = () => { const b = readCol('bbInput'), r = readCol('rbInput'); return b.map((v, i) => 1/(1/v + 1/r[i])); };
+function updateLive(){
+  const g = num(totalG), b = num(bbCount), r = num(rbCount);
+  const lb = document.getElementById('liveBonus'), ln = document.getElementById('liveBonusNote');
+  if(g > 0 && (b > 0 || r > 0)){
+    lb.textContent = `${rate(g, b)}／${rate(g, r)}／${rate(g, b + r)}`;
+    ln.textContent = (b + r) > 0 ? `合算は${nearLabel(g/(b + r), gousei())}` : '';
+  } else { lb.textContent = 'ー'; ln.textContent = ''; }
+  const kg = koGames(), fu = num(furinCount);
+  const kb = document.getElementById('liveKo'), kn = document.getElementById('liveKoNote');
+  if(kg > 0 && fu > 0){
+    kb.textContent = `1/${(kg/fu).toFixed(2)}`;
+    kn.textContent = `風鈴は${nearLabel(kg/fu, readCol('furinInput'))}`;
+  } else { kb.textContent = 'ー'; kn.textContent = ''; }
+}
+[totalG, bbCount, rbCount, koG, furinCount].forEach(el => el.addEventListener('input', updateLive));
+document.querySelectorAll('#specBody input').forEach(el => el.addEventListener('input', updateLive));
+
+document.getElementById('toggleOpt').addEventListener('click', (e) => {
+  const panel = document.getElementById('optPanel');
+  panel.classList.toggle('open');
+  e.target.textContent = panel.classList.contains('open') ? '－ 追加入力を閉じる' : '＋ 風鈴も入力する（任意）';
+});
+
+// ================= 3. 示唆による絞り込み =================
+const floorChecks = [...document.querySelectorAll('#floorGroup input[type=checkbox]')];
+function currentAllow(){
+  const on = floorChecks.filter(c => c.checked);
+  let allow = new Set(SETS);
+  on.forEach(c => {
+    const a = new Set(c.dataset.allow.split(',').map(Number));
+    allow = new Set([...allow].filter(s => a.has(s)));
+  });
+  return { allow, names: on.map(c => c.dataset.name) };
+}
+const allowLabel = allow => [...allow].map(s => `設定${s}`).join('・');
+function updateFloorText(){
+  const { allow, names } = currentAllow();
+  const el = document.getElementById('floorNow');
+  if(names.length === 0) el.innerHTML = '絞り込み：なし（設定1・2・5・6すべてで計算）';
+  else if(allow.size === 0) el.innerHTML = '<span style="color:var(--red);">チェックした示唆が矛盾しています（当てはまる設定がありません）。見間違いがないか確認してください。</span>';
+  else el.innerHTML = `絞り込み：<b>${allowLabel(allow)}</b>で計算（${names.join('・')}）`;
+}
+floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
+
+// ================= 4. 計算 =================
+const pieColors = ['#e8a93b','#33b6a4','#e8613b','#6fd6a8'];
+const topSetting = document.getElementById('topSetting');
+const pieWrap = document.getElementById('pieWrap');
+const evOutput = document.getElementById('evOutput');
+const tipPrompt = document.getElementById('tipPromptCalc');
+
+// 二項分布の対数尤度（組合せ項は設定間で共通なので省略）
+const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
+
+function showMsg(html){
+  topSetting.innerHTML = `<p class="hint">${html}</p>`;
+  pieWrap.style.display = 'none'; evOutput.style.display = 'none'; tipPrompt.style.display = 'none';
+}
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  const g = num(totalG), b = num(bbCount), r = num(rbCount);
+  const optOpen = document.getElementById('optPanel').classList.contains('open');
+  const kg = koGames();
+  const useFurin = optOpen && furinCount.value.trim() !== '' && kg > 0;
+  const fu = useFurin ? num(furinCount) : 0;
+
+  if(g <= 0){ showMsg('総回転数を入力してください。'); return; }
+  if(b + r > g || fu > kg){ showMsg('回数が回転数を超えています。入力を確認してください。'); return; }
+
+  const { allow, names } = currentAllow();
+  if(allow.size === 0){ showMsg('チェックした示唆が矛盾しています。見間違いがないか確認してください。'); return; }
+
+  const bbv = readCol('bbInput'), rbv = readCol('rbInput'), furinv = readCol('furinInput'), payout = readCol('payoutInput');
+
+  const ll = [];
+  for(let s=0; s<N; s++){
+    if(!allow.has(SETS[s])){ ll.push(-Infinity); continue; }
+    // BIG・REG・ハズレの多項分布（1G）
+    const pb = 1/bbv[s], pr = 1/rbv[s];
+    let v = b*Math.log(pb) + r*Math.log(pr) + Math.max(g - b - r, 0)*Math.log(Math.max(1 - pb - pr, 1e-12));
+    if(useFurin) v += binomLL(fu, kg, 1/furinv[s]);
+    ll.push(v);
+  }
+  const maxLL = Math.max(...ll);
+  const w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - maxLL));
+  const sum = w.reduce((x, y) => x + y, 0);
+  const post = w.map(x => x / sum);
+  const expSetting = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
+
+  if (typeof gtag === 'function') {
+    gtag('event', 'judge_run', { machine: 'hanabi', has_furin: useFurin, allow: [...allow].join('') });
+  }
+
+  // 円グラフ
+  let acc = 0;
+  const stops = post.map((p, i) => { const s0 = acc*360; acc += p; return `${pieColors[i]} ${s0}deg ${acc*360}deg`; }).join(', ');
+  document.getElementById('pieChart').style.background = `conic-gradient(${stops})`;
+  pieWrap.style.display = 'flex';
+  const legend = document.getElementById('legend');
+  legend.innerHTML = '';
+  post.forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'legend-row' + (!allow.has(SETS[i]) ? ' cut' : '');
+    row.innerHTML = `<span class="swatch" style="background:${pieColors[i]}"></span><span>設定${SETS[i]}</span><span class="pct">${(p*100).toFixed(1)}%</span>`;
+    legend.appendChild(row);
+  });
+
+  const best = post.indexOf(Math.max(...post));
+  const hi = post[2] + post[3];
+  const parts = [`${g}G / BIG ${b}回（${rate(g, b)}）・REG ${r}回（${rate(g, r)}）・合算 ${rate(g, b + r)}`];
+  if(useFurin) parts.push(`風鈴 ${fu}回／${kg}G（${fu > 0 ? '1/' + (kg/fu).toFixed(2) : '―'}）`);
+  if(names.length) parts.push(`絞り込み：${allowLabel(allow)}（${names.join('・')}）`);
+  let msg = `最も可能性が高いのは <b>設定${SETS[best]}</b>（推定 ${(post[best]*100).toFixed(1)}%）。設定5以上の合計 <b>${(hi*100).toFixed(1)}%</b>、期待設定 <b>${expSetting.toFixed(2)}</b>。<br><span style="color:var(--muted);font-size:12.5px;">${parts.join(' / ')}</span>`;
+  if(!useFurin) msg += '<br><span style="color:var(--muted);font-size:12.5px;">ボーナスだけでは差が出にくい機種です。風鈴を数えて入れると精度が大きく上がります。</span>';
+  else if(g < 3000) msg += '<br><span style="color:var(--muted);font-size:12.5px;">3,000G未満ではブレが大きいです。</span>';
+  topSetting.innerHTML = `<div class="top-setting">${msg}</div>`;
+
+  // 期待差枚 = 残りG × 3枚 ×（機械割 − 100%）
+  const spinsPerHour = parseFloat(document.getElementById('spinsPerHour').value) || 0;
+  const [ch, cm] = document.getElementById('closingTime').value.split(':').map(Number);
+  const closing = new Date(); closing.setHours(ch, cm, 0, 0);
+  const hours = Math.max((closing - new Date()) / 3600000, 0);
+  const remainG = spinsPerHour * hours;
+  const netPer = payout.map(p => BET * (p/100 - 1) * remainG);
+  const ev = Math.round(post.reduce((x, p, i) => x + p*netPer[i], 0)) || 0;
+  const bestNet = Math.round(netPer[best]) || 0;
+  const sign = v => v > 0 ? '+' : (v < 0 ? '' : '±');
+  evOutput.style.display = 'block';
+  evOutput.innerHTML = `
+    <div class="num ${ev >= 0 ? 'pos' : 'neg'}">${sign(ev)}${ev.toLocaleString()} 枚</div>
+    <div class="sub">残り約${hours.toFixed(1)}時間・約${Math.round(remainG).toLocaleString()}G分の期待差枚（各設定の機械割を確率で重み付け平均）</div>
+    <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--line);">
+      <div class="num ${bestNet >= 0 ? 'pos' : 'neg'}" style="font-size:22px;">${sign(bestNet)}${bestNet.toLocaleString()} 枚</div>
+      <div class="sub">最有力の設定${SETS[best]}だった場合の期待差枚</div>
+    </div>`;
+  tipPrompt.style.display = 'block';
+});
+
+document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', () => {
+  if (typeof gtag === 'function') gtag('event', 'outbound_ref', { machine: 'hanabi', section: a.dataset.sec });
+}));
+</script>
+
+<script>
+// 任意入力・設定差を変えたら判別結果を自動で再計算（GAのjudge_runは送らない）
+(function(){
+  var btn = document.getElementById('calcBtn'); if(!btn) return;
+  var done = false, timer = null;
+  btn.addEventListener('click', function(){ done = true; });
+  function silentCalc(){
+    var g = window.gtag;
+    window.gtag = function(a, b){ if(a === 'event' && b === 'judge_run') return; if(typeof g === 'function') return g.apply(this, arguments); };
+    try { btn.click(); } finally { window.gtag = g; }
+  }
+  function auto(e){
+    if(!done) return;
+    if(e && e.target && (e.target.id === 'recalcBtn' || (e.target.tagName === 'BUTTON'))) return;
+    clearTimeout(timer); timer = setTimeout(silentCalc, 350);
+  }
+  ['optionalCard', 'specCard'].forEach(function(id){
+    var el = document.getElementById(id); if(!el) return;
+    el.addEventListener('input', auto); el.addEventListener('change', auto);
+  });
+  var rb = document.getElementById('recalcBtn');
+  if(rb) rb.addEventListener('click', function(){
+    btn.click();
+    var t = document.getElementById('pieWrap');
+    if(t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+})();
+</script>
+<script src="../share.js"></script>
+<script>
+(function(){
+  var opt = {"panel": "optPanel", "toggle": "toggleOpt"};
+  SettiShare.init({"key": "hanabi", "name": "スマスロ ハナビ", "tags": "#ハナビ #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [
+    {"id": "totalG", "q": "g", "label": "総回転", "unit": "G"},
+    {"id": "bbCount", "q": "bb", "label": "BIG", "unit": "回", "rateOf": "totalG"},
+    {"id": "rbCount", "q": "rb", "label": "REG", "unit": "回", "rateOf": "totalG"},
+    {"id": "koG", "q": "kog", "label": "風鈴計測", "unit": "G", "opt": opt},
+    {"id": "furinCount", "q": "fu", "label": "風鈴", "unit": "回", "opt": opt}
+  ]}], "hints": "#floorGroup input[type=checkbox]"});
+})();
+</script>
+<script src="../counter.js"></script>
+<script>
+SettiCounter.init({"key": "hanabi", "name": "スマスロ ハナビ", "g": {"id": "totalG", "label": "総回転数"}, "counts": [{"id": "bbCount", "label": "BIG"}, {"id": "rbCount", "label": "REG"}, {"id": "furinCount", "label": "風鈴", "wide": true, "optional": true, "rateG": "totalG", "openPanel": {"panel": "optPanel", "btn": "toggleOpt"}}], checks: { selector: '#floorGroup input[type=checkbox]', title: "REG終了画面", short: 'ピース花火', optional: true }, hiFrom: 5, judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend', note: "風鈴は平行・斜めの合計。数えたG数が総回転数と違う場合はページで入力してください。"});
+</script>
+</body>
+</html>
