@@ -1,0 +1,35 @@
+/* 機種一覧の行（トップ・全機種一覧で共通） */
+h2.group{ display:flex; align-items:baseline; gap:8px; }
+h2.group small{ font-weight:400; font-size:11.5px; }
+.sec{ scroll-margin-top: 120px; }
+.rows{ background:var(--panel); border:1px solid var(--line); border-radius:13px; overflow:hidden; }
+.rows > *{ border-top:1px solid var(--line); }
+.rows > *:first-child{ border-top:0; }
+a.row, details.series > summary{
+  display:flex; align-items:center; gap:10px; padding:11px 14px; color:var(--text); text-decoration:none; min-height:56px; cursor:pointer; list-style:none;
+}
+details.series > summary::-webkit-details-marker{ display:none; }
+a.row:hover, details.series > summary:hover{ background:var(--panel-2); }
+.row .t, .series .t{ flex:1; min-width:0; }
+.row .n, .series .n{ font-family:'Zen Kaku Gothic New',sans-serif; font-weight:700; font-size:15px; line-height:1.4; }
+.row .s, .series .s{ color:var(--muted); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.row .arw, .series .arw{ color:var(--muted); font-size:15px; flex:none; transition:transform .15s; }
+details.series[open] > summary .arw{ transform:rotate(90deg); }
+.series .cnt{ font-size:11px; color:var(--teal); border:1px solid #33b6a466; border-radius:6px; padding:0 6px; margin-left:6px; vertical-align:2px; white-space:nowrap; }
+.series .kids{ background:#0000001f; }
+.series .kids a.row{ padding-left:28px; min-height:46px; border-top:1px solid var(--line); }
+.series .kids a.row .n{ font-size:14px; font-weight:500; }
+.row .badge, .series .badge{ white-space:nowrap; }
+.badge.new{ color:#ff8a65; border-color:rgba(255,138,101,.5); }
+a.all-link{
+  display:flex; align-items:center; justify-content:center; gap:8px; margin-top:12px; padding:13px; border:1px solid var(--line);
+  border-radius:13px; background:var(--panel); color:var(--teal); text-decoration:none; font-size:14px; font-weight:700;
+}
+a.all-link:hover{ border-color:var(--teal); }
+.jump{ display:flex; gap:6px; overflow-x:auto; padding-top:8px; scrollbar-width:none; }
+.jump::-webkit-scrollbar{ display:none; }
+.jump a{ flex:none; font-size:12.5px; color:var(--text); text-decoration:none; border:1px solid var(--line); background:var(--panel); border-radius:999px; padding:4px 12px; }
+.jump a:hover{ border-color:var(--teal); }
+.about a{ color: var(--teal); }
+.row .s .mk{ color:var(--text); opacity:.75; margin-right:6px; }
+.row .s .mk::after{ content:'｜'; margin-left:6px; opacity:.5; }
