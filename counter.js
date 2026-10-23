@@ -89,7 +89,18 @@
     + '.sc-toast.show{display:flex;}'
     + '.sc-toast span{flex:1;}'
     + '.sc-ov .sc-toast button{background:var(--gold);color:#1a1408;border:none;border-radius:8px;padding:8px 12px;font-weight:900;'
-    + 'font-size:13.5px;font-family:inherit;cursor:pointer;}';
+    + 'font-size:13.5px;font-family:inherit;cursor:pointer;}'
+    + '.sc-free{margin-top:4px;}'
+    + '.sc-free .sc-sub small{font-weight:400;margin-left:6px;}'
+    + '.sc-fgrid:empty{display:none;}'
+    + '.sc-ov .sc-tile .sc-del{position:absolute;right:8px;bottom:8px;padding:5px 9px;border-radius:8px;border:1px solid var(--line);'
+    + 'background:var(--panel-2);color:var(--muted);font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;line-height:1.2;}'
+    + '.sc-ov .sc-tile .sc-del.arm{border-color:var(--red);color:var(--red);}'
+    + '.sc-free-add{display:flex;gap:8px;margin-top:10px;}'
+    + '.sc-free-add input{flex:1;min-width:0;background:var(--panel-2);border:1px dashed var(--line);border-radius:10px;'
+    + 'color:var(--text);font-size:14px;padding:10px 12px;font-family:inherit;}'
+    + '.sc-ov .sc-free-add button{flex-shrink:0;padding:10px 14px;border-radius:10px;border:1px solid var(--teal);background:transparent;'
+    + 'color:var(--teal);font-weight:700;font-size:13.5px;font-family:inherit;cursor:pointer;}';
 
   var $ = function (id) { return document.getElementById(id); };
   var ga = function (name, p) { if (typeof gtag === 'function') gtag('event', name, p); };
@@ -107,6 +118,10 @@
     var checks = cfg.checks ? [].slice.call(document.querySelectorAll(cfg.checks.selector)) : [];
     var undo = [], taps = 0;
     var UKEY = 'settiCounterUse:' + cfg.key;
+    // 自由カウント：利用者が名前を付けて好きなものを数える（判別の計算には使わない）。名前と数はこの端末に保存
+    var FKEY = 'settiCounterFree:' + cfg.key;
+    var free = (store.get(FKEY) || []).filter(function (x) { return x && typeof x.n === 'string'; });
+    var saveFree = function () { store.set(FKEY, free); };
     // group を付けた任意項目は「数える項目」のボタン1つでまとめてON/OFFする
     var opts = [], grpSeen = {};
     (cfg.counts || []).forEach(function (c, i) {
@@ -145,21 +160,24 @@
       var v = {}; (cfg.counts || []).forEach(function (c) { v[c.id] = val(c.id); }); v[cfg.g.id] = val(cfg.g.id);
       G2.forEach(function (g) { v[g.id] = val(g.id); });
       store.set(KEY, { v: v, c: checks.map(function (c) { return c.checked ? 1 : 0; }), s: stash, t: Date.now() });
+      saveFree();
     }
     function snap() {
       var v = {}; (cfg.counts || []).forEach(function (c) { v[c.id] = val(c.id); }); v[cfg.g.id] = val(cfg.g.id);
       G2.forEach(function (g) { v[g.id] = val(g.id); });
-      return { v: v, c: checks.map(function (c) { return c.checked ? 1 : 0; }), s: JSON.parse(JSON.stringify(stash)), t: Date.now() };
+      return { v: v, c: checks.map(function (c) { return c.checked ? 1 : 0; }), s: JSON.parse(JSON.stringify(stash)), f: free.map(function (x) { return x.c; }), t: Date.now() };
     }
     function restore(sn) {
       Object.keys(sn.v || {}).forEach(function (id) { write(id, sn.v[id]); });
       (sn.c || []).forEach(function (on, i) { setCheck(i, !!on); });
       stash = sn.s || {};
+      (sn.f || []).forEach(function (n, i) { if (free[i]) free[i].c = n; });
       (cfg.counts || []).forEach(function (c) { if (val(c.id) > 0) openPanelOf(c); });
     }
     function used() {
       if (val(cfg.g.id) > 0) return true;
-      return (cfg.counts || []).some(function (c) { return val(c.id) > 0; }) || checks.some(function (c) { return c.checked; });
+      return (cfg.counts || []).some(function (c) { return val(c.id) > 0; }) || checks.some(function (c) { return c.checked; })
+        || free.some(function (x) { return x.c > 0; });
     }
 
     // ---------- 判別（GAのjudge_runは送らずにボタンを押す） ----------
@@ -211,6 +229,10 @@
         + '<input id="scG2_' + j + '" type="number" inputmode="numeric" placeholder="データカウンターの数字"></div>'; }).join('')
       + (opts.length ? '<div class="sc-use"><span>数える項目：</span>' + opts.map(function (o) { return '<button type="button" class="sc-uchip" data-k="' + o.k + '"></button>'; }).join('') + '</div>' : '')
       + '<div class="sc-grid">' + tiles + '</div>'
+      + '<div class="sc-free"><div class="sc-sub">自由カウント<small>気になるものを名前を付けて数えられます（判別には使いません）</small></div>'
+      + '<div class="sc-grid sc-fgrid"></div>'
+      + '<div class="sc-free-add"><input type="text" maxlength="12" placeholder="例：チェリー、リーチ目" aria-label="数えたいものの名前">'
+      + '<button type="button" class="sc-free-btn">＋ 追加</button></div></div>'
       + (chips ? '<div class="sc-checks"><div class="sc-sub">' + cfg.checks.title + '（タップで ON/OFF）</div><div class="sc-chips">' + chips + '</div></div>' : '')
       + '<p class="sc-note">押した数は判別ページの入力欄にそのまま入ります。数字は「✎ 入力」で直接入れられます。この端末に自動で保存されるので、画面を閉じても消えません。'
       + (cfg.note ? '<br>' + cfg.note : '') + '</p>'
@@ -234,8 +256,27 @@
     var gIn = ov.querySelector('#scG'), resEl = ov.querySelector('.sc-res');
     var undoBtn = ov.querySelector('.sc-undo'), resetBtn = ov.querySelector('.sc-reset');
 
+    var fgrid = ov.querySelector('.sc-fgrid'), fIn = ov.querySelector('.sc-free-add input');
+    function renderFree(g) {
+      while (fgrid.children.length > free.length) fgrid.removeChild(fgrid.lastChild);
+      free.forEach(function (x, i) {
+        var t = fgrid.children[i];
+        if (!t) {
+          t = document.createElement('div'); t.className = 'sc-tile'; t.setAttribute('role', 'button'); t.dataset.f = i;
+          t.innerHTML = '<div class="sc-lb"></div><button type="button" class="sc-minus" aria-label="1つ減らす">−</button>'
+            + '<div class="sc-n">0</div><div class="sc-rt"></div><button type="button" class="sc-del">削除</button>';
+          fgrid.appendChild(t);
+        }
+        t.dataset.f = i;
+        t.querySelector('.sc-lb').textContent = x.n;
+        t.setAttribute('aria-label', x.n + 'を1つ増やす');
+        t.querySelector('.sc-n').textContent = x.c;
+        t.querySelector('.sc-rt').textContent = (g > 0 && x.c > 0) ? '1/' + (g / x.c).toFixed(1) : '';
+      });
+    }
     function render() {
       var g = val(cfg.g.id);
+      renderFree(g);
       opts.forEach(function (o) {
         var on = isOn(o.k), b = ov.querySelector('.sc-uchip[data-k="' + o.k + '"]');
         b.classList.toggle('on', on); b.textContent = (on ? '✓ ' : '＋ ') + o.label;
@@ -297,6 +338,38 @@
       t.classList.add('hit'); setTimeout(function () { t.classList.remove('hit'); }, 90);
       bump(+t.dataset.i, 1);
     });
+    function addFree() {
+      var n = (fIn.value || '').replace(/\s+/g, ' ').trim().slice(0, 12);
+      if (!n) { fIn.focus(); return; }
+      if (free.length >= 12) { fIn.value = ''; fIn.placeholder = '追加できるのは12個までです'; return; }
+      free.push({ n: n, c: 0 }); fIn.value = ''; saveFree();
+      ga('counter_free_add', { machine: cfg.key });
+      render();
+    }
+    ov.querySelector('.sc-free-btn').addEventListener('click', addFree);
+    fIn.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); addFree(); } });
+    fgrid.addEventListener('click', function (e) {
+      var t = e.target.closest('.sc-tile'); if (!t) return;
+      var i = +t.dataset.f, x = free[i]; if (!x) return;
+      var del = e.target.closest('.sc-del');
+      if (del) {
+        e.stopPropagation();
+        if (!del.classList.contains('arm')) {
+          del.classList.add('arm'); del.textContent = 'もう一度で削除';
+          setTimeout(function () { del.classList.remove('arm'); del.textContent = '削除'; }, 3000);
+          return;
+        }
+        free.splice(i, 1); undo = undo.filter(function (u) { return u.t !== 'f'; }); saveFree(); render(); return;
+      }
+      var m = e.target.closest('.sc-minus');
+      var d = m ? -1 : 1;
+      if (m) e.stopPropagation();
+      if (d < 0 && x.c <= 0) return;
+      undo.push({ t: 'f', i: i, prev: x.c }); store.del(BKEY); hideToast();
+      x.c += d; saveFree();
+      if (d > 0) { taps++; buzz(); t.classList.add('hit'); setTimeout(function () { t.classList.remove('hit'); }, 90); }
+      render();
+    });
     function setUse(k, on) {
       useP[k] = on; store.set(UKEY, useP);
       if (k === '__checks') {
@@ -346,6 +419,7 @@
       var u = undo.pop();
       if (!u) { var bk = store.get(BKEY); if (!bk) return; restore(bk); store.del(BKEY); hideToast(); ga('counter_reset_undo', { machine: cfg.key }); changed(); return; }
       if (u.t === 'n') write(u.id, u.prev);
+      else if (u.t === 'f') { if (free[u.i]) free[u.i].c = u.prev; }
       else if (u.t === 'r') { restore(u.snap); store.del(BKEY); hideToast(); ga('counter_reset_undo', { machine: cfg.key }); }
       else setCheck(u.i, u.prev);
       changed();
@@ -363,6 +437,7 @@
       write(cfg.g.id, 0);
       G2.forEach(function (g) { write(g.id, 0); });
       checks.forEach(function (c, i) { setCheck(i, false); });
+      free.forEach(function (x) { x.c = 0; }); saveFree();
       undo = had ? [{ t: 'r', snap: before }] : []; stash = {}; store.del(KEY);
       if (had) { store.set(BKEY, before); showToast(); }
       var wr = $(cfg.wrap); if (wr) wr.style.display = 'none';
@@ -448,7 +523,7 @@
         if (c.openPanel && val(c.id) > 0) { var p = $(c.openPanel.panel); if (p && !p.classList.contains('open')) { var b = $(c.openPanel.btn); if (b) b.click(); } }
       });
       silentCalc();
-    } else if (saved && !fromShare) { store.del(KEY); }
+    } else if (saved && !fromShare) { store.del(KEY); free.forEach(function (x) { x.c = 0; }); saveFree(); }
     // ページ側で手入力した数もカウンターに反映
     document.addEventListener('input', function (e) { if (!ov.classList.contains('open') && e.target && e.target.id) { save(); fab.classList.toggle('on', used()); } }, true);
     render();
