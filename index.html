@@ -15,6 +15,7 @@
 <meta property="og:image" content="https://pachipachi-png.com/ogp.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="lists.css">
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -77,7 +78,7 @@
 </script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9150472731628445" crossorigin="anonymous"></script>
 </head>
-<body>
+<body data-page="top">
 
 <div class="hero">
   <h1>設定示唆くん</h1>
@@ -88,47 +89,40 @@
   <div class="search">
     <label for="q" style="position:absolute; left:-9999px;">機種名で検索</label>
     <input id="q" type="search" placeholder="機種名で検索（例：マイジャグ）" autocomplete="off">
+    <nav class="jump" id="quick">
+      <a href="juggler/">ジャグラー</a><a href="list/#mk-パイオニア" data-q="ハナハナ">ハナハナ</a><a href="list/" data-q="北斗">北斗</a><a href="list/#mk-コナミ" data-q="マジカルハロウィン">マジハロ</a><a href="#secNew">新台</a><a href="list/">全機種一覧</a>
+    </nav>
   </div>
 
   <a class="zukai-link" id="zukaiLink" href="zukai/">
     <div><b>打ちながら見られる1枚図解「スロ図解くん」</b><span>裏ボタン・示唆を機種ごとに画像でまとめ</span></div><i>→</i>
   </a>
 
-  <h2 class="group" id="gReady">判別できる機種（新台・話題の機種から順に）</h2>
-  <div class="list" id="listReady">
-    <!-- 静的リスト（build_toplist.js で生成。JSが同じ内容で描き直す） -->
-    <a class="item" href="juggler/"><div class="name">ジャグラーシリーズ<span class="badge hot">マイジャグ6導入</span></div><div class="sub">マイジャグラー6／ネオアイム／ウルトラミラクル／ミスター／ガールズSS／ゴーゴー3／ハッピーV3／マイジャグV／ファンキー2／SアイムEX</div><div class="inputs"><span class="chip">総回転数</span><span class="chip">BIG</span><span class="chip">REG</span><span class="chip">ぶどう（任意）</span></div></a>
-    <a class="item" href="mahoako/"><div class="name">L魔法少女にあこがれて<span class="badge hot">10/19新台</span></div><div class="sub">AT初当り＋CZ回数・CZの種類、ギンちゃんトロフィーで絞り込み（10/19導入）</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">CZ・CZの種類（任意）</span><span class="chip">トロフィー</span></div></a>
-    <a class="item" href="juuou/"><div class="name">スマスロ 獣王<span class="badge hot">新台</span></div><div class="sub">2026年10月5日導入の新台。サバンナチャンス（AT）初当りで判別</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span></div></a>
-    <a class="item" href="mhsunbreak/"><div class="name">スマスロ モンスターハンターライズ：サンブレイク<span class="badge hot">新台</span></div><div class="sub">2026年10月5日導入の新台（前作ライズとは別機種）。AT初当り、トロフィー・終了画面・獲得枚数で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">トロフィー・終了画面</span></div></a>
-    <a class="item" href="tenten/"><div class="name">L転生王女と天才令嬢の魔法革命<span class="badge hot">新台</span></div><div class="sub">2026年10月5日導入の新台。CZ確率＋ボーナス初当り、終了画面のスタンプ・獲得枚数表示・隠れ凪で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">CZ回数</span><span class="chip">ボーナス初当り（任意）</span><span class="chip">スタンプ・獲得枚数</span></div></a>
-    <a class="item" href="paripi/"><div class="name">スマスロ パリピ孔明<span class="badge hot">新台</span></div><div class="sub">2026年10月5日導入の新台。ボーナス初当り＋CZ確率、ST終了画面で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">ボーナス初当り</span><span class="chip">CZ回数（任意）</span><span class="chip">ST終了画面</span></div></a>
-    <a class="item" href="ghoul/"><div class="name">L 東京喰種<span class="badge hot">人気機種</span></div><div class="sub">AT初当り＋CZ・エピソードボーナス・引き戻し、終了画面・招待状・カード・トロフィーで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">CZ・引き戻し（任意）</span><span class="chip">終了画面・招待状・カード</span></div></a>
-    <a class="item" href="kabaneri2/"><div class="name">スマスロ 甲鉄城のカバネリ 海門決戦<span class="badge hot">人気機種</span></div><div class="sub">ボーナス初当り＋下段ベル・キャラ紹介、トロフィー・おみくじ・ボイス・上乗せ表示で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">ボーナス初当り回数</span><span class="chip">下段ベル（任意）</span><span class="chip">トロフィー・おみくじ・ボイス</span></div></a>
-    <a class="item" href="hokuto/"><div class="name">スマスロ北斗の拳<span class="badge hot">人気機種</span></div><div class="sub">BB初当り＋レア小役・BB終了後ボイス、サミートロフィー・獲得枚数・初代演出で絞り込み（設定3なし）</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">BB初当り回数</span><span class="chip">レア小役・ボイス（任意）</span><span class="chip">トロフィー・獲得枚数</span></div></a>
-    <a class="item" href="hokuto-tensei2/"><div class="name">スマスロ 北斗の拳 転生の章2<span class="badge hot">人気機種</span></div><div class="sub">AT初当り＋天破の刻・上部ランプの白点灯/白点滅、サミートロフィー・ランプで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">天破の刻・ランプ（任意）</span><span class="chip">トロフィー・ランプ</span></div></a>
-    <a class="item" href="otome5/"><div class="name">L戦国乙女5 業火を穿つ宿焔の双刃<span class="badge hot">人気機種</span></div><div class="sub">AT初当り＋戦国乙女ボーナス・乙女アタック突入率、出陣ボーナス終了画面・獲得枚数・ゴエモンボイスで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">乙女ボーナス・乙女アタック（任意）</span><span class="chip">終了画面・ボイス</span></div></a>
-    <a class="item" href="karakuri2/"><div class="name">Lパチスロ からくりサーカス2<span class="badge hot">人気機種</span></div><div class="sub">AT初当り＋CZ・強チェリーからのAT直撃、AT終了画面・獲得枚数・エンディングランプ・オリンピアで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">CZ・強チェ直撃（任意）</span><span class="chip">AT終了画面・ランプ</span></div></a>
-    <a class="item" href="index2/"><div class="name">Lとある魔術の禁書目録2<span class="badge hot">人気機種</span></div><div class="sub">AT初当り＋CZ・AT直撃、AT終了画面・藤丸コイン・獲得枚数・打ち止めのセリフで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">CZ・AT直撃（任意）</span><span class="chip">AT終了画面・コイン</span></div></a>
-    <a class="item" href="sao2/"><div class="name">スロット ソードアート・オンラインⅡ<span class="badge hot">キリト誕生日示唆</span></div><div class="sub">CZ確率＋AT・強チャンス目B、終了画面・トロフィー・ミニキャラで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">CZ回数</span><span class="chip">AT・強チャ目B（任意）</span><span class="chip">終了画面・トロフィー</span></div></a>
-    <a class="item" href="milliongod/"><div class="name">スマスロ ミリオンゴッド-神々の軌跡-</div><div class="sub">AT初当り＋青7（リプレイ）連のGG当選、押し順ナビ（実戦値）とユニバプレートも参考に</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">AT初当り回数</span><span class="chip">青7連・押し順ナビ（任意）</span><span class="chip">ユニバプレート</span></div></a>
-    <a class="item" href="lycoris/"><div class="name">スマスロ リコリス・リコイル</div><div class="sub">CZ確率＋共通ベル、終了画面・トロフィーで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">CZ回数</span><span class="chip">共通ベル（任意）</span><span class="chip">終了画面・トロフィー</span></div></a>
-    <a class="item" href="kanokari/"><div class="name">Lパチスロ 彼女、お借りします</div><div class="sub">CZ確率＋ボーナス初当り、終了画面・センチ・獲得枚数・ボイスで絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">CZ回数</span><span class="chip">ボーナス初当り（任意）</span><span class="chip">終了画面・獲得枚数</span></div></a>
-    <a class="item" href="monkey/"><div class="name">スマスロ モンキーターンV</div><div class="sub">5枚役＋AT初当り、トロフィー・舟券・獲得枚数で絞り込み</div><div class="inputs"><span class="chip">総G数</span><span class="chip">5枚役</span><span class="chip">AT初当り（任意）</span><span class="chip">トロフィー・舟券</span></div></a>
-    <a class="item" href="biore3/"><div class="name">スマスロ バイオハザードRE:3</div><div class="sub">CZ確率での判別と、フィギュア獲得数での判別（打たなくても台選びに使える）。5枚ベル・トロフィー・獲得枚数表示にも対応</div><div class="inputs"><span class="chip">フィギュア獲得数</span><span class="chip">通常時G数</span><span class="chip">CZ回数</span><span class="chip">5枚ベル（任意）</span></div></a>
-    <a class="item" href="magihallo8/"><div class="name">スマスロ マジカルハロウィン8</div><div class="sub">ART初当り＋どこまじ（設定差約15倍）で判別。共通コインの追加入力、アリストロフィー・終了画面のキャラ人数・獲得枚数表示で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">ART初当り回数</span><span class="chip">★どこまじ（おすすめ）</span><span class="chip">トロフィー・終了画面</span></div></a>
-    <a class="item" href="magihallobt/"><div class="name">マジカルハロウィン ボーナストリガー</div><div class="sub">設定1・2・5・6の4段階。通常時のBIG・REG（REGの差が約1.49倍）で判別。ベル・リーチ目の追加入力、ミニキャラの台座（紫・金）で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">BIG</span><span class="chip">REG</span><span class="chip">ベル（任意）</span></div></a>
-    <a class="item" href="magihallotot/"><div class="name">マジカルハロウィン～Trick or Treat!～</div><div class="sub">ART初当りで判別。ART中の共通コイン・ハズレ（設定差4倍）の追加入力、アリスインワンダーランド・獲得枚数表示で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">ART初当り回数</span><span class="chip">★ART中の共通コイン・ハズレ</span><span class="chip">アリワン・獲得枚数</span></div></a>
-    <a class="item" href="hanahana-houou/"><div class="name">ハナハナホウオウ～天翔～</div><div class="sub">BIG・REGで判別。ベル・BIG中スイカ・サイドランプ・BIG後ランプ（推定値）の追加入力にも対応</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">BIG</span><span class="chip">REG</span><span class="chip">ベル・ランプ（任意）</span></div></a>
-    <a class="item" href="hanahana-newkingv/"><div class="name">ニューキングハナハナV</div><div class="sub">BIG・REGで判別（設定1・2・3・4・V）。ベル・BIG前半スイカ・サイドランプ・BIG後ランプ（推定値）にも対応</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">BIG</span><span class="chip">REG</span><span class="chip">ベル・ランプ（任意）</span></div></a>
-    <a class="item" href="hanahana-king/"><div class="name">キングハナハナ-30</div><div class="sub">BIG・REGで判別。REG後のフェザーランプ（確定系）、ベル・BIG中スイカ・ランプ（推定値）で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">BIG</span><span class="chip">REG</span><span class="chip">REG後ランプ</span></div></a>
-    <a class="item" href="hanahana-star/"><div class="name">スターハナハナ-30</div><div class="sub">BIG・REGで判別。REG後のフェザーランプ（確定系）、ベル・BIG中スイカ・ランプ（推定値）で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">BIG</span><span class="chip">REG</span><span class="chip">REG後ランプ</span></div></a>
-    <a class="item" href="hanahana-dragon/"><div class="name">ドラゴンハナハナ～閃光～</div><div class="sub">BIG・REGで判別。REG後のフェザーランプ（確定系）、ベル・BIG中スイカ・ランプ（推定値）で絞り込み</div><div class="inputs"><span class="chip">通常時G数</span><span class="chip">BIG</span><span class="chip">REG</span><span class="chip">REG後ランプ</span></div></a>
+  <div id="mainLists">
+    <section class="sec" id="secNew"><h2 class="group">新台<small>導入日が新しい順</small></h2>
+      <div class="rows" id="listNew"><!--NEW-->
+<a class="row" href="mahoako/"><div class="t"><div class="n">L魔法少女にあこがれて<span class="badge new">10/19導入</span></div><div class="s">AT初当り＋CZ回数・CZの種類、ギンちゃんトロフィーで絞り込み（10/19導入）</div></div><span class="arw">›</span></a>
+<a class="row" href="juuou/"><div class="t"><div class="n">スマスロ 獣王<span class="badge new">10/5導入</span></div><div class="s">2026年10月5日導入の新台。サバンナチャンス（AT）初当りで判別</div></div><span class="arw">›</span></a>
+<a class="row" href="mhsunbreak/"><div class="t"><div class="n">スマスロ モンスターハンターライズ：サンブレイク<span class="badge new">10/5導入</span></div><div class="s">2026年10月5日導入の新台（前作ライズとは別機種）。AT初当り、トロフィー・終了画面・獲得枚数で絞り込み</div></div><span class="arw">›</span></a>
+<a class="row" href="tenten/"><div class="t"><div class="n">L転生王女と天才令嬢の魔法革命<span class="badge new">10/5導入</span></div><div class="s">2026年10月5日導入の新台。CZ確率＋ボーナス初当り、終了画面のスタンプ・獲得枚数表示・隠れ凪で絞り込み</div></div><span class="arw">›</span></a>
+<a class="row" href="paripi/"><div class="t"><div class="n">スマスロ パリピ孔明<span class="badge new">10/5導入</span></div><div class="s">2026年10月5日導入の新台。ボーナス初当り＋CZ確率、ST終了画面で絞り込み</div></div><span class="arw">›</span></a>
+<!--/NEW--></div></section>
+    <section class="sec"><h2 class="group">話題の機種<small>上位10機種</small></h2>
+      <div class="rows" id="listHot"><!--HOT-->
+<a class="row" href="juggler/"><div class="t"><div class="n">ジャグラーシリーズ<span class="badge hot">マイジャグ6導入</span></div><div class="s">マイジャグラー6／ネオアイム／ウルトラミラクル／ミスター／ガールズSS／ゴーゴー3／ハッピーV3／マイジャグV／ファンキー2／SアイムEX</div></div><span class="arw">›</span></a>
+<a class="row" href="ghoul/"><div class="t"><div class="n">L 東京喰種</div><div class="s">AT初当り＋CZ・エピソードボーナス・引き戻し、終了画面・招待状・カード・トロフィーで絞り込み</div></div><span class="arw">›</span></a>
+<a class="row" href="kabaneri2/"><div class="t"><div class="n">スマスロ 甲鉄城のカバネリ 海門決戦</div><div class="s">ボーナス初当り＋下段ベル・キャラ紹介、トロフィー・おみくじ・ボイス・上乗せ表示で絞り込み</div></div><span class="arw">›</span></a>
+<details class="series"><summary><div class="t"><div class="n">北斗の拳シリーズ<span class="cnt">2機種</span></div><div class="s">転生の章2／スマスロ北斗の拳（無印）</div></div><span class="arw">›</span></summary><div class="kids"><a class="row" href="hokuto/"><div class="t"><div class="n">スマスロ北斗の拳</div><div class="s">BB初当り＋レア小役・BB終了後ボイス、サミートロフィー・獲得枚数・初代演出で絞り込み（設定3なし）</div></div><span class="arw">›</span></a><a class="row" href="hokuto-tensei2/"><div class="t"><div class="n">スマスロ 北斗の拳 転生の章2</div><div class="s">AT初当り＋天破の刻・上部ランプの白点灯/白点滅、サミートロフィー・ランプで絞り込み</div></div><span class="arw">›</span></a></div></details>
+<a class="row" href="otome5/"><div class="t"><div class="n">L戦国乙女5 業火を穿つ宿焔の双刃</div><div class="s">AT初当り＋戦国乙女ボーナス・乙女アタック突入率、出陣ボーナス終了画面・獲得枚数・ゴエモンボイスで絞り込み</div></div><span class="arw">›</span></a>
+<a class="row" href="karakuri2/"><div class="t"><div class="n">Lパチスロ からくりサーカス2</div><div class="s">AT初当り＋CZ・強チェリーからのAT直撃、AT終了画面・獲得枚数・エンディングランプ・オリンピアで絞り込み</div></div><span class="arw">›</span></a>
+<a class="row" href="index2/"><div class="t"><div class="n">Lとある魔術の禁書目録2</div><div class="s">AT初当り＋CZ・AT直撃、AT終了画面・藤丸コイン・獲得枚数・打ち止めのセリフで絞り込み</div></div><span class="arw">›</span></a>
+<a class="row" href="sao2/"><div class="t"><div class="n">スロット ソードアート・オンラインⅡ<span class="badge hot">キリト誕生日示唆</span></div><div class="s">CZ確率＋AT・強チャンス目B、終了画面・トロフィー・ミニキャラで絞り込み</div></div><span class="arw">›</span></a>
+<a class="row" href="milliongod/"><div class="t"><div class="n">スマスロ ミリオンゴッド-神々の軌跡-</div><div class="s">AT初当り＋青7（リプレイ）連のGG当選、押し順ナビ（実戦値）とユニバプレートも参考に</div></div><span class="arw">›</span></a>
+<a class="row" href="lycoris/"><div class="t"><div class="n">スマスロ リコリス・リコイル</div><div class="s">CZ確率＋共通ベル、終了画面・トロフィーで絞り込み</div></div><span class="arw">›</span></a>
+<!--/HOT--></div></section>
+    <a class="all-link" href="list/"><!--ALL-->全機種一覧を見る（27機種・メーカー別）<!--/ALL--><span>→</span></a>
   </div>
-
-  <h2 class="group" id="gSoon">準備中</h2>
-  <div class="list" id="listSoon"></div>
-
+  <div id="results" style="display:none"><h2 class="group">検索結果</h2><div class="rows" id="listResults"></div></div>
   <p class="empty" id="empty">見つかりませんでした。別の呼び方（略称・ひらがな）でも探してみてください。</p>
 
   <section class="about">
@@ -145,329 +139,9 @@
   </footer>
 </div>
 
+<script src="machines.js"></script>
+<script src="lists.js"></script>
 <script>
-// 機種の一覧。ページを追加したらここに1件足す（status: 'ready' | 'soon'）
-// hot: 一覧の並び順（小さいほど上）。新台・Xで話題の機種を上にする。tag: 名前の横に出す短いラベル（空なら出さない）
-// keywords には略称・ひらがな・英字など検索で使われそうな呼び方を入れる
-const MACHINES = [
-  {
-    name: 'ジャグラーシリーズ',
-    sub: 'マイジャグラー6／ネオアイム／ウルトラミラクル／ミスター／ガールズSS／ゴーゴー3／ハッピーV3／マイジャグV／ファンキー2／SアイムEX',
-    inputs: ['総回転数', 'BIG', 'REG', 'ぶどう（任意）'],
-    path: 'juggler/',
-    status: 'ready',
-    hot: 1,
-    tag: 'マイジャグ6導入',
-    keywords: 'ジャグラー じゃぐらー juggler ジャグ マイジャグ まいじゃぐ マイジャグラー6 マイジャグ6 アイム あいむ ネオアイム sアイム ウルトラミラクル ミラクル ミスター ガールズ ゴーゴー ごーごー gogo ハッピー ファンキー ふぁんきー'
-  },
-  {
-    name: 'スマスロ モンキーターンV',
-    sub: '5枚役＋AT初当り、トロフィー・舟券・獲得枚数で絞り込み',
-    inputs: ['総G数', '5枚役', 'AT初当り（任意）', 'トロフィー・舟券'],
-    path: 'monkey/',
-    status: 'ready',
-    hot: 18,
-    tag: '',
-    keywords: 'モンキーターン もんきーたーん モンキー もんきー モンキー5 モンキーv モンキーターン5 モンキーターンv もんきーたーんv 5枚役 ごまいやく monkey monkeyturn'
-  },
-  {
-    name: 'スマスロ 獣王',
-    sub: '2026年10月5日導入の新台。サバンナチャンス（AT）初当りで判別',
-    inputs: ['通常時G数', 'AT初当り回数'],
-    path: 'juuou/',
-    status: 'ready',
-    hot: 3,
-    tag: '新台',
-    keywords: '獣王 じゅうおう ジュウオウ juuou サバンナチャンス スマスロ すますろ サミー 新台'
-  },
-  {
-    name: 'スマスロ リコリス・リコイル',
-    sub: 'CZ確率＋共通ベル、終了画面・トロフィーで絞り込み',
-    inputs: ['通常時G数', 'CZ回数', '共通ベル（任意）', '終了画面・トロフィー'],
-    path: 'lycoris/',
-    status: 'ready',
-    hot: 16,
-    tag: '',
-    keywords: 'リコリスリコイル りこりすりこいる リコリコ りこりこ lycoris'
-  },
-  {
-    name: 'スロット ソードアート・オンラインⅡ',
-    sub: 'CZ確率＋AT・強チャンス目B、終了画面・トロフィー・ミニキャラで絞り込み',
-    inputs: ['通常時G数', 'CZ回数', 'AT・強チャ目B（任意）', '終了画面・トロフィー'],
-    path: 'sao2/',
-    status: 'ready',
-    hot: 14,
-    tag: 'キリト誕生日示唆',
-    keywords: 'ソードアートオンライン そーどあーとおんらいん ソードアート・オンライン2 ソードアートオンライン2 sao sao2 SAOII さお えすえーおー'
-  },
-  {
-    name: 'Lパチスロ 彼女、お借りします',
-    sub: 'CZ確率＋ボーナス初当り、終了画面・センチ・獲得枚数・ボイスで絞り込み',
-    inputs: ['通常時G数', 'CZ回数', 'ボーナス初当り（任意）', '終了画面・獲得枚数'],
-    path: 'kanokari/',
-    status: 'ready',
-    hot: 17,
-    tag: '',
-    keywords: '彼女お借りします 彼女、お借りします かのじょおかりします かのかり カノカリ kanokari レンタル彼女 れんかの 千鶴 ちづる スマスロ すますろ SANKYO さんきょー 新台'
-  },
-  {
-    name: 'スマスロ モンスターハンターライズ：サンブレイク',
-    sub: '2026年10月5日導入の新台（前作ライズとは別機種）。AT初当り、トロフィー・終了画面・獲得枚数で絞り込み',
-    inputs: ['通常時G数', 'AT初当り回数', 'トロフィー・終了画面'],
-    path: 'mhsunbreak/',
-    status: 'ready',
-    hot: 4,
-    tag: '新台',
-    keywords: 'モンスターハンターライズサンブレイク モンハンサンブレイク もんはんさんぶれいく サンブレイク さんぶれいく モンハン もんはん MHR mhrise sunbreak サンブレ さんぶれ スマスロ すますろ アデリオン エンターライズ 新台'
-  },
-  {
-    name: 'スマスロ ミリオンゴッド-神々の軌跡-',
-    sub: 'AT初当り＋青7（リプレイ）連のGG当選、押し順ナビ（実戦値）とユニバプレートも参考に',
-    inputs: ['通常時G数', 'AT初当り回数', '青7連・押し順ナビ（任意）', 'ユニバプレート'],
-    path: 'milliongod/',
-    status: 'ready',
-    hot: 15,
-    tag: '',
-    keywords: 'ミリオンゴッド みりおんごっど ゴッド ごっど GOD god milliongod 神々の軌跡 かみがみのきせき 軌跡 きせき ミリゴ みりご スマスロ すますろ ミズホ ユニバーサル リプ連 りぷれん 押し順ナビ'
-  },
-  {
-    name: 'L転生王女と天才令嬢の魔法革命',
-    sub: '2026年10月5日導入の新台。CZ確率＋ボーナス初当り、終了画面のスタンプ・獲得枚数表示・隠れ凪で絞り込み',
-    inputs: ['通常時G数', 'CZ回数', 'ボーナス初当り（任意）', 'スタンプ・獲得枚数'],
-    path: 'tenten/',
-    status: 'ready',
-    hot: 5,
-    tag: '新台',
-    keywords: '転生王女と天才令嬢の魔法革命 てんせいおうじょとてんさいれいじょうのまほうかくめい 転生王女 てんせいおうじょ 天才令嬢 てんさいれいじょう 魔法革命 まほうかくめい 転天 てんてん tenten アニス ユフィ エピソードバトル 王宮舞踏会 隠れ凪 スマスロ すますろ オリンピアエステート 平和 新台'
-  },
-  {
-    name: 'スマスロ パリピ孔明',
-    sub: '2026年10月5日導入の新台。ボーナス初当り＋CZ確率、ST終了画面で絞り込み',
-    inputs: ['通常時G数', 'ボーナス初当り', 'CZ回数（任意）', 'ST終了画面'],
-    path: 'paripi/',
-    status: 'ready',
-    hot: 6,
-    tag: '新台',
-    keywords: 'パリピ孔明 ぱりぴこうめい パリピ ぱりぴ 孔明 こうめい 諸葛孔明 paripi koumei paripikoumei 英子 えいこ パーティータイム チキチキバンバン スマスロ すますろ 山佐 やまさ ヤマサ 新台'
-  },
-  {
-    name: 'スマスロ バイオハザードRE:3',
-    sub: 'CZ確率での判別と、フィギュア獲得数での判別（打たなくても台選びに使える）。5枚ベル・トロフィー・獲得枚数表示にも対応',
-    inputs: ['フィギュア獲得数', '通常時G数', 'CZ回数', '5枚ベル（任意）'],
-    path: 'biore3/',
-    status: 'ready',
-    hot: 19,
-    tag: '',
-    keywords: 'バイオハザードRE3 バイオハザードRE:3 ばいおはざーど バイオハザード バイオ ばいお バイオ3 バイオRE3 ばいおりめいく biohazard re3 biore3 resident evil ネメシス ねめしす ネメシスバトル フィギュア ふぃぎゅあ ハザードラッシュ ジル カルロス 5枚ベル スマスロ すますろ エンターライズ えんたーらいず'
-  },
-  {
-    name: 'L 東京喰種',
-    sub: 'AT初当り＋CZ・エピソードボーナス・引き戻し、終了画面・招待状・カード・トロフィーで絞り込み',
-    inputs: ['通常時G数', 'AT初当り回数', 'CZ・引き戻し（任意）', '終了画面・招待状・カード'],
-    path: 'ghoul/',
-    status: 'ready',
-    hot: 7,
-    tag: '人気機種',
-    keywords: '東京喰種 東京グール とうきょうぐーる トーキョーグール グール ぐーる 喰種 tokyoghoul tokyo ghoul 金木 カネキ かねき レミニセンス 大喰いの利世 リゼ 月山 招待状 赫眼 ナミちゃんトロフィー スマスロ すますろ スパイキー'
-  },
-  {
-    name: 'スマスロ 甲鉄城のカバネリ 海門決戦',
-    sub: 'ボーナス初当り＋下段ベル・キャラ紹介、トロフィー・おみくじ・ボイス・上乗せ表示で絞り込み',
-    inputs: ['通常時G数', 'ボーナス初当り回数', '下段ベル（任意）', 'トロフィー・おみくじ・ボイス'],
-    path: 'kabaneri2/',
-    status: 'ready',
-    hot: 8,
-    tag: '人気機種',
-    keywords: '甲鉄城のカバネリ 海門決戦 こうてつじょうのかばねり うなとけっせん カバネリ かばねり カバネリ2 かばねり2 カバネリ海門 海門 うなと unato kabaneri kabaneri2 無名 むめい 生駒 いこま 景之 かげゆき 美馬 駿城ボーナス はやじろ カバネリボーナス 下段ベル 共通ベル サミートロフィー おみくじ アイテムくじ スマスロ すますろ サミー さみー sammy'
-  },
-  {
-    name: 'L魔法少女にあこがれて',
-    sub: 'AT初当り＋CZ回数・CZの種類、ギンちゃんトロフィーで絞り込み（10/19導入）',
-    inputs: ['通常時G数', 'AT初当り回数', 'CZ・CZの種類（任意）', 'トロフィー'],
-    path: 'mahoako/',
-    status: 'ready',
-    hot: 2,
-    tag: '10/19新台',
-    keywords: '魔法少女にあこがれて まほうしょうじょにあこがれて まほあこ マホアコ mahoako 魔法少女 まほうしょうじょ あこがれて トレスマジア マジアベーゼ まじあべーぜ ギンちゃん ぎんちゃん トランスマジア パネルアタック ヴェナリータ まほあこチャレンジ まほあこラッシュ 超あこがれ スマスロ すますろ ニューギン にゅーぎん newgin'
-  },
-  {
-    name: 'スマスロ北斗の拳',
-    sub: 'BB初当り＋レア小役・BB終了後ボイス、サミートロフィー・獲得枚数・初代演出で絞り込み（設定3なし）',
-    inputs: ['通常時G数', 'BB初当り回数', 'レア小役・ボイス（任意）', 'トロフィー・獲得枚数'],
-    path: 'hokuto/',
-    status: 'ready',
-    hot: 9,
-    tag: '人気機種',
-    keywords: 'スマスロ北斗の拳 北斗の拳 ほくとのけん 北斗 ほくと ホクト スマスロ北斗 すますろほくと 北斗無印 hokuto hokutonoken ケンシロウ けんしろう ラオウ らおう ユリア ゆりあ リン バット シン サウザー ジャギ アミバ バトルボーナス BB 弱スイカ 強スイカ 中段チェリー リーチ目 サミートロフィー 456 666 スマスロ すますろ サミー さみー sammy タイヨーエレック'
-  },
-  {
-    name: 'スマスロ 北斗の拳 転生の章2',
-    sub: 'AT初当り＋天破の刻・上部ランプの白点灯/白点滅、サミートロフィー・ランプで絞り込み',
-    inputs: ['通常時G数', 'AT初当り回数', '天破の刻・ランプ（任意）', 'トロフィー・ランプ'],
-    path: 'hokuto-tensei2/',
-    status: 'ready',
-    hot: 10,
-    tag: '人気機種',
-    keywords: 'スマスロ北斗の拳 転生の章2 北斗の拳 転生の章2 北斗転生2 北斗転生 転生2 転生の章 てんせいのしょう ほくとてんせい ほくと 北斗 hokuto tensei tensei2 ケンシロウ けんしろう あべし 天破の刻 てんぱのとき 天撃 神拳勝舞 伝承モード サミートロフィー 中央ランプ 白点灯 白点滅 スマスロ すますろ サミー さみー sammy 銀座 ginza'
-  },
-  {
-    name: 'L戦国乙女5 業火を穿つ宿焔の双刃',
-    sub: 'AT初当り＋戦国乙女ボーナス・乙女アタック突入率、出陣ボーナス終了画面・獲得枚数・ゴエモンボイスで絞り込み',
-    inputs: ['通常時G数', 'AT初当り回数', '乙女ボーナス・乙女アタック（任意）', '終了画面・ボイス'],
-    path: 'otome5/',
-    status: 'ready',
-    hot: 11,
-    tag: '人気機種',
-    keywords: 'L戦国乙女5 戦国乙女5 業火を穿つ宿焔の双刃 戦国乙女 せんごくおとめ おとめ 乙女5 乙女 otome otome5 sengoku オリンピア olympia 平和 heiwa ノブナガ のぶなが ゴエモン ごえもん ミツヒデ ヒデヨシ 出陣ボーナス 戦国乙女ボーナス 乙女アタック 乙女ポイント 強カワチャンス 本能寺の変 繚乱の刻 紫炎 スタンプ 隠れ凪 ハルルナ スマスロ すますろ'
-  },
-  {
-    name: 'Lパチスロ からくりサーカス2',
-    sub: 'AT初当り＋CZ・強チェリーからのAT直撃、AT終了画面・獲得枚数・エンディングランプ・オリンピアで絞り込み',
-    inputs: ['通常時G数', 'AT初当り回数', 'CZ・強チェ直撃（任意）', 'AT終了画面・ランプ'],
-    path: 'karakuri2/',
-    status: 'ready',
-    hot: 12,
-    tag: '人気機種',
-    keywords: 'Lパチスロ からくりサーカス2 からくりサーカス2 からくりサーカス からくり2 からくり カラクリ karakuri karakuri2 SANKYO さんきょー サンキョー 鳴海 勝 しろがね エレオノール フランシーヌ 最古の四人 あるるかん 機械仕掛けの女神 幕間チャンス 劇場ジャッジ 激情ジャッジ 運命の一劇 運命盤 ショータイム SHOW TIME オリンピア スマスロ すますろ'
-  },
-  {
-    name: 'Lとある魔術の禁書目録2',
-    sub: 'AT初当り＋CZ・AT直撃、AT終了画面・藤丸コイン・獲得枚数・打ち止めのセリフで絞り込み',
-    inputs: ['通常時G数', 'AT初当り回数', 'CZ・AT直撃（任意）', 'AT終了画面・コイン'],
-    path: 'index2/',
-    status: 'ready',
-    hot: 13,
-    tag: '人気機種',
-    keywords: 'Lとある魔術の禁書目録2 とある魔術の禁書目録2 とある魔術の禁書目録 禁書目録2 禁書目録 禁書2 禁書 きんしょ きんしょもくろく インデックス いんでっくす index index2 とある 藤商事 ふじしょうじ 上条当麻 当麻 とうま 御坂美琴 美琴 みこと 一方通行 アクセラレータ 打ち止め ラストオーダー 番外個体 白井黒子 黒子 初春 アリサ シャットアウラ 藤丸コイン スマスロ すますろ'
-  },
-  {
-    name: 'スマスロ マジカルハロウィン8',
-    sub: 'ART初当り＋どこまじ（設定差約15倍）で判別。共通コインの追加入力、アリストロフィー・終了画面のキャラ人数・獲得枚数表示で絞り込み',
-    inputs: ['通常時G数', 'ART初当り回数', '★どこまじ（おすすめ）', 'トロフィー・終了画面'],
-    path: 'magihallo8/',
-    status: 'ready',
-    hot: 20,
-    tag: '',
-    keywords: 'マジカルハロウィン8 マジカルハロウィン まじかるはろうぃん マジハロ8 マジハロ まじはろ まじはろ8 ハロ8 はろ8 magical halloween magihallo magihallo8 どこまじ まじかるちゃんす アリストロフィー ありとろ アリスインワンダーランド アリワン 殲滅ボーナス エンカウントゾーン 共通コイン コナミ こなみ KONAMI ファイトクラブ スマスロ すますろ'
-  },
-  {
-    name: 'マジカルハロウィン ボーナストリガー',
-    sub: '設定1・2・5・6の4段階。通常時のBIG・REG（REGの差が約1.49倍）で判別。ベル・リーチ目の追加入力、ミニキャラの台座（紫・金）で絞り込み',
-    inputs: ['通常時G数', 'BIG', 'REG', 'ベル（任意）'],
-    path: 'magihallobt/',
-    status: 'ready',
-    hot: 21,
-    tag: '',
-    keywords: 'マジカルハロウィン ボーナストリガー マジカルハロウィンボーナストリガー まじかるはろうぃん マジハロ まじはろ マジハロBT まじはろBT マジハロbt ハロBT はろBT ボーナストリガー ぼーなすとりがー BT magical halloween magihallo magihallobt bonus trigger 台座 ミニキャラ アリストロフィー コナミ こなみ KONAMI スマスロ すますろ ノーマル Aタイプ'
-  },
-  {
-    name: 'マジカルハロウィン～Trick or Treat!～',
-    sub: 'ART初当りで判別。ART中の共通コイン・ハズレ（設定差4倍）の追加入力、アリスインワンダーランド・獲得枚数表示で絞り込み',
-    inputs: ['通常時G数', 'ART初当り回数', '★ART中の共通コイン・ハズレ', 'アリワン・獲得枚数'],
-    path: 'magihallotot/',
-    status: 'ready',
-    hot: 22,
-    tag: '',
-    keywords: 'マジカルハロウィン Trick or Treat トリックオアトリート とりっくおあとりーと マジハロ まじはろ マジハロToT マジハロTOT まじはろtot ハロToT トリトリ magical halloween magihallo magihallotot tot 共通コイン ハズレ アリスインワンダーランド アリワン どこまじ 四季 コナミ こなみ KONAMI 6号機 6.2号機'
-  },
-  {
-    name: 'ハナハナホウオウ～天翔～',
-    sub: 'BIG・REGで判別。ベル・BIG中スイカ・サイドランプ・BIG後ランプ（推定値）の追加入力にも対応',
-    inputs: ['通常時G数', 'BIG', 'REG', 'ベル・ランプ（任意）'],
-    path: 'hanahana-houou/',
-    status: 'ready',
-    hot: 23,
-    tag: '',
-    keywords: 'ハナハナホウオウ 天翔 てんしょう ホウオウ ほうおう 鳳凰 鳳凰天翔 ハナハナ鳳凰 houou tensho ハナハナ はなはな hanahana パイオニア ぱいおにあ 沖スロ おきすろ ノーマル Aタイプ ベル BIG中スイカ サイドランプ フェザーランプ'
-  },
-  {
-    name: 'ニューキングハナハナV',
-    sub: 'BIG・REGで判別（設定1・2・3・4・V）。ベル・BIG前半スイカ・サイドランプ・BIG後ランプ（推定値）にも対応',
-    inputs: ['通常時G数', 'BIG', 'REG', 'ベル・ランプ（任意）'],
-    path: 'hanahana-newkingv/',
-    status: 'ready',
-    hot: 24,
-    tag: '',
-    keywords: 'ニューキングハナハナV ニューキング にゅーきんぐ キングハナハナV NKV newking ハイビスカス スマート沖スロ ハナハナ はなはな hanahana パイオニア ぱいおにあ 沖スロ おきすろ ノーマル Aタイプ ベル BIG中スイカ サイドランプ フェザーランプ'
-  },
-  {
-    name: 'キングハナハナ-30',
-    sub: 'BIG・REGで判別。REG後のフェザーランプ（確定系）、ベル・BIG中スイカ・ランプ（推定値）で絞り込み',
-    inputs: ['通常時G数', 'BIG', 'REG', 'REG後ランプ'],
-    path: 'hanahana-king/',
-    status: 'ready',
-    hot: 25,
-    tag: '',
-    keywords: 'キングハナハナ きんぐはなはな キンハナ きんはな Sキングハナハナ キングハナハナ30 king ハナハナ はなはな hanahana パイオニア ぱいおにあ 沖スロ おきすろ ノーマル Aタイプ ベル BIG中スイカ サイドランプ フェザーランプ'
-  },
-  {
-    name: 'スターハナハナ-30',
-    sub: 'BIG・REGで判別。REG後のフェザーランプ（確定系）、ベル・BIG中スイカ・ランプ（推定値）で絞り込み',
-    inputs: ['通常時G数', 'BIG', 'REG', 'REG後ランプ'],
-    path: 'hanahana-star/',
-    status: 'ready',
-    hot: 26,
-    tag: '',
-    keywords: 'スターハナハナ すたーはなはな スターハナ スタハナ star スマート沖スロ ハナハナ はなはな hanahana パイオニア ぱいおにあ 沖スロ おきすろ ノーマル Aタイプ ベル BIG中スイカ サイドランプ フェザーランプ'
-  },
-  {
-    name: 'ドラゴンハナハナ～閃光～',
-    sub: 'BIG・REGで判別。REG後のフェザーランプ（確定系）、ベル・BIG中スイカ・ランプ（推定値）で絞り込み',
-    inputs: ['通常時G数', 'BIG', 'REG', 'REG後ランプ'],
-    path: 'hanahana-dragon/',
-    status: 'ready',
-    hot: 27,
-    tag: '',
-    keywords: 'ドラゴンハナハナ どらごんはなはな ドラハナ どらはな 閃光 せんこう ドラゴンハナハナ閃光 dragon senko スマート沖スロ ハナハナ はなはな hanahana パイオニア ぱいおにあ 沖スロ おきすろ ノーマル Aタイプ ベル BIG中スイカ サイドランプ フェザーランプ'
-  }
-];
-
-// ひらがな→カタカナ、全角英数→半角、小文字化、空白・記号除去で表記ゆれを吸収
-function norm(str){
-  return (str || '')
-    .normalize('NFKC')
-    .toLowerCase()
-    .replace(/[ぁ-ゖ]/g, ch => String.fromCharCode(ch.charCodeAt(0) + 0x60))
-    .replace(/[\s・\-ー_／/]/g, '');
-}
-
-function card(m){
-  const a = document.createElement('a');
-  a.className = 'item' + (m.status === 'soon' ? ' soon' : '');
-  if (m.status === 'ready') a.href = m.path;
-  const chips = m.inputs.map(t => `<span class="chip">${t}</span>`).join('');
-  const tag = m.tag ? `<span class="badge hot">${m.tag}</span>` : '';
-  a.innerHTML = `<div class="name">${m.name}${tag}${m.status === 'soon' ? '<span class="badge">準備中</span>' : ''}</div>
-    <div class="sub">${m.sub}</div>
-    ${chips ? `<div class="inputs">${chips}</div>` : ''}`;
-  return a;
-}
-
-const q = document.getElementById('q');
-const listReady = document.getElementById('listReady');
-const listSoon = document.getElementById('listSoon');
-
-function render(){
-  const k = norm(q.value);
-  const hit = MACHINES.filter(m => !k || norm(m.name + m.sub + m.keywords).includes(k))
-    .sort((a, b) => (a.hot ?? 99) - (b.hot ?? 99));
-  listReady.innerHTML = ''; listSoon.innerHTML = '';
-  hit.filter(m => m.status === 'ready').forEach(m => listReady.appendChild(card(m)));
-  hit.filter(m => m.status === 'soon').forEach(m => listSoon.appendChild(card(m)));
-  document.getElementById('gReady').style.display = listReady.children.length ? '' : 'none';
-  document.getElementById('gSoon').style.display = listSoon.children.length ? '' : 'none';
-  document.getElementById('empty').style.display = hit.length ? 'none' : 'block';
-}
-
-let searchTimer = null;
-q.addEventListener('input', () => {
-  render();
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => {
-    if (q.value.trim() && typeof gtag === 'function') gtag('event', 'search', { search_term: q.value.trim() });
-  }, 1200);
-});
-render();
 document.getElementById('zukaiLink').addEventListener('click', () => { if (typeof gtag === 'function') gtag('event', 'to_zukai', { from: 'top' }); });
 </script>
 </body>
