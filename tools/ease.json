@@ -1,0 +1,202 @@
+{
+ "monkey/": {
+  "name": "モンキーターンV",
+  "req3000": 100,
+  "all3000": 100,
+  "all5000": 100,
+  "false1": 1.5,
+  "lv": "easy"
+ },
+ "crea-bt/": {
+  "name": "クレアBT",
+  "req3000": 32,
+  "all3000": 65,
+  "all5000": 82,
+  "false1": 1.8,
+  "lv": "easy"
+ },
+ "magihallo8/": {
+  "name": "マジハロ8",
+  "req3000": 24,
+  "all3000": 97,
+  "all5000": 100,
+  "false1": 0.1,
+  "lv": "easy"
+ },
+ "magihallotot/": {
+  "name": "マジハロToT",
+  "req3000": 4,
+  "all3000": 16,
+  "all5000": 29,
+  "false1": 0.8,
+  "lv": "hard"
+ },
+ "magihallobt/": {
+  "name": "マジハロBT",
+  "req3000": 20,
+  "all3000": 54,
+  "all5000": 71,
+  "false1": 3.8,
+  "lv": "normal"
+ },
+ "milliongod/": {
+  "name": "ミリオンゴッド",
+  "req3000": 24,
+  "all3000": 22,
+  "all5000": 44,
+  "false1": 0.6,
+  "lv": "hard"
+ },
+ "ghoul/": {
+  "name": "東京喰種",
+  "req3000": 18,
+  "all3000": 52,
+  "all5000": 72,
+  "false1": 1.6,
+  "lv": "normal"
+ },
+ "hokuto/": {
+  "name": "北斗の拳(無印)",
+  "req3000": 51,
+  "all3000": 70,
+  "all5000": 84,
+  "false1": 4.8,
+  "lv": "easy"
+ },
+ "hokuto-tensei2/": {
+  "name": "北斗 転生2",
+  "req3000": 6,
+  "all3000": 30,
+  "all5000": 53,
+  "false1": 2.6,
+  "lv": "normal"
+ },
+ "otome5/": {
+  "name": "戦国乙女5",
+  "req3000": 8,
+  "all3000": 19,
+  "all5000": 37,
+  "false1": 0.9,
+  "lv": "hard"
+ },
+ "mahoako/": {
+  "name": "まほあこ",
+  "req3000": 12,
+  "all3000": 46,
+  "all5000": 64,
+  "false1": 2.0,
+  "lv": "normal"
+ },
+ "mhsunbreak/": {
+  "name": "サンブレイク",
+  "req3000": 19,
+  "all3000": 18,
+  "all5000": 33,
+  "false1": 1.6,
+  "lv": "hard"
+ },
+ "kabaneri2/": {
+  "name": "カバネリ海門",
+  "req3000": 9,
+  "all3000": 23,
+  "all5000": 40,
+  "false1": 0.9,
+  "lv": "hard"
+ },
+ "biore3/": {
+  "name": "バイオRE3",
+  "req3000": 27,
+  "all3000": 86,
+  "all5000": 96,
+  "false1": 0.4,
+  "lv": "easy"
+ },
+ "sao2/": {
+  "name": "SAO2",
+  "req3000": 2,
+  "all3000": 22,
+  "all5000": 40,
+  "false1": 0.8,
+  "lv": "hard"
+ },
+ "paripi/": {
+  "name": "パリピ孔明",
+  "req3000": 7,
+  "all3000": 19,
+  "all5000": 37,
+  "false1": 1.2,
+  "lv": "hard"
+ },
+ "tenten/": {
+  "name": "転生王女",
+  "req3000": 7,
+  "all3000": 19,
+  "all5000": 36,
+  "false1": 1.3,
+  "lv": "hard"
+ },
+ "lycoris/": {
+  "name": "リコリス",
+  "req3000": 1,
+  "all3000": 26,
+  "all5000": 44,
+  "false1": 2.2,
+  "lv": "hard"
+ },
+ "kanokari/": {
+  "name": "かのかり",
+  "req3000": 1,
+  "all3000": 4,
+  "all5000": 13,
+  "false1": 0.6,
+  "lv": "hard"
+ },
+ "karakuri2/": {
+  "name": "からくり2",
+  "req3000": 0,
+  "all3000": 0,
+  "all5000": 3,
+  "false1": 0.0,
+  "lv": "hard"
+ },
+ "index2/": {
+  "name": "禁書2",
+  "req3000": 0,
+  "all3000": 5,
+  "all5000": 16,
+  "false1": 0.8,
+  "lv": "hard"
+ },
+ "juuou/": {
+  "name": "獣王",
+  "req3000": 3,
+  "all3000": 2,
+  "all5000": 7,
+  "false1": 0.5,
+  "lv": "hard"
+ },
+ "hanabi/": {
+  "name": "ハナビ",
+  "req3000": 11,
+  "all3000": 64,
+  "all5000": 81,
+  "false1": 2.1,
+  "lv": "easy"
+ },
+ "juggler/": {
+  "name": "マイジャグラーV",
+  "req3000": 44,
+  "all3000": 44,
+  "all5000": 67,
+  "false1": 1.8,
+  "lv": "normal"
+ },
+ "hanahana/": {
+  "name": "ハナハナ天翔",
+  "req3000": 14,
+  "all3000": 22,
+  "all5000": 43,
+  "false1": 1.0,
+  "lv": "hard"
+ }
+}
