@@ -38,6 +38,7 @@ add('獣王',[1,2,4,5,6],4,[('AT','g',A([326.5,321.6,295.8,287.6,279.7]),None,1)
 add('ハナビ',[1,2,5,6],5,[('BIG','g',A([297.9,292.6,284.9,273.1]),None,1),('REG','g',A([394.8,358.1,313.6,282.5]),None,1),('風鈴','g',A([9.68,9.45,9.06,8.64]),None,0)])
 add('マイジャグラーV',[1,2,3,4,5,6],4,[('BIG','g',A([273.1,270.8,266.4,254.0,240.1,229.1]),None,1),('REG','g',A([409.6,385.5,336.1,290.0,268.6,229.1]),None,1),('ぶどう','g',A([5.90,5.86,5.83,5.83,5.83,5.79]),None,0)])
 add('ハナハナ天翔',[1,2,3,4,5,6],4,[('BIG','g',A([297,284,273,262,249,236]),None,1),('REG','g',A([496,458,425,397,366,337]),None,1),('ベル(推定)','g',A([7.50,7.45,7.40,7.35,7.298,7.22]),None,0)])
+add('沖ドキDUOアンコール',[1,2,3,5,6],5,[('初当り','g',A([240.0,230.2,215.8,192.1,181.0]),None,1),('チェリー','g',A([46.8,45.0,43.3,41.7,40.3]),None,0)])
 
 def run(name,G,full,si,n):
     sets,hi,comps=M[name]; S=len(sets); his=np.array([s>=hi for s in sets])
@@ -60,7 +61,7 @@ def run(name,G,full,si,n):
         w=np.exp(ll-ll.max()); p=w/w.sum(); ok+= p[his].sum()>=0.8
     return ok/n
 
-PATH={'モンキーターンV':'monkey/','クレアBT':'crea-bt/','マジハロ8':'magihallo8/','マジハロToT':'magihallotot/','マジハロBT':'magihallobt/','ミリオンゴッド':'milliongod/','東京喰種':'ghoul/','北斗の拳(無印)':'hokuto/','北斗 転生2':'hokuto-tensei2/','戦国乙女5':'otome5/','まほあこ':'mahoako/','サンブレイク':'mhsunbreak/','カバネリ海門':'kabaneri2/','バイオRE3':'biore3/','SAO2':'sao2/','パリピ孔明':'paripi/','転生王女':'tenten/','リコリス':'lycoris/','かのかり':'kanokari/','からくり2':'karakuri2/','禁書2':'index2/','獣王':'juuou/','ハナビ':'hanabi/','マイジャグラーV':'juggler/','ハナハナ天翔':'hanahana/'}
+PATH={'モンキーターンV':'monkey/','クレアBT':'crea-bt/','マジハロ8':'magihallo8/','マジハロToT':'magihallotot/','マジハロBT':'magihallobt/','ミリオンゴッド':'milliongod/','東京喰種':'ghoul/','北斗の拳(無印)':'hokuto/','北斗 転生2':'hokuto-tensei2/','戦国乙女5':'otome5/','まほあこ':'mahoako/','サンブレイク':'mhsunbreak/','カバネリ海門':'kabaneri2/','バイオRE3':'biore3/','SAO2':'sao2/','パリピ孔明':'paripi/','転生王女':'tenten/','リコリス':'lycoris/','かのかり':'kanokari/','からくり2':'karakuri2/','禁書2':'index2/','獣王':'juuou/','ハナビ':'hanabi/','マイジャグラーV':'juggler/','ハナハナ天翔':'hanahana/','沖ドキDUOアンコール':'okidoki-duo/'}
 def lv(p): return 'easy' if p>=0.6 else ('normal' if p>=0.3 else 'hard')
 if __name__=='__main__':
     n=int(sys.argv[1]) if len(sys.argv)>1 else 2000

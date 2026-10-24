@@ -198,5 +198,13 @@
   "all5000": 43,
   "false1": 1.0,
   "lv": "hard"
+ },
+ "okidoki-duo/": {
+  "name": "沖ドキDUOアンコール",
+  "req3000": 5,
+  "all3000": 18,
+  "all5000": 34,
+  "false1": 0.2,
+  "lv": "hard"
  }
 }
