@@ -149,6 +149,8 @@
   .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
   .opt-block:first-of-type{ margin-top:6px; }
   .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
   #recalcBtn{ width:100%; margin-top:16px; }
   .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
   .spec-details > summary::-webkit-details-marker{ display:none; }
@@ -283,6 +285,29 @@
     <p class="hint">解析サイトの公開値です（2026年10月10日時点）。ボーナス初当り・CZとも高設定ほど軽くなります。設定1と6の差はボーナス初当りが<b>約1.35倍</b>、CZが約1.24倍で、ボーナス初当りのほうが差が出ます。小役確率は全設定共通です。</p>
     </details>
   </section>
+
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">4</span><h2>パリピ孔明の設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">ボーナス初当りが判別の中心</h3>
+    <p>スマスロ パリピ孔明は、ボーナス初当りが設定1で1/309.9、設定6で1/228.8（約1.35倍）、CZが設定1で1/213.6、設定6で1/171.7（約1.24倍）です。小役確率は全設定共通なので、数えても判別には使えません。</p>
+    <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
+    <p>3000G回したときのボーナス初当りの平均は、設定1で約9.7回、設定6で約13.1回です。設定1の台が設定6の平均以上に当たる確率は約11％、設定6の台が設定1の平均以下にとどまる確率は約16％あります。</p>
+    <h3 class="sub-h">回転数を重ねるほど見えてくる</h3>
+    <p>このツールの計算方法で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、ボーナス初当りだけでは3000Gで約6％、5000Gで約17％、8000Gで約32％でした。CZ回数も足すと、3000Gで約18％、5000Gで約36％、8000Gで約54％まで上がります。設定1の台で同じ結果になってしまう割合は1％前後です。差が小さめの機種なので、数千Gの結果は大まかな目安として見てください。</p>
+    <h3 class="sub-h">ST終了画面</h3>
+    <p>パーティータイム・超パーティータイムの終了画面は全12種あり、英子＆赤兎馬カンフー＝2以上、太人＆孔明＝3以上、英子＆七海＝4以上、孔明（赤背景）＝5以上、ケロット着ぐるみ（孔明＆英子）＝6が濃厚です。見えたらチェックを入れて計算し直してください。ケロットトロフィーは、この機種で出るかどうかがまだ確認されていません。</p>
+    <h3 class="sub-h">数えるときのコツ</h3>
+    <p>ボーナス初当りは、通常時から当たった最初のボーナス（チキチキバンバンボーナス）を1回と数え、ST中に続けて当たったものは含めません。CZは三歌の礼・英子の試練・石兵八陣のどれでも1回と数えます。設定変更後（朝一）とST駆け抜け後は、ボーナス間の天井が1009Gから428Gに短くなるため、その直後の初当りは軽く出やすい点に注意してください。</p>
+  </section>
+
+  <!--RELATED-->
+  <nav class="card rel" aria-label="ほかの機種の設定判別">
+    <style>.rel h2{font-size:15px;margin:0 0 10px;}.rel ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;}.rel li a{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:8px;color:var(--text);text-decoration:none;font-size:13px;line-height:1.4;}.rel .rel-all{display:block;margin-top:12px;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);text-decoration:none;}@media (max-width:360px){.rel ul{grid-template-columns:1fr;}}</style>
+    <h2>ほかの機種の設定判別</h2>
+    <ul><li><a href="../juggler/">ジャグラーシリーズ</a></li><li><a href="../mahoako/">L魔法少女にあこがれて</a></li><li><a href="../juuou/">スマスロ 獣王</a></li><li><a href="../mhsunbreak/">スマスロ モンスターハンターライズ：サンブレイク</a></li><li><a href="../tenten/">L転生王女と天才令嬢の魔法革命</a></li><li><a href="../ghoul/">L 東京喰種</a></li><li><a href="../kabaneri2/">スマスロ 甲鉄城のカバネリ 海門決戦</a></li><li><a href="../hokuto/">スマスロ北斗の拳</a></li></ul>
+    <a class="rel-all" href="../list/">全機種一覧（29機種）を見る →</a>
+  </nav>
+  <!--/RELATED-->
 
   <div class="ad-slot">
     <!-- ここに広告コード（例: Google AdSenseのユニットタグ）を差し込みます -->

@@ -25,3 +25,5 @@ ls = put(ls, 'JUMP', l.jump);
 ls = put(ls, 'LIST', '\n' + l.body + '\n');
 fs.writeFileSync(path.join(R, 'list/index.html'), ls);
 console.log('基準日', day, '新台', t.newCount, '全', t.total);
+// 各機種ページ下の「ほかの機種の設定判別」リンクも作り直す
+require('./build_related.js');

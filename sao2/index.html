@@ -149,6 +149,8 @@
   .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
   .opt-block:first-of-type{ margin-top:6px; }
   .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
   #recalcBtn{ width:100%; margin-top:16px; }
   .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
   .spec-details > summary::-webkit-details-marker{ display:none; }
@@ -299,6 +301,29 @@
     <p class="hint">解析サイトの公開値です（2026年10月時点）。CZ・AT初当りは<b>設定5より設定4のほうが軽い</b>ので、確率だけでは4と5の区別がつきにくい機種です。設定6はCZ・ATとも頭ひとつ軽くなっています。</p>
     </details>
   </section>
+
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">4</span><h2>SAO2の設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">CZとATの両方に差がある</h3>
+    <p>スロット ソードアート・オンラインⅡは、CZが設定1で1/238.4、設定6で1/191.7（約1.24倍）、AT初当りが設定1で1/386.2、設定6で1/269.6（約1.43倍）と、どちらにも設定差があります。このツールでは回数の多いCZを必須の項目にし、AT初当りと強チャンス目Bを任意で足せるようにしています。</p>
+    <h3 class="sub-h">設定4と5は確率で区別しにくい</h3>
+    <p>この機種はCZ・AT初当りとも、設定5（CZ 1/225.2、AT 1/340.6）より設定4（CZ 1/218.9、AT 1/326.8）のほうが軽い数値になっています。確率だけでは4と5の区別がつきにくいので、結果は「設定4以上の合計」で見るのがおすすめです。設定6はCZ・ATとも頭ひとつ軽くなっています。</p>
+    <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
+    <p>3000G回したときのCZの平均は、設定1で約12.6回、設定6で約15.6回です。設定1の台が設定6の平均以上に当たる確率は約20％、設定6の台が設定1の平均以下にとどまる確率は約22％あり、CZだけでは差が出にくい機種です。このツールの計算方法で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合は、CZだけでは3000Gで約1％、8000Gでも約15％でした。AT初当りと強チャンス目Bも入れると、3000Gで約21％、5000Gで約40％、8000Gで約61％まで上がります。設定1の台で同じ結果になってしまう割合は1％前後です。</p>
+    <h3 class="sub-h">終了画面・トロフィー・ミニキャラ</h3>
+    <p>確率で差がつきにくい分、示唆が大事になります。AT終了画面（ワイシャツ＝2以上、お風呂＝3以上、水着＝4以上、パジャマ＝6）、コパンダトロフィー（銅＝2以上〜虹＝6）、エンディング中のミニキャラ（詩乃／ユイ＝4以上、2キャラ同時＝6）が見えたら、チェックを入れて計算し直してください。</p>
+    <h3 class="sub-h">数えるときのコツ</h3>
+    <p>回転数はデータカウンターの「通常時G数」を使い、CZ・AT中のゲーム数は含めません。ATの多くはCZを経由するので、AT初当りも入れると同じ情報を一部二重に数えることになり、結果はやや強めに出ます。強チャンス目Bは確率が重いので参考程度にし、停止形（スイカが左リール上段・中リール上段・右リール下段）を見間違えないようにしましょう。</p>
+  </section>
+
+  <!--RELATED-->
+  <nav class="card rel" aria-label="ほかの機種の設定判別">
+    <style>.rel h2{font-size:15px;margin:0 0 10px;}.rel ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;}.rel li a{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:8px;color:var(--text);text-decoration:none;font-size:13px;line-height:1.4;}.rel .rel-all{display:block;margin-top:12px;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);text-decoration:none;}@media (max-width:360px){.rel ul{grid-template-columns:1fr;}}</style>
+    <h2>ほかの機種の設定判別</h2>
+    <ul><li><a href="../juggler/">ジャグラーシリーズ</a></li><li><a href="../mahoako/">L魔法少女にあこがれて</a></li><li><a href="../juuou/">スマスロ 獣王</a></li><li><a href="../mhsunbreak/">スマスロ モンスターハンターライズ：サンブレイク</a></li><li><a href="../tenten/">L転生王女と天才令嬢の魔法革命</a></li><li><a href="../paripi/">スマスロ パリピ孔明</a></li><li><a href="../ghoul/">L 東京喰種</a></li><li><a href="../kabaneri2/">スマスロ 甲鉄城のカバネリ 海門決戦</a></li></ul>
+    <a class="rel-all" href="../list/">全機種一覧（29機種）を見る →</a>
+  </nav>
+  <!--/RELATED-->
 
   <div class="ad-slot">
     <!-- ここに広告コード（例: Google AdSenseのユニットタグ）を差し込みます -->

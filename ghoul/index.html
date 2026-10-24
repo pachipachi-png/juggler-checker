@@ -149,6 +149,8 @@
   .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
   .opt-block:first-of-type{ margin-top:6px; }
   .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
   #recalcBtn{ width:100%; margin-top:16px; }
   .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
   .spec-details > summary::-webkit-details-marker{ display:none; }
@@ -449,6 +451,29 @@
     <p class="hint">解析サイトの公開値です（2026年10月11日時点）。AT初当りは設定1と6で<b>約1.5倍</b>の差があり、判別の中心になります。CZの合算は設定1 1/262.6〜設定6 1/203.7です。AT・CZ・エピソードボーナスの分母は通常時のゲーム数、下段リプレイの分母は総ゲーム数です。AT初当りの確率に引き戻しを含むかどうかは、解析サイトに記載がありません。</p>
     </details>
   </section>
+
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">5</span><h2>東京喰種の設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">AT初当りがいちばんの材料</h3>
+    <p>L 東京喰種は、AT初当りが設定1で1/394.4、設定6で1/261.3と約1.51倍の差があり、このツールでも判別の中心にしています。CZは2種類あり、レミニセンスは約1.2倍と差が小さい一方、大喰いの利世は設定1で1/2079.1、設定6で1/1074.9と約1.9倍の差があります。</p>
+    <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
+    <p>3000G回したときの平均は、AT初当りが設定1で約7.6回、設定6で約11.5回です。ただしブレも大きく、設定1の台が設定6の平均以上に当たる確率は約9％、設定6の台が設定1の平均以下にとどまる確率は約11％あります。数回の差だけで高設定と決めつけないことが大切です。</p>
+    <h3 class="sub-h">任意の項目を足すと精度が上がる</h3>
+    <p>このツールの計算方法で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、AT初当りだけでは3000Gで約18％、5000Gで約36％、8000Gで約50％でした。CZ2種・エピソードボーナス・引き戻し・下段リプレイも全部入れると、3000Gで約53％、5000Gで約70％、8000Gで約85％まで上がります。設定1の台で同じ結果になってしまう割合は、全部入れても2％前後です。エピソードボーナス（約2.5倍）と大喰いの利世（約1.9倍）は差が大きいので、出たら必ず数えておきましょう。</p>
+    <h3 class="sub-h">終了画面・招待状・カード</h3>
+    <p>この機種は「〇以上濃厚」「〇否定」の示唆が多いのが特徴です。ナミちゃんトロフィー（銅＝2以上〜虹＝6）、AT終了画面の金枠（4以上）・虹枠（6）、CZ失敗後のカード、50Gごとの月山の招待状、獲得枚数表示（456 OVER＝4以上など）が見えたら、チェックを入れて計算し直してください。</p>
+    <h3 class="sub-h">数えるときのコツ</h3>
+    <p>回転数は通常時のゲーム数を使います。AT初当りはデータカウンターの初当り回数と同じ数え方で、AT終了直後の引き戻しも1回と数えます。エピソードボーナスは、中段チェリーから当たったものは数えません。設定変更後（朝一）はCZ間の天井が600Gから200Gに短くなるので、朝一の1回目が軽く出ても高設定とは限りません。</p>
+  </section>
+
+  <!--RELATED-->
+  <nav class="card rel" aria-label="ほかの機種の設定判別">
+    <style>.rel h2{font-size:15px;margin:0 0 10px;}.rel ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;}.rel li a{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:8px;color:var(--text);text-decoration:none;font-size:13px;line-height:1.4;}.rel .rel-all{display:block;margin-top:12px;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);text-decoration:none;}@media (max-width:360px){.rel ul{grid-template-columns:1fr;}}</style>
+    <h2>ほかの機種の設定判別</h2>
+    <ul><li><a href="../juggler/">ジャグラーシリーズ</a></li><li><a href="../mahoako/">L魔法少女にあこがれて</a></li><li><a href="../juuou/">スマスロ 獣王</a></li><li><a href="../mhsunbreak/">スマスロ モンスターハンターライズ：サンブレイク</a></li><li><a href="../tenten/">L転生王女と天才令嬢の魔法革命</a></li><li><a href="../paripi/">スマスロ パリピ孔明</a></li><li><a href="../kabaneri2/">スマスロ 甲鉄城のカバネリ 海門決戦</a></li><li><a href="../hokuto/">スマスロ北斗の拳</a></li></ul>
+    <a class="rel-all" href="../list/">全機種一覧（29機種）を見る →</a>
+  </nav>
+  <!--/RELATED-->
 
   <div class="ad-slot">
     <!-- ここに広告コード（例: Google AdSenseのユニットタグ）を差し込みます -->
