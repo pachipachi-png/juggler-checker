@@ -151,6 +151,26 @@
   .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
   .guide .sub-h{ margin-top:16px; }
   .guide-table td, .guide-table th{ padding:6px 4px; }
+  /* layout v3: タグ目次・冒頭ポイント・一覧・打ち方（2026-10-25） */
+  .tagnav{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; max-width:460px; margin:16px auto 0; }
+  .tagnav a{ padding:7px 13px; border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--text); text-decoration:none; font-size:13px; font-weight:700; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .tagnav a::before{ content:'# '; color:var(--gold); }
+  .reco{ max-width:460px; margin:16px auto 0; padding:12px 14px; border-radius:12px; border:1px solid var(--gold); background:#e8a93b14; text-align:left; font-size:13px; color:var(--text); line-height:1.6; }
+  .reco b:first-child{ display:block; color:var(--gold); font-size:14.5px; margin-bottom:2px; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .hero .notice{ max-width:460px; margin:12px auto 0; text-align:left; padding:10px 14px; border:1px solid var(--gold-dim); border-radius:10px; background:#2a2312; color:#f0d9a6; font-size:13px; line-height:1.6; }
+  #mainCard, #optionalCard, #hintCard, #gousei, #uchikata, #guide, #specCard{ scroll-margin-top: 12px; }
+  table.rate{ width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; font-variant-numeric: tabular-nums; }
+  table.rate th, table.rate td{ padding:7px 3px; text-align:center; border-bottom:1px solid var(--line); }
+  table.rate th{ color:var(--muted); font-weight:500; font-size:12px; }
+  table.rate tr.hi td{ color:var(--gold); }
+  .steps{ margin:6px 0 4px; padding-left:20px; font-size:13.5px; }
+  .steps li{ margin-bottom:6px; }
+  .steps b{ color:var(--gold); }
+  .uchi h3{ font-size:14.5px; margin:18px 0 6px; }
+  .uchi h3:first-of-type{ margin-top:4px; }
+  .note-s{ font-size:12px; color:var(--muted); margin:4px 0 0; }
+  .hint-link{ display:block; margin: 10px 0 2px; padding: 10px 12px; border-radius: 9px; border: 1px solid var(--teal); color: var(--teal); text-decoration:none; font-size: 13.5px; font-weight: 700; text-align:center; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .notice{ margin:0 0 4px; padding:10px 14px; border:1px solid var(--gold-dim); border-radius:10px; background:#2a2312; color:#f0d9a6; font-size:13px; }
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -170,12 +190,19 @@
   <div class="lamp">GOGO</div>
   <h1>ジャグラー設定判別</h1>
   <p>総回転数・BIG・REG（＋ぶどう）から設定1〜6の可能性を推定します</p>
+  <nav class="tagnav" aria-label="ページ内の目次">
+    <a href="#mainCard">判別する</a>
+    <a href="#specCard">合成確率</a>
+    <a href="#uchikata">打ち方</a>
+    <a href="#guide">判別のコツ</a>
+  </nav>
+  <div class="reco"><b>いちばん効くのはREG</b>マイジャグラー6ならREGは設定1で1/409.6、設定6で1/229.1（約1.8倍）。BIG（約1.2倍）やぶどう（約2％差）より差が大きいので、BIGとREGは必ず分けて入れてください</div>
 </div>
 
 <div class="wrap">
 
   <!-- 1. 実戦データ → 判別（layout v2） -->
-  <section class="card">
+  <section class="card" id="mainCard">
     <div class="section-title"><span class="num">1</span><h2>機種と実戦データを入力して判別</h2></div>
     <label for="machineSelect">機種</label>
     <select id="machineSelect"></select>
@@ -262,17 +289,23 @@
   </section>
 
   <!-- 3. 設定差 -->
-  <section class="card" id="specCard">
-    <details class="spec-details">
-      <summary><div class="section-title" style="margin:0;"><span class="num">3</span><h2>設定差を見る・編集する</h2></div></summary>
-    <p class="hint">プリセットはメーカー公表値をベースにしていますが、ぶどう確率など一部は逆算・推定値です。実際の判別に使う際は最新の解析情報で書き換えてください。</p>
-    <table class="spec">
-      <thead><tr><th>設定</th><th>BIG(1/n)</th><th>REG(1/n)</th><th>ぶどう(1/n)</th><th>機械割(%)</th></tr></thead>
-      <tbody id="specBody"></tbody>
-    </table>
-    </details>
-  </section>
 
+  <section class="card uchi" id="uchikata">
+    <div class="section-title"><span class="num">3</span><h2>ジャグラーの打ち方</h2></div>
+    <h3>通常時</h3>
+    <ol class="steps">
+      <li>左リールの枠上〜上段付近に<b>BAR</b>を目安にして、<b>チェリー</b>を狙う</li>
+      <li>中・右リールはフリーでOK</li>
+      <li>GOGO!ランプが光ったらボーナス。7かBARを揃えます</li>
+    </ol>
+    <h3>ボーナス中</h3>
+    <ol class="steps">
+      <li>基本はフリーで消化してOK（機種によって細かな手順がある場合は、下のリンク先で確認してください）</li>
+    </ol>
+    <p class="note-s">打ち方は解析サイトの記載をもとにまとめたものです。機種ごとの停止形やボーナスの揃え方は、次のページが詳しいです（マイジャグラー6の例）。</p>
+    <a class="hint-link ref-out" data-sec="uchikata" href="https://nana-press.com/kaiseki/machine/1190/37624/" target="_blank" rel="noopener">打ち方と停止形を見る（なな徹）↗</a>
+    <a class="hint-link ref-out" data-sec="uchikata2" href="https://pachiseven.jp/machines/6421/cutout/5" target="_blank" rel="noopener">打ち方とボーナスの揃え方を見る（パチ7）↗</a>
+  </section>
   <section class="card guide" id="guide">
     <div class="section-title"><span class="num">4</span><h2>ジャグラーの設定判別の考え方と数えるコツ</h2></div>
     <h3 class="sub-h">いちばん大事なのはREG確率</h3>
@@ -293,6 +326,16 @@
     <p>ぶどうは設定差が小さいので、3000Gくらいでは判別の結果をほとんど変えません。数える意味が出てくるのは、5000G、8000Gと長く打つときです。数え忘れた場合は、差枚数からぶどうの回数を逆算する機能（ぶどうの入力欄の「逆算」）も使えます。ただし差枚数は目押しのミスや入力のずれで大きく動くので、逆算の結果は目安として見てください。</p>
     <h3 class="sub-h">数えるときのコツ</h3>
     <p>回転数はデータカウンターの総回転数を入れます。BIGとREGは合算ではなく、必ず分けて入れてください。途中から打つ場合も、データカウンターの数字をそのまま入れれば前の人の分まで含めて計算できます。ただし、ぶどうは自分が打った分しか数えられません。このツールのぶどう確率は総回転数で割って出すので、ぶどうを入れるときは、自分が打ったG数・BIG・REGで計算するか、差枚数からの逆算を使ってください。小役カウンターを使えば、打ちながらタップするだけで数えられます。</p>
+  </section>
+  <section class="card" id="specCard">
+    <details class="spec-details">
+      <summary><div class="section-title" style="margin:0;"><span class="num">5</span><h2>設定差を見る・編集する</h2></div></summary>
+    <p class="hint">プリセットはメーカー公表値をベースにしていますが、ぶどう確率など一部は逆算・推定値です。実際の判別に使う際は最新の解析情報で書き換えてください。</p>
+    <table class="spec">
+      <thead><tr><th>設定</th><th>BIG(1/n)</th><th>REG(1/n)</th><th>ぶどう(1/n)</th><th>機械割(%)</th></tr></thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    </details>
   </section>
 
   <!--RELATED-->
@@ -817,6 +860,14 @@ SettiCounter.init({
   select: 'machineSelect',
   judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend'
 });
+</script>
+<script>
+(function(){
+  function openSpec(){ if(location.hash==='#specCard'){ var d=document.querySelector('#specCard details'); if(d) d.open=true; } }
+  window.addEventListener('hashchange', openSpec); openSpec();
+  document.querySelectorAll('.tagnav a[href="#specCard"]').forEach(function(a){ a.addEventListener('click', function(){ var d=document.querySelector('#specCard details'); if(d) d.open=true; }); });
+  document.querySelectorAll('a.ref-out').forEach(function(a){ a.addEventListener('click', function(){ if(typeof gtag==='function') gtag('event','outbound_ref',{machine:'juggler',section:a.dataset.sec}); }); });
+})();
 </script>
 </body>
 </html>

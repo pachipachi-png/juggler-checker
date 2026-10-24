@@ -169,6 +169,24 @@
   }
   .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
   .guide .sub-h{ margin-top:16px; }
+  /* layout v3: タグ目次・冒頭ポイント・一覧・打ち方（2026-10-25） */
+  .tagnav{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; max-width:460px; margin:16px auto 0; }
+  .tagnav a{ padding:7px 13px; border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--text); text-decoration:none; font-size:13px; font-weight:700; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .tagnav a::before{ content:'# '; color:var(--gold); }
+  .reco{ max-width:460px; margin:16px auto 0; padding:12px 14px; border-radius:12px; border:1px solid var(--gold); background:#e8a93b14; text-align:left; font-size:13px; color:var(--text); line-height:1.6; }
+  .reco b:first-child{ display:block; color:var(--gold); font-size:14.5px; margin-bottom:2px; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .hero .notice{ max-width:460px; margin:12px auto 0; text-align:left; padding:10px 14px; border:1px solid var(--gold-dim); border-radius:10px; background:#2a2312; color:#f0d9a6; font-size:13px; line-height:1.6; }
+  #mainCard, #optionalCard, #hintCard, #gousei, #uchikata, #guide, #specCard{ scroll-margin-top: 12px; }
+  table.rate{ width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; font-variant-numeric: tabular-nums; }
+  table.rate th, table.rate td{ padding:7px 3px; text-align:center; border-bottom:1px solid var(--line); }
+  table.rate th{ color:var(--muted); font-weight:500; font-size:12px; }
+  table.rate tr.hi td{ color:var(--gold); }
+  .steps{ margin:6px 0 4px; padding-left:20px; font-size:13.5px; }
+  .steps li{ margin-bottom:6px; }
+  .steps b{ color:var(--gold); }
+  .uchi h3{ font-size:14.5px; margin:18px 0 6px; }
+  .uchi h3:first-of-type{ margin-top:4px; }
+  .note-s{ font-size:12px; color:var(--muted); margin:4px 0 0; }
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -188,12 +206,21 @@
   <div class="lamp">AT</div>
   <h1>スマスロ 獣王<br>設定判別</h1>
   <p>通常時の回転数とサバンナチャンス（AT）初当り回数から設定1・2・4・5・6の可能性を推定します</p>
+  <nav class="tagnav" aria-label="ページ内の目次">
+    <a href="#mainCard">判別する</a>
+    <a href="#optionalCard">トロフィー</a>
+    <a href="#gousei">初当り・機械割</a>
+    <a href="#uchikata">打ち方</a>
+    <a href="#guide">判別のコツ</a>
+  </nav>
+  <div class="reco"><b>決め手はサミートロフィーとマングースの向き</b>AT初当りは設定1で1/326.5、設定6で1/279.7（約1.17倍）と差が小さめ。初回サバンナチャンス終了画面のサミートロフィー（銅＝2以上、金＝4以上、キリン柄＝5以上、虹＝6濃厚）と、BIG中ラスト5Gのマングースの向きを合わせて見てください</div>
+  <p class="notice"><b>⚠ この機種は通常時の設定差が小さめです。</b>AT初当りは設定1と6で約1.17倍しか違わず、回転数だけでは差がほとんど出ません。トロフィーとマングースの向きも合わせて判断してください。</p>
 </div>
 
 <div class="wrap">
 
   <!-- 1. 実戦データ → 判別（layout v2） -->
-  <section class="card">
+  <section class="card" id="mainCard">
     <div class="section-title"><span class="num">1</span><h2>実戦データを入力して判別</h2></div>
     <div class="row2">
       <div>
@@ -298,19 +325,40 @@
   </section>
 
   <!-- 3. 設定差 -->
-  <section class="card" id="specCard">
-    <details class="spec-details">
-      <summary><div class="section-title" style="margin:0;"><span class="num">3</span><h2>設定差を見る・編集する</h2></div></summary>
-    <table class="spec">
-      <thead><tr><th>設定</th><th>AT初当り(1/n)</th><th>機械割(%)</th></tr></thead>
-      <tbody id="specBody"></tbody>
-    </table>
-    <p class="hint">2026年10月5日導入。数値は解析サイトの公開値で、2026年10月9日時点で導入前から変更はありません。この機種に<b>設定3はなく、代わりに設定L</b>があります。設定Lの確率・機械割は非公表のため計算に入れていません。チェリー・チャンス目は全設定共通で設定差がなく、確定系の示唆はサミートロフィー（銅・金・キリン柄・虹）のみで、BIG中のマングースの向きに奇数・偶数の設定差があります。</p>
-    </details>
-  </section>
 
+  <section class="card" id="gousei">
+    <div class="section-title"><span class="num">3</span><h2>AT初当り・機械割の一覧</h2></div>
+    <table class="rate">
+      <thead><tr><th>設定</th><th>AT初当り</th><th>機械割</th></tr></thead>
+      <tbody>
+        <tr><td>設定1</td><td>1/326.5</td><td>97.8%</td></tr>
+        <tr><td>設定2</td><td>1/321.6</td><td>98.7%</td></tr>
+        <tr class="hi"><td>設定4</td><td>1/295.8</td><td>105.6%</td></tr>
+        <tr class="hi"><td>設定5</td><td>1/287.6</td><td>108.6%</td></tr>
+        <tr class="hi"><td>設定6</td><td>1/279.7</td><td>114.3%</td></tr>
+      </tbody>
+    </table>
+    <p class="note-s">設定は1・2・4・5・6の5段階（設定3はありません）。AT初当りは通常時からサバンナチャンスに当たった確率です。</p>
+  </section>
+  <section class="card uchi" id="uchikata">
+    <div class="section-title"><span class="num">4</span><h2>スマスロ獣王の打ち方</h2></div>
+    <h3>通常時</h3>
+    <ol class="steps">
+      <li><b>左リールから</b>（順押し）か<b>中リールから</b>押す。右リールから押すとペナルティがあるので避けます</li>
+      <li>順押しの時は、左リールの<b>2連赤7</b>（ゾウが枠内でもOK）を狙ってチェリーをフォロー。中・右はフリーでOK</li>
+      <li>中押しの時は、中・右リール中段にチェリーが並ぶか上段にリプレイが並べば左はフリー。並ばなければ左リールでチェリーを狙う（取りこぼすと払い出しがありません）</li>
+    </ol>
+    <h3>AT・ボーナス中</h3>
+    <ol class="steps">
+      <li>押し順ナビが出たらナビに従う</li>
+      <li>ナビがない時や演出が出た時は、通常時と同じように小役を狙う。カットインが出たら指定の図柄を狙う</li>
+    </ol>
+    <p class="note-s">打ち方は解析サイトの記載をもとにまとめたものです。停止形の図やリール配列は、次のページが詳しいです。</p>
+    <a class="hint-link ref-out" data-sec="uchikata" href="https://1geki.jp/slot/l_jyuuou/2/" target="_blank" rel="noopener">打ち方とリール配列を見る（1geki）↗</a>
+    <a class="hint-link ref-out" data-sec="uchikata2" href="https://nana-press.com/kaiseki/machine/1232/39393/" target="_blank" rel="noopener">打ち方と停止形を見る（なな徹）↗</a>
+  </section>
   <section class="card guide" id="guide">
-    <div class="section-title"><span class="num">4</span><h2>スマスロ獣王の設定判別の考え方と数えるコツ</h2></div>
+    <div class="section-title"><span class="num">5</span><h2>スマスロ獣王の設定判別の考え方と数えるコツ</h2></div>
     <h3 class="sub-h">初当りだけで見抜くのは難しい機種</h3>
     <p>獣王の設定は1・2・4・5・6の5段階です（このツールでは設定Lは計算の対象外）。AT初当りは設定1が1/326.5、設定6が1/279.7で、差は約1.17倍しかありません。機械割は97.8％〜114.3％と大きく開いているのに、通常時の当たりやすさの差は小さい、というのがこの機種の難しいところです。</p>
     <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
@@ -323,6 +371,16 @@
     <p>もう1つの材料が、BIG中のラスト5Gに出るマングースの向きです。左向きは設定1・5で60％、右向きは設定2・4で60％、設定6は左右半々で出ます。1回ごとの差は小さいものの、BIGのたびに数えて積み上げると効いてきます。たとえば10回見て左7回・右3回なら、設定1と設定2の比べ合いでは、設定1のほうが約5倍ありそう、という計算になります。「設定4・5のどちらか」まで絞れたときに、どちらに寄っているかを見る材料として特に役立ちます。</p>
     <h3 class="sub-h">数えるときのコツ</h3>
     <p>回転数は通常時のゲーム数を使い、AT中のゲーム数は入れません。AT初当りは、通常時から当たった回数を数えます（AT中の上乗せや継続は数えません）。マングースの向きは小役カウンターの「数える項目」でONにすると、BIGのたびにタップで数えられます。チェリーやチャンス目は全設定共通なので、数えても判別には使えません。謎高確や200G・400Gなど偶数の百の位でのSC高確移行にも設定差があるとされていますが、数値が公表されていないため、ページでは参考として載せるだけにしています。</p>
+  </section>
+  <section class="card" id="specCard">
+    <details class="spec-details">
+      <summary><div class="section-title" style="margin:0;"><span class="num">6</span><h2>設定差を見る・編集する</h2></div></summary>
+    <table class="spec">
+      <thead><tr><th>設定</th><th>AT初当り(1/n)</th><th>機械割(%)</th></tr></thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    <p class="hint">2026年10月5日導入。数値は解析サイトの公開値で、2026年10月9日時点で導入前から変更はありません。この機種に<b>設定3はなく、代わりに設定L</b>があります。設定Lの確率・機械割は非公表のため計算に入れていません。チェリー・チャンス目は全設定共通で設定差がなく、濃厚系の示唆はサミートロフィー（銅・金・キリン柄・虹）のみで、BIG中のマングースの向きに奇数・偶数の設定差があります。</p>
+    </details>
   </section>
 
   <!--RELATED-->
