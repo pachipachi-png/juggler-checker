@@ -253,21 +253,13 @@
     <div class="section-title"><span class="num">1</span><h2>実戦データで判別</h2></div>
     <label for="totalG" style="margin-top:0;">総回転数</label>
     <input type="number" id="totalG" inputmode="numeric" placeholder="例：5000">
-    <div class="row2" style="margin-top:12px;">
-      <div>
-        <label for="hitCount">初当り回数</label>
-        <input type="number" id="hitCount" inputmode="numeric" placeholder="例：19">
-      </div>
-      <div>
-        <label for="cherryCount">チェリーB回数</label>
-        <input type="number" id="cherryCount" inputmode="numeric" placeholder="例：37">
-      </div>
-    </div>
+    <label for="hitCount">初当り回数（連チャン除く）</label>
+    <input type="number" id="hitCount" inputmode="numeric" placeholder="例：19">
     <div class="live-rate">
-      <span>初当り／チェリーB</span>
+      <span>初当り確率</span>
       <span><b id="liveHit">ー</b><small id="liveHitNote"></small></span>
     </div>
-    <p class="hint">総回転数はデータカウンターのゲーム数でOKです。初当りは、前回のボーナスから<b>33G以上</b>回して当たったボーナスの回数（32G以内の連チャンは数えません）。チェリーBは空欄なら初当りだけで計算します。<a class="mini-link ref-out" data-sec="spec" href="https://chonborista.com/slot/universal-slot/212411/" target="_blank" rel="noopener">設定差↗</a></p>
+    <p class="hint">総回転数はデータカウンターのゲーム数でOKです。初当りは、前回のボーナスから<b>33G以上</b>回して当たったボーナスの回数（32G以内の連チャンは数えません）。チェリーBは下の「もっと細かく」から入れると精度が上がります（任意）。<a class="mini-link ref-out" data-sec="spec" href="https://chonborista.com/slot/universal-slot/212411/" target="_blank" rel="noopener">設定差↗</a></p>
     <button class="btn-primary btn-judge" id="calcBtn">この数字で判別する</button>
 
     <div class="pie-wrap" id="pieWrap" style="display:none;">
@@ -311,13 +303,25 @@
 
   <!-- 3. 任意 -->
   <section class="card" id="optionalCard">
-    <div class="section-title"><span class="num">3</span><h2>もっと細かく（任意）</h2></div>
+    <div class="section-title"><span class="num">3</span><h2>もっと絞り込む（任意）</h2></div>
     <div class="opt-block">
-    <button class="btn-ghost btn-small" id="toggleOpt" style="margin-top:0;">＋ チェリーBを数えたG数を別に入れる（任意）</button>
+    <button class="btn-ghost btn-small" id="toggleOpt" style="margin-top:0;">＋ チェリーBも入力する（任意）</button>
     <div class="optional-panel" id="optPanel">
-      <p class="hint" style="margin-top:0;">途中から数え始めた時だけ入れてください。空欄なら総回転数を使います。</p>
-      <label for="koG">チェリーBを数えたG数</label>
-      <input type="number" id="koG" inputmode="numeric" placeholder="空欄＝総回転数">
+      <p class="hint" style="margin-top:0;">チェリーBの形は<a href="#cherryB" style="color:var(--teal);">上の図解</a>を見てください。G数は途中から数え始めた時だけ入れます（空欄なら総回転数）。</p>
+      <div class="row2">
+        <div>
+          <label for="koG">チェリーBを数えたG数</label>
+          <input type="number" id="koG" inputmode="numeric" placeholder="空欄＝総回転数">
+        </div>
+        <div>
+          <label for="cherryCount">チェリーB回数</label>
+          <input type="number" id="cherryCount" inputmode="numeric" placeholder="例：37">
+        </div>
+      </div>
+      <div class="live-rate">
+        <span>チェリーB確率</span>
+        <span><b id="liveKo">ー</b><small id="liveKoNote"></small></span>
+      </div>
     </div>
     </div>
     <div class="opt-block">
@@ -479,10 +483,15 @@ const rate = (g, k) => k > 0 ? `1/${(g/k).toFixed(1)}` : '―';
 function updateLive(){
   const g = num(totalG), h = num(hitCount), kg = koGames(), ch = num(cherryCount);
   const lb = document.getElementById('liveHit'), ln = document.getElementById('liveHitNote');
-  if(g > 0 && (h > 0 || ch > 0)){
-    lb.textContent = `${rate(g, h)}／${rate(kg, ch)}`;
-    ln.textContent = ch > 0 && kg > 0 ? `チェリーBは${nearLabel(kg/ch, readCol('cherryInput'))}` : (h > 0 ? `初当りは${nearLabel(g/h, readCol('hitInput'))}` : '');
+  if(g > 0 && h > 0){
+    lb.textContent = rate(g, h);
+    ln.textContent = nearLabel(g/h, readCol('hitInput'));
   } else { lb.textContent = 'ー'; ln.textContent = ''; }
+  const kb = document.getElementById('liveKo'), kn = document.getElementById('liveKoNote');
+  if(kg > 0 && ch > 0){
+    kb.textContent = rate(kg, ch);
+    kn.textContent = nearLabel(kg/ch, readCol('cherryInput'));
+  } else { kb.textContent = 'ー'; kn.textContent = ''; }
 }
 [totalG, hitCount, koG, cherryCount].forEach(el => el.addEventListener('input', updateLive));
 document.querySelectorAll('#specBody input').forEach(el => el.addEventListener('input', updateLive));
@@ -490,7 +499,7 @@ document.querySelectorAll('#specBody input').forEach(el => el.addEventListener('
 document.getElementById('toggleOpt').addEventListener('click', (e) => {
   const panel = document.getElementById('optPanel');
   panel.classList.toggle('open');
-  e.target.textContent = panel.classList.contains('open') ? '－ 閉じる' : '＋ チェリーBを数えたG数を別に入れる（任意）';
+  e.target.textContent = panel.classList.contains('open') ? '－ 追加入力を閉じる' : '＋ チェリーBも入力する（任意）';
 });
 
 // ================= 3. 計算 =================
@@ -511,7 +520,8 @@ function showMsg(html){
 document.getElementById('calcBtn').addEventListener('click', () => {
   const g = num(totalG), h = num(hitCount);
   const kg = koGames();
-  const useCherry = cherryCount.value.trim() !== '' && kg > 0;
+  const optOpen = document.getElementById('optPanel').classList.contains('open');
+  const useCherry = optOpen && cherryCount.value.trim() !== '' && kg > 0;
   const ch = useCherry ? num(cherryCount) : 0;
 
   if(g <= 0){ showMsg('総回転数を入力してください。'); return; }
@@ -553,7 +563,7 @@ document.getElementById('calcBtn').addEventListener('click', () => {
   const parts = [`総回転数${g}G / 初当り ${h}回（${rate(g, h)}）`];
   if(useCherry) parts.push(`チェリーB ${ch}回／${kg}G（${rate(kg, ch)}）`);
   let msg = `最も可能性が高いのは <b>設定${SETS[best]}</b>（推定 ${(post[best]*100).toFixed(1)}%）。設定5以上の合計 <b>${(hi*100).toFixed(1)}%</b>、期待設定 <b>${expSetting.toFixed(2)}</b>。<br><span style="color:var(--muted);font-size:12.5px;">${parts.join(' / ')}</span>`;
-  if(!useCherry) msg += '<br><span style="color:var(--muted);font-size:12.5px;">初当りだけでは差がほとんど出ません。チェリーBも数えて入れてください。</span>';
+  if(!useCherry) msg += '<br><span style="color:var(--muted);font-size:12.5px;">初当りだけでは差が出にくい機種です。「もっと絞り込む」からチェリーBも入れると精度が上がります。</span>';
   else if(g < 5000) msg += '<br><span style="color:var(--muted);font-size:12.5px;">5,000G未満ではブレが大きいです。回すほど精度が上がります。</span>';
   topSetting.innerHTML = `<div class="top-setting">${msg}</div>`;
 
@@ -617,14 +627,14 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
   SettiShare.init({"key": "okidokiblack", "name": "沖ドキ！BLACK", "tags": "#沖ドキ #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [
     {"id": "totalG", "q": "g", "label": "総回転数", "unit": "G"},
     {"id": "hitCount", "q": "ht", "label": "初当り", "unit": "回", "rateOf": "totalG"},
-    {"id": "cherryCount", "q": "cb", "label": "チェリーB", "unit": "回", "rateOf": "totalG"},
+    {"id": "cherryCount", "q": "cb", "label": "チェリーB", "unit": "回", "opt": opt},
     {"id": "koG", "q": "kog", "label": "チェリーB計測", "unit": "G", "opt": opt}
   ]}]});
 })();
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "okidokiblack", "name": "沖ドキ！BLACK", "g": {"id": "totalG", "label": "総回転数"}, "counts": [{"id": "hitCount", "label": "初当り"}, {"id": "cherryCount", "label": "チェリーB", "wide": true, "rateG": "totalG"}], hiFrom: 5, judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend', note: "初当りは前回のボーナスから33G以上で当たったボーナスだけ。チェリーBは左下段＋中下段にチェリーが並ぶ形（下段テンパイ）だけ数える。"});
+SettiCounter.init({"key": "okidokiblack", "name": "沖ドキ！BLACK", "g": {"id": "totalG", "label": "総回転数"}, "counts": [{"id": "hitCount", "label": "初当り"}, {"id": "cherryCount", "label": "チェリーB", "wide": true, "optional": true, "rateG": "totalG", "openPanel": {"panel": "optPanel", "btn": "toggleOpt"}}], hiFrom: 5, judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend', note: "初当りは前回のボーナスから33G以上で当たったボーナスだけ。チェリーBは左下段＋中下段にチェリーが並ぶ形（下段テンパイ）だけ数える。"});
 </script>
 </body>
 </html>
