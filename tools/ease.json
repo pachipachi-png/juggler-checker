@@ -206,5 +206,13 @@
   "all5000": 34,
   "false1": 0.2,
   "lv": "hard"
+ },
+ "okidoki-black/": {
+  "name": "沖ドキBLACK",
+  "req3000": 0,
+  "all3000": 4,
+  "all5000": 13,
+  "false1": 0.0,
+  "lv": "hard"
  }
 }
