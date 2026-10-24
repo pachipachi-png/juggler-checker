@@ -40,6 +40,7 @@ add('マイジャグラーV',[1,2,3,4,5,6],4,[('BIG','g',A([273.1,270.8,266.4,25
 add('ハナハナ天翔',[1,2,3,4,5,6],4,[('BIG','g',A([297,284,273,262,249,236]),None,1),('REG','g',A([496,458,425,397,366,337]),None,1),('ベル(推定)','g',A([7.50,7.45,7.40,7.35,7.298,7.22]),None,0)])
 add('沖ドキDUOアンコール',[1,2,3,5,6],5,[('初当り','g',A([240.0,230.2,215.8,192.1,181.0]),None,1),('チェリー','g',A([46.8,45.0,43.3,41.7,40.3]),None,0)])
 add('沖ドキBLACK',[1,2,3,5,6],5,[('初当り','g',A([288.7,277.9,265.8,254.1,243.1]),None,1),('チェリーB','g',A([168.0,152.4,145.6,136.5,128.5]),None,0)])
+add('沖ドキGOLD',[1,2,3,5,6],5,[('初当り','g',A([299.6,287.3,266.7,247.6,237.0]),None,1),('チェリーB','g',A([168.0,152.4,145.6,136.5,128.0]),None,0)])
 
 def run(name,G,full,si,n):
     sets,hi,comps=M[name]; S=len(sets); his=np.array([s>=hi for s in sets])
@@ -62,7 +63,7 @@ def run(name,G,full,si,n):
         w=np.exp(ll-ll.max()); p=w/w.sum(); ok+= p[his].sum()>=0.8
     return ok/n
 
-PATH={'モンキーターンV':'monkey/','クレアBT':'crea-bt/','マジハロ8':'magihallo8/','マジハロToT':'magihallotot/','マジハロBT':'magihallobt/','ミリオンゴッド':'milliongod/','東京喰種':'ghoul/','北斗の拳(無印)':'hokuto/','北斗 転生2':'hokuto-tensei2/','戦国乙女5':'otome5/','まほあこ':'mahoako/','サンブレイク':'mhsunbreak/','カバネリ海門':'kabaneri2/','バイオRE3':'biore3/','SAO2':'sao2/','パリピ孔明':'paripi/','転生王女':'tenten/','リコリス':'lycoris/','かのかり':'kanokari/','からくり2':'karakuri2/','禁書2':'index2/','獣王':'juuou/','ハナビ':'hanabi/','マイジャグラーV':'juggler/','ハナハナ天翔':'hanahana/','沖ドキDUOアンコール':'okidoki-duo/','沖ドキBLACK':'okidoki-black/'}
+PATH={'モンキーターンV':'monkey/','クレアBT':'crea-bt/','マジハロ8':'magihallo8/','マジハロToT':'magihallotot/','マジハロBT':'magihallobt/','ミリオンゴッド':'milliongod/','東京喰種':'ghoul/','北斗の拳(無印)':'hokuto/','北斗 転生2':'hokuto-tensei2/','戦国乙女5':'otome5/','まほあこ':'mahoako/','サンブレイク':'mhsunbreak/','カバネリ海門':'kabaneri2/','バイオRE3':'biore3/','SAO2':'sao2/','パリピ孔明':'paripi/','転生王女':'tenten/','リコリス':'lycoris/','かのかり':'kanokari/','からくり2':'karakuri2/','禁書2':'index2/','獣王':'juuou/','ハナビ':'hanabi/','マイジャグラーV':'juggler/','ハナハナ天翔':'hanahana/','沖ドキDUOアンコール':'okidoki-duo/','沖ドキBLACK':'okidoki-black/','沖ドキGOLD':'okidoki-gold/'}
 def lv(p): return 'easy' if p>=0.6 else ('normal' if p>=0.3 else 'hard')
 if __name__=='__main__':
     n=int(sys.argv[1]) if len(sys.argv)>1 else 2000

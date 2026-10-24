@@ -214,5 +214,13 @@
   "all5000": 13,
   "false1": 0.0,
   "lv": "hard"
+ },
+ "okidoki-gold/": {
+  "name": "沖ドキGOLD",
+  "req3000": 0,
+  "all3000": 6,
+  "all5000": 17,
+  "false1": 0.1,
+  "lv": "hard"
  }
 }
