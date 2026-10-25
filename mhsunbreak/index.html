@@ -176,11 +176,29 @@
     .hero h1{ font-size: 21px; }
     .hero p{ font-size: 13px; }
     .hero figure.machine img{ height: 92px; width: auto; }
-    .hero figure.machine{ margin: 0 0 6px; }
+    .hero figure.machine{ margin: 0 auto 6px; width:auto; display:flex; justify-content:center; }
     .notice{ font-size: 12.5px; padding: 9px 11px; }
   }
   .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
   .guide .sub-h{ margin-top:16px; }
+  /* layout v3: タグ目次・冒頭ポイント・一覧・打ち方（2026-10-25） */
+  .tagnav{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; max-width:460px; margin:16px auto 0; }
+  .tagnav a{ padding:7px 13px; border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--text); text-decoration:none; font-size:13px; font-weight:700; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .tagnav a::before{ content:'# '; color:var(--gold); }
+  .reco{ max-width:460px; margin:16px auto 0; padding:12px 14px; border-radius:12px; border:1px solid var(--gold); background:#e8a93b14; text-align:left; font-size:13px; color:var(--text); line-height:1.6; }
+  .reco b:first-child{ display:block; color:var(--gold); font-size:14.5px; margin-bottom:2px; font-family:'Zen Kaku Gothic New',sans-serif; }
+  .hero .notice{ max-width:460px; margin:12px auto 0; text-align:left; padding:10px 14px; border:1px solid var(--gold-dim); border-radius:10px; background:#2a2312; color:#f0d9a6; font-size:13px; line-height:1.6; }
+  #mainCard, #optionalCard, #hintCard, #gousei, #uchikata, #guide, #specCard{ scroll-margin-top: 12px; }
+  table.rate{ width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; font-variant-numeric: tabular-nums; }
+  table.rate th, table.rate td{ padding:7px 3px; text-align:center; border-bottom:1px solid var(--line); }
+  table.rate th{ color:var(--muted); font-weight:500; font-size:12px; }
+  table.rate tr.hi td{ color:var(--gold); }
+  .steps{ margin:6px 0 4px; padding-left:20px; font-size:13.5px; }
+  .steps li{ margin-bottom:6px; }
+  .steps b{ color:var(--gold); }
+  .uchi h3{ font-size:14.5px; margin:18px 0 6px; }
+  .uchi h3:first-of-type{ margin-top:4px; }
+  .note-s{ font-size:12px; color:var(--muted); margin:4px 0 0; }
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -200,6 +218,14 @@
   <figure class="machine"><img src="machine.webp" width="130" height="221" alt="スマスロ モンスターハンターライズ：サンブレイクの筐体（下パネルにSUNBREAKのロゴ）"></figure>
   <h1>スマスロ<br>モンスターハンターライズ：<br>サンブレイク 設定判別</h1>
   <p>通常時の回転数とAT初当り回数から設定1〜6の可能性を推定します</p>
+  <nav class="tagnav" aria-label="ページ内の目次">
+    <a href="#mainCard">判別する</a>
+    <a href="#hintCard">終了画面・示唆</a>
+    <a href="#gousei">初当り・機械割</a>
+    <a href="#uchikata">打ち方</a>
+    <a href="#guide">判別のコツ</a>
+  </nav>
+  <div class="reco"><b>示唆の多さが強み。AT初当りは設定4から軽くなる</b>AT初当りは設定1で1/349.9、設定6で1/242.3（約1.44倍）。エンタトロフィー（金＝4以上、紅葉柄＝5以上、虹＝6濃厚）、AT終了画面（全員集合＝5以上、エンタライオン＝6濃厚）、獲得枚数表示（456枚OVER＝4以上など）が見えたらチェックしてください</div>
 </div>
 
 <div class="wrap">
@@ -209,7 +235,7 @@
   </div>
 
   <!-- 1. 実戦データ → 判別（layout v2） -->
-  <section class="card">
+  <section class="card" id="mainCard">
     <div class="section-title"><span class="num">1</span><h2>実戦データを入力して判別</h2></div>
     <div class="row2">
       <div>
@@ -317,19 +343,41 @@
   </section>
 
   <!-- 3. 設定差 -->
-  <section class="card" id="specCard">
-    <details class="spec-details">
-      <summary><div class="section-title" style="margin:0;"><span class="num">4</span><h2>設定差を見る・編集する</h2></div></summary>
-    <table class="spec">
-      <thead><tr><th>設定</th><th>AT初当り(1/n)</th><th>機械割%</th></tr></thead>
-      <tbody id="specBody"></tbody>
-    </table>
-    <p class="hint">解析サイトの公開値です（2026年10月時点）。設定1と6の差は<b>約1.44倍</b>。設定3と4の間で大きく軽くなるので、<b>1/290より軽いかどうか</b>がひとつの目安です。CZ・小役の設定差はまだ公表されていません。</p>
-    </details>
-  </section>
 
+  <section class="card" id="gousei">
+    <div class="section-title"><span class="num">4</span><h2>AT初当り・機械割の一覧</h2></div>
+    <table class="rate">
+      <thead><tr><th>設定</th><th>AT初当り</th><th>機械割</th></tr></thead>
+      <tbody>
+        <tr><td>設定1</td><td>1/349.9</td><td>97.5%</td></tr>
+        <tr><td>設定2</td><td>1/337.0</td><td>98.8%</td></tr>
+        <tr><td>設定3</td><td>1/319.8</td><td>100.8%</td></tr>
+        <tr class="hi"><td>設定4</td><td>1/283.6</td><td>105.2%</td></tr>
+        <tr class="hi"><td>設定5</td><td>1/264.0</td><td>108.4%</td></tr>
+        <tr class="hi"><td>設定6</td><td>1/242.3</td><td>112.4%</td></tr>
+      </tbody>
+    </table>
+    <p class="note-s">AT初当りは通常時からATに当たった確率です。設定3と4の間で確率がはっきり軽くなります。</p>
+  </section>
+  <section class="card uchi" id="uchikata">
+    <div class="section-title"><span class="num">5</span><h2>サンブレイクの打ち方</h2></div>
+    <h3>通常時</h3>
+    <ol class="steps">
+      <li><b>左リールから</b>押す（中押し・逆押しはペナルティがあります）</li>
+      <li>左リールの枠上〜上段付近に<b>BAR</b>を狙う。これで全小役をフォローできます</li>
+      <li>停止形を見て、あとは中・右リールはフリーでOK。スイカの時に左リールでスイカを引き込めない位置に止めると取りこぼすので、BAR狙いは必ず守ります</li>
+    </ol>
+    <h3>AT中</h3>
+    <ol class="steps">
+      <li>押し順ナビが出たらナビに従う（押し順ミスに注意）</li>
+      <li>ナビがない時や演出が出た時は、通常時と同じように小役を狙う。カットインが出たら指定の図柄を狙う</li>
+    </ol>
+    <p class="note-s">打ち方は解析サイトの記載をもとにまとめたものです。小役の停止形や押し順ナビの見分け方は、次のページが詳しいです。</p>
+    <a class="hint-link ref-out" data-sec="uchikata" href="https://1geki.jp/slot/l_mh_sun/2/" target="_blank" rel="noopener">打ち方と停止形を見る（1geki）↗</a>
+    <a class="hint-link ref-out" data-sec="uchikata2" href="https://nana-press.com/kaiseki/machine/1216/39030/" target="_blank" rel="noopener">打ち方と押し順ナビを見る（なな徹）↗</a>
+  </section>
   <section class="card guide" id="guide">
-    <div class="section-title"><span class="num">5</span><h2>サンブレイクの設定判別の考え方と数えるコツ</h2></div>
+    <div class="section-title"><span class="num">6</span><h2>サンブレイクの設定判別の考え方と数えるコツ</h2></div>
     <h3 class="sub-h">AT初当りの差は約1.4倍</h3>
     <p>モンハンサンブレイクのAT初当りは、設定1が1/349.9、設定6が1/242.3で、約1.44倍の差があります。設定4から確率がはっきり軽くなる（設定3は1/319.8、設定4は1/283.6）ので、「設定4以上かどうか」を見るにはAT初当りが土台になります。</p>
     <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
@@ -340,6 +388,16 @@
     <p>この機種は、AT終了後のエンタトロフィー、AT終了画面、獲得枚数表示、エンディング中のスタンプと、濃厚系の示唆がたくさんあります。たとえばエンタトロフィーの金や456枚OVERなら設定4以上、全員集合や紅葉柄なら設定5以上が濃厚です。「設定2否定」「設定3否定」のように一部の設定だけを外す示唆もあり、チェックを重ねるほど候補が絞れます。ATが終わるたびに画面をよく見て、出たものにチェックを入れて計算し直してください。</p>
     <h3 class="sub-h">数えるときのコツ</h3>
     <p>回転数は通常時のゲーム数を使い、AT中のゲーム数は入れません。AT初当りは通常時から当たった回数で、AT中の上乗せは数えません。終了画面のキャラが1人だけのときの奇数・偶数示唆や、スタンプの色の示唆は、確率が公表されていないので計算には使わず、ページに参考として載せています。</p>
+  </section>
+  <section class="card" id="specCard">
+    <details class="spec-details">
+      <summary><div class="section-title" style="margin:0;"><span class="num">7</span><h2>設定差を見る・編集する</h2></div></summary>
+    <table class="spec">
+      <thead><tr><th>設定</th><th>AT初当り(1/n)</th><th>機械割%</th></tr></thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    <p class="hint">解析サイトの公開値です（2026年10月時点）。設定1と6の差は<b>約1.44倍</b>。設定3と4の間で大きく軽くなるので、<b>1/290より軽いかどうか</b>がひとつの目安です。CZ・小役の設定差はまだ公表されていません。</p>
+    </details>
   </section>
 
   <!--RELATED-->
