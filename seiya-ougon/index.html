@@ -50,7 +50,8 @@
   .data-h .dot{font-family:'DotGothic16',monospace;font-weight:400;font-size:13px;color:var(--muted);letter-spacing:.1em;}
   .data-h small{font-size:11px;color:var(--muted);}
   .cells{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
-  .cells label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;}
+  .cells{align-items:end;}
+  .cells label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .cells input{width:100%;background:var(--led-bg);border:1px solid var(--amber-dim);color:var(--amber);font-family:'DotGothic16',monospace;font-size:26px;text-align:right;padding:6px;border-radius:3px;}
   .cells input::placeholder{color:#5a4316;}
   input:focus,button:focus-visible,.tile:focus-within{outline:2px solid var(--amber);outline-offset:1px;}
@@ -165,12 +166,12 @@
 <div id="mainCard">
 <div class="data">
   <div class="data-h"><span class="dot">DATA</span><small>通常時だけ数える</small></div>
-  <div class="cells">
+  <div class="cells" style="grid-template-columns:repeat(3,minmax(0,1fr));">
     <div><label for="totalG">総回転</label><input type="number" id="totalG" inputmode="numeric" placeholder="0"></div>
     <div><label for="atCount">AT初当り</label><input type="number" id="atCount" inputmode="numeric" placeholder="0"></div>
     <div><label for="czCount">CZ（任意）</label><input type="number" id="czCount" inputmode="numeric" placeholder="-"></div>
   </div>
-  <div class="taps">
+  <div class="taps" style="grid-template-columns:repeat(4,minmax(0,1fr));">
     <button type="button" data-add="totalG" data-n="100">+100G</button>
     <button type="button" data-add="atCount" data-n="1">AT +1</button>
     <button type="button" data-add="czCount" data-n="1">CZ +1</button>
@@ -327,17 +328,18 @@
 
 <script>
 const SETS = [1,2,3,4,5,6], N = 6;
+const HAS_B = true, HAS_CHECKS = true;
 const SPEC = { a: [364.2, 356.1, 345.6, 322.3, 313.7, 310.5], b: [214.4, 214.1, 211.7, 202.5, 197.2, 200.3], payout: [97.5, 98.5, 100.5, 105.2, 110.0, 114.9] };
 const BET = 3, LABEL_A = "AT初当り", LABEL_B = "CZ";
 const $ = id => document.getElementById(id);
 const specBody = $('specBody');
 for(let s=0; s<N; s++){
   const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${SETS[s]}</td><td><input type="number" step="0.1" class="aInput" value="${SPEC.a[s].toFixed(1)}"></td><td><input type="number" step="0.1" class="bInput" value="${SPEC.b[s].toFixed(1)}"></td><td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>`;
+  tr.innerHTML = `<td>${SETS[s]}</td><td><input type="number" step="0.1" class="aInput" value="${SPEC.a[s].toFixed(1)}"></td>${HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${SPEC.b[s].toFixed(1)}"></td>` : ''}<td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>`;
   specBody.appendChild(tr);
 }
 const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
-const totalG = $('totalG'), aCount = $("atCount"), bCount = $("czCount");
+const totalG = $('totalG'), aCount = $("atCount"), bCount = $("czCount") || { value: '', addEventListener(){}, dispatchEvent(){} };
 const num = el => Math.max(parseFloat(el.value) || 0, 0);
 function nearLabel(r, arr){
   if(r >= Math.max(...arr)) return '設定1より重い';
@@ -351,7 +353,7 @@ function live(el, cls, b, n){
   if(g > 0 && k > 0){ $(b).textContent = rate(g, k); $(n).textContent = nearLabel(g/k, readCol(cls)); }
   else { $(b).textContent = '―'; $(n).textContent = ''; }
 }
-function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); live(bCount, 'bInput', 'liveB', 'liveBNote'); }
+function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote'); }
 [totalG, aCount, bCount].forEach(el => el.addEventListener('input', updateLive));
 specBody.addEventListener('input', updateLive);
 
@@ -389,7 +391,7 @@ floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
 const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
 function showMsg(t){ $('topSetting').innerHTML = `<p style="margin:0;font-size:13px;color:var(--muted);">${t}</p>`; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; }
 $('calcBtn').addEventListener('click', () => {
-  const g = num(totalG), a = num(aCount), useB = bCount.value.trim() !== '', b = useB ? num(bCount) : 0;
+  const g = num(totalG), a = num(aCount), useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0;
   if(g <= 0){ showMsg('総回転（通常時）を入れてください。'); return; }
   if(aCount.value.trim() === ''){ showMsg(`${LABEL_A}の回数を入れてください（0回なら0）。`); return; }
   if(a > g || b > g){ showMsg('回数がゲーム数を超えています。'); return; }
@@ -412,8 +414,8 @@ $('calcBtn').addEventListener('click', () => {
   else if(names.length && minAllow >= 4) say = `示唆で設定${minAllow}以上に絞れています。あとは回数で上の設定を見ます。`;
   else if(hi >= 0.8) say = '高設定（4以上）の可能性がかなり高い。';
   else if(hi >= 0.6) say = '高設定寄り。ただしまだ決めきれない。';
-  else if(hi <= 0.3) say = '低設定寄り。示唆が出ないなら深追いは禁物。';
-  else say = 'まだ何とも言えない範囲。示唆が1つ出れば大きく変わります。';
+  else if(hi <= 0.3) say = HAS_CHECKS ? '低設定寄り。示唆が出ないなら深追いは禁物。' : '低設定寄り。数字が戻らないなら深追いは禁物。';
+  else say = HAS_CHECKS ? 'まだ何とも言えない範囲。示唆が1つ出れば大きく変わります。' : 'まだ何とも言えない範囲。回すほど差がはっきりします。';
   $('topSetting').innerHTML = `<div>設定4以上 <span class="big">${(hi*100).toFixed(0)}%</span>　期待設定 <span class="big">${exp.toFixed(1)}</span></div><div style="margin-top:4px;">${say}</div><span class="meta">${parts.join(' ／ ')}</span>`;
   const sph = parseFloat($('spinsPerHour').value) || 0;
   const [hh, mm] = $('closingTime').value.split(':').map(Number);
