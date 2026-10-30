@@ -418,7 +418,9 @@ $('calcBtn').addEventListener('click', () => {
   const sph = parseFloat($('spinsPerHour').value) || 0;
   const [hh, mm] = $('closingTime').value.split(':').map(Number);
   const closing = new Date(); closing.setHours(hh, mm, 0, 0);
-  const hours = Math.max((closing - new Date()) / 3600000, 0), remainG = sph * hours;
+  let hours = Math.max((closing - new Date()) / 3600000, 0);
+  if(hours > 15) hours = 0; // 閉店後〜朝（翌日の閉店まで数えない）
+  const remainG = sph * hours;
   const net = payout.map(p => BET * (p/100 - 1) * remainG);
   const ev = Math.round(post.reduce((x, p, i) => x + p*net[i], 0)) || 0;
   const sign = v => v > 0 ? '+' : (v < 0 ? '' : '±');
