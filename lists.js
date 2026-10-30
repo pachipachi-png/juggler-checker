@@ -1,7 +1,7 @@
 // 設定示唆くん 機種一覧の描画（トップ index.html と 全機種一覧 list/index.html で共通）
 // machines.js を先に読み込むこと。tools/build_lists.js も同じ関数で静的HTMLを作る。
 (function (root) {
-  var NEW_DAYS = 45;   // 導入日からこの日数までは「新台」
+  var NEW_DAYS = 21;   // 導入日からこの日数までは「新台」（2026-10-30 オーナー指示で45→21日。過ぎたら「話題の機種」へ）
   var SOON_DAYS = 14;  // 導入日のこの日数前から「導入予定」として新台に出す
   var HOT_MAX = 10;    // トップの「話題の機種」の表示数
 
