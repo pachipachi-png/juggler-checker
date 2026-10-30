@@ -48,6 +48,9 @@ add('ラグナドール',[1,2,3,4,5,6],4,[('AT','g',A([326.4,317.2,307.7,271.2,2
 add('ガンゲイル・オンライン',[1,2,3,4,5,6],4,[('初当り','g',A([192.0,189.2,180.9,168.6,155.4,153.9]),None,1),('ST','g',A([521.7,510.4,486.6,445.3,405.0,392.6]),None,1)])
 add('ゴジエヴァ2',[1,2,3,4,5,6],4,[('ボーナス','g',A([234.2,229.0,221.8,207.0,201.5,195.0]),None,1),('AT','g',A([460.5,446.5,425.5,390.4,374.2,355.5]),None,1)])
 
+add('Vivy',[1,2,3,4,5,6],4,[('AT','g',A([276.5,251.7,272.1,222.8,235.9,210.3]),None,1)])
+add('聖闘士星矢 黄金十二宮',[1,2,3,4,5,6],4,[('AT','g',A([364.2,356.1,345.6,322.3,313.7,310.5]),None,1),('CZ','g',A([214.4,214.1,211.7,202.5,197.2,200.3]),None,0)])
+
 def run(name,G,full,si,n):
     sets,hi,comps=M[name]; S=len(sets); his=np.array([s>=hi for s in sets])
     use=[c for c in comps if c[4] or full]
@@ -69,7 +72,7 @@ def run(name,G,full,si,n):
         w=np.exp(ll-ll.max()); p=w/w.sum(); ok+= p[his].sum()>=0.8
     return ok/n
 
-PATH={'モンキーターンV':'monkey/','クレアBT':'crea-bt/','マジハロ8':'magihallo8/','マジハロToT':'magihallotot/','マジハロBT':'magihallobt/','ミリオンゴッド':'milliongod/','東京喰種':'ghoul/','北斗の拳(無印)':'hokuto/','北斗 転生2':'hokuto-tensei2/','戦国乙女5':'otome5/','まほあこ':'mahoako/','サンブレイク':'mhsunbreak/','カバネリ海門':'kabaneri2/','バイオRE3':'biore3/','SAO2':'sao2/','パリピ孔明':'paripi/','転生王女':'tenten/','リコリス':'lycoris/','かのかり':'kanokari/','からくり2':'karakuri2/','禁書2':'index2/','獣王':'juuou/','ハナビ':'hanabi/','マイジャグラーV':'juggler/','ハナハナ天翔':'hanahana/','沖ドキDUOアンコール':'okidoki-duo/','沖ドキBLACK':'okidoki-black/','沖ドキGOLD':'okidoki-gold/','防振り':'bofuri/','牙狼 闇を照らす者':'garo-yami/','ラグナドール':'ragnador/','ガンゲイル・オンライン':'ggo/','ゴジエヴァ2':'gojieva2/'}
+PATH={'モンキーターンV':'monkey/','クレアBT':'crea-bt/','マジハロ8':'magihallo8/','マジハロToT':'magihallotot/','マジハロBT':'magihallobt/','ミリオンゴッド':'milliongod/','東京喰種':'ghoul/','北斗の拳(無印)':'hokuto/','北斗 転生2':'hokuto-tensei2/','戦国乙女5':'otome5/','まほあこ':'mahoako/','サンブレイク':'mhsunbreak/','カバネリ海門':'kabaneri2/','バイオRE3':'biore3/','SAO2':'sao2/','パリピ孔明':'paripi/','転生王女':'tenten/','リコリス':'lycoris/','かのかり':'kanokari/','からくり2':'karakuri2/','禁書2':'index2/','獣王':'juuou/','ハナビ':'hanabi/','マイジャグラーV':'juggler/','ハナハナ天翔':'hanahana/','沖ドキDUOアンコール':'okidoki-duo/','沖ドキBLACK':'okidoki-black/','沖ドキGOLD':'okidoki-gold/','防振り':'bofuri/','牙狼 闇を照らす者':'garo-yami/','ラグナドール':'ragnador/','ガンゲイル・オンライン':'ggo/','ゴジエヴァ2':'gojieva2/','Vivy':'vivy/','聖闘士星矢 黄金十二宮':'seiya-ougon/'}
 def lv(p): return 'easy' if p>=0.6 else ('normal' if p>=0.3 else 'hard')
 if __name__=='__main__':
     n=int(sys.argv[1]) if len(sys.argv)>1 else 2000
