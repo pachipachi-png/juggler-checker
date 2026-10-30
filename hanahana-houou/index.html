@@ -149,6 +149,8 @@
   .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
   .opt-block:first-of-type{ margin-top:6px; }
   .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
   #recalcBtn{ width:100%; margin-top:16px; }
   .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
   .spec-details > summary::-webkit-details-marker{ display:none; }
@@ -307,6 +309,22 @@
       <tbody id="estBody"></tbody>
     </table>
     <p class="hint" id="estNote"></p>
+    </details>
+  </section>
+
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">4</span><h2>ハナハナホウオウ～天翔～の設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">シリーズでいちばん打たれている台</h3>
+    <p>ハナハナホウオウ～天翔～は2022年1月に導入された6号機のハナハナで、設置店はシリーズ最多です。BIGは設定1が1/297、設定6が1/236（約1.26倍）、REGは設定1が1/496、設定6が1/337（約1.47倍）で、設定差はREGのほうが大きい作りです。機械割は97％〜109％。BIGは最大240枚、REGは最大120枚です。</p>
+    <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
+    <h3 class="sub-h">BIGだけで判断しない</h3>
+    <p>通常時を3000G回したときのREGの平均は、設定1で約6.0回、設定6で約8.9回です。設定1の台が設定6の平均以上にREGを引く確率は約16％、設定6の台が設定1の平均以下にとどまる確率は約22％あります。BIGは差が小さく、BIGだけ多く引けている台が高設定とは限りません。必ずBIGとREGを分けて数えてください。</p>
+    <h3 class="sub-h">ベルを足すと精度が上がる</h3>
+    <p>このツールの計算方法で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、BIG・REGだけでは3000Gで約14％、5000Gで約28％、8000Gで約45％でした。通常時のベル（推定値 設定1 1/7.50〜設定6 1/7.22）も数えると、3000Gで約23％、5000Gで約41％、8000Gで約59％まで上がります。ベルの数値はメーカー非公表の推定値なので、結果は目安として見てください。</p>
+    <h3 class="sub-h">天翔のランプは示唆止まり</h3>
+    <p>ボーナス後のフェザーランプは「色なし＜青＜黄＜緑＜赤＜虹」の順に期待度が上がり、REG後のほうが期待大とされています。ただ天翔では、キングハナハナなどにあるREG後の確定系が大手の解析サイトで確認できていないため、このページでは絞り込みに使っていません。REG中のサイドランプ（白7ビタ押しでスイカを揃えると点灯）は、青・緑が奇数、黄・赤が偶数、虹が高設定の示唆です。</p>
+    <h3 class="sub-h">数えるときのコツ</h3>
+    <p>回転数はデータカウンターの通常時のゲーム数を使い、ボーナス中のゲーム数は入れません。ベルは通常時に数え、BIG中スイカはBIG中の合計回数を入れます。BIG後のランプは、色が付かなかった回は数えず、設定変更後1回目のBIGは光りやすいので除いてください。小役カウンターを使えば、ベルやランプの色をタップで数えられます。</p>
     </details>
   </section>
 

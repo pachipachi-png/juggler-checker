@@ -147,6 +147,8 @@
   .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
   .opt-block:first-of-type{ margin-top:6px; }
   .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
   #recalcBtn{ width:100%; margin-top:16px; }
   .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
   .spec-details > summary::-webkit-details-marker{ display:none; }
@@ -303,6 +305,22 @@
       <tbody id="specBody"></tbody>
     </table>
     <p class="hint">この機種に設定3はありません。AT初当りと機械割は解析サイトの公開値、5枚役はメーカー非公表のため解析サイト掲載の<b>参考値</b>です（2026年10月時点）。実戦値として「設定1：1/40、設定4：1/29、設定5：1/25、設定6：1/23」とするサイトもあり、数値には幅があります。</p>
+    </details>
+  </section>
+
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">4</span><h2>モンキーターンVの設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">5枚役がいちばんの材料</h3>
+    <p>スマスロ モンキーターンVは、払い出しが5枚になる「5枚役」の確率が設定1で1/38.15、設定6で1/22.53と、約1.69倍の差があるとされています。5枚役は通常時もAT中も確率が変わらないので、AT中を含めた総ゲーム数で数えられ、回数が稼ぎやすいのが強みです。AT初当りは設定1で1/299.8、設定6で1/222.9（約1.34倍）で、このツールでは任意の項目にしています。この機種に設定3はありません。</p>
+    <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
+    <h3 class="sub-h">数えるほどはっきりする</h3>
+    <p>総ゲーム数3000Gでの5枚役の平均は、設定1で約79回、設定6で約133回と大きく離れます。このツールの計算方法で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、総ゲーム数1000Gで約92％、3000Gではほぼ100％でした。設定1の台で同じ結果になってしまう割合は1％前後です。数えれば数えるほど、結果がはっきりしていく機種です。</p>
+    <h3 class="sub-h">ただし5枚役の数値は参考値</h3>
+    <p>5枚役の確率はメーカーが公表しておらず、ページの数値は解析サイトに載っている参考値です。実戦値として「設定1：1/40、設定4：1/29、設定5：1/25、設定6：1/23」とするサイトもあり、数値には幅があります。そのため結果の％は「設定6と言い切れる」という意味ではなく、「高設定寄りかどうか」を見る目安として使ってください。公表されているAT初当りも一緒に入れると、別の材料で裏付けが取れます。</p>
+    <h3 class="sub-h">トロフィー・舟券・獲得枚数表示</h3>
+    <p>AT終了画面のケロットトロフィーは銅＝設定2以上、金＝設定4以上、ケロット柄＝設定5以上、虹＝設定6が濃厚です。舟券の色はホロ加工の銀＝偶数設定、ホロ加工の金＝設定4以上、虹（ケロット柄）＝設定6が濃厚。獲得枚数表示の456枚OVER・803枚OVER・666枚OVERや、特殊ラウンド開始画面の波多野＆青島（設定5以上）も見えたらチェックを入れて計算し直してください。</p>
+    <h3 class="sub-h">数えるときのコツ</h3>
+    <p>5枚役は払い出し音が目立たないので、払い出し表示が「5」になったかで確認すると取りこぼしにくくなります。停止形は3種類あり、サイトによって書き方が違うので、ページのリンク先で一度見ておくと安心です。5枚役のゲーム数はAT中も含めた総ゲーム数、AT初当りのゲーム数は通常時だけ、と分母が違う点に注意してください。</p>
     </details>
   </section>
 

@@ -27,3 +27,5 @@ fs.writeFileSync(path.join(R, 'list/index.html'), ls);
 console.log('基準日', day, '新台', t.newCount, '全', t.total);
 // 各機種ページ下の「ほかの機種の設定判別」リンクも作り直す
 require('./build_related.js');
+// 解説セクションの「続きを読む」折りたたみも付け直す（新しく解説を足したページ用）
+require('./build_guide_fold.js');

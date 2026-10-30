@@ -149,6 +149,8 @@
   .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
   .opt-block:first-of-type{ margin-top:6px; }
   .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
   #recalcBtn{ width:100%; margin-top:16px; }
   .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
   .spec-details > summary::-webkit-details-marker{ display:none; }
@@ -297,6 +299,22 @@
       <tbody id="specBody"></tbody>
     </table>
     <p class="hint">解析サイトの公開値です（2026年10月10日時点）。CZ・ボーナス初当りとも高設定ほど軽くなりますが、設定1と6の差は<b>約1.3倍</b>と小さめです。確率の分母にCZ中のゲーム数を含むかどうかは、解析サイトに記載がありません。小役確率は全設定共通です。</p>
+    </details>
+  </section>
+
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">4</span><h2>転生王女と天才令嬢の魔法革命の設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">CZとボーナス初当り</h3>
+    <p>L転生王女と天才令嬢の魔法革命の判別の中心は、CZ「エピソードバトル」の回数です。CZは設定1が1/171.5、設定6が1/136.0、ボーナス初当りは設定1が1/320.0、設定6が1/246.4で、どちらも差は約1.3倍と小さめです。小役確率は全設定共通なので、数えても判別には使えません。このツールではCZを必須、ボーナス初当りを任意の項目にしています。</p>
+    <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
+    <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
+    <p>通常時を3000G回したときのCZの平均は、設定1で約17.5回、設定6で約22.1回です。設定1の台が設定6の平均以上に当たる確率は約12％、設定6の台が設定1の平均以下にとどまる確率は約17％あります。設定変更後（朝一）はCZ間の天井が410Gから310Gに短くなるので、朝一の1回目が軽く出ても高設定とは限りません。</p>
+    <h3 class="sub-h">回転数を重ねるほど見えてくる</h3>
+    <p>このツールの計算方法で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、CZだけでは3000Gで約4％、5000Gで約18％、8000Gで約30％でした。ボーナス初当りも入れると、3000Gで約18％、5000Gで約36％、8000Gで約51％まで上がります。設定1の台で同じ結果になってしまう割合は2％前後です。差が小さい機種なので、数千Gの結果は大まかな目安として見てください。</p>
+    <h3 class="sub-h">スタンプ・獲得枚数・隠れ凪</h3>
+    <p>王宮舞踏会（ボーナス高確）終了画面のスタンプは「可」＝2以上、「吉」＝3以上、「良」＝4以上、「優」＝5以上、「極」＝6が濃厚です。獲得枚数表示は222枚OVER＝2以上、333枚OVER＝3以上、456枚OVER＝4以上、1010枚OVER＝5以上、666枚OVER＝6。打-WIN LITEの隠れ凪の色（青＝2以上〜金＝6）も使えます。終了画面のティルティは偶数設定、寝転ぶ2人は高設定（強）の示唆です。</p>
+    <h3 class="sub-h">数えるときのコツ</h3>
+    <p>CZはエピソードバトルの回数で、上位CZ「輪廻転天チャレンジ」は数えません。回転数は通常時だけで、ボーナス・王宮舞踏会中のゲーム数は入れません。ボーナス初当りは通常時から当たった最初のボーナスを1回と数え、王宮舞踏会中に続けて当たったものは含めません。ボーナスの多くはCZを経由するので、両方入れると結果はやや強めに出ます。CZ成功率にも設定差があり、設定1の50.3％から設定6の59.1％まで上がります。</p>
     </details>
   </section>
 

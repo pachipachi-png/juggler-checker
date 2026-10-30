@@ -147,6 +147,8 @@
   .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
   .opt-block:first-of-type{ margin-top:6px; }
   .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
   #recalcBtn{ width:100%; margin-top:16px; }
   .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
   .spec-details > summary::-webkit-details-marker{ display:none; }
@@ -309,6 +311,22 @@
       <tbody id="specBody"></tbody>
     </table>
     <p class="hint">解析サイトの公開値です（2026年9月時点）。共通ベルは設定1〜3が同じ確率なので、ベルだけでは設定1〜3の区別はできません（設定4以上かどうかの判断に効きます）。</p>
+    </details>
+  </section>
+
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">4</span><h2>リコリス・リコイルの設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">CZと共通ベル</h3>
+    <p>スマスロ リコリス・リコイルのCZは、設定1が1/198.7、設定6が1/169.4で、差は約1.17倍と小さめです。もう1つの材料が、右下がりにベルが揃う共通ベル（15枚役）で、設定1〜3は1/95.8で共通、設定4が1/87.6、設定5が1/83.2、設定6が1/79.1と、設定4以上で軽くなります。ベルだけでは設定1〜3の区別はできませんが、「設定4以上かどうか」を見るのに向いています。</p>
+    <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
+    <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
+    <p>通常時を3000G回したときのCZの平均は、設定1で約15.1回、設定6で約17.7回です。設定1の台が設定6の平均以上に当たる確率は約26％、設定6の台が設定1の平均以下にとどまる確率は約31％あり、CZの回数だけではほとんど差が出ません。CZには天井（最大600G、設定変更後は250G）もあるので、短い時間の回数はブレが大きくなります。</p>
+    <h3 class="sub-h">共通ベルを数えると大きく変わる</h3>
+    <p>このツールの計算方法で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、CZだけでは3000Gで約1％、8000Gでも約9％でした。通常時の共通ベルも数えて入れると、3000Gで約27％、5000Gで約46％、8000Gで約65％まで上がります。設定1の台で同じ結果になってしまう割合は3％前後です。この機種では共通ベルを数えるかどうかで、判別の精度がまったく違ってきます。</p>
+    <h3 class="sub-h">トロフィーとラッシュ終了画面</h3>
+    <p>サミートロフィーは銅＝2以上、銀＝3以上、金＝4以上、キリン柄＝5以上、虹＝6が濃厚です。ラッシュ終了画面は押上の風景＝2以上、ロボ太＝4以上、ハワイ＝6が濃厚。通常ラッシュ後に違うキャラの私服（千束ラッシュ後にたきな私服など）が出たら設定4以上が濃厚です。上位ラッシュ後の私服は弱い示唆なので、チェックしないでください。千束＆たきな（ドレスコード）は高設定の期待度が大きく上がる画面です。</p>
+    <h3 class="sub-h">数えるときのコツ</h3>
+    <p>回転数は通常時だけを使い、CZ・ラッシュ・ボーナス中のゲーム数は入れません。データカウンターの「通常時G数」を使うと確実です。共通ベルは左リール上段・中リール中段・右リール下段と右下がりに揃う15枚役で、通常時だけ数えます。CZ・ラッシュ・ボーナス中は押し順ナビが出るので数えません。小役カウンターを使えば、通常時のベルをタップで数えられます。</p>
     </details>
   </section>
 

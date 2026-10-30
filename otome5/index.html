@@ -149,6 +149,8 @@
   .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
   .opt-block:first-of-type{ margin-top:6px; }
   .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
   #recalcBtn{ width:100%; margin-top:16px; }
   .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
   .spec-details > summary::-webkit-details-marker{ display:none; }
@@ -372,6 +374,22 @@
       <li>強カワチャンス 設定1 1/36.8、本能寺の変（AT中CZ）移行率 設定1 1/114.8、出陣ボーナス（AT中）設定1 1/183.6。いずれも設定2〜6は未公表</li>
       <li>小役確率（全設定共通）：リプレイ 1/9.4、共通ベル 1/17.5、スイカ 1/69.4、弱チェリー 1/88.2、チャンス目A・B 各1/392.4、強チェリー 1/397.2</li>
     </ul>
+    </details>
+  </section>
+
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">5</span><h2>戦国乙女5の設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">AT初当りと戦国乙女ボーナス</h3>
+    <p>L戦国乙女5のAT初当りは、設定1が1/359.5、設定6が1/262.9で約1.37倍の差があり、設定3（1/332.5）と設定4（1/302.8）の間で大きく変わります。めったに当たらない戦国乙女ボーナスは、設定1が1/21206.7、設定6が1/5502.7と約3.9倍の差があり、1回引けるだけで高設定寄りに動きます。小役確率は全設定共通なので、数えても判別には使えません。</p>
+    <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
+    <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
+    <p>通常時を3000G回したときのAT初当りの平均は、設定1で約8.3回、設定6で約11.4回です。設定1の台が設定6の平均以上に当たる確率は約14％、設定6の台が設定1の平均以下にとどまる確率は約20％あります。天井や周期の影響も受けるので、数回の差だけで判断しないようにしましょう。</p>
+    <h3 class="sub-h">回転数を重ねるほど見えてくる</h3>
+    <p>このツールの計算方法で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、AT初当りだけでは3000Gで約6％、5000Gで約23％、8000Gで約34％でした。戦国乙女ボーナスの回数（0回でも入れると計算に使います）も足すと、3000Gで約20％、5000Gで約35％、8000Gで約51％まで上がります。設定1の台で同じ結果になってしまう割合は2％前後です。</p>
+    <h3 class="sub-h">終了画面・獲得枚数・ゴエモンボイス</h3>
+    <p>この機種は「〇以上濃厚」の示唆がとても多いのが特徴です。出陣ボーナス終了画面のスタンプは「可」＝2以上〜「極」＝6、AT中の獲得枚数表示は222枚OVER＝2以上〜666枚OVER＝6、エンディング中のゴエモンのボイスは「さんきゅ〜」＝2以上〜名乗り＝6が濃厚です。「なになに、気になるー？」は設定2否定、「ちょ〜っとホンキ…」は設定3否定。見えたらチェックを入れて計算し直してください。</p>
+    <h3 class="sub-h">数えるときのコツ</h3>
+    <p>AT初当りは通常時から当たったATを1回と数え、乙女アタック経由・戦国乙女ボーナス経由も含めます。AT中の上乗せや継続は含めません。戦国乙女ボーナスはAT初当りにも数えたままで大丈夫です。乙女アタックの突入率は、乙女ポイントが0ptになったときにCZへ入った割合で、カンスケ滞在中の到達は数えません。ハルルナPUSHと隠れ凪は解析サイトでも「推測」の段階なので、気になる人はチェックしないでください。</p>
     </details>
   </section>
 

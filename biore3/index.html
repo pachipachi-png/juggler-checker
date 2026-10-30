@@ -149,6 +149,8 @@
   .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
   .opt-block:first-of-type{ margin-top:6px; }
   .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
   #recalcBtn{ width:100%; margin-top:16px; }
   .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
   .spec-details > summary::-webkit-details-marker{ display:none; }
@@ -358,6 +360,22 @@
     <h3 style="font-size:13.5px; margin:16px 0 4px;">フィギュアの出現率（%）</h3>
     <div style="overflow-x:auto;"><table class="spec" id="figSpec"></table></div>
     <p class="hint">解析サイトの公開値です（2026年10月10日時点。2026年5月11日導入）。CZは設定1と6で<b>約1.36倍</b>、AT初当りは<b>約1.28倍</b>、5枚ベルは<b>約1.26倍</b>の差です。CZは通常時のネメシスバトル突入率です。フィギュアは、奇数（No.1〜4）・偶数（No.5〜8）・高設定（No.9〜13）で出やすさが変わります。</p>
+    </details>
+  </section>
+
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">5</span><h2>バイオハザードRE:3の設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">CZ回数とフィギュアの2本立て</h3>
+    <p>スマスロ バイオハザードRE:3の判別の中心は、通常時のCZ「ネメシスバトル」の回数です。CZは設定1が1/143.3、設定6が1/105.7で約1.36倍の差があり、AT初当り（1/399.0〜1/311.2）より回数が多く出るので早く差が見えてきます。もう1つの特徴が台のフィギュア一覧で、誰かが獲得した分も含めて見られるため、打つ前の台選びにも使えます。</p>
+    <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
+    <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
+    <p>通常時を3000G回したときのCZの平均は、設定1で約20.9回、設定6で約28.4回です。設定1の台が設定6の平均以上に当たる確率は約5％、設定6の台が設定1の平均以下にとどまる確率は約6％で、CZだけでもかなり差が出る機種です。CZ成功率は通常時37％で全設定共通なので、成功したかどうかは設定とは関係ありません。</p>
+    <h3 class="sub-h">AT初当りと5枚ベルで精度が上がる</h3>
+    <p>このツールの計算方法で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、CZだけでは3000Gで約27％、5000Gで約48％、8000Gで約69％でした。AT初当りと5枚ベル（設定1 1/20.0〜設定6 1/15.9）も入れると、3000Gで約86％、5000Gで約96％まで上がります。設定1の台で同じ結果になることはほとんどありません。ATの多くはCZを経由するため、結果はやや強めに出る点には注意してください。</p>
+    <h3 class="sub-h">フィギュア・トロフィー・獲得枚数</h3>
+    <p>フィギュアは奇数設定で出やすいもの（No.1〜4）、偶数設定で出やすいもの（No.5〜8）、高設定で出やすいもの（No.9〜13）に分かれていて、No.14が1つでもあれば設定1否定、No.15とNo.16が両方あれば設定4以上が濃厚です。エンタトロフィーは銅＝2以上〜虹＝6、AT中の獲得枚数表示は222枚OVER＝2以上〜666枚OVER＝6が濃厚です。</p>
+    <h3 class="sub-h">数えるときのコツ</h3>
+    <p>CZは通常時のネメシスバトルの回数で、AT中・上位AT中のネメシスバトルは数えません。データカウンターはCZ当選でリセットされるので、通常時の合計ゲーム数は履歴から足し合わせてください。5枚ベルは右下がりにベルが揃う役で、通常時もAT中も数えられます。ほかの小役は全設定共通です。設定変更後（朝一）は天井が650G＋αに短くなるので、朝一の1回目は軽く出やすい点に注意してください。</p>
     </details>
   </section>
 

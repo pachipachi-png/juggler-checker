@@ -149,6 +149,8 @@
   .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
   .opt-block:first-of-type{ margin-top:6px; }
   .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
   #recalcBtn{ width:100%; margin-top:16px; }
   .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
   .spec-details > summary::-webkit-details-marker{ display:none; }
@@ -307,6 +309,22 @@
       <tbody id="estBody"></tbody>
     </table>
     <p class="hint" id="estNote"></p>
+    </details>
+  </section>
+
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">4</span><h2>ニューキングハナハナVの設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">設定は1・2・3・4・Vの5段階</h3>
+    <p>ニューキングハナハナVは2026年1月に導入されたスマート沖スロで、設定は1・2・3・4・Vの5段階です。BIGは設定1が1/299、設定Vが1/253（約1.18倍）、REGは設定1が1/496、設定Vが1/372（約1.33倍）で、ほかのハナハナに比べると設定差が小さめです。機械割は97％〜108％。BIGはBT込みで約312枚、REGは約130枚です。</p>
+    <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
+    <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
+    <p>通常時を3000G回したときのREGの平均は、設定1で約6.0回、設定Vで約8.1回です。設定1の台が設定Vの平均以上にREGを引く確率は約16％、設定Vの台が設定1の平均以下にとどまる確率は約31％あります。BIGの差はさらに小さいので、ボーナス回数だけで高設定と決めるのはかなり難しい機種です。</p>
+    <h3 class="sub-h">回転数を重ねても差は出にくい</h3>
+    <p>このツールの計算方法で、設定Vの台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、BIG・REGだけでは3000Gで約2％、8000Gでも約14％でした。通常時のベル（推定値 設定1 1/7.628〜設定V 1/7.266）も数えると、3000Gで約8％、5000Gで約21％、8000Gで約37％まで上がります。数字の結果は「少し寄っているか」を見る目安にしてください。</p>
+    <h3 class="sub-h">今作はサイドランプの場所が違う</h3>
+    <p>ほかのハナハナと違い、今作のサイドランプはREG中ではなく、BIG後半のスイカ獲得時に1回点灯します。青＝奇数、黄＝偶数、緑＝奇数かつ高設定、赤＝偶数かつ高設定、虹＝高設定の示唆です。ボーナス後はフェザーランプではなくハイビスカスランプで、BIG後は「白＜青＜黄＜緑＜紫＜虹」の順に期待度が上がりますが、確定系は公表されていないので絞り込みには使っていません。</p>
+    <h3 class="sub-h">数えるときのコツ</h3>
+    <p>回転数は通常時のゲーム数だけを使います。スイカはBIG中ではなく、BIG前半（14G）の回数を入れてください（推定値 設定1 1/29.79〜設定V 1/18.89）。BIG後半はサイドランプの色を見る区間です。ベルの数値は、チェリー・スイカを全設定共通として公表の機械割から逆算した推測値なので、外れている可能性もあります。</p>
     </details>
   </section>
 

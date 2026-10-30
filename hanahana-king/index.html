@@ -149,6 +149,8 @@
   .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
   .opt-block:first-of-type{ margin-top:6px; }
   .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
   #recalcBtn{ width:100%; margin-top:16px; }
   .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
   .spec-details > summary::-webkit-details-marker{ display:none; }
@@ -307,6 +309,22 @@
       <tbody id="estBody"></tbody>
     </table>
     <p class="hint" id="estNote"></p>
+    </details>
+  </section>
+
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">4</span><h2>キングハナハナ-30の設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">REGとREG後のランプが鍵</h3>
+    <p>キングハナハナ-30は2023年3月に導入された6号機のハナハナです。BIGは設定1が1/292、設定6が1/232（約1.26倍）、REGは設定1が1/489、設定6が1/332（約1.47倍）で、設定差はREGに大きく出ます。機械割は97％〜110％。BIGは最大260枚、REGは最大120枚とシリーズの中でもBIGの枚数が多めです。</p>
+    <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
+    <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
+    <p>通常時を3000G回したときのREGの平均は、設定1で約6.1回、設定6で約9.0回です。設定1の台が設定6の平均以上にREGを引く確率は約9％、設定6の台が設定1の平均以下にとどまる確率は約20％あります。BIGは差が小さく、BIGだけが多い台を高設定と考えるのは危険です。</p>
+    <h3 class="sub-h">ベルを足すと精度が上がる</h3>
+    <p>このツールの計算方法で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、BIG・REGだけでは3000Gで約15％、5000Gで約29％、8000Gで約45％でした。通常時のベル（推定値 設定1 1/7.149〜設定6 1/6.910）も数えると、3000Gで約28％、5000Gで約46％、8000Gで約64％まで上がります。設定1の台で同じ結果になってしまう割合は2％前後です。</p>
+    <h3 class="sub-h">REG後のフェザーランプは確定系</h3>
+    <p>キングハナハナでは、REG終了後にフェザーランプが一度消えてから点灯した色が確定系とされています。青＝設定2以上、黄＝3以上、緑＝4以上、赤＝5以上、虹＝6が濃厚で、見えたらチェックを入れて計算し直してください。BIG後のフェザーランプ（白＜青＜黄＜緑＜赤＜虹）は示唆止まりです。REG中のサイドランプは青・緑が奇数、黄・赤が偶数、虹が高設定の示唆です。</p>
+    <h3 class="sub-h">数えるときのコツ</h3>
+    <p>回転数はデータカウンターの通常時のゲーム数を使い、ボーナス中のゲーム数は入れません。ベルは通常時に、スイカはBIG中に数えます。REG後のランプは、REGが終わってランプが一度消えたあとの色を見るのがポイントで、BIG後の色と混ぜないようにしましょう。設定変更後1回目のBIGは光りやすいので、BIG後ランプの回数からは除いてください。</p>
     </details>
   </section>
 

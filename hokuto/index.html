@@ -149,6 +149,8 @@
   .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
   .opt-block:first-of-type{ margin-top:6px; }
   .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
+  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
+  .guide .sub-h{ margin-top:16px; }
   #recalcBtn{ width:100%; margin-top:16px; }
   .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
   .spec-details > summary::-webkit-details-marker{ display:none; }
@@ -369,6 +371,22 @@
       <li>天井短縮の抽選（300G・777G・800G到達時）は高設定ほど当たりやすいとされます。設定変更後は800Gでの短縮がほぼ当選します</li>
       <li>設定Lは下パネルが常に明滅します（このページの計算対象外）</li>
     </ul>
+    </details>
+  </section>
+
+  <section class="card guide" id="guide">
+    <div class="section-title"><span class="num">5</span><h2>スマスロ北斗の拳の設定判別の考え方と数えるコツ</h2></div>
+    <h3 class="sub-h">BB初当りの差が大きい機種</h3>
+    <p>スマスロ北斗の拳（無印）のBB初当りは、設定1が1/383.4、設定6が1/235.1で約1.63倍の差があります。特に設定2（1/370.5）と設定4（1/297.8）の間で大きく変わるので、低設定と高設定の区別がつきやすい機種です。この機種に設定3はありません（設定1・2・4・5・6）。</p>
+    <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
+    <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
+    <p>通常時を3000G回したときのBB初当りの平均は、設定1で約7.8回、設定6で約12.8回です。設定1の台が設定6の平均以上に当たる確率も、設定6の台が設定1の平均以下にとどまる確率も約6％で、初当りだけでもかなり差が出ます。ただし天国モードへの移行率にも設定差があるため、連チャンの偏りで短時間の数字は大きくブレます。</p>
+    <h3 class="sub-h">ボイスとレア小役で精度を上げる</h3>
+    <p>このツールの計算方法で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、BB初当りだけでは3000Gで約51％、5000Gで約73％、8000Gで約83％でした。BB終了後のボイスと、AT中も含めたレア小役（弱スイカ・強スイカ・中段チェリー・リーチ目）も入れると、3000Gで約72％、5000Gで約86％、8000Gで約94％まで上がります。設定1の台で同じ結果になってしまう割合は3％前後です。</p>
+    <h3 class="sub-h">ボイス・トロフィー・初代演出</h3>
+    <p>BB終了後にサブ液晶をタッチすると聞けるボイスは、シン・サウザー・ジャギ・アミバ・ケンシロウ（伝承者の宿命）・ユリアが高設定示唆で、出る割合は設定1の15.27％から設定6の28.68％まで上がります。サミートロフィーは金＝4以上、キリン柄＝5以上、虹＝6、獲得枚数表示は456枚＝4以上、666枚＝6、初代リン・初代シンの演出は5以上が濃厚です。トロフィーは設定6でも8000Gで約20％しか出ないので、出なくても低設定とは限りません。</p>
+    <h3 class="sub-h">数えるときのコツ</h3>
+    <p>BB初当りは通常時から当たったバトルボーナスを1回と数え、AT中の継続や1G連は含めません。回転数は通常時だけです。レア小役は通常時もAT中も数え、分母は数えていた間の総回転数にします。角チェリーとチャンス目は全設定共通なので数えなくて大丈夫です。ボイスは1G連したBBでは数えず、リン・バットは基本パターンとして「確認した回数」にだけ足してください。</p>
     </details>
   </section>
 
