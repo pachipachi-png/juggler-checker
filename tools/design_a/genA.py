@@ -11,7 +11,12 @@ old = open(R + key + '/index.html', encoding='utf-8').read()
 related = re.search(r'<!--RELATED-->.*?<!--/RELATED-->', old, re.S).group(0)
 
 A, B = m['A'], m.get('B')
-BB = B or dict(id='_noB', label='', btn='', spec=[1]*6)
+SETS = m.get('sets', [1,2,3,4,5,6]); N = len(SETS)
+BB = B or dict(id='_noB', label='', btn='', spec=[1]*N)
+decA, decB = A.get('dec', 1), (B or {}).get('dec', 1)
+BG = (B or {}).get('gid')  # 2つ目の回数を別のG数で割るとき（例：5枚役は総G、AT初当りは通常時G）
+gq, glab, gshare, gcount = m.get('qg', 'g'), m.get('glab', '総回転'), m.get('gshare', '通常時'), m.get('gcount', '通常時G数')
+setrange = f'設定{SETS[0]}〜{SETS[-1]}' + ('（設定3なし）' if 3 not in SETS else '')
 hasChecks = bool(m.get('checks'))
 def esc(s): return s
 chk = ''
@@ -22,21 +27,26 @@ for grp, cols, items in m.get('checks', []):
     chk += '        </div>\n'
 refs = ''.join(f'        <li>{x}</li>\n' for x in m.get('refs', []))
 know = ''.join(f'      <li>{x}</li>\n' for x in m['know'])
-rows = ''.join(f'        <tr{" class=\"hi\"" if i>=3 else ""}><td>{i+1}</td><td>{A["spec"][i]:.1f}</td>{f'<td>{B["spec"][i]:.1f}</td>' if B else ''}<td>{m["payout"][i]:.1f}</td></tr>\n' for i in range(6))
+rows = ''.join(f'        <tr{" class=\"hi\"" if SETS[i]>=4 else ""}><td>{SETS[i]}</td><td>{A["spec"][i]:.{decA}f}</td>{f'<td>{B["spec"][i]:.{decB}f}</td>' if B else ''}<td>{m["payout"][i]:.1f}</td></tr>\n' for i in range(N))
 uchi = ''.join(f'    <h3>{h}</h3>\n    <ol class="steps">\n' + ''.join(f'      <li>{s}</li>\n' for s in st) + '    </ol>\n' for h, st in m['uchi'])
 links = ''.join(f'    <a class="outlink ref-out" data-sec="uchikata{i or ""}" href="{u}" target="_blank" rel="noopener">{t} ↗</a>\n' for i, (u, t) in enumerate(m['links']))
 guide = ''.join(f'    <h3>{h}</h3>\n    <p>{p}</p>\n' for h, p in m['guide'])
 share = json.dumps({"key": key, "name": m['full'], "tags": m['tags'], "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [
-    {"id": "totalG", "q": "g", "label": "通常時", "unit": "G"},
-    {"id": A['id'], "q": m['qa'], "label": A['label'], "unit": "回", "rateOf": "totalG"}] + ([{"id": B['id'], "q": m['qb'], "label": B['label'], "unit": "回", "rateOf": "totalG"}] if B else [])}], **({"hints": "#floorGroup input[type=checkbox]"} if hasChecks else {})}, ensure_ascii=False)
-ccfg = {"key": key, "name": m['cname'], "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": A['id'], "label": A['label']}] + ([{"id": B['id'], "label": B['label'], "optional": True}] if B else []), "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": m['cnote']}
+    {"id": "totalG", "q": gq, "label": gshare, "unit": "G"},
+    {"id": A['id'], "q": m['qa'], "label": A['label'], "unit": "回", "rateOf": "totalG"}] + ([{"id": BG, "q": B['gq'], "label": B['gshare'], "unit": "G"}] if BG else []) + ([{"id": B['id'], "q": m['qb'], "label": B['label'], "unit": "回", "rateOf": BG or "totalG"}] if B else [])}], **({"hints": "#floorGroup input[type=checkbox]"} if hasChecks else {})}, ensure_ascii=False)
+ccfg = {"key": key, "name": m['cname'], "g": {"id": "totalG", "label": gcount}, "counts": [{"id": A['id'], "label": A['label']}] + ([{"id": B['id'], "label": B['label'], "optional": True, **({"rateG": BG} if BG else {})}] if B else []), "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": m['cnote']}
 if hasChecks: ccfg["checks"] = {"selector": "#floorGroup input[type=checkbox]", "title": m['checktitle'], "short": "示唆", "optional": True}
+if BG: ccfg["g2"] = [{"id": BG, "label": B['gcount'], "item": B['id']}]
 counter = json.dumps(ccfg, ensure_ascii=False)
+bgcell = f'''<div><label for="{BG}">{B['glabel']}</label><input type="number" id="{BG}" inputmode="numeric" placeholder="-"></div>''' if BG else ''
+bgtap = f'''<button type="button" data-add="{BG},totalG" data-n="100">{B['gbtn']}</button>''' if BG else ''
 bcell = f'''<div><label for="{B['id']}">{B['label']}{'（任意）' if B.get('opt') else ''}</label><input type="number" id="{B['id']}" inputmode="numeric" placeholder="-"></div>''' if B else ''
 btap = f'''<button type="button" data-add="{B['id']}" data-n="1">{B['btn']} +1</button>''' if B else ''
 brate = f'''<span>{B['btn']} <b id="liveB">―</b><small id="liveBNote"></small></span>''' if B else ''
-cellcols = 3 if B else 2
-tapcols = 4 if B else 3
+cellcols = 2 if BG else (3 if B else 2)
+tapcols = 3 if BG else (4 if B else 3)
+newtag_html = f'''    <span class="new" style="font-weight:800;">{m['newtag']}</span>\n''' if m.get('newtag') else ''
+img_html = f'''<img src="{m['img'][0]}" width="140" height="{round(140*397/260)}" alt="{m['img'][2]}">''' if m.get('img') else ''
 warn_html = f'''<p class="warn">{m['warn']}</p>''' if m.get('warn') else ''
 if hasChecks:
     hints_html = f'''    <div class="sh"><h2>見えたら押す</h2><small>「〇以上濃厚」だけ計算に使う</small></div>
@@ -201,10 +211,9 @@ html = f'''<!DOCTYPE html>
 <nav class="bar-top"><a href="../">設定示唆くん</a><span><a href="../list/" style="font-size:12px;font-weight:500;color:var(--muted);">機種一覧</a></span></nav>
 
 <header class="hero">
-  <img src="{m['img'][0]}" width="140" height="{round(140*397/260)}" alt="{m['img'][2]}">
+  {img_html}
   <div>
-    <span class="new" style="font-weight:800;">{m['newtag']}</span>
-    <h1>{m['h1']}</h1>
+{newtag_html}    <h1>{m['h1']}</h1>
     <p>{m['specline']}</p>
   </div>
 </header>
@@ -219,15 +228,17 @@ html = f'''<!DOCTYPE html>
 
 <div id="mainCard">
 <div class="data">
-  <div class="data-h"><span class="dot">DATA</span><small>通常時だけ数える</small></div>
+  <div class="data-h"><span class="dot">DATA</span><small>{m.get('datanote', '通常時だけ数える')}</small></div>
   <div class="cells" style="grid-template-columns:repeat({cellcols},minmax(0,1fr));">
-    <div><label for="totalG">総回転</label><input type="number" id="totalG" inputmode="numeric" placeholder="0"></div>
+    <div><label for="totalG">{glab}</label><input type="number" id="totalG" inputmode="numeric" placeholder="0"></div>
     <div><label for="{A['id']}">{A['label']}</label><input type="number" id="{A['id']}" inputmode="numeric" placeholder="0"></div>
+    {bgcell}
     {bcell}
   </div>
   <div class="taps" style="grid-template-columns:repeat({tapcols},minmax(0,1fr));">
     <button type="button" data-add="totalG" data-n="100">+100G</button>
     <button type="button" data-add="{A['id']}" data-n="1">{A['btn']} +1</button>
+    {bgtap}
     {btap}
     <button type="button" class="undo" id="undoBtn">1つ戻す</button>
   </div>
@@ -242,7 +253,7 @@ html = f'''<!DOCTYPE html>
 <section id="result">
   <div class="sh"><h2>結果</h2><small>確率の目安</small></div>
   <div id="pieWrap" style="display:none;"><div id="legend"></div></div>
-  <div id="topSetting" class="summary"><p style="margin:0;font-size:12.5px;color:var(--muted);">数字を入れて「判別する」を押すと、設定1〜6の可能性がここに出ます。</p></div>
+  <div id="topSetting" class="summary"><p style="margin:0;font-size:12.5px;color:var(--muted);">数字を入れて「判別する」を押すと、{setrange}の可能性がここに出ます。</p></div>
   <div class="ev" id="evOutput" style="display:none;"></div>
   <div class="tip" id="tipPromptCalc" style="display:none;">勝ったら10円でもいいので <a href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭</a> ください。</div>
 </section>
@@ -311,7 +322,8 @@ html = f'''<!DOCTYPE html>
 </div>
 
 <script>
-const SETS = [1,2,3,4,5,6], N = 6;
+const SETS = {json.dumps(SETS)}, N = SETS.length, HI = SETS.map(s => s >= 4);
+const DEC_A = {decA}, DEC_B = {decB}, B_G = {json.dumps(BG)};
 const HAS_B = {'true' if B else 'false'}, HAS_CHECKS = {'true' if hasChecks else 'false'};
 const SPEC = {{ a: {json.dumps(A['spec'])}, b: {json.dumps(BB['spec'])}, payout: {json.dumps(m['payout'])} }};
 const BET = 3, LABEL_A = {json.dumps(A['label'], ensure_ascii=False)}, LABEL_B = {json.dumps(BB['label'], ensure_ascii=False)};
@@ -319,39 +331,39 @@ const $ = id => document.getElementById(id);
 const specBody = $('specBody');
 for(let s=0; s<N; s++){{
   const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${{SETS[s]}}</td><td><input type="number" step="0.1" class="aInput" value="${{SPEC.a[s].toFixed(1)}}"></td>${{HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${{SPEC.b[s].toFixed(1)}}"></td>` : ''}}<td><input type="number" step="0.1" class="payoutInput" value="${{SPEC.payout[s].toFixed(1)}}"></td>`;
+  tr.innerHTML = `<td>${{SETS[s]}}</td><td><input type="number" step="0.1" class="aInput" value="${{SPEC.a[s].toFixed(DEC_A)}}"></td>${{HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${{SPEC.b[s].toFixed(DEC_B)}}"></td>` : ''}}<td><input type="number" step="0.1" class="payoutInput" value="${{SPEC.payout[s].toFixed(1)}}"></td>`;
   specBody.appendChild(tr);
 }}
 const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
 const totalG = $('totalG'), aCount = $({json.dumps(A['id'])}), bCount = $({json.dumps(BB['id'])}) || {{ value: '', addEventListener(){{}}, dispatchEvent(){{}} }};
 const num = el => Math.max(parseFloat(el.value) || 0, 0);
+const bG = B_G ? $(B_G) : totalG;
 function nearLabel(r, arr){{
-  if(r >= Math.max(...arr)) return '設定1より重い';
-  if(r <= Math.min(...arr)) return '設定6より軽い';
+  if(r >= Math.max(...arr)) return `設定${{SETS[0]}}より重い`;
+  if(r <= Math.min(...arr)) return `設定${{SETS[N-1]}}より軽い`;
   let best = 0; arr.forEach((v, i) => {{ if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; }});
   return `設定${{SETS[best]}}付近`;
 }}
 const rate = (g, k) => k > 0 ? `1/${{(g/k).toFixed(1)}}` : '―';
-function live(el, cls, b, n){{
-  const g = num(totalG), k = num(el);
+function live(el, cls, b, n, gEl){{
+  const g = num(gEl || totalG), k = num(el);
   if(g > 0 && k > 0){{ $(b).textContent = rate(g, k); $(n).textContent = nearLabel(g/k, readCol(cls)); }}
   else {{ $(b).textContent = '―'; $(n).textContent = ''; }}
 }}
-function updateLive(){{ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote'); }}
-[totalG, aCount, bCount].forEach(el => el.addEventListener('input', updateLive));
+function updateLive(){{ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); }}
+[totalG, aCount, bCount, bG].forEach(el => el.addEventListener('input', updateLive));
 specBody.addEventListener('input', updateLive);
 
 // タップで足す（データカウンターのように）
 const undo = [];
 document.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => {{
-  const el = $(b.dataset.add), before = el.value;
-  el.value = num(el) + Number(b.dataset.n);
-  undo.push([el, before]); if(undo.length > 50) undo.shift();
-  el.dispatchEvent(new Event('input', {{ bubbles: true }}));
+  const step = b.dataset.add.split(',').map(id => {{ const el = $(id), before = el.value; el.value = num(el) + Number(b.dataset.n); return [el, before]; }});
+  undo.push(step); if(undo.length > 50) undo.shift();
+  step.forEach(([el]) => el.dispatchEvent(new Event('input', {{ bubbles: true }})));
 }}));
 $('undoBtn').addEventListener('click', () => {{
   const u = undo.pop(); if(!u) return;
-  u[0].value = u[1]; u[0].dispatchEvent(new Event('input', {{ bubbles: true }}));
+  u.forEach(([el, v]) => {{ el.value = v; el.dispatchEvent(new Event('input', {{ bubbles: true }})); }});
 }});
 
 // 示唆
@@ -375,22 +387,24 @@ floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
 const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
 function showMsg(t){{ $('topSetting').innerHTML = `<p style="margin:0;font-size:13px;color:var(--muted);">${{t}}</p>`; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; }}
 $('calcBtn').addEventListener('click', () => {{
-  const g = num(totalG), a = num(aCount), useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0;
-  if(g <= 0){{ showMsg('総回転（通常時）を入れてください。'); return; }}
+  const g = num(totalG), a = num(aCount), useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0;
+  if(g <= 0){{ showMsg({json.dumps(m.get('gmsg', '総回転（通常時）を入れてください。'), ensure_ascii=False)}); return; }}
   if(aCount.value.trim() === ''){{ showMsg(`${{LABEL_A}}の回数を入れてください（0回なら0）。`); return; }}
-  if(a > g || b > g){{ showMsg('回数がゲーム数を超えています。'); return; }}
+  if(useB && gb <= 0){{ showMsg({json.dumps((B or {}).get('gmsg', ''), ensure_ascii=False)}); return; }}
+  if(a > g || b > gb){{ showMsg('回数がゲーム数を超えています。'); return; }}
   const {{ allow, names }} = currentAllow();
   if(!allow.size){{ showMsg('押した示唆が矛盾しています。見間違いがないか確認してください。'); return; }}
   const av = readCol('aInput'), bv = readCol('bInput'), payout = readCol('payoutInput');
-  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : binomLL(a, g, 1/av[i]) + (useB ? binomLL(b, g, 1/bv[i]) : 0));
+  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : binomLL(a, g, 1/av[i]) + (useB ? binomLL(b, gb, 1/bv[i]) : 0));
   const mx = Math.max(...ll), w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - mx)), sum = w.reduce((x, y) => x + y, 0), post = w.map(x => x / sum);
   const exp = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
   if (typeof gtag === 'function') gtag('event', 'judge_run', {{ machine: {json.dumps(key)}, has_b: useB }});
-  const top = Math.max(...post), best = post.indexOf(top), hi = post[3] + post[4] + post[5];
-  $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${{i >= 3 ? ' hi' : ''}}${{allow.has(SETS[i]) ? '' : ' cut'}}"><span class="sl">設定${{SETS[i]}}</span><span class="track"><span class="swatch" style="width:${{top > 0 ? (p/top*100).toFixed(1) : 0}}%;"></span></span><span class="pct">${{(p*100).toFixed(1)}}%</span></div>`).join('');
+  const top = Math.max(...post), best = post.indexOf(top), hi = post.reduce((x, p, i) => x + (HI[i] ? p : 0), 0);
+  $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${{HI[i] ? ' hi' : ''}}${{allow.has(SETS[i]) ? '' : ' cut'}}"><span class="sl">設定${{SETS[i]}}</span><span class="track"><span class="swatch" style="width:${{top > 0 ? (p/top*100).toFixed(1) : 0}}%;"></span></span><span class="pct">${{(p*100).toFixed(1)}}%</span></div>`).join('');
   $('pieWrap').style.display = 'block';
-  const parts = [`通常時${{g}}G`, `${{LABEL_A}} ${{a}}回（${{rate(g, a)}}）`];
-  if(useB) parts.push(`${{LABEL_B}} ${{b}}回（${{rate(g, b)}}）`);
+  const parts = [`${{B_G ? {json.dumps(gshare, ensure_ascii=False)} : '通常時'}}${{g}}G`, `${{LABEL_A}} ${{a}}回（${{rate(g, a)}}）`];
+  if(useB && B_G) parts.push(`${{{json.dumps((B or {}).get('gshare',''), ensure_ascii=False)}}}${{gb}}G`);
+  if(useB) parts.push(`${{LABEL_B}} ${{b}}回（${{rate(gb, b)}}）`);
   if(names.length) parts.push(`示唆：${{names.join('・')}}`);
   let say;
   const minAllow = Math.min(...allow);
