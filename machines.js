@@ -1,12 +1,12 @@
 // 設定示唆くん 機種データ（トップ・全機種一覧の両方で使う）
 // 機種を足したら、ここに1件足して tools/build_lists.js を実行（静的HTMLを作り直す）
 // maker: メーカー（一覧のグループ分けに使う）／date: 導入日 YYYY-MM-DD（導入から45日間は「新台」に出る）
-// pin: true で「話題の機種」の先頭に固定（ジャグラー）
+// pin: true で「よく見られている台」の先頭に固定（2026-11-01 から使っていない。並びは週1回アクセス順で付け直す＝tools/set_hot.js）
 // series: シリーズ名（SERIES のキー。同じシリーズは1行にまとめて開閉）
 // 機種の一覧。ページを追加したらここに1件足す（status: 'ready' | 'soon'）
-// hot: 一覧の並び順（小さいほど上）。新台・Xで話題の機種を上にする。tag: 名前の横に出す短いラベル（空なら出さない）
+// hot: 一覧の並び順（小さいほど上）。週1回、直近7日のアクセスが多い順に tools/set_hot.js で付け直す。tag: 名前の横に出す短いラベル（空なら出さない）
 // keywords には略称・ひらがな・英字など検索で使われそうな呼び方を入れる
-// ease: 判別のしやすさ（オーナー決定 2026-10-24）。lv＝easy（しやすい）/normal（ふつう）/hard（しにくい）、key＝効く項目（しにくい機種は理由）、
+// ease: 判別のしやすさ（オーナー決定 2026-10-24、11-01に★表示へ）。サイトの★と言葉は lists.js が p3000 から出す（★4〜5＝easy しやすい／★2〜3＝normal ふつう／★1＝hard しにくい。区切り80・60・30・10%）。lv はそれに合わせた値、key＝効く項目（しにくい機種は理由）、
 //   p3000＝任意の項目も全部入れて3000G打った時に設定6の台で「高設定の合計80%以上」と出る割合（%）、d＝計算日。tools/ease_sim.py で計算し直す。
 var MACHINES = [
   {
@@ -14,11 +14,10 @@ var MACHINES = [
     sub: 'マイジャグラー6／ネオアイム／ウルトラミラクル／ミスター／ガールズSS／ゴーゴー3／ハッピーV3／マイジャグV／ファンキー2／SアイムEX',
     inputs: ['総回転数', 'BIG', 'REG', 'ぶどう（任意）'],
     path: 'juggler/',
-    pin: true,
     maker: '北電子',
     ease: { lv: 'normal', key: 'REG', p3000: 44, d: '2026-10-24' },
     status: 'ready',
-    hot: 1,
+    hot: 5,
     tag: 'マイジャグ6導入',
     keywords: 'ジャグラー じゃぐらー juggler ジャグ マイジャグ まいじゃぐ マイジャグラー6 マイジャグ6 アイム あいむ ネオアイム sアイム ウルトラミラクル ミラクル ミスター ガールズ ゴーゴー ごーごー gogo ハッピー ファンキー ふぁんきー'
   },
@@ -30,7 +29,7 @@ var MACHINES = [
     maker: '山佐',
     ease: { lv: 'easy', key: '5枚役', p3000: 100, d: '2026-10-24' },
     status: 'ready',
-    hot: 18,
+    hot: 7,
     tag: '',
     keywords: 'モンキーターン もんきーたーん モンキー もんきー モンキー5 モンキーv モンキーターン5 モンキーターンv もんきーたーんv 5枚役 ごまいやく monkey monkeyturn'
   },
@@ -43,7 +42,7 @@ var MACHINES = [
     date: '2026-10-05',
     ease: { lv: 'hard', key: 'AT初当りの差が約1.17倍と小さい', p3000: 2, d: '2026-10-24' },
     status: 'ready',
-    hot: 3,
+    hot: 8,
     tag: '新台',
     keywords: '獣王 じゅうおう ジュウオウ juuou サバンナチャンス スマスロ すますろ サミー 新台'
   },
@@ -53,9 +52,9 @@ var MACHINES = [
     inputs: ['通常時G数', 'CZ回数', '共通ベル（任意）', '終了画面・トロフィー'],
     path: 'lycoris/',
     maker: 'サミー',
-    ease: { lv: 'hard', key: 'CZの差が小さい', p3000: 26, d: '2026-10-24' },
+    ease: { lv: 'normal', key: 'CZの差が小さい', p3000: 26, d: '2026-10-24' },
     status: 'ready',
-    hot: 16,
+    hot: 17,
     tag: '',
     keywords: 'リコリスリコイル りこりすりこいる リコリコ りこりこ lycoris'
   },
@@ -66,9 +65,9 @@ var MACHINES = [
     path: 'sao2/',
     maker: 'パオン・ディーピー',
     date: '2026-06-08',
-    ease: { lv: 'hard', key: 'CZ・AT初当りとも差が小さめ', p3000: 22, d: '2026-10-24' },
+    ease: { lv: 'normal', key: 'CZ・AT初当りとも差が小さめ', p3000: 22, d: '2026-10-24' },
     status: 'ready',
-    hot: 14,
+    hot: 16,
     tag: 'キリト誕生日示唆',
     keywords: 'ソードアートオンライン そーどあーとおんらいん ソードアート・オンライン2 ソードアートオンライン2 sao sao2 SAOII さお えすえーおー'
   },
@@ -80,7 +79,7 @@ var MACHINES = [
     maker: 'SANKYO',
     ease: { lv: 'hard', key: 'CZ・ボーナスとも差が小さい', p3000: 4, d: '2026-10-24' },
     status: 'ready',
-    hot: 17,
+    hot: 18,
     tag: '',
     keywords: '彼女お借りします 彼女、お借りします かのじょおかりします かのかり カノカリ kanokari レンタル彼女 れんかの 千鶴 ちづる スマスロ すますろ SANKYO さんきょー 新台'
   },
@@ -91,9 +90,9 @@ var MACHINES = [
     path: 'mhsunbreak/',
     maker: 'アデリオン',
     date: '2026-10-05',
-    ease: { lv: 'hard', key: 'AT初当りしか判別要素がない', p3000: 18, d: '2026-10-24' },
+    ease: { lv: 'normal', key: 'AT初当りしか判別要素がない', p3000: 18, d: '2026-10-24' },
     status: 'ready',
-    hot: 4,
+    hot: 6,
     tag: '新台',
     keywords: 'モンスターハンターライズサンブレイク モンハンサンブレイク もんはんさんぶれいく サンブレイク さんぶれいく モンハン もんはん MHR mhrise sunbreak サンブレ さんぶれ スマスロ すますろ アデリオン エンターライズ 新台'
   },
@@ -104,9 +103,9 @@ var MACHINES = [
     path: 'milliongod/',
     maker: 'ミズホ',
     date: '2026-04-20',
-    ease: { lv: 'hard', key: 'AT初当りが重く回数が少ない', p3000: 22, d: '2026-10-24' },
+    ease: { lv: 'normal', key: 'AT初当りが重く回数が少ない', p3000: 22, d: '2026-10-24' },
     status: 'ready',
-    hot: 15,
+    hot: 1,
     tag: '',
     keywords: 'ミリオンゴッド みりおんごっど ゴッド ごっど GOD god milliongod 神々の軌跡 かみがみのきせき 軌跡 きせき ミリゴ みりご スマスロ すますろ ミズホ ユニバーサル リプ連 りぷれん 押し順ナビ'
   },
@@ -117,9 +116,9 @@ var MACHINES = [
     path: 'tenten/',
     maker: 'オリンピアエステート',
     date: '2026-10-05',
-    ease: { lv: 'hard', key: 'CZ・ボーナスとも差が小さめ', p3000: 19, d: '2026-10-24' },
+    ease: { lv: 'normal', key: 'CZ・ボーナスとも差が小さめ', p3000: 19, d: '2026-10-24' },
     status: 'ready',
-    hot: 5,
+    hot: 9,
     tag: '新台',
     keywords: '転生王女と天才令嬢の魔法革命 てんせいおうじょとてんさいれいじょうのまほうかくめい 転生王女 てんせいおうじょ 天才令嬢 てんさいれいじょう 魔法革命 まほうかくめい 転天 てんてん tenten アニス ユフィ エピソードバトル 王宮舞踏会 隠れ凪 スマスロ すますろ オリンピアエステート 平和 新台'
   },
@@ -130,9 +129,9 @@ var MACHINES = [
     path: 'paripi/',
     maker: '山佐ネクスト',
     date: '2026-10-05',
-    ease: { lv: 'hard', key: 'ボーナス・CZとも差が小さめ', p3000: 19, d: '2026-10-24' },
+    ease: { lv: 'normal', key: 'ボーナス・CZとも差が小さめ', p3000: 19, d: '2026-10-24' },
     status: 'ready',
-    hot: 6,
+    hot: 10,
     tag: '新台',
     keywords: 'パリピ孔明 ぱりぴこうめい パリピ ぱりぴ 孔明 こうめい 諸葛孔明 paripi koumei paripikoumei 英子 えいこ パーティータイム チキチキバンバン スマスロ すますろ 山佐 やまさ ヤマサ 新台'
   },
@@ -158,7 +157,7 @@ var MACHINES = [
     date: '2025-02-03',
     ease: { lv: 'normal', key: 'AT初当り・大喰いの利世・エピソードボーナス', p3000: 52, d: '2026-10-24' },
     status: 'ready',
-    hot: 7,
+    hot: 4,
     tag: '人気機種',
     keywords: '東京喰種 東京グール とうきょうぐーる トーキョーグール グール ぐーる 喰種 tokyoghoul tokyo ghoul 金木 カネキ かねき レミニセンス 大喰いの利世 リゼ 月山 招待状 赫眼 ナミちゃんトロフィー スマスロ すますろ スパイキー'
   },
@@ -169,9 +168,9 @@ var MACHINES = [
     path: 'kabaneri2/',
     maker: 'タイヨーエレック',
     date: '2026-03-02',
-    ease: { lv: 'hard', key: 'ボーナス初当り・下段ベルとも差が小さめ', p3000: 23, d: '2026-10-24' },
+    ease: { lv: 'normal', key: 'ボーナス初当り・下段ベルとも差が小さめ', p3000: 23, d: '2026-10-24' },
     status: 'ready',
-    hot: 8,
+    hot: 11,
     tag: '人気機種',
     keywords: '甲鉄城のカバネリ 海門決戦 こうてつじょうのかばねり うなとけっせん カバネリ かばねり カバネリ2 かばねり2 カバネリ海門 海門 うなと unato kabaneri kabaneri2 無名 むめい 生駒 いこま 景之 かげゆき 美馬 駿城ボーナス はやじろ カバネリボーナス 下段ベル 共通ベル サミートロフィー おみくじ アイテムくじ スマスロ すますろ サミー さみー sammy'
   },
@@ -184,7 +183,7 @@ var MACHINES = [
     date: '2026-10-19',
     ease: { lv: 'normal', key: 'CZ回数・CZの種類', p3000: 46, d: '2026-10-24' },
     status: 'ready',
-    hot: 2,
+    hot: 3,
     tag: '10/19新台',
     keywords: '魔法少女にあこがれて まほうしょうじょにあこがれて まほあこ マホアコ mahoako 魔法少女 まほうしょうじょ あこがれて トレスマジア マジアベーゼ まじあべーぜ ギンちゃん ぎんちゃん トランスマジア パネルアタック ヴェナリータ まほあこチャレンジ まほあこラッシュ 超あこがれ スマスロ すますろ ニューギン にゅーぎん newgin'
   },
@@ -198,7 +197,7 @@ var MACHINES = [
     series: 'hokuto',
     ease: { lv: 'easy', key: 'BB初当り・BB終了後ボイス', p3000: 70, d: '2026-10-24' },
     status: 'ready',
-    hot: 9,
+    hot: 12,
     tag: '人気機種',
     keywords: 'スマスロ北斗の拳 北斗の拳 ほくとのけん 北斗 ほくと ホクト スマスロ北斗 すますろほくと 北斗無印 hokuto hokutonoken ケンシロウ けんしろう ラオウ らおう ユリア ゆりあ リン バット シン サウザー ジャギ アミバ バトルボーナス BB 弱スイカ 強スイカ 中段チェリー リーチ目 サミートロフィー 456 666 スマスロ すますろ サミー さみー sammy タイヨーエレック'
   },
@@ -212,7 +211,7 @@ var MACHINES = [
     series: 'hokuto',
     ease: { lv: 'normal', key: '天破の刻', p3000: 30, d: '2026-10-24' },
     status: 'ready',
-    hot: 10,
+    hot: 13,
     tag: '人気機種',
     keywords: 'スマスロ北斗の拳 転生の章2 北斗の拳 転生の章2 北斗転生2 北斗転生 転生2 転生の章 てんせいのしょう ほくとてんせい ほくと 北斗 hokuto tensei tensei2 ケンシロウ けんしろう あべし 天破の刻 てんぱのとき 天撃 神拳勝舞 伝承モード サミートロフィー 中央ランプ 白点灯 白点滅 スマスロ すますろ サミー さみー sammy 銀座 ginza'
   },
@@ -223,9 +222,9 @@ var MACHINES = [
     path: 'otome5/',
     maker: 'オリンピア',
     date: '2026-06-08',
-    ease: { lv: 'hard', key: '乙女ボーナスの出現が重い', p3000: 19, d: '2026-10-24' },
+    ease: { lv: 'normal', key: '乙女ボーナスの出現が重い', p3000: 19, d: '2026-10-24' },
     status: 'ready',
-    hot: 11,
+    hot: 14,
     tag: '人気機種',
     keywords: 'L戦国乙女5 戦国乙女5 業火を穿つ宿焔の双刃 戦国乙女 せんごくおとめ おとめ 乙女5 乙女 otome otome5 sengoku オリンピア olympia 平和 heiwa ノブナガ のぶなが ゴエモン ごえもん ミツヒデ ヒデヨシ 出陣ボーナス 戦国乙女ボーナス 乙女アタック 乙女ポイント 強カワチャンス 本能寺の変 繚乱の刻 紫炎 スタンプ 隠れ凪 ハルルナ スマスロ すますろ'
   },
@@ -238,7 +237,7 @@ var MACHINES = [
     date: '2026-07-06',
     ease: { lv: 'hard', key: 'AT初当りが重く差も小さい', p3000: 0, d: '2026-10-24' },
     status: 'ready',
-    hot: 12,
+    hot: 2,
     tag: '人気機種',
     keywords: 'Lパチスロ からくりサーカス2 からくりサーカス2 からくりサーカス からくり2 からくり カラクリ karakuri karakuri2 SANKYO さんきょー サンキョー 鳴海 勝 しろがね エレオノール フランシーヌ 最古の四人 あるるかん 機械仕掛けの女神 幕間チャンス 劇場ジャッジ 激情ジャッジ 運命の一劇 運命盤 ショータイム SHOW TIME オリンピア スマスロ すますろ'
   },
@@ -251,7 +250,7 @@ var MACHINES = [
     date: '2026-08-03',
     ease: { lv: 'hard', key: '通常時の設定差が小さい', p3000: 5, d: '2026-10-24' },
     status: 'ready',
-    hot: 13,
+    hot: 15,
     tag: '人気機種',
     keywords: 'Lとある魔術の禁書目録2 とある魔術の禁書目録2 とある魔術の禁書目録 禁書目録2 禁書目録 禁書2 禁書 きんしょ きんしょもくろく インデックス いんでっくす index index2 とある 藤商事 ふじしょうじ 上条当麻 当麻 とうま 御坂美琴 美琴 みこと 一方通行 アクセラレータ 打ち止め ラストオーダー 番外個体 白井黒子 黒子 初春 アリサ シャットアウラ 藤丸コイン スマスロ すますろ'
   },
@@ -291,7 +290,7 @@ var MACHINES = [
     maker: 'コナミアミューズメント',
     date: '2021-09-21',
     series: 'magihallo',
-    ease: { lv: 'hard', key: 'ART初当りの差が小さく、ART中ハズレは出現が重い', p3000: 16, d: '2026-10-24' },
+    ease: { lv: 'normal', key: 'ART初当りの差が小さく、ART中ハズレは出現が重い', p3000: 16, d: '2026-10-24' },
     status: 'ready',
     hot: 22,
     tag: '',
@@ -304,7 +303,7 @@ var MACHINES = [
     path: 'hanahana-houou/',
     maker: 'パイオニア',
     series: 'hanahana',
-    ease: { lv: 'hard', key: 'BIG・REGの差が小さく、REG後ランプなどの示唆頼み', p3000: 22, d: '2026-10-24' },
+    ease: { lv: 'normal', key: 'BIG・REGの差が小さく、REG後ランプなどの示唆頼み', p3000: 22, d: '2026-10-24' },
     status: 'ready',
     hot: 23,
     tag: '',
@@ -317,7 +316,7 @@ var MACHINES = [
     path: 'hanahana-newkingv/',
     maker: 'パイオニア',
     series: 'hanahana',
-    ease: { lv: 'hard', key: 'BIG・REGの差が小さく、REG後ランプなどの示唆頼み', p3000: 22, d: '2026-10-24' },
+    ease: { lv: 'normal', key: 'BIG・REGの差が小さく、REG後ランプなどの示唆頼み', p3000: 22, d: '2026-10-24' },
     status: 'ready',
     hot: 24,
     tag: '',
@@ -330,7 +329,7 @@ var MACHINES = [
     path: 'hanahana-king/',
     maker: 'パイオニア',
     series: 'hanahana',
-    ease: { lv: 'hard', key: 'BIG・REGの差が小さく、REG後ランプなどの示唆頼み', p3000: 22, d: '2026-10-24' },
+    ease: { lv: 'normal', key: 'BIG・REGの差が小さく、REG後ランプなどの示唆頼み', p3000: 22, d: '2026-10-24' },
     status: 'ready',
     hot: 25,
     tag: '',
@@ -343,7 +342,7 @@ var MACHINES = [
     path: 'hanahana-star/',
     maker: 'パイオニア',
     series: 'hanahana',
-    ease: { lv: 'hard', key: 'BIG・REGの差が小さく、REG後ランプなどの示唆頼み', p3000: 22, d: '2026-10-24' },
+    ease: { lv: 'normal', key: 'BIG・REGの差が小さく、REG後ランプなどの示唆頼み', p3000: 22, d: '2026-10-24' },
     status: 'ready',
     hot: 26,
     tag: '',
@@ -356,7 +355,7 @@ var MACHINES = [
     path: 'hanahana-dragon/',
     maker: 'パイオニア',
     series: 'hanahana',
-    ease: { lv: 'hard', key: 'BIG・REGの差が小さく、REG後ランプなどの示唆頼み', p3000: 22, d: '2026-10-24' },
+    ease: { lv: 'normal', key: 'BIG・REGの差が小さく、REG後ランプなどの示唆頼み', p3000: 22, d: '2026-10-24' },
     status: 'ready',
     hot: 27,
     tag: '',
@@ -395,7 +394,7 @@ var MACHINES = [
     path: 'okidoki-duo/',
     maker: 'メーシー',
     date: '2025-12-22',
-    ease: { lv: 'hard', key: '初当り・チェリー', p3000: 18, d: '2026-10-24' },
+    ease: { lv: 'normal', key: '初当り・チェリー', p3000: 18, d: '2026-10-24' },
     status: 'ready',
     hot: 30,
     tag: '',
@@ -460,7 +459,7 @@ var MACHINES = [
     path: 'ragnador/',
     maker: 'ミズホ',
     date: '2026-11-02',
-    ease: { lv: 'hard', key: 'CZ・AT初当り', p3000: 17, d: '2026-10-27' },
+    ease: { lv: 'normal', key: 'CZ・AT初当り', p3000: 17, d: '2026-10-27' },
     status: 'ready',
     hot: 35,
     tag: '11/2新台',
@@ -473,7 +472,7 @@ var MACHINES = [
     path: 'ggo/',
     maker: 'オッケー.',
     date: '2026-11-02',
-    ease: { lv: 'hard', key: 'ST・初当り', p3000: 17, d: '2026-10-27' },
+    ease: { lv: 'normal', key: 'ST・初当り', p3000: 17, d: '2026-10-27' },
     status: 'ready',
     hot: 36,
     tag: '11/2新台',

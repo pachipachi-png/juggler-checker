@@ -16,12 +16,14 @@ const put = (s, tag, html) => {
 const t = ctx.SSList.renderTop(today), l = ctx.SSList.renderList();
 let top = fs.readFileSync(path.join(R, 'index.html'), 'utf8');
 top = put(top, 'NEW', '\n' + t.newHtml + '\n');
+top = put(top, 'EASY', '\n' + t.easyHtml + '\n');
 top = put(top, 'HOT', '\n' + t.hotHtml + '\n');
 top = put(top, 'ALL', `全機種一覧を見る（${t.total}機種・メーカー別）`);
 fs.writeFileSync(path.join(R, 'index.html'), top);
 let ls = fs.readFileSync(path.join(R, 'list/index.html'), 'utf8');
 ls = put(ls, 'COUNT', `設定判別できる${l.total}機種`);
 ls = put(ls, 'JUMP', l.jump);
+ls = put(ls, 'EASE', '\n' + l.byEase + '\n');
 ls = put(ls, 'LIST', '\n' + l.body + '\n');
 fs.writeFileSync(path.join(R, 'list/index.html'), ls);
 console.log('基準日', day, '新台', t.newCount, '全', t.total);
