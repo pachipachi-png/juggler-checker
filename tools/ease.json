@@ -89,11 +89,11 @@
  },
  "mhsunbreak/": {
   "name": "サンブレイク",
-  "req3000": 19,
-  "all3000": 18,
-  "all5000": 33,
-  "false1": 1.6,
-  "lv": "hard"
+  "req3000": 18,
+  "all3000": 56,
+  "all5000": 74,
+  "false1": 2.0,
+  "lv": "normal"
  },
  "kabaneri2/": {
   "name": "カバネリ海門",
