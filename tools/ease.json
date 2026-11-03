@@ -138,10 +138,10 @@
  "lycoris/": {
   "name": "リコリス",
   "req3000": 1,
-  "all3000": 26,
-  "all5000": 44,
-  "false1": 2.2,
-  "lv": "hard"
+  "all3000": 34,
+  "all5000": 53,
+  "false1": 2.8,
+  "lv": "normal"
  },
  "kanokari/": {
   "name": "かのかり",

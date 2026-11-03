@@ -1,6 +1,6 @@
 # 新デザイン（データカウンター風、2026-10-30 オーナー決定）の機種ページを作る。
 # 使い方（リポジトリのルートで）：python3 tools/design_a/genA.py tools/design_a/<key>.py
-# データファイルは m = dict(...) 。B（2つ目の回数）・checks（示唆）・warn・extra_js は省略できる。
+# データファイルは m = dict(...) 。B（2つ目の回数）・C（3つ目の回数、任意・総回転で割る）・checks（示唆）・warn・extra_js は省略できる。
 # 作り直すとその機種の index.html を上書きする（関連リンク <!--RELATED--> は今のページから引き継ぐ）。
 import json, re, sys, os
 R = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')) + '/'
@@ -14,6 +14,9 @@ A, B = m['A'], m.get('B')
 SETS = m.get('sets', [1,2,3,4,5,6]); N = len(SETS)
 BB = B or dict(id='_noB', label='', btn='', spec=[1]*N)
 decA, decB = A.get('dec', 1), (B or {}).get('dec', 1)
+C = m.get('C')  # 3つ目の回数（任意入力。総回転で割る）
+CC = C or dict(id='_noC', label='', btn='', spec=[1]*N)
+decC = (C or {}).get('dec', 1)
 BG = (B or {}).get('gid')  # 2つ目の回数を別のG数で割るとき（例：5枚役は総G、AT初当りは通常時G）
 gq, glab, gshare, gcount = m.get('qg', 'g'), m.get('glab', '総回転'), m.get('gshare', '通常時'), m.get('gcount', '通常時G数')
 setrange = f'設定{SETS[0]}〜{SETS[-1]}' + ('（設定3なし）' if 3 not in SETS else '')
@@ -27,14 +30,14 @@ for grp, cols, items in m.get('checks', []):
     chk += '        </div>\n'
 refs = ''.join(f'        <li>{x}</li>\n' for x in m.get('refs', []))
 know = ''.join(f'      <li>{x}</li>\n' for x in m['know'])
-rows = ''.join(f'        <tr{" class=\"hi\"" if SETS[i]>=4 else ""}><td>{SETS[i]}</td><td>{A["spec"][i]:.{decA}f}</td>{f'<td>{B["spec"][i]:.{decB}f}</td>' if B else ''}<td>{m["payout"][i]:.1f}</td></tr>\n' for i in range(N))
+rows = ''.join(f'        <tr{" class=\"hi\"" if SETS[i]>=4 else ""}><td>{SETS[i]}</td><td>{A["spec"][i]:.{decA}f}</td>{f'<td>{B["spec"][i]:.{decB}f}</td>' if B else ''}{f'<td>{C["spec"][i]:.{decC}f}</td>' if C else ''}<td>{m["payout"][i]:.1f}</td></tr>\n' for i in range(N))
 uchi = ''.join(f'    <h3>{h}</h3>\n    <ol class="steps">\n' + ''.join(f'      <li>{s}</li>\n' for s in st) + '    </ol>\n' for h, st in m['uchi'])
 links = ''.join(f'    <a class="outlink ref-out" data-sec="uchikata{i or ""}" href="{u}" target="_blank" rel="noopener">{t} ↗</a>\n' for i, (u, t) in enumerate(m['links']))
 guide = ''.join(f'    <h3>{h}</h3>\n    <p>{p}</p>\n' for h, p in m['guide'])
 share = json.dumps({"key": key, "name": m['full'], "tags": m['tags'], "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [
     {"id": "totalG", "q": gq, "label": gshare, "unit": "G"},
-    {"id": A['id'], "q": m['qa'], "label": A['label'], "unit": "回", "rateOf": "totalG"}] + ([{"id": BG, "q": B['gq'], "label": B['gshare'], "unit": "G"}] if BG else []) + ([{"id": B['id'], "q": m['qb'], "label": B['label'], "unit": "回", "rateOf": BG or "totalG"}] if B else [])}], **({"hints": "#floorGroup input[type=checkbox]"} if hasChecks else {})}, ensure_ascii=False)
-ccfg = {"key": key, "name": m['cname'], "g": {"id": "totalG", "label": gcount}, "counts": [{"id": A['id'], "label": A['label']}] + ([{"id": B['id'], "label": B['label'], "optional": True, **({"rateG": BG} if BG else {})}] if B else []), "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": m['cnote']}
+    {"id": A['id'], "q": m['qa'], "label": A['label'], "unit": "回", "rateOf": "totalG"}] + ([{"id": BG, "q": B['gq'], "label": B['gshare'], "unit": "G"}] if BG else []) + ([{"id": B['id'], "q": m['qb'], "label": B['label'], "unit": "回", "rateOf": BG or "totalG"}] if B else []) + ([{"id": C['id'], "q": m['qc'], "label": C['label'], "unit": "回", "rateOf": "totalG"}] if C else [])}], **({"hints": "#floorGroup input[type=checkbox]"} if hasChecks else {})}, ensure_ascii=False)
+ccfg = {"key": key, "name": m['cname'], "g": {"id": "totalG", "label": gcount}, "counts": [{"id": A['id'], "label": A['label']}] + ([{"id": B['id'], "label": B['label'], "optional": True, **({"rateG": BG} if BG else {})}] if B else []) + ([{"id": C['id'], "label": C['label'], "optional": True}] if C else []), "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": m['cnote']}
 if hasChecks: ccfg["checks"] = {"selector": "#floorGroup input[type=checkbox]", "title": m['checktitle'], "short": "示唆", "optional": True}
 if BG: ccfg["g2"] = [{"id": BG, "label": B['gcount'], "item": B['id']}]
 counter = json.dumps(ccfg, ensure_ascii=False)
@@ -43,8 +46,11 @@ bgtap = f'''<button type="button" data-add="{BG},totalG" data-n="100">{B['gbtn']
 bcell = f'''<div><label for="{B['id']}">{B['label']}{'（任意）' if B.get('opt') else ''}</label><input type="number" id="{B['id']}" inputmode="numeric" placeholder="-"></div>''' if B else ''
 btap = f'''<button type="button" data-add="{B['id']}" data-n="1">{B['btn']} +1</button>''' if B else ''
 brate = f'''<span>{B['btn']} <b id="liveB">―</b><small id="liveBNote"></small></span>''' if B else ''
-cellcols = 2 if BG else (3 if B else 2)
-tapcols = 3 if BG else (4 if B else 3)
+ccell = f'''<div><label for="{C['id']}">{C['label']}（任意）</label><input type="number" id="{C['id']}" inputmode="numeric" placeholder="-"></div>''' if C else ''
+ctap = f'''<button type="button" data-add="{C['id']}" data-n="1">{C['btn']} +1</button>''' if C else ''
+crate = f'''<span>{C['btn']} <b id="liveC">―</b><small id="liveCNote"></small></span>''' if C else ''
+cellcols = 2 if (BG or C) else (3 if B else 2)
+tapcols = 3 if (BG or C) else (4 if B else 3)
 newtag_html = f'''    <span class="new" style="font-weight:800;">{m['newtag']}</span>\n''' if m.get('newtag') else ''
 img_html = f'''<img src="{m['img'][0]}" width="140" height="{round(140*397/260)}" alt="{m['img'][2]}">''' if m.get('img') else ''
 warn_html = f'''<p class="warn">{m['warn']}</p>''' if m.get('warn') else ''
@@ -61,6 +67,7 @@ else:
     <div id="floorGroup"></div>
     <p class="floor" id="floorNow" style="font-size:13px;color:var(--text);">{m['nohint']}</p>''' + (('\n    <ul class="refs">\n' + refs + '    </ul>') if m.get('refs') else '')
 th_b = f"<th>{B['label']}</th>" if B else ''
+if C: th_b += f"<th>{C['label']}</th>"
 
 html = f'''<!DOCTYPE html>
 <html lang="ja">
@@ -234,17 +241,20 @@ html = f'''<!DOCTYPE html>
     <div><label for="{A['id']}">{A['label']}</label><input type="number" id="{A['id']}" inputmode="numeric" placeholder="0"></div>
     {bgcell}
     {bcell}
+    {ccell}
   </div>
   <div class="taps" style="grid-template-columns:repeat({tapcols},minmax(0,1fr));">
     <button type="button" data-add="totalG" data-n="100">+100G</button>
     <button type="button" data-add="{A['id']}" data-n="1">{A['btn']} +1</button>
     {bgtap}
     {btap}
+    {ctap}
     <button type="button" class="undo" id="undoBtn">1つ戻す</button>
   </div>
   <div class="rates dot">
     <span>{A['btn']} <b id="liveA">―</b><small id="liveANote"></small></span>
     {brate}
+    {crate}
   </div>
   <p class="hint">{m['inhint']}</p>
 </div>
@@ -323,19 +333,20 @@ html = f'''<!DOCTYPE html>
 
 <script>
 const SETS = {json.dumps(SETS)}, N = SETS.length, HI = SETS.map(s => s >= 4);
-const DEC_A = {decA}, DEC_B = {decB}, B_G = {json.dumps(BG)};
-const HAS_B = {'true' if B else 'false'}, HAS_CHECKS = {'true' if hasChecks else 'false'};
-const SPEC = {{ a: {json.dumps(A['spec'])}, b: {json.dumps(BB['spec'])}, payout: {json.dumps(m['payout'])} }};
-const BET = 3, LABEL_A = {json.dumps(A['label'], ensure_ascii=False)}, LABEL_B = {json.dumps(BB['label'], ensure_ascii=False)};
+const DEC_A = {decA}, DEC_B = {decB}, DEC_C = {decC}, B_G = {json.dumps(BG)};
+const HAS_B = {'true' if B else 'false'}, HAS_C = {'true' if C else 'false'}, HAS_CHECKS = {'true' if hasChecks else 'false'};
+const SPEC = {{ a: {json.dumps(A['spec'])}, b: {json.dumps(BB['spec'])}, c: {json.dumps(CC['spec'])}, payout: {json.dumps(m['payout'])} }};
+const BET = 3, LABEL_A = {json.dumps(A['label'], ensure_ascii=False)}, LABEL_B = {json.dumps(BB['label'], ensure_ascii=False)}, LABEL_C = {json.dumps(CC['label'], ensure_ascii=False)};
 const $ = id => document.getElementById(id);
 const specBody = $('specBody');
 for(let s=0; s<N; s++){{
   const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${{SETS[s]}}</td><td><input type="number" step="0.1" class="aInput" value="${{SPEC.a[s].toFixed(DEC_A)}}"></td>${{HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${{SPEC.b[s].toFixed(DEC_B)}}"></td>` : ''}}<td><input type="number" step="0.1" class="payoutInput" value="${{SPEC.payout[s].toFixed(1)}}"></td>`;
+  tr.innerHTML = `<td>${{SETS[s]}}</td><td><input type="number" step="0.1" class="aInput" value="${{SPEC.a[s].toFixed(DEC_A)}}"></td>${{HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${{SPEC.b[s].toFixed(DEC_B)}}"></td>` : ''}}${{HAS_C ? `<td><input type="number" step="0.1" class="cInput" value="${{SPEC.c[s].toFixed(DEC_C)}}"></td>` : ''}}<td><input type="number" step="0.1" class="payoutInput" value="${{SPEC.payout[s].toFixed(1)}}"></td>`;
   specBody.appendChild(tr);
 }}
 const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
 const totalG = $('totalG'), aCount = $({json.dumps(A['id'])}), bCount = $({json.dumps(BB['id'])}) || {{ value: '', addEventListener(){{}}, dispatchEvent(){{}} }};
+const cCount = $({json.dumps(CC['id'])}) || {{ value: '', addEventListener(){{}}, dispatchEvent(){{}} }};
 const num = el => Math.max(parseFloat(el.value) || 0, 0);
 const bG = B_G ? $(B_G) : totalG;
 function nearLabel(r, arr){{
@@ -350,8 +361,8 @@ function live(el, cls, b, n, gEl){{
   if(g > 0 && k > 0){{ $(b).textContent = rate(g, k); $(n).textContent = nearLabel(g/k, readCol(cls)); }}
   else {{ $(b).textContent = '―'; $(n).textContent = ''; }}
 }}
-function updateLive(){{ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); }}
-[totalG, aCount, bCount, bG].forEach(el => el.addEventListener('input', updateLive));
+function updateLive(){{ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); if(HAS_C) live(cCount, 'cInput', 'liveC', 'liveCNote'); }}
+[totalG, aCount, bCount, cCount, bG].forEach(el => el.addEventListener('input', updateLive));
 specBody.addEventListener('input', updateLive);
 
 // タップで足す（データカウンターのように）
@@ -387,24 +398,25 @@ floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
 const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
 function showMsg(t){{ $('topSetting').innerHTML = `<p style="margin:0;font-size:13px;color:var(--muted);">${{t}}</p>`; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; }}
 $('calcBtn').addEventListener('click', () => {{
-  const g = num(totalG), a = num(aCount), useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0;
+  const g = num(totalG), a = num(aCount), useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
   if(g <= 0){{ showMsg({json.dumps(m.get('gmsg', '総回転（通常時）を入れてください。'), ensure_ascii=False)}); return; }}
   if(aCount.value.trim() === ''){{ showMsg(`${{LABEL_A}}の回数を入れてください（0回なら0）。`); return; }}
   if(useB && gb <= 0){{ showMsg({json.dumps((B or {}).get('gmsg', ''), ensure_ascii=False)}); return; }}
-  if(a > g || b > gb){{ showMsg('回数がゲーム数を超えています。'); return; }}
+  if(a > g || b > gb || c > g){{ showMsg('回数がゲーム数を超えています。'); return; }}
   const {{ allow, names }} = currentAllow();
   if(!allow.size){{ showMsg('押した示唆が矛盾しています。見間違いがないか確認してください。'); return; }}
-  const av = readCol('aInput'), bv = readCol('bInput'), payout = readCol('payoutInput');
-  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : binomLL(a, g, 1/av[i]) + (useB ? binomLL(b, gb, 1/bv[i]) : 0));
+  const av = readCol('aInput'), bv = readCol('bInput'), cv = readCol('cInput'), payout = readCol('payoutInput');
+  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : binomLL(a, g, 1/av[i]) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0));
   const mx = Math.max(...ll), w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - mx)), sum = w.reduce((x, y) => x + y, 0), post = w.map(x => x / sum);
   const exp = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
-  if (typeof gtag === 'function') gtag('event', 'judge_run', {{ machine: {json.dumps(key)}, has_b: useB }});
+  if (typeof gtag === 'function') gtag('event', 'judge_run', {{ machine: {json.dumps(key)}, has_b: useB{', has_c: useC' if C else ''} }});
   const top = Math.max(...post), best = post.indexOf(top), hi = post.reduce((x, p, i) => x + (HI[i] ? p : 0), 0);
   $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${{HI[i] ? ' hi' : ''}}${{allow.has(SETS[i]) ? '' : ' cut'}}"><span class="sl">設定${{SETS[i]}}</span><span class="track"><span class="swatch" style="width:${{top > 0 ? (p/top*100).toFixed(1) : 0}}%;"></span></span><span class="pct">${{(p*100).toFixed(1)}}%</span></div>`).join('');
   $('pieWrap').style.display = 'block';
   const parts = [`${{B_G ? {json.dumps(gshare, ensure_ascii=False)} : '通常時'}}${{g}}G`, `${{LABEL_A}} ${{a}}回（${{rate(g, a)}}）`];
   if(useB && B_G) parts.push(`${{{json.dumps((B or {}).get('gshare',''), ensure_ascii=False)}}}${{gb}}G`);
   if(useB) parts.push(`${{LABEL_B}} ${{b}}回（${{rate(gb, b)}}）`);
+  if(useC) parts.push(`${{LABEL_C}} ${{c}}回`);
   if(names.length) parts.push(`示唆：${{names.join('・')}}`);
   let say;
   const minAllow = Math.min(...allow);
