@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>スマスロ リコリス・リコイル設定判別ツール（CZ確率・共通ベル・ラッシュ直撃・トロフィー） | 設定示唆くん</title>
-<meta name="description" content="スマスロ リコリス・リコイル（リコリコ・サミー）の設定判別ツール。通常時の回転数とCZ回数を入れるだけで設定1〜6の可能性を計算。共通ベル（右下がりベル）とラッシュ直撃の回数、サミートロフィー・ラッシュ終了画面・私服で設定を絞り込めます。打ち方・天井つき。">
+<title>スマスロ リコリス・リコイル設定判別ツール（CZ確率・共通ベル・ラッシュ直撃・変換高確・トロフィー） | 設定示唆くん</title>
+<meta name="description" content="スマスロ リコリス・リコイル（リコリコ・サミー）の設定判別ツール。通常時の回転数とCZ回数を入れるだけで設定1〜6の可能性を計算。共通ベル（右下がりベル）・ラッシュ直撃の回数、150G・弱リコリス目からの変換高確移行、400GのCZ当選、サミートロフィー・ラッシュ終了画面・私服で設定を絞り込めます。打ち方・天井つき。">
 <link rel="canonical" href="https://pachipachi-png.com/lycoris/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="設定示唆くん">
 <meta property="og:title" content="リコリコ設定判別ツール | 設定示唆くん">
-<meta property="og:description" content="通常時G数・CZ回数（＋共通ベル・ラッシュ直撃）を入れるだけ。トロフィー・終了画面で設定を絞り込み。">
+<meta property="og:description" content="通常時G数・CZ回数（＋共通ベル・直撃・変換高確・400G CZ）を入れるだけ。トロフィー・終了画面で設定を絞り込み。">
 <meta property="og:url" content="https://pachipachi-png.com/lycoris/">
 <meta property="og:image" content="https://pachipachi-png.com/ogp.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -64,6 +64,7 @@
   .rates small{font-size:11px;margin-left:4px;}
   .hint{font-size:12px;color:var(--muted);line-height:1.6;margin:6px 0 0;}
   .data .hint{margin:8px 0 0;font-size:11.5px;color:var(--muted);line-height:1.6;}
+  .pdata{margin-top:10px;} .pdata .sub{margin:10px 0 4px;} .pdata .sub:first-of-type{margin-top:0;} .pdata .cells input{font-size:22px;} .pdata .taps button{height:44px;}
   .judge{display:block;width:calc(100% - 32px);margin:12px 16px 0;height:54px;background:var(--amber);color:var(--bg);border:none;border-radius:4px;font-family:inherit;font-weight:800;font-size:17px;letter-spacing:.08em;cursor:pointer;}
   .judge:active{transform:translateY(1px);}
   section{margin:24px 16px 0;}
@@ -187,6 +188,40 @@
   </div>
   <p class="hint">G数・ベルは通常時だけ（CZ・ラッシュ・ボーナス中は数えない）。共通ベルは左上段・中中段・右下段の右下がり。ラッシュ直撃はCZを経由せずにラッシュへ当たった回数（アフターエピソードが始まる）。850G天井での当選は数えません。空欄の項目は計算に使いません。</p>
 </div>
+<div class="data pdata">
+  <div class="data-h"><span class="dot">DATA 2</span><small>任意。迷ったものは数えない</small></div>
+  <p class="sub">150G → 変換高確</p>
+  <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+    <div><label for="g150">150G到達（合計）</label><input type="number" id="g150" inputmode="numeric" placeholder="-"></div>
+    <div><label for="k150">うち高確（帯あり）</label><input type="number" id="k150" inputmode="numeric" placeholder="-"></div>
+  </div>
+  <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+    <button type="button" data-add="g150" data-n="1">帯なし +1</button>
+    <button type="button" data-add="k150,g150" data-n="1">帯あり +1</button>
+  </div>
+  <div class="rates dot"><span>150G高確 <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  <p class="sub">弱リコリス目 → 変換高確</p>
+  <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+    <div><label for="gjr">弱リコリス目（合計）</label><input type="number" id="gjr" inputmode="numeric" placeholder="-"></div>
+    <div><label for="kjr">うち高確（帯あり）</label><input type="number" id="kjr" inputmode="numeric" placeholder="-"></div>
+  </div>
+  <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+    <button type="button" data-add="gjr" data-n="1">帯なし +1</button>
+    <button type="button" data-add="kjr,gjr" data-n="1">帯あり +1</button>
+  </div>
+  <div class="rates dot"><span>弱リコ高確 <b id="liveP1">―</b><small id="livePNote1"></small></span></div>
+  <p class="sub">400G → CZ</p>
+  <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+    <div><label for="g400">400G到達（合計）</label><input type="number" id="g400" inputmode="numeric" placeholder="-"></div>
+    <div><label for="k400">うちCZ当選</label><input type="number" id="k400" inputmode="numeric" placeholder="-"></div>
+  </div>
+  <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+    <button type="button" data-add="g400" data-n="1">CZなし +1</button>
+    <button type="button" data-add="k400,g400" data-n="1">CZ当選 +1</button>
+  </div>
+  <div class="rates dot"><span>400G CZ <b id="liveP2">―</b><small id="livePNote2"></small></span></div>
+  <p class="hint">ゲーム数は前回のCZ（ラッシュ）後から数えた通常時のゲーム数。<b>確実なものだけ</b>数えます。<br>・150G：通常の状態（帯なし・前兆なし）で150Gを迎えた時だけ「到達」。そこで「変換高確率中」の帯が出たら「帯あり」。直前のレア役で高確・前兆に入っていた時は数えない<br>・弱リコリス目：通常の状態で成立した時だけ。直後に帯が出たら「帯あり」。変換演出やCZの前兆が始まった時は数えない<br>・400G：CZにもラッシュにも当たらずに400Gを迎えた時が「到達」。400Gからの前兆でCZに当たったら「CZ当選」。前兆中にレア役を引いた時は数えない<br>高確に移っても約1割は帯が出ないため、計算では「帯が見える割合＝移行率×0.9」として扱います。</p>
+</div>
 <button class="judge" id="calcBtn">判別する</button>
 
 <section id="result">
@@ -237,7 +272,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/03</span><p>新しいデザインに作り直し、ラッシュ直撃の回数を入れられるようにしました（3つの解析サイトで数値が一致）。直撃はめったに出ないので、0回でも低設定とは言えません。空欄なら計算に使わないので、数えていない時は空けておいてください。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/03</span><p>新しいデザインに作り直し、ラッシュ直撃と、150G・弱リコリス目からの変換高確、400GのCZ当選を入れられるようにしました。150Gの設定2・3と弱リコリス目の設定2はP-WORLDだけに載っている値です。どれも空欄なら計算に使わないので、確実に数えたものだけ入れてください。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -245,6 +280,8 @@
       <li><b>CZ</b> 1/198.7→1/169.4（約1.17倍）。天井は最大600G＋α（設定変更後・ラッシュ駆け抜け後は250G）なので、少ない回転数ではブレが大きい</li>
       <li><b>共通ベル</b> 設定1〜3は1/95.8で共通、設定4 1/87.6、5 1/83.2、6 1/79.1。設定4以上かどうかを見るのに向く</li>
       <li><b>ラッシュ直撃</b> 1/22429.5→1/6263.7（約3.6倍）。CZを経由せずにラッシュに当たると、プロローグではなくアフターエピソードが始まる。最大天井（850G＋α）での当選は直撃に数えない</li>
+      <li><b>変換高確</b> 150G到達時の移行率 50.0%→62.5%、弱リコリス目からの移行率 38.3%→44.9%。150G以外のゲーム数（50G・300G・450Gなど）には設定差がない。移っても約1割は「変換高確率中」の帯が出ない</li>
+      <li><b>400GのCZ当選率</b> 10.9%→25.4%（約2.3倍）。CZにもラッシュにも当たらずに400Gを迎えた時の割合</li>
       <li>ラッシュ初当り（参考）1/328.8→1/256.7。CZからの当選も含むので、このツールではCZと直撃に分けて入れる</li>
       <li>天井：ラッシュ間850G＋α（設定変更後・ラッシュ駆け抜け後は600G）</li>
   </ul>
@@ -264,6 +301,18 @@
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。CZ・ラッシュ直撃は1geki・ちょんぼりすた・スロパチクエストで一致。共通ベルの設定2・3は1gekiなどで空欄（セル結合の表示）、P-WORLD・アルテマで1/95.8。機械割はP-WORLDほか。</p>
+  <table class="t" style="margin-top:14px;">
+    <thead><tr><th>設定</th><th>150G高確</th><th>弱リコ高確</th><th>400G CZ</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>50.0%</td><td>38.3%</td><td>10.9%</td></tr>
+        <tr><td>2</td><td>50.0%</td><td>38.3%</td><td>11.7%</td></tr>
+        <tr><td>3</td><td>50.0%</td><td>39.1%</td><td>14.5%</td></tr>
+        <tr class="hi"><td>4</td><td>54.7%</td><td>41.0%</td><td>16.8%</td></tr>
+        <tr class="hi"><td>5</td><td>58.6%</td><td>43.0%</td><td>19.5%</td></tr>
+        <tr class="hi"><td>6</td><td>62.5%</td><td>44.9%</td><td>25.4%</td></tr>
+    </tbody>
+  </table>
+  <p class="note">変換高確移行率・400G CZ当選率（%）。150Gの設定1・4〜6、弱リコリス目の設定1・3〜6、400Gの全設定は1geki・ちょんぼりすた・P-WORLDで一致。150Gの設定2・3と弱リコリス目の設定2はP-WORLDのみ（ほかのサイトは空欄）。帯が出ない約1割はちょんぼりすたの記載。</p>
 </section>
 
 <section id="uchikata">
@@ -294,6 +343,8 @@
     <p>通常時を3000G回したときのCZの平均は、設定1で約15.1回、設定6で約17.7回で、回数だけではほとんど差が出ません。このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、CZだけでは3000Gで約1％、8000Gでも約10％でした。共通ベルを足すと3000Gで約25％、さらにラッシュ直撃も入れると約34％、5000Gで約53％、8000Gで約7割まで上がります。設定1の台で同じ結果になってしまう割合は2〜3％です。</p>
     <h3>直撃は「出たら大きい」材料</h3>
     <p>3000Gでラッシュ直撃が1回以上出る割合は、設定1で約13％、設定6で約38％です。出ない台のほうが多いので、0回でも低設定とは言えません。一方で1回出れば、0回だった場合に比べて、設定6と設定1の可能性の比が約3.6倍、設定6側に傾きます。直撃したかどうかは、プロローグではなくアフターエピソードが始まるかで見分けます。850G＋αの天井での当選は直撃に数えないでください。</p>
+    <h3>150G・弱リコリス目・400Gも足せる</h3>
+    <p>ゲーム数や小役からの抽選にも設定差があります。150Gを迎えた時に変換高確へ移る割合は設定1で50.0％、設定6で62.5％、弱リコリス目からの移行は38.3％と44.9％、400Gを迎えた時のCZ当選は10.9％と25.4％です。1回ごとの差は小さいので、ページ上の「DATA 2」には、通常の状態で迎えた・成立したと確実に言えるものだけを入れてください。高確に移っても約1割は帯が出ないので、計算では帯が見える割合を移行率の9割として扱っています。仮に3000Gで150Gに6回、400Gに2回届いたとすると、さきほどの約34％が約41％まで上がります。</p>
     <h3>トロフィーとラッシュ終了画面</h3>
     <p>サミートロフィーは銅＝2以上、銀＝3以上、金＝4以上、キリン柄＝5以上、虹＝6が濃厚です。ラッシュ終了画面は押上の風景＝2以上、ロボ太＝4以上、ハワイ＝6が濃厚。通常ラッシュ後に違うキャラの私服（千束ラッシュ後にたきな私服など）が出たら設定4以上が濃厚です。上位ラッシュ後の私服は弱い示唆なので押さないでください。</p>
     <h3>数えるときのコツ</h3>
@@ -308,7 +359,11 @@
       <thead><tr><th>設定</th><th>CZ</th><th>共通ベル</th><th>ラッシュ直撃</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
-    <p class="note">解析サイトの公開値（2026年11月3日時点）。CZ・ラッシュ直撃・機械割は1geki・ちょんぼりすた・スロパチクエスト・P-WORLDで確認。共通ベルの設定2・3はP-WORLD・アルテマで1/95.8（1gekiなどは空欄）。</p>
+    <table class="t" style="margin-top:10px;">
+      <thead><tr><th>設定</th><th>150G高確</th><th>弱リコ高確</th><th>400G CZ</th></tr></thead>
+      <tbody id="pSpecBody"></tbody>
+    </table>
+    <p class="note">解析サイトの公開値（2026年11月3日時点）。変換高確移行率は「帯が見える割合＝移行率×0.9」で計算（帯が出ない約1割はちょんぼりすたの記載）。150Gの設定2・3、弱リコリス目の設定2はP-WORLDのみ。CZ・ラッシュ直撃・機械割は1geki・ちょんぼりすた・スロパチクエスト・P-WORLDで確認。共通ベルの設定2・3はP-WORLD・アルテマで1/95.8（1gekiなどは空欄）。</p>
   </details>
 </section>
 
@@ -333,6 +388,7 @@
 const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
 const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = true, HAS_CHECKS = true;
+const PDEF = [{"n": "g150", "k": "k150", "spec": [50.0, 50.0, 50.0, 54.7, 58.6, 62.5], "f": 0.9, "label": "150G高確"}, {"n": "gjr", "k": "kjr", "spec": [38.3, 38.3, 39.1, 41.0, 43.0, 44.9], "f": 0.9, "label": "弱リコ高確"}, {"n": "g400", "k": "k400", "spec": [10.9, 11.7, 14.5, 16.8, 19.5, 25.4], "f": 1, "label": "400G CZ"}];
 const SPEC = { a: [198.7, 196.9, 191.3, 183.3, 175.9, 169.4], b: [95.8, 95.8, 95.8, 87.6, 83.2, 79.1], c: [22429.5, 19006.5, 15454.1, 10809.3, 7809.6, 6263.7], payout: [97.9, 98.9, 101.3, 106.1, 110.4, 114.6] };
 const BET = 3, LABEL_A = "CZ", LABEL_B = "共通ベル", LABEL_C = "ラッシュ直撃";
 const $ = id => document.getElementById(id);
@@ -342,11 +398,30 @@ for(let s=0; s<N; s++){
   tr.innerHTML = `<td>${SETS[s]}</td><td><input type="number" step="0.1" class="aInput" value="${SPEC.a[s].toFixed(DEC_A)}"></td>${HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${SPEC.b[s].toFixed(DEC_B)}"></td>` : ''}${HAS_C ? `<td><input type="number" step="0.1" class="cInput" value="${SPEC.c[s].toFixed(DEC_C)}"></td>` : ''}<td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>`;
   specBody.appendChild(tr);
 }
+const pBody = $('pSpecBody');
+if(pBody) for(let s=0; s<N; s++){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${SETS[s]}</td>` + PDEF.map((q, j) => `<td><input type="number" step="0.1" class="pInput${j}" value="${q.spec[s].toFixed(1)}"></td>`).join('');
+  pBody.appendChild(tr);
+}
 const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
 const totalG = $('totalG'), aCount = $("czCount"), bCount = $("bellCount") || { value: '', addEventListener(){}, dispatchEvent(){} };
 const cCount = $("directCount") || { value: '', addEventListener(){}, dispatchEvent(){} };
 const num = el => Math.max(parseFloat(el.value) || 0, 0);
 const bG = B_G ? $(B_G) : totalG;
+const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
+function livePct(){
+  PDEF.forEach((q, j) => {
+    const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(n > 0){
+      const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
+      $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
+      let best = 0; arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+      $('livePNote' + j).textContent = r <= Math.min(...arr) ? `設定${SETS[0]}以下` : (r >= Math.max(...arr) ? `設定${SETS[N-1]}以上` : `設定${SETS[best]}付近`);
+    } else { $('liveP' + j).textContent = '―'; $('livePNote' + j).textContent = ''; }
+  });
+}
+pEls.flat().forEach(el => el.addEventListener('input', livePct));
 function nearLabel(r, arr){
   if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
   if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
@@ -362,6 +437,7 @@ function live(el, cls, b, n, gEl){
 function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); if(HAS_C) live(cCount, 'cInput', 'liveC', 'liveCNote'); }
 [totalG, aCount, bCount, cCount, bG].forEach(el => el.addEventListener('input', updateLive));
 specBody.addEventListener('input', updateLive);
+if(pBody) pBody.addEventListener('input', livePct);
 
 // タップで足す（データカウンターのように）
 const undo = [];
@@ -400,11 +476,14 @@ $('calcBtn').addEventListener('click', () => {
   if(g <= 0){ showMsg("総回転（通常時）を入れてください。"); return; }
   if(aCount.value.trim() === ''){ showMsg(`${LABEL_A}の回数を入れてください（0回なら0）。`); return; }
   if(useB && gb <= 0){ showMsg(""); return; }
+  const pUse = PDEF.map((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); return { n, k, use: n > 0 || k > 0 }; });
+  if(pUse.some(x => x.use && x.k > x.n)){ showMsg('成功の回数が到達・成立の回数を超えています。'); return; }
   if(a > g || b > gb || c > g){ showMsg('回数がゲーム数を超えています。'); return; }
   const { allow, names } = currentAllow();
   if(!allow.size){ showMsg('押した示唆が矛盾しています。見間違いがないか確認してください。'); return; }
+  const pv = PDEF.map((q, j) => readCol('pInput' + j).map(v => Math.min(Math.max(v * q.f / 100, 1e-6), 1 - 1e-6)));
   const av = readCol('aInput'), bv = readCol('bInput'), cv = readCol('cInput'), payout = readCol('payoutInput');
-  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : binomLL(a, g, 1/av[i]) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0));
+  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : binomLL(a, g, 1/av[i]) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
   const mx = Math.max(...ll), w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - mx)), sum = w.reduce((x, y) => x + y, 0), post = w.map(x => x / sum);
   const exp = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
   if (typeof gtag === 'function') gtag('event', 'judge_run', { machine: "lycoris", has_b: useB, has_c: useC });
@@ -415,6 +494,7 @@ $('calcBtn').addEventListener('click', () => {
   if(useB && B_G) parts.push(`${""}${gb}G`);
   if(useB) parts.push(`${LABEL_B} ${b}回（${rate(gb, b)}）`);
   if(useC) parts.push(`${LABEL_C} ${c}回`);
+  pUse.forEach((x, j) => { if(x.use) parts.push(`${PDEF[j].label} ${x.k}/${x.n}`); });
   if(names.length) parts.push(`示唆：${names.join('・')}`);
   let say;
   const minAllow = Math.min(...allow);
@@ -453,11 +533,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "lycoris", "name": "スマスロ リコリス・リコイル", "tags": "#リコリコ #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "bellCount", "q": "bell", "label": "共通ベル", "unit": "回", "rateOf": "totalG"}, {"id": "directCount", "q": "direct", "label": "ラッシュ直撃", "unit": "回", "rateOf": "totalG"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "lycoris", "name": "スマスロ リコリス・リコイル", "tags": "#リコリコ #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "bellCount", "q": "bell", "label": "共通ベル", "unit": "回", "rateOf": "totalG"}, {"id": "directCount", "q": "direct", "label": "ラッシュ直撃", "unit": "回", "rateOf": "totalG"}, {"id": "g150", "q": "a150", "label": "150G到達（合計）", "unit": "回"}, {"id": "k150", "q": "h150", "label": "うち高確（帯あり）", "unit": "回"}, {"id": "gjr", "q": "ajr", "label": "弱リコリス目（合計）", "unit": "回"}, {"id": "kjr", "q": "hjr", "label": "うち高確（帯あり）", "unit": "回"}, {"id": "g400", "q": "a400", "label": "400G到達（合計）", "unit": "回"}, {"id": "k400", "q": "c400", "label": "うちCZ当選", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "lycoris", "name": "リコリス・リコイル", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "bellCount", "label": "共通ベル", "optional": true}, {"id": "directCount", "label": "ラッシュ直撃", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ベル・直撃は通常時のみ（CZ・ラッシュ・ボーナス中は数えない）。直撃はCZを経由しないラッシュ当選（天井は除く）。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・ラッシュ終了画面", "short": "示唆", "optional": true}});
+SettiCounter.init({"key": "lycoris", "name": "リコリス・リコイル", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "bellCount", "label": "共通ベル", "optional": true}, {"id": "directCount", "label": "ラッシュ直撃", "optional": true}, {"id": "g150", "label": "150G到達（合計）", "optional": true, "group": "150G・弱リコ・400G", "rate": false, "defaultOff": true}, {"id": "k150", "label": "うち高確（帯あり）", "optional": true, "group": "150G・弱リコ・400G", "rate": false, "defaultOff": true}, {"id": "gjr", "label": "弱リコリス目（合計）", "optional": true, "group": "150G・弱リコ・400G", "rate": false, "defaultOff": true}, {"id": "kjr", "label": "うち高確（帯あり）", "optional": true, "group": "150G・弱リコ・400G", "rate": false, "defaultOff": true}, {"id": "g400", "label": "400G到達（合計）", "optional": true, "group": "150G・弱リコ・400G", "rate": false, "defaultOff": true}, {"id": "k400", "label": "うちCZ当選", "optional": true, "group": "150G・弱リコ・400G", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ベル・直撃は通常時のみ（CZ・ラッシュ・ボーナス中は数えない）。直撃はCZを経由しないラッシュ当選（天井は除く）。150G・弱リコリス目・400Gは「合計」と「うち成功」を数え、確実なものだけ入れる。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・ラッシュ終了画面", "short": "示唆", "optional": true}});
 </script>
 </body>
 </html>
