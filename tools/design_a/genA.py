@@ -20,23 +20,23 @@ decC = (C or {}).get('dec', 1)
 P = m.get('P', [])  # 割合の項目：dict(id, title, n=dict(id,label,btn), k=dict(id,label,btn), spec=[%], f=観測できる割合, qn, qk, group)
 def _pblock():
     if not P: return ''
-    h = f'''<div class="data pdata">
-  <div class="data-h"><span class="dot">DATA 2</span><small>{m.get('pnote', '任意。確実なものだけ数える')}</small></div>
-'''
+    h = f'''<div class="data pdata">\n  <div class="data-h"><span class="dot">DATA 2</span><small>{m.get('pnote', '任意。確実なものだけ数える')}</small></div>\n'''
     for j, q in enumerate(P):
-        h += f'''  <p class="sub">{q['title']}</p>
-  <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
-    <div><label for="{q['n']['id']}">{q['n']['label']}</label><input type="number" id="{q['n']['id']}" inputmode="numeric" placeholder="-"></div>
-    <div><label for="{q['k']['id']}">{q['k']['label']}</label><input type="number" id="{q['k']['id']}" inputmode="numeric" placeholder="-"></div>
+        h += f'''  <div class="pcard">
+    <p class="pt">{q['title']}</p>
+    <p class="pr">{q['rule']}</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="{q['n']['id']}">{q['n']['label']}</label><input type="number" id="{q['n']['id']}" inputmode="numeric" placeholder="-"></div>
+      <div><label for="{q['k']['id']}">{q['k']['label']}</label><input type="number" id="{q['k']['id']}" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="{q['n']['id']}" data-n="1">{q['n']['btn']} +1</button>
+      <button type="button" data-add="{q['k']['id']}" data-n="1">{q['k']['btn']} +1</button>
+    </div>
+    <div class="rates dot"><span>{q['short']} <b id="liveP{j}">―</b><small id="livePNote{j}"></small></span></div>
   </div>
-  <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
-    <button type="button" data-add="{q['n']['id']}" data-n="1">{q['n']['btn']} +1</button>
-    <button type="button" data-add="{q['k']['id']},{q['n']['id']}" data-n="1">{q['k']['btn']} +1</button>
-  </div>
-  <div class="rates dot"><span>{q['short']} <b id="liveP{j}">―</b><small id="livePNote{j}"></small></span></div>
 '''
-    h += f'''  <p class="hint">{m.get('phint', '')}</p>
-</div>'''
+    h += f'''  <p class="hint">{m.get('phint', '')}</p>\n</div>'''
     return h
 pblock_html = _pblock()
 if P:
@@ -76,7 +76,7 @@ guide = ''.join(f'    <h3>{h}</h3>\n    <p>{p}</p>\n' for h, p in m['guide'])
 share = json.dumps({"key": key, "name": m['full'], "tags": m['tags'], "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [
     {"id": "totalG", "q": gq, "label": gshare, "unit": "G"},
     {"id": A['id'], "q": m['qa'], "label": A['label'], "unit": "回", "rateOf": "totalG"}] + ([{"id": BG, "q": B['gq'], "label": B['gshare'], "unit": "G"}] if BG else []) + ([{"id": B['id'], "q": m['qb'], "label": B['label'], "unit": "回", "rateOf": BG or "totalG"}] if B else []) + ([{"id": C['id'], "q": m['qc'], "label": C['label'], "unit": "回", "rateOf": "totalG"}] if C else []) + [f for q in P for f in ({"id": q['n']['id'], "q": q['qn'], "label": q['n']['label'], "unit": "回"}, {"id": q['k']['id'], "q": q['qk'], "label": q['k']['label'], "unit": "回"})]}], **({"hints": "#floorGroup input[type=checkbox]"} if hasChecks else {})}, ensure_ascii=False)
-ccfg = {"key": key, "name": m['cname'], "g": {"id": "totalG", "label": gcount}, "counts": [{"id": A['id'], "label": A['label']}] + ([{"id": B['id'], "label": B['label'], "optional": True, **({"rateG": BG} if BG else {})}] if B else []) + ([{"id": C['id'], "label": C['label'], "optional": True}] if C else []) + [c for q in P for c in ({"id": q['n']['id'], "label": q['n']['label'], "optional": True, "group": q['group'], "rate": False, "defaultOff": True}, {"id": q['k']['id'], "label": q['k']['label'], "optional": True, "group": q['group'], "rate": False, "defaultOff": True})], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": m['cnote']}
+ccfg = {"key": key, "name": m['cname'], "g": {"id": "totalG", "label": gcount}, "counts": [{"id": A['id'], "label": A['label']}] + ([{"id": B['id'], "label": B['label'], "optional": True, **({"rateG": BG} if BG else {})}] if B else []) + ([{"id": C['id'], "label": C['label'], "optional": True}] if C else []) + [c for q in P for c in ({"id": q['n']['id'], "label": q['n']['label'], "optional": True, "group": q['group'], "rate": False, "defaultOff": True}, {"id": q['k']['id'], "label": q['k'].get('clabel', q['k']['label']), "optional": True, "group": q['group'], "rate": False, "defaultOff": True})], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": m['cnote']}
 if hasChecks: ccfg["checks"] = {"selector": "#floorGroup input[type=checkbox]", "title": m['checktitle'], "short": "示唆", "optional": True}
 if BG: ccfg["g2"] = [{"id": BG, "label": B['gcount'], "item": B['id']}]
 counter = json.dumps(ccfg, ensure_ascii=False)
@@ -174,7 +174,7 @@ html = f'''<!DOCTYPE html>
   .rates small{{font-size:11px;margin-left:4px;}}
   .hint{{font-size:12px;color:var(--muted);line-height:1.6;margin:6px 0 0;}}
   .data .hint{{margin:8px 0 0;font-size:11.5px;color:var(--muted);line-height:1.6;}}
-  .pdata{{margin-top:10px;}} .pdata .sub{{margin:10px 0 4px;}} .pdata .sub:first-of-type{{margin-top:0;}} .pdata .cells input{{font-size:22px;}} .pdata .taps button{{height:44px;}}
+  .pdata{{margin-top:10px;}} .pcard{{border:1px solid #2f2f31;border-radius:4px;padding:10px;margin-top:10px;}} .pcard:first-of-type{{margin-top:0;}} .pcard .pt{{margin:0;font-size:14px;font-weight:800;color:var(--text);}} .pcard .pr{{margin:2px 0 8px;font-size:11.5px;color:var(--muted);line-height:1.6;}} .pdata .cells input{{font-size:22px;}} .pdata .taps button{{height:44px;}}
   .judge{{display:block;width:calc(100% - 32px);margin:12px 16px 0;height:54px;background:var(--amber);color:var(--bg);border:none;border-radius:4px;font-family:inherit;font-weight:800;font-size:17px;letter-spacing:.08em;cursor:pointer;}}
   .judge:active{{transform:translateY(1px);}}
   section{{margin:24px 16px 0;}}
@@ -465,7 +465,7 @@ $('calcBtn').addEventListener('click', () => {{
   if(aCount.value.trim() === ''){{ showMsg(`${{LABEL_A}}の回数を入れてください（0回なら0）。`); return; }}
   if(useB && gb <= 0){{ showMsg({json.dumps((B or {}).get('gmsg', ''), ensure_ascii=False)}); return; }}
   const pUse = PDEF.map((q, j) => {{ const n = num(pEls[j][0]), k = num(pEls[j][1]); return {{ n, k, use: n > 0 || k > 0 }}; }});
-  if(pUse.some(x => x.use && x.k > x.n)){{ showMsg('成功の回数が到達・成立の回数を超えています。'); return; }}
+  if(pUse.some(x => x.use && x.k > x.n)){{ showMsg('「そのうち」の回数が、もとの回数より多くなっています。'); return; }}
   if(a > g || b > gb || c > g){{ showMsg('回数がゲーム数を超えています。'); return; }}
   const {{ allow, names }} = currentAllow();
   if(!allow.size){{ showMsg('押した示唆が矛盾しています。見間違いがないか確認してください。'); return; }}
