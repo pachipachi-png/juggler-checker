@@ -50,9 +50,9 @@
  "ghoul/": {
   "name": "東京喰種",
   "req3000": 18,
-  "all3000": 52,
-  "all5000": 72,
-  "false1": 1.6,
+  "all3000": 55,
+  "all5000": 75,
+  "false1": 1.4,
   "lv": "normal"
  },
  "hokuto/": {
@@ -114,10 +114,10 @@
  "sao2/": {
   "name": "SAO2",
   "req3000": 2,
-  "all3000": 22,
-  "all5000": 40,
-  "false1": 0.8,
-  "lv": "hard"
+  "all3000": 44,
+  "all5000": 65,
+  "false1": 1.8,
+  "lv": "normal"
  },
  "paripi/": {
   "name": "パリピ孔明",
@@ -277,6 +277,14 @@
   "all3000": 0,
   "all5000": 2,
   "false1": 0.0,
+  "lv": "hard"
+ },
+ "shiosai-re/": {
+  "name": "ハイハイシオサイRe",
+  "req3000": 26,
+  "all3000": 27,
+  "all5000": 46,
+  "false1": 4.6,
   "lv": "hard"
  }
 }
