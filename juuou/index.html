@@ -232,6 +232,7 @@
         <input type="number" id="atCount" inputmode="numeric" placeholder="例：10">
       </div>
     </div>
+    <p class="hint" style="margin:6px 0 0;">通常時の回転数には、サバンナチャンス後の29Gを含めません（解析値の分母がこの数え方です）。</p>
     <div class="live-rate">
       <span>現在のAT初当り確率</span>
       <span><b id="liveAt">ー</b><small id="liveAtNote"></small></span>
@@ -254,7 +255,7 @@
       <li>回転数は<b>通常時のみ</b>（AT中のゲーム数は含めない）。データカウンターの「通常時G数」を使ってください</li>
       <li>設定1と設定6の初当り確率の差は<b>約1.2倍</b>と小さめです。数千G回しても差が出にくいので、結果は大まかな目安として見てください</li>
       <li><b>設定L</b>は筐体の下パネルが常時点滅するとされています。点滅している台は座らないのが無難です</li>
-      <li>天井は999G＋α（設定変更時は599G＋αとする解析サイトもあります）。<a class="mini-link ref-out" data-sec="spec" href="https://chonborista.com/slot/sammy-slot/263920/" target="_blank" rel="noopener">解析ページ（ちょんぼりすた）↗</a></li>
+      <li>天井は990〜999G（設定変更後は590〜599G）で、到達するとATに当選します（パチセブン・P-WORLD）。<a class="mini-link ref-out" data-sec="spec" href="https://chonborista.com/slot/sammy-slot/263920/" target="_blank" rel="noopener">解析ページ（ちょんぼりすた）↗</a></li>
     </ul></div>
     <p class="hint">AT初当り回数の二項分布の尤度から、設定ごとの相対的な可能性をベイズ的に算出しています（事前は一様、設定Lは対象外）。期待差枚は各設定の機械割を確率で重み付けした目安です。統計的な目安であり、実際の設定を保証するものではありません。</p>
   </section>
@@ -338,7 +339,7 @@
         <tr class="hi"><td>設定6</td><td>1/279.7</td><td>114.3%</td></tr>
       </tbody>
     </table>
-    <p class="note-s">設定は1・2・4・5・6の5段階（設定3はありません）。AT初当りは通常時からサバンナチャンスに当たった確率です。</p>
+    <p class="note-s">設定は1・2・4・5・6の5段階（設定3はありません）。AT初当りは通常時からサバンナチャンスに当たった確率で、分母の通常時ゲーム数からは<b>サバンナチャンス後の29G</b>を除きます（1geki・パチセブン・ちょんぼりすた）。</p>
   </section>
   <section class="card uchi" id="uchikata">
     <div class="section-title"><span class="num">4</span><h2>スマスロ獣王の打ち方</h2></div>
