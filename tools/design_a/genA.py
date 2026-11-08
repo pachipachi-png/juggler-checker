@@ -176,6 +176,19 @@ html = f'''<!DOCTYPE html>
   .taps button.undo{{color:var(--muted);font-weight:500;}}
   .rates{{display:flex;justify-content:space-between;gap:8px;margin-top:10px;font-size:13.5px;color:var(--muted);flex-wrap:wrap;}}
   .rates b{{color:var(--amber);font-weight:800;}}
+  .mini{{position:fixed;left:14px;bottom:16px;z-index:899;display:flex;align-items:center;gap:8px;width:auto;margin:0;padding:8px 14px 8px 10px;background:#141414;border:2px solid var(--amber);border-radius:999px;color:var(--text);font-family:inherit;cursor:pointer;text-align:left;box-shadow:0 6px 20px #0008;max-width:calc(100% - 200px);}}
+  .mini.away{{opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .2s,transform .2s;}}
+  .mini{{transition:opacity .2s,transform .2s;}}
+  .mini[hidden]{{display:none;}}
+  .mini-bars{{display:flex;align-items:flex-end;gap:2px;height:26px;flex:none;}}
+  .mini-bars span{{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:2px;}}
+  .mini-bars i{{display:block;width:6px;background:#5c5a55;min-height:2px;}}
+  .mini-bars .hi i{{background:var(--amber);}}
+  .mini-bars em{{display:none;}}
+  .mini-t{{font-size:10.5px;color:var(--muted);line-height:1.2;white-space:nowrap;}}
+  .mini-t b{{display:block;font-size:15px;color:var(--amber);font-weight:800;font-variant-numeric:tabular-nums;}}
+  #result{{margin:16px 16px 0 !important;padding:12px 12px 14px;border:2px solid var(--amber);border-radius:6px;background:#0b0b0b;}}
+  #result .sh{{border-bottom-color:#3a2c10;}}
   .rates small{{font-size:11px;margin-left:4px;}}
   .hint{{font-size:12px;color:var(--muted);line-height:1.6;margin:6px 0 0;}}
   .data .hint{{margin:8px 0 0;font-size:11.5px;color:var(--muted);line-height:1.6;}}
@@ -307,8 +320,9 @@ html = f'''<!DOCTYPE html>
 {pblock_html}
 <button class="judge" id="calcBtn" style="display:none;">判別する</button>
 
+<button type="button" class="mini" id="miniRes" hidden><span class="mini-bars" id="miniBars"></span><span class="mini-t" id="miniTxt"></span></button>
 <section id="result">
-  <div class="sh"><h2>結果</h2><small>確率の目安</small></div>
+  <div class="sh"><h2>結果</h2><small>入れた分でその場で計算</small></div>
   <div id="pieWrap" style="display:none;"><div id="legend"></div></div>
   <div id="topSetting" class="summary"><p style="margin:0;font-size:12.5px;color:var(--muted);">数えたものを入れると、{setrange}の可能性がここに出ます。入れた分だけ、その場で計算し直します。</p></div>
   <div class="ev" id="evOutput" style="display:none;"></div>
@@ -466,7 +480,11 @@ floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
 
 // 計算
 const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
-function showMsg(t){{ $('topSetting').innerHTML = `<p style="margin:0;font-size:13px;color:var(--muted);">${{t}}</p>`; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; }}
+function miniMsg(t){{ $('miniRes').hidden = true; }}
+$('miniRes').addEventListener('click', () => {{ $('result').scrollIntoView({{ behavior: 'smooth', block: 'start' }}); if (typeof gtag === 'function') gtag('event', 'result_jump', {{ machine: {json.dumps(key)} }}); }});
+// 結果の数字（設定4以上〜）が画面に見えている間は、下の「結果を見る」を隠す
+if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => $('miniRes').classList.toggle('away', e.isIntersecting)), {{ threshold: 0.5 }}).observe($('topSetting'));
+function showMsg(t){{ miniMsg(t); $('topSetting').innerHTML = `<p style="margin:0;font-size:13px;color:var(--muted);">${{t}}</p>`; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; }}
 const INIT_TOP = $('topSetting').innerHTML;
 let judgeTimer = null, judgeLast = 0;
 $('calcBtn').addEventListener('click', () => {{
@@ -476,7 +494,7 @@ $('calcBtn').addEventListener('click', () => {{
   const xUse = xEls.map((el, j) => ({{ k: num(el), use: el.value.trim() !== '' }}));
   const {{ allow, names }} = currentAllow();
   const needG = useA || useC || xUse.some(x => x.use) || (useB && !B_G);
-  if(!needG && !useB && !pUse.some(x => x.use) && !names.length){{ $('topSetting').innerHTML = INIT_TOP; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; return; }}
+  if(!needG && !useB && !pUse.some(x => x.use) && !names.length){{ miniMsg(''); $('topSetting').innerHTML = INIT_TOP; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; return; }}
   if(needG && g <= 0){{ showMsg({json.dumps(m.get('gmsg', '総回転（通常時）を入れてください。'), ensure_ascii=False)}); return; }}
   if(useB && gb <= 0){{ showMsg({json.dumps((B or {}).get('gmsg', ''), ensure_ascii=False)}); return; }}
   if(pUse.some(x => x.use && x.k > x.n)){{ showMsg('「そのうち」の回数が、もとの回数より多くなっています。'); return; }}
@@ -492,6 +510,8 @@ $('calcBtn').addEventListener('click', () => {{
   const top = Math.max(...post), best = post.indexOf(top), hi = post.reduce((x, p, i) => x + (HI[i] ? p : 0), 0);
   $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${{HI[i] ? ' hi' : ''}}${{allow.has(SETS[i]) ? '' : ' cut'}}"><span class="sl">設定${{SETS[i]}}</span><span class="track"><span class="swatch" style="width:${{top > 0 ? (p/top*100).toFixed(1) : 0}}%;"></span></span><span class="pct">${{(p*100).toFixed(1)}}%</span></div>`).join('');
   $('pieWrap').style.display = 'block';
+  $('miniBars').innerHTML = post.map((p, i) => `<span class="${{HI[i] ? 'hi' : ''}}"><i style="height:${{top > 0 ? Math.max(p/top*26, 2).toFixed(1) : 2}}px"></i><em>${{SETS[i]}}</em></span>`).join('');
+  $('miniTxt').innerHTML = `<b>4以上 ${{(hi*100).toFixed(0)}}%</b>結果を見る ▼`; $('miniRes').hidden = false;
   const parts = [];
   if(g > 0) parts.push(`${{B_G ? {json.dumps(gshare, ensure_ascii=False)} : '通常時'}}${{g}}G`);
   if(useA) parts.push(`${{LABEL_A}} ${{a}}回（${{rate(g, a)}}）`);
