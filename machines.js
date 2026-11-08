@@ -542,6 +542,18 @@ var MACHINES = [
     status: 'ready',
     hot: 41,
     keywords: 'L戦国コレクション6 戦国コレクション6 せんごくこれくしょん6 戦国コレクション 戦コレ6 戦コレ せんこれ せんこれ6 sencolle sengoku collection 時幻城ラッシュ 夢幻斬り 夢幻廻廊 天魔一閃 アリストロフィー コナミコマンド 織田信長 小野小町 楊貴妃 クレオパトラ コナミ こなみ KONAMI スマスロ すますろ'
+  },
+  {
+    name: 'L真打吉宗',
+    sub: 'AT初当り＋CZ、AT終了画面・真BBボイス・獲得枚数表示で絞り込み',
+    inputs: ['通常時G数', 'AT初当り回数', 'CZ回数（任意）', 'AT終了画面・真BBボイス・獲得枚数表示'],
+    path: 'shinuchi-yoshimune/',
+    maker: '大都技研',
+    date: '2026-04-06',
+    ease: { lv: 'hard', key: 'AT初当り（約1.38倍）＋CZ（約1.25倍）。示唆が決め手', p3000: 12, d: '2026-11-08' },
+    status: 'ready',
+    hot: 42,
+    keywords: 'L真打吉宗 真打吉宗 しんうちよしむね 真打 吉宗 よしむね しんうち 真打ち吉宗 shinuchi yoshimune 勧善懲悪ラッシュ 真BB 真ビッグ 宝船 御白州ビジョン 大岡越前 越前 柳生 大奥 天英院 抜刀チャンス 大都 だいと DAITO スマスロ すますろ'
   }
 ];
 

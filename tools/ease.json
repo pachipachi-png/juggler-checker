@@ -57,26 +57,26 @@
  },
  "hokuto/": {
   "name": "北斗の拳(無印)",
-  "req3000": 51,
+  "req3000": 53,
   "all3000": 70,
   "all5000": 84,
-  "false1": 4.8,
+  "false1": 5.9,
   "lv": "easy"
  },
  "hokuto-tensei2/": {
   "name": "北斗 転生2",
   "req3000": 6,
-  "all3000": 30,
-  "all5000": 53,
-  "false1": 2.6,
+  "all3000": 33,
+  "all5000": 51,
+  "false1": 2.4,
   "lv": "normal"
  },
  "otome5/": {
   "name": "戦国乙女5",
   "req3000": 8,
   "all3000": 19,
-  "all5000": 37,
-  "false1": 0.9,
+  "all5000": 35,
+  "false1": 1.0,
   "lv": "hard"
  },
  "mahoako/": {
@@ -84,191 +84,191 @@
   "req3000": 12,
   "all3000": 46,
   "all5000": 64,
-  "false1": 2.0,
+  "false1": 2.5,
   "lv": "normal"
  },
  "mhsunbreak/": {
   "name": "サンブレイク",
   "req3000": 18,
-  "all3000": 56,
-  "all5000": 74,
-  "false1": 2.0,
+  "all3000": 52,
+  "all5000": 73,
+  "false1": 1.6,
   "lv": "normal"
  },
  "kabaneri2/": {
   "name": "カバネリ海門",
   "req3000": 9,
-  "all3000": 23,
-  "all5000": 40,
+  "all3000": 20,
+  "all5000": 41,
   "false1": 0.9,
   "lv": "hard"
  },
  "biore3/": {
   "name": "バイオRE3",
-  "req3000": 27,
-  "all3000": 86,
-  "all5000": 96,
-  "false1": 0.4,
+  "req3000": 29,
+  "all3000": 84,
+  "all5000": 95,
+  "false1": 1.0,
   "lv": "easy"
  },
  "sao2/": {
   "name": "SAO2",
   "req3000": 2,
-  "all3000": 44,
-  "all5000": 65,
+  "all3000": 45,
+  "all5000": 64,
   "false1": 1.8,
   "lv": "normal"
  },
  "paripi/": {
   "name": "パリピ孔明",
-  "req3000": 7,
+  "req3000": 8,
   "all3000": 19,
-  "all5000": 37,
-  "false1": 1.2,
+  "all5000": 36,
+  "false1": 1.0,
   "lv": "hard"
  },
  "tenten/": {
   "name": "転生王女",
-  "req3000": 7,
-  "all3000": 19,
-  "all5000": 36,
-  "false1": 1.3,
+  "req3000": 6,
+  "all3000": 20,
+  "all5000": 34,
+  "false1": 1.0,
   "lv": "hard"
  },
  "lycoris/": {
   "name": "リコリス",
   "req3000": 1,
-  "all3000": 34,
-  "all5000": 53,
-  "false1": 2.8,
+  "all3000": 33,
+  "all5000": 52,
+  "false1": 3.1,
   "lv": "normal"
  },
  "kanokari/": {
   "name": "かのかり",
   "req3000": 1,
   "all3000": 4,
-  "all5000": 13,
-  "false1": 0.6,
+  "all5000": 14,
+  "false1": 0.4,
   "lv": "hard"
  },
  "karakuri2/": {
   "name": "からくり2",
   "req3000": 0,
   "all3000": 0,
-  "all5000": 3,
+  "all5000": 2,
   "false1": 0.0,
   "lv": "hard"
  },
  "index2/": {
   "name": "禁書2",
   "req3000": 0,
-  "all3000": 5,
-  "all5000": 16,
-  "false1": 0.8,
+  "all3000": 6,
+  "all5000": 15,
+  "false1": 1.0,
   "lv": "hard"
  },
  "juuou/": {
   "name": "獣王",
-  "req3000": 3,
-  "all3000": 2,
+  "req3000": 2,
+  "all3000": 3,
   "all5000": 7,
-  "false1": 0.5,
+  "false1": 0.9,
   "lv": "hard"
  },
  "hanabi/": {
   "name": "ハナビ",
   "req3000": 11,
   "all3000": 64,
-  "all5000": 81,
-  "false1": 2.1,
+  "all5000": 82,
+  "false1": 2.0,
   "lv": "easy"
  },
  "juggler/": {
   "name": "マイジャグラーV",
-  "req3000": 44,
-  "all3000": 44,
-  "all5000": 67,
-  "false1": 1.8,
+  "req3000": 43,
+  "all3000": 48,
+  "all5000": 66,
+  "false1": 2.1,
   "lv": "normal"
  },
  "hanahana/": {
   "name": "ハナハナ天翔",
-  "req3000": 14,
-  "all3000": 22,
-  "all5000": 43,
-  "false1": 1.0,
+  "req3000": 13,
+  "all3000": 23,
+  "all5000": 42,
+  "false1": 0.6,
   "lv": "hard"
  },
  "okidoki-duo/": {
   "name": "沖ドキDUOアンコール",
   "req3000": 5,
-  "all3000": 18,
-  "all5000": 34,
+  "all3000": 16,
+  "all5000": 32,
   "false1": 0.2,
   "lv": "hard"
  },
  "okidoki-black/": {
   "name": "沖ドキBLACK",
   "req3000": 0,
-  "all3000": 4,
+  "all3000": 5,
   "all5000": 13,
-  "false1": 0.0,
+  "false1": 0.2,
   "lv": "hard"
  },
  "okidoki-gold/": {
   "name": "沖ドキGOLD",
   "req3000": 0,
-  "all3000": 6,
-  "all5000": 17,
-  "false1": 0.1,
+  "all3000": 8,
+  "all5000": 18,
+  "false1": 0.0,
   "lv": "hard"
  },
  "bofuri/": {
   "name": "防振り",
-  "req3000": 17,
-  "all3000": 42,
-  "all5000": 66,
-  "false1": 2.6,
+  "req3000": 16,
+  "all3000": 43,
+  "all5000": 63,
+  "false1": 2.4,
   "lv": "normal"
  },
  "garo-yami/": {
   "name": "牙狼 闇を照らす者",
   "req3000": 0,
   "all3000": 0,
-  "all5000": 1,
+  "all5000": 2,
   "false1": 0.0,
   "lv": "hard"
  },
  "ragnador/": {
   "name": "ラグナドール",
-  "req3000": 16,
-  "all3000": 17,
-  "all5000": 30,
-  "false1": 1.7,
+  "req3000": 17,
+  "all3000": 16,
+  "all5000": 29,
+  "false1": 1.8,
   "lv": "hard"
  },
  "ggo/": {
   "name": "ガンゲイル・オンライン",
   "req3000": 18,
-  "all3000": 17,
+  "all3000": 18,
   "all5000": 32,
-  "false1": 1.5,
+  "false1": 1.6,
   "lv": "hard"
  },
  "gojieva2/": {
   "name": "ゴジエヴァ2",
-  "req3000": 6,
+  "req3000": 7,
   "all3000": 7,
-  "all5000": 19,
+  "all5000": 18,
   "false1": 0.8,
   "lv": "hard"
  },
  "vivy/": {
   "name": "Vivy",
-  "req3000": 6,
-  "all3000": 6,
+  "req3000": 5,
+  "all3000": 5,
   "all5000": 17,
-  "false1": 0.4,
+  "false1": 0.5,
   "lv": "hard"
  },
  "seiya-ougon/": {
@@ -281,18 +281,26 @@
  },
  "shiosai-re/": {
   "name": "ハイハイシオサイRe",
-  "req3000": 26,
+  "req3000": 24,
   "all3000": 27,
-  "all5000": 46,
+  "all5000": 44,
   "false1": 4.6,
   "lv": "hard"
  },
  "sencolle6/": {
   "name": "戦国コレクション6",
-  "req3000": 15,
-  "all3000": 15,
-  "all5000": 34,
-  "false1": 0.6,
+  "req3000": 16,
+  "all3000": 14,
+  "all5000": 33,
+  "false1": 1.0,
+  "lv": "hard"
+ },
+ "shinuchi-yoshimune/": {
+  "name": "真打吉宗",
+  "req3000": 5,
+  "all3000": 12,
+  "all5000": 24,
+  "false1": 1.0,
   "lv": "hard"
  }
 }
