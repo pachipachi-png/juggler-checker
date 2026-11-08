@@ -21,7 +21,7 @@ X = m.get('X', [])  # 4つ目以降の回数（任意入力。総回転で割る
 P = m.get('P', [])  # 割合の項目：dict(id, title, n=dict(id,label,btn), k=dict(id,label,btn), spec=[%], f=観測できる割合, qn, qk, group)
 def _pblock():
     if not P: return ''
-    h = f'''<div class="data pdata">\n  <div class="data-h"><span class="dot">DATA 2</span><small>{m.get('pnote', '任意。確実なものだけ数える')}</small></div>\n'''
+    h = f'''<div class="data pdata">\n  <div class="data-h"><span class="dot">DATA 2</span><small>{m.get('pnote', '確実なものだけ数える')}</small></div>\n'''
     for j, q in enumerate(P):
         h += f'''  <div class="pcard">
     <p class="pt">{q['title']}</p>
@@ -83,13 +83,13 @@ if BG: ccfg["g2"] = [{"id": BG, "label": B['gcount'], "item": B['id']}]
 counter = json.dumps(ccfg, ensure_ascii=False)
 bgcell = f'''<div><label for="{BG}">{B['glabel']}</label><input type="number" id="{BG}" inputmode="numeric" placeholder="-"></div>''' if BG else ''
 bgtap = f'''<button type="button" data-add="{B.get('gadd', BG + ',totalG') if BG else ''}" data-n="100">{B['gbtn']}</button>''' if BG else ''
-bcell = f'''<div><label for="{B['id']}">{B['label']}{'（任意）' if B.get('opt') else ''}</label><input type="number" id="{B['id']}" inputmode="numeric" placeholder="-"></div>''' if B else ''
+bcell = f'''<div><label for="{B['id']}">{B['label']}</label><input type="number" id="{B['id']}" inputmode="numeric" placeholder="-"></div>''' if B else ''
 btap = f'''<button type="button" data-add="{B['id']}" data-n="1">{B['btn']} +1</button>''' if B else ''
 brate = f'''<span>{B['btn']} <b id="liveB">―</b><small id="liveBNote"></small></span>''' if B else ''
-ccell = f'''<div><label for="{C['id']}">{C['label']}（任意）</label><input type="number" id="{C['id']}" inputmode="numeric" placeholder="-"></div>''' if C else ''
+ccell = f'''<div><label for="{C['id']}">{C['label']}</label><input type="number" id="{C['id']}" inputmode="numeric" placeholder="-"></div>''' if C else ''
 ctap = f'''<button type="button" data-add="{C['id']}" data-n="1">{C['btn']} +1</button>''' if C else ''
 crate = f'''<span>{C['btn']} <b id="liveC">―</b><small id="liveCNote"></small></span>''' if C else ''
-ccell += ''.join(f'''<div><label for="{x['id']}">{x['label']}（任意）</label><input type="number" id="{x['id']}" inputmode="numeric" placeholder="-"></div>''' for x in X)
+ccell += ''.join(f'''<div><label for="{x['id']}">{x['label']}</label><input type="number" id="{x['id']}" inputmode="numeric" placeholder="-"></div>''' for x in X)
 ctap += ''.join(f'''<button type="button" data-add="{x['id']}" data-n="1">{x['btn']} +1</button>''' for x in X)
 crate += ''.join(f'''<span>{x['btn']} <b id="liveX{j}">―</b><small id="liveX{j}Note"></small></span>''' for j, x in enumerate(X))
 cellcols = 2 if (BG or C or X) else (3 if B else 2)
@@ -279,6 +279,7 @@ html = f'''<!DOCTYPE html>
 <nav class="jump" aria-label="ページ内の目次"><a href="#mainCard">判別</a><a href="#hints">示唆</a><a href="#gousei">設定差</a><a href="#uchikata">打ち方</a><a href="#guide">解説</a></nav>
 
 <div id="mainCard">
+<div style="margin:0 16px;"><button type="button" data-sc-open></button></div>
 <div class="data">
   <div class="data-h"><span class="dot">DATA</span><small>{m.get('datanote', '通常時だけ数える')}</small></div>
   <div class="cells" style="grid-template-columns:repeat({cellcols},minmax(0,1fr));">
@@ -304,12 +305,12 @@ html = f'''<!DOCTYPE html>
   <p class="hint">{m['inhint']}</p>
 </div>
 {pblock_html}
-<button class="judge" id="calcBtn">判別する</button>
+<button class="judge" id="calcBtn" style="display:none;">判別する</button>
 
 <section id="result">
   <div class="sh"><h2>結果</h2><small>確率の目安</small></div>
   <div id="pieWrap" style="display:none;"><div id="legend"></div></div>
-  <div id="topSetting" class="summary"><p style="margin:0;font-size:12.5px;color:var(--muted);">数字を入れて「判別する」を押すと、{setrange}の可能性がここに出ます。</p></div>
+  <div id="topSetting" class="summary"><p style="margin:0;font-size:12.5px;color:var(--muted);">数えたものを入れると、{setrange}の可能性がここに出ます。入れた分だけ、その場で計算し直します。</p></div>
   <div class="ev" id="evOutput" style="display:none;"></div>
   <div class="tip" id="tipPromptCalc" style="display:none;">勝ったら10円でもいいので <a href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭</a> ください。</div>
 </section>
@@ -466,27 +467,34 @@ floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
 // 計算
 const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
 function showMsg(t){{ $('topSetting').innerHTML = `<p style="margin:0;font-size:13px;color:var(--muted);">${{t}}</p>`; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; }}
+const INIT_TOP = $('topSetting').innerHTML;
+let judgeTimer = null, judgeLast = 0;
 $('calcBtn').addEventListener('click', () => {{
-  const g = num(totalG), a = num(aCount), useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
-  if(g <= 0){{ showMsg({json.dumps(m.get('gmsg', '総回転（通常時）を入れてください。'), ensure_ascii=False)}); return; }}
-  if(aCount.value.trim() === ''){{ showMsg(`${{LABEL_A}}の回数を入れてください（0回なら0）。`); return; }}
-  if(useB && gb <= 0){{ showMsg({json.dumps((B or {}).get('gmsg', ''), ensure_ascii=False)}); return; }}
+  const useA = aCount.value.trim() !== '';
+  const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
   const pUse = PDEF.map((q, j) => {{ const n = num(pEls[j][0]), k = num(pEls[j][1]); return {{ n, k, use: n > 0 || k > 0 }}; }});
-  if(pUse.some(x => x.use && x.k > x.n)){{ showMsg('「そのうち」の回数が、もとの回数より多くなっています。'); return; }}
   const xUse = xEls.map((el, j) => ({{ k: num(el), use: el.value.trim() !== '' }}));
-  if(a > g || b > gb || c > g || xUse.some(x => x.k > g)){{ showMsg('回数がゲーム数を超えています。'); return; }}
   const {{ allow, names }} = currentAllow();
+  const needG = useA || useC || xUse.some(x => x.use) || (useB && !B_G);
+  if(!needG && !useB && !pUse.some(x => x.use) && !names.length){{ $('topSetting').innerHTML = INIT_TOP; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; return; }}
+  if(needG && g <= 0){{ showMsg({json.dumps(m.get('gmsg', '総回転（通常時）を入れてください。'), ensure_ascii=False)}); return; }}
+  if(useB && gb <= 0){{ showMsg({json.dumps((B or {}).get('gmsg', ''), ensure_ascii=False)}); return; }}
+  if(pUse.some(x => x.use && x.k > x.n)){{ showMsg('「そのうち」の回数が、もとの回数より多くなっています。'); return; }}
+  if(a > g || b > gb || c > g || xUse.some(x => x.k > g)){{ showMsg('回数がゲーム数を超えています。'); return; }}
   if(!allow.size){{ showMsg('押した示唆が矛盾しています。見間違いがないか確認してください。'); return; }}
   const pv = PDEF.map((q, j) => readCol('pInput' + j).map(v => Math.min(Math.max(v * q.f / 100, 1e-6), 1 - 1e-6)));
   const xv = XDEF.map((x, j) => readCol('xInput' + j)), av = readCol('aInput'), bv = readCol('bInput'), cv = readCol('cInput'), payout = readCol('payoutInput');
-  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : binomLL(a, g, 1/av[i]) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + xUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, g, 1/xv[j][i]) : 0), 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
+  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : (useA ? binomLL(a, g, 1/av[i]) : 0) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + xUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, g, 1/xv[j][i]) : 0), 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
   const mx = Math.max(...ll), w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - mx)), sum = w.reduce((x, y) => x + y, 0), post = w.map(x => x / sum);
   const exp = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
-  if (typeof gtag === 'function') gtag('event', 'judge_run', {{ machine: {json.dumps(key)}, has_b: useB{', has_c: useC' if C else ''} }});
+  clearTimeout(judgeTimer);
+  judgeTimer = setTimeout(() => {{ if(Date.now() - judgeLast < 60000) return; judgeLast = Date.now(); if (typeof gtag === 'function') gtag('event', 'judge_run', {{ machine: {json.dumps(key)}, has_a: useA, has_b: useB{', has_c: useC' if C else ''}, hints: names.length }}); }}, 3000);
   const top = Math.max(...post), best = post.indexOf(top), hi = post.reduce((x, p, i) => x + (HI[i] ? p : 0), 0);
   $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${{HI[i] ? ' hi' : ''}}${{allow.has(SETS[i]) ? '' : ' cut'}}"><span class="sl">設定${{SETS[i]}}</span><span class="track"><span class="swatch" style="width:${{top > 0 ? (p/top*100).toFixed(1) : 0}}%;"></span></span><span class="pct">${{(p*100).toFixed(1)}}%</span></div>`).join('');
   $('pieWrap').style.display = 'block';
-  const parts = [`${{B_G ? {json.dumps(gshare, ensure_ascii=False)} : '通常時'}}${{g}}G`, `${{LABEL_A}} ${{a}}回（${{rate(g, a)}}）`];
+  const parts = [];
+  if(g > 0) parts.push(`${{B_G ? {json.dumps(gshare, ensure_ascii=False)} : '通常時'}}${{g}}G`);
+  if(useA) parts.push(`${{LABEL_A}} ${{a}}回（${{rate(g, a)}}）`);
   if(useB && B_G) parts.push(`${{{json.dumps((B or {}).get('gshare',''), ensure_ascii=False)}}}${{gb}}G`);
   if(useB) parts.push(`${{LABEL_B}} ${{b}}回（${{rate(gb, b)}}）`);
   if(useC) parts.push(`${{LABEL_C}} ${{c}}回`);
@@ -518,12 +526,11 @@ $('calcBtn').addEventListener('click', () => {{
 document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', () => {{
   if (typeof gtag === 'function') gtag('event', 'outbound_ref', {{ machine: {json.dumps(key)}, section: a.dataset.sec }});
 }}));
-// 判別後は入力やチェックを変えると自動で計算し直す
+// 入力やチェックを変えたら、その場で計算し直す（判別ボタンは counter.js・share.js 用に隠して残す）
 (function(){{
-  const btn = $('calcBtn'); let done = false, timer = null;
-  btn.addEventListener('click', () => {{ done = true; }});
+  const btn = $('calcBtn'); let timer = null;
   function silent(){{ const g = window.gtag; window.gtag = function(a, b){{ if(a === 'event' && b === 'judge_run') return; if(typeof g === 'function') return g.apply(this, arguments); }}; try {{ btn.click(); }} finally {{ window.gtag = g; }} }}
-  function auto(){{ if(!done) return; clearTimeout(timer); timer = setTimeout(silent, 300); }}
+  function auto(){{ clearTimeout(timer); timer = setTimeout(silent, 300); }}
   ['optionalCard', 'specCard', 'mainCard'].forEach(id => {{ const el = $(id); el.addEventListener('input', auto); el.addEventListener('change', auto); }});
   $('recalcBtn').addEventListener('click', () => {{ btn.click(); $('result').scrollIntoView({{ behavior: 'smooth', block: 'start' }}); }});
 }})();

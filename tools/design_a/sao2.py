@@ -22,7 +22,7 @@ m = dict(
           rule='CZに失敗したら「CZ失敗」。そのあと次回のATを強くするアイテムを獲得したら「アイテム獲得」も押す。',
           n=dict(id='czFail', label='CZ失敗', btn='CZ失敗'), k=dict(id='itemGet', label='そのうちアイテム獲得', btn='アイテム', clabel='アイテム獲得'),
           spec=[20.3,21.1,21.9,22.7,25.0,30.1], f=1, qn='czf', qk='itm')],
-  pnote='任意。数えたものだけ',
+  pnote='数えたものだけ',
   phint='CZ失敗時のアイテム獲得率は設定1 20.3%〜設定6 30.1%。',
   pratenote='CZ失敗時のアイテム獲得率（%）。1geki・ななプレスほか5サイトで一致。',
   datanote='通常時だけ数える',

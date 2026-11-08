@@ -9,6 +9,14 @@
     + 'font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:14.5px;'
     + 'box-shadow:0 6px 20px #0008;cursor:pointer;touch-action:manipulation;}'
     + '.sc-fab .sc-dot{width:8px;height:8px;border-radius:50%;background:#1a1408;opacity:.35;}'
+    + '.sc-inline{display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;margin:0 0 12px;padding:12px 14px;'
+    + 'background:var(--gold,#ffb21e);color:#1a1408;border:none;border-radius:6px;cursor:pointer;text-align:left;'
+    + 'font-family:inherit;touch-action:manipulation;}'
+    + '.sc-inline b{display:block;font-size:16px;font-weight:900;letter-spacing:.02em;}'
+    + '.sc-inline small{display:block;font-size:11.5px;font-weight:600;opacity:.8;margin-top:2px;line-height:1.4;}'
+    + '.sc-inline .sc-go{margin-left:auto;font-size:20px;font-weight:900;}'
+    + '.sc-inline .sc-dot{width:10px;height:10px;border-radius:50%;background:#1a1408;opacity:.35;flex:none;}'
+    + '.sc-inline.on .sc-dot{background:#c0392b;opacity:1;}'
     + '.sc-fab.on .sc-dot{background:#c0392b;opacity:1;}'
     + '.sc-ov{position:fixed;inset:0;z-index:1000;background:var(--bg);color:var(--text);display:none;'
     + 'flex-direction:column;overscroll-behavior:contain;}'
@@ -300,6 +308,7 @@
       undoBtn.textContent = bak ? 'リセット前に戻す' : '1つ戻す';
       undoBtn.disabled = !undo.length && !bak; undoBtn.style.opacity = (undo.length || bak) ? 1 : .45;
       fab.classList.toggle('on', used());
+      (inlines || []).forEach(function (b) { b.classList.toggle('on', used()); });
 
       var post = readPost();
       if (g <= 0) { resEl.innerHTML = '<span style="color:var(--muted);">' + cfg.g.label + 'を入れると、押すたびに判別結果が出ます</span>'; return; }
@@ -495,12 +504,25 @@
     function hideToast() { toast.classList.remove('show'); clearTimeout(toastT); }
     toast.querySelector('.sc-toast-undo').addEventListener('click', function () { undoBtn.click(); });
 
+    // ページ内の目立つ入口（data-sc-open が無いページは、回転数の入力欄の上に自動で置く）
+    var inlines = [].slice.call(document.querySelectorAll('[data-sc-open]'));
+    if (!inlines.length && cfg.g && $(cfg.g.id)) {
+      var gEl = $(cfg.g.id), box = gEl.closest('.card') || gEl.closest('section') || gEl.parentNode;
+      var ib = document.createElement('button'); ib.type = 'button'; ib.setAttribute('data-sc-open', '');
+      box.parentNode.insertBefore(ib, box); inlines = [ib];
+    }
+    inlines.forEach(function (b) {
+      b.classList.add('sc-inline');
+      if (!b.innerHTML.trim()) b.innerHTML = '<span class="sc-dot"></span><span><b>小役カウンターで数える</b><small>ホールで台を打ちながらタップ。数えた数はそのまま判別に入ります</small></span><span class="sc-go">›</span>';
+      b.addEventListener('click', function () { open('inline'); });
+    });
+
     var openedAt = 0;
-    function open() {
+    function open(from) {
       undo = []; taps = 0; openedAt = Date.now(); hideToast(); closePad();
       ov.classList.add('open'); document.documentElement.style.overflow = 'hidden';
       silentCalc(); render();
-      ga('counter_open', { machine: cfg.key });
+      ga('counter_open', { machine: cfg.key, from: from === 'inline' ? 'inline' : 'fab' });
     }
     function close() {
       ov.classList.remove('open'); document.documentElement.style.overflow = '';
@@ -508,7 +530,7 @@
       var wr = $(cfg.wrap);
       if (wr && wr.style.display !== 'none') wr.scrollIntoView({ block: 'center' });
     }
-    fab.addEventListener('click', open);
+    fab.addEventListener('click', function () { open('fab'); });
     ov.querySelector('.sc-close').addEventListener('click', close);
     ov.querySelector('.sc-tip-a').addEventListener('click', function () { ga('tip_click', { machine: cfg.key, from: 'counter' }); });
 
@@ -525,7 +547,7 @@
       silentCalc();
     } else if (saved && !fromShare) { store.del(KEY); free.forEach(function (x) { x.c = 0; }); saveFree(); }
     // ページ側で手入力した数もカウンターに反映
-    document.addEventListener('input', function (e) { if (!ov.classList.contains('open') && e.target && e.target.id) { save(); fab.classList.toggle('on', used()); } }, true);
+    document.addEventListener('input', function (e) { if (!ov.classList.contains('open') && e.target && e.target.id) { save(); fab.classList.toggle('on', used()); inlines.forEach(function (b) { b.classList.toggle('on', used()); }); } }, true);
     render();
   }
   window.SettiCounter = { init: init };
