@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L牙狼 闇を照らす者（スマスロ牙狼）設定判別・CZ・ボーナス・天井・打ち方 | 設定示唆くん</title>
-<meta name="description" content="L牙狼 闇を照らす者（スマスロ牙狼・ガロ）の設定判別ツール。通常時の回転数・トータルCZ・ボーナス初当りの回数から設定1〜6の可能性を計算します。合成確率・機械割の一覧、モード別の天井、打ち方もまとめています。2026年11月2日導入の新台。">
+<title>L牙狼 闇を照らす者（スマスロ牙狼）設定判別・終了画面・トロフィー・獲得枚数・天井 | 設定示唆くん</title>
+<meta name="description" content="L牙狼 闇を照らす者（スマスロ牙狼・ガロ）の設定判別ツール。通常時の回転数・トータルCZ・ボーナス初当りの回数から設定1〜6の可能性を計算します。終了画面・トントントロフィー・獲得枚数表示・3000枚BONUS中のGAROロゴで絞り込めます。機械割の一覧、モード別の天井、打ち方もまとめています。2026年11月2日導入の新台。">
 <link rel="canonical" href="https://pachipachi-png.com/garo-yami/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="設定示唆くん">
 <meta property="og:title" content="L牙狼 闇を照らす者 設定判別 | 設定示唆くん">
-<meta property="og:description" content="トータルCZとボーナス初当りで設定1〜6を判別。機械割の一覧・天井・打ち方つき。">
+<meta property="og:description" content="トータルCZとボーナス初当りに、終了画面・トロフィー・獲得枚数・GAROロゴで絞り込み。機械割の一覧・天井・打ち方つき。">
 <meta property="og:url" content="https://pachipachi-png.com/garo-yami/">
 <meta property="og:image" content="https://pachipachi-png.com/ogp.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -64,6 +64,7 @@
   .rates small{font-size:11px;margin-left:4px;}
   .hint{font-size:12px;color:var(--muted);line-height:1.6;margin:6px 0 0;}
   .data .hint{margin:8px 0 0;font-size:11.5px;color:var(--muted);line-height:1.6;}
+  .pdata{margin-top:10px;} .pcard{border:1px solid #2f2f31;border-radius:4px;padding:10px;margin-top:10px;} .pcard:first-of-type{margin-top:0;} .pcard .pt{margin:0;font-size:14px;font-weight:800;color:var(--text);} .pcard .pr{margin:2px 0 8px;font-size:11.5px;color:var(--muted);line-height:1.6;} .pdata .cells input{font-size:22px;} .pdata .taps button{height:44px;}
   .judge{display:block;width:calc(100% - 32px);margin:12px 16px 0;height:54px;background:var(--amber);color:var(--bg);border:none;border-radius:4px;font-family:inherit;font-weight:800;font-size:17px;letter-spacing:.08em;cursor:pointer;}
   .judge:active{transform:translateY(1px);}
   section{margin:24px 16px 0;}
@@ -156,8 +157,8 @@
 </header>
 
 <div class="lead">
-  <b class="h">CZとボーナス、両方数える。</b>
-  <p>トータルCZは1/156.6→1/141.1（約1.11倍）、ボーナス初当りは1/291.1→1/256.5（約1.13倍）。どちらも差は小さいので、2つを合わせて、なるべく長く回したデータで見る。</p>
+  <b class="h">回数より、終了画面とトロフィー。</b>
+  <p>トータルCZは1/156.6→1/141.1（約1.11倍）、ボーナス初当りは1/291.1→1/256.5（約1.13倍）しか違わない。回数は2つ合わせて目安にして、決め手は終了画面・トントントロフィー・獲得枚数表示・GAROロゴの「〇以上濃厚」。</p>
   <p class="warn">CZもボーナスも1.1倍あまりしか違わない機種です。3000Gでは設定6でも「4以上」とはっきり出ることはほとんどありません。</p>
 </div>
 
@@ -169,20 +170,26 @@
   <div class="cells" style="grid-template-columns:repeat(3,minmax(0,1fr));">
     <div><label for="totalG">総回転</label><input type="number" id="totalG" inputmode="numeric" placeholder="0"></div>
     <div><label for="czCount">CZ</label><input type="number" id="czCount" inputmode="numeric" placeholder="0"></div>
+    
     <div><label for="bonusCount">ボーナス（任意）</label><input type="number" id="bonusCount" inputmode="numeric" placeholder="-"></div>
+    
   </div>
   <div class="taps" style="grid-template-columns:repeat(4,minmax(0,1fr));">
     <button type="button" data-add="totalG" data-n="100">+100G</button>
     <button type="button" data-add="czCount" data-n="1">CZ +1</button>
+    
     <button type="button" data-add="bonusCount" data-n="1">ボーナス +1</button>
+    
     <button type="button" class="undo" id="undoBtn">1つ戻す</button>
   </div>
   <div class="rates dot">
     <span>CZ <b id="liveA">―</b><small id="liveANote"></small></span>
     <span>ボーナス <b id="liveB">―</b><small id="liveBNote"></small></span>
+    
   </div>
   <p class="hint">回転数・CZ・ボーナスは<b>通常時</b>で数えてください（ボーナス・AT中は除く）。CZは「牙狼モード」と特殊CZ「魔界」の合計です。ボーナスはBONUS・BIG BONUSの初当りで、空欄ならCZだけで計算します。</p>
 </div>
+
 <button class="judge" id="calcBtn">判別する</button>
 
 <section id="result">
@@ -196,9 +203,59 @@
 
 <section id="optionalCard">
   <div id="hints">
-    <div class="sh"><h2>示唆</h2><small>まだ未公表</small></div>
-    <div id="floorGroup"></div>
-    <p class="floor" id="floorNow" style="font-size:13px;color:var(--text);">終了画面・トロフィーなどの設定示唆は、導入前の時点でまだ公表されていません。出たらここに押せるボタンを足します。</p>
+    <div class="sh"><h2>見えたら押す</h2><small>「〇以上濃厚」だけ計算に使う</small></div>
+    <div id="floorGroup">
+        <p class="sub">ボーナス・金色になれ！の終了画面</p>
+        <div class="tiles" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,3,4,5,6" data-name="ボーナス終了画面 魔導ホラー集合"><span class="tn">魔導ホラー<br>集合</span><span class="tv">2↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="ボーナス終了画面 魔戒騎士集合"><span class="tn">魔戒騎士<br>集合</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="ボーナス終了画面 金色牙狼"><span class="tn">金色牙狼</span><span class="tv">6</span></label>
+        </div>
+        <p class="sub">究極魔戒RUSHの終了画面</p>
+        <div class="tiles" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,3,4,5,6" data-name="RUSH終了画面 莉杏"><span class="tn">莉杏</span><span class="tv">2↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="RUSH終了画面 魔戒騎士集合"><span class="tn">魔戒騎士<br>集合</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="RUSH終了画面 牙狼闇"><span class="tn">牙狼闇</span><span class="tv">6</span></label>
+        </div>
+        <p class="sub">トントントロフィー</p>
+        <div class="tiles" style="grid-template-columns:repeat(5,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,3,4,5,6" data-name="トロフィー銅"><span class="tn">銅</span><span class="tv">2↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="3,4,5,6" data-name="トロフィー銀"><span class="tn">銀</span><span class="tv">3↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="トロフィー金"><span class="tn">金</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="5,6" data-name="トロフィーサンセイ柄"><span class="tn">サンセイ</span><span class="tv">5↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="トロフィー虹"><span class="tn">虹</span><span class="tv">6</span></label>
+        </div>
+        <p class="sub">獲得枚数表示</p>
+        <div class="tiles" style="grid-template-columns:repeat(5,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,4,6" data-name="246枚OVER"><span class="tn">246</span><span class="tv">偶数</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="456枚OVER"><span class="tn">456</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="5,6" data-name="555枚OVER"><span class="tn">555</span><span class="tv">5↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="666枚OVER"><span class="tn">666</span><span class="tv">6</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="999枚OVER"><span class="tn">999</span><span class="tv">6</span></label>
+        </div>
+        <p class="sub">3000枚BONUS中のGAROロゴ（オレンジの文字）</p>
+        <div class="tiles" style="grid-template-columns:repeat(5,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,3,4,5,6" data-name="GAROロゴ 全部オレンジ"><span class="tn">全部</span><span class="tv">2↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="3,4,5,6" data-name="GAROロゴ AROがオレンジ"><span class="tn">ARO</span><span class="tv">3↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="GAROロゴ ROがオレンジ"><span class="tn">RO</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="5,6" data-name="GAROロゴ Oがオレンジ"><span class="tn">O</span><span class="tv">5↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="GAROロゴ 全部虹"><span class="tn">全部虹</span><span class="tv">6</span></label>
+        </div>
+        <p class="sub">GAROロゴ（青と黄）</p>
+        <div class="tiles" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="1,3,4,5,6" data-name="GAROロゴ G青・ARO黄"><span class="tn">G青・<br>ARO黄</span><span class="tv">2否定</span></label>
+          <label class="tile"><input type="checkbox" data-allow="1,2,4,5,6" data-name="GAROロゴ A青・GRO黄"><span class="tn">A青・<br>GRO黄</span><span class="tv">3否定</span></label>
+          <label class="tile"><input type="checkbox" data-allow="1,2,3,5,6" data-name="GAROロゴ R青・GAO黄"><span class="tn">R青・<br>GAO黄</span><span class="tv">4否定</span></label>
+        </div>
+    </div>
+    <p class="floor" id="floorNow">絞り込み：なし</p>
+    <ul class="refs">
+        <li>終了画面の莉杏／符礼／莉杏（メイド）＝偶数、燕邦／リベラ／尊士＝高設定（どちらも弱→強の順）。RUSH終了画面の漸＝偶数（弱）、牙射＝高設定（弱）。どれも「期待度アップ」止まり</li>
+        <li>アイテム：魔導紀元史は555Gまで、金城グループマークは規定G数で当たらなければ2以上、禁断のオブジェは777Gまでに当たらなければ6濃厚。トントンは規定G数での当選＋6濃厚、牙狼斬馬剣は引き戻し以上＋2以上濃厚。プラントと尊士の剣はサイトで中身が逆なので未掲載</li>
+        <li>ステップアップの文字：友・義・乱は次回BIG以上でなければそれぞれ2以上・3以上・4以上濃厚、switch on!!は6濃厚。次回の当たりしだいの条件付きなので、計算には使っていません</li>
+        <li>トロフィーの黒は次回銅以上の予告で、設定の示唆ではありません</li>
+    </ul>
+    <a class="outlink ref-out" data-sec="settei" href="https://chonborista.com/slot/sansei-slot/270768/" target="_blank" rel="noopener">示唆の一覧（ちょんぼりすた） ↗</a>
   </div>
   <details style="margin-top:16px;">
     <summary>期待差枚の計算条件</summary>
@@ -210,7 +267,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 10/27</span><p>導入前なので、数字は解析サイトの公表値です（4サイトで一致）。トータルCZに規定G数での牙狼モードを含むかは、どのサイトにも書かれていません。終了画面などの示唆が出たら、押せるボタンを足します。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/08</span><p>導入後の解析で終了画面・トロフィー・獲得枚数表示・GAROロゴの示唆が出そろったので、押せるボタンを足しました（ちょんぼりすた・P-WORLD・ななプレスで一致したものだけ）。アイテムのプラントと尊士の剣は、サイトによって中身が逆なので載せていません。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -219,7 +276,7 @@
       <li>CZ「牙狼モード」はレア役や規定G数で移行し、成功期待度は約51％（設定1）。特殊CZ「魔界」は15G継続で約82％（設定1）です</li>
       <li>200Gまでのボーナス当選期待度は約45％（設定1）。BIG BONUSの約40％でSUPER GARO BONUS（約1000枚）に入ります</li>
       <li>天井は通常時のモードで変わり、通常A 999G＋α・B 777G＋α・C 555G＋α・D 444G＋α・E 333G＋α・引き戻し 222G＋α・天国 111G＋α（P-WORLD）。設定変更後は777G＋αに短縮されるとするサイトもあります（1サイトのみ）</li>
-      <li>小役確率、終了画面・トロフィーなどの設定示唆は、導入前の時点でまだ公表されていません</li>
+      <li>小役（リプレイ1/7.3、共通ベル1/13.7、スイカ1/99.3、弱チェリー1/99.9、強チェリー1/399.6など）は全設定共通とされています</li>
   </ul>
 </section>
 
@@ -236,7 +293,7 @@
         <tr class="hi"><td>6</td><td>141.1</td><td>256.5</td><td>114.9</td></tr>
     </tbody>
   </table>
-  <p class="note">確率は「1/〇〇」の分母。数値はちょんぼりすた・P-WORLD・パチ&amp;スロ必勝本・ななプレスで一致。50枚あたり約32.9G、AT純増は約9.1枚/G。小役確率は未公表です。</p>
+  <p class="note">確率は「1/〇〇」の分母。数値はちょんぼりすた・P-WORLD・パチ&amp;スロ必勝本・ななプレスで一致。50枚あたり約32.9G、AT純増は約9.1枚/G。小役に設定差はないとされています。</p>
 </section>
 
 <section id="uchikata">
@@ -264,8 +321,8 @@
     <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
     <h3>3000Gではほぼ判別できない</h3>
     <p>このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、CZとボーナスを両方入れても3000Gで0％、5000Gで約2％、8000Gでも約7％でした。数字が強く出たときも「高設定かもしれない」くらいの目安として受け取り、ホールの傾向や他の台の様子と合わせて判断してください。逆に、CZが設定1の値より明らかに重い場合に、深追いをやめる材料としては使えます。</p>
-    <h3>示唆の解析が出たら追加します</h3>
-    <p>牙狼シリーズの過去機種では、終了画面やボーナス中の演出に設定示唆がありました。本機も導入後に示唆が判明すれば、このページに「示唆で絞る」チェックを追加し、計算に使えるようにします。数えるときは、CZは「牙狼モード」と「魔界」を合わせた回数、ボーナスは通常時からの初当りだけを入れ、ボーナス中・AT中のゲーム数は回転数に含めないようにしてください。天井はモードで変わり、最大は999G＋αです。</p>
+    <h3>決め手は示唆</h3>
+    <p>回数で差が付きにくいぶん、示唆は充実しています。ボーナス・金色になれ！の終了画面は魔導ホラー集合＝2以上、魔戒騎士集合＝4以上、金色牙狼＝6濃厚。究極魔戒RUSHの終了画面は莉杏＝2以上、魔戒騎士集合＝4以上、牙狼闇＝6濃厚です。トントントロフィーは銅2以上〜虹6、獲得枚数表示は246枚OVER＝偶数、456枚OVER＝4以上、555枚OVER＝5以上、666・999枚OVER＝6濃厚。3000枚BONUS中のGAROロゴは、オレンジの文字が少ないほど上の設定を示し、青と黄の組み合わせは特定の設定の否定になります。押すと、当てはまらない設定を0％にして計算し直します。数えるときは、CZは「牙狼モード」と「魔界」を合わせた回数、ボーナスは通常時からの初当りだけを入れてください。</p>
     <h3>使い方のコツ</h3>
     <p>1台だけで判断せず、同じ島の牙狼の台をいくつか見比べると、高設定が入っていそうな台の目星を付けやすくなります。データカウンターで回転数とCZ・ボーナスの回数を確認し、このツールに入れて「設定4以上の合計」が高い台から順に見ていくのが手軽な使い方です。期待差枚は機械割の加重平均なので、閉店までの残り時間が短いほど小さくなります。</p>
     </details>
@@ -278,7 +335,7 @@
       <thead><tr><th>設定</th><th>CZ</th><th>ボーナス</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
-    <p class="note">解析サイトの公開値です（2026年10月27日時点。2026年11月2日導入予定、メーカーはサンセイR&amp;D）。トータルCZ・ボーナス・機械割は、ちょんぼりすた・P-WORLD・パチ&amp;スロ必勝本・ななプレスで一致しています。トータルCZの数え方（規定G数での牙狼モードを含むか）は、どのサイトにも明記がありません。</p>
+    <p class="note">解析サイトの公開値です（数値は2026年10月27日時点、示唆は2026年11月8日時点。2026年11月2日導入、メーカーはサンセイR&amp;D）。トータルCZ・ボーナス・機械割は、ちょんぼりすた・P-WORLD・パチ&amp;スロ必勝本・ななプレスで一致しています。示唆はちょんぼりすた・P-WORLD・ななプレスで一致したものだけを計算に使っています。トータルCZの数え方（規定G数での牙狼モードを含むか）は、どのサイトにも明記がありません。</p>
   </details>
 </section>
 
@@ -300,47 +357,72 @@
 </div>
 
 <script>
-const SETS = [1,2,3,4,5,6], N = 6;
-const HAS_B = true, HAS_CHECKS = false;
-const SPEC = { a: [156.6, 154.6, 151.4, 148.7, 144.2, 141.1], b: [291.1, 283.7, 276.1, 265.8, 259.4, 256.5], payout: [97.5, 98.8, 101.2, 104.6, 110.5, 114.9] };
-const BET = 3, LABEL_A = "CZ", LABEL_B = "ボーナス";
+const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
+const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
+const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
+const XDEF = [];
+const PDEF = [];
+const SPEC = { a: [156.6, 154.6, 151.4, 148.7, 144.2, 141.1], b: [291.1, 283.7, 276.1, 265.8, 259.4, 256.5], c: [1, 1, 1, 1, 1, 1], payout: [97.5, 98.8, 101.2, 104.6, 110.5, 114.9] };
+const BET = 3, LABEL_A = "CZ", LABEL_B = "ボーナス", LABEL_C = "";
 const $ = id => document.getElementById(id);
 const specBody = $('specBody');
 for(let s=0; s<N; s++){
   const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${SETS[s]}</td><td><input type="number" step="0.1" class="aInput" value="${SPEC.a[s].toFixed(1)}"></td>${HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${SPEC.b[s].toFixed(1)}"></td>` : ''}<td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>`;
+  tr.innerHTML = `<td>${SETS[s]}</td><td><input type="number" step="0.1" class="aInput" value="${SPEC.a[s].toFixed(DEC_A)}"></td>${HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${SPEC.b[s].toFixed(DEC_B)}"></td>` : ''}${HAS_C ? `<td><input type="number" step="0.1" class="cInput" value="${SPEC.c[s].toFixed(DEC_C)}"></td>` : ''}${XDEF.map((x, j) => `<td><input type="number" step="0.1" class="xInput${j}" value="${x.spec[s].toFixed(x.dec)}"></td>`).join('')}<td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>`;
   specBody.appendChild(tr);
+}
+const pBody = $('pSpecBody');
+if(pBody) for(let s=0; s<N; s++){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${SETS[s]}</td>` + PDEF.map((q, j) => `<td><input type="number" step="0.1" class="pInput${j}" value="${q.spec[s].toFixed(1)}"></td>`).join('');
+  pBody.appendChild(tr);
 }
 const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
 const totalG = $('totalG'), aCount = $("czCount"), bCount = $("bonusCount") || { value: '', addEventListener(){}, dispatchEvent(){} };
+const cCount = $("_noC") || { value: '', addEventListener(){}, dispatchEvent(){} };
 const num = el => Math.max(parseFloat(el.value) || 0, 0);
+const bG = B_G ? $(B_G) : totalG;
+const xEls = XDEF.map(x => $(x.id));
+const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
+function livePct(){
+  PDEF.forEach((q, j) => {
+    const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(n > 0){
+      const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
+      $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
+      let best = 0; arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+      $('livePNote' + j).textContent = r <= Math.min(...arr) ? `設定${SETS[0]}以下` : (r >= Math.max(...arr) ? `設定${SETS[N-1]}以上` : `設定${SETS[best]}付近`);
+    } else { $('liveP' + j).textContent = '―'; $('livePNote' + j).textContent = ''; }
+  });
+}
+pEls.flat().forEach(el => el.addEventListener('input', livePct));
 function nearLabel(r, arr){
-  if(r >= Math.max(...arr)) return '設定1より重い';
-  if(r <= Math.min(...arr)) return '設定6より軽い';
+  if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
+  if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
   let best = 0; arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
   return `設定${SETS[best]}付近`;
 }
 const rate = (g, k) => k > 0 ? `1/${(g/k).toFixed(1)}` : '―';
-function live(el, cls, b, n){
-  const g = num(totalG), k = num(el);
+function live(el, cls, b, n, gEl){
+  const g = num(gEl || totalG), k = num(el);
   if(g > 0 && k > 0){ $(b).textContent = rate(g, k); $(n).textContent = nearLabel(g/k, readCol(cls)); }
   else { $(b).textContent = '―'; $(n).textContent = ''; }
 }
-function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote'); }
-[totalG, aCount, bCount].forEach(el => el.addEventListener('input', updateLive));
+function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); if(HAS_C) live(cCount, 'cInput', 'liveC', 'liveCNote'); xEls.forEach((el, j) => live(el, 'xInput' + j, 'liveX' + j, 'liveX' + j + 'Note')); }
+[totalG, aCount, bCount, cCount, bG, ...xEls].forEach(el => el.addEventListener('input', updateLive));
 specBody.addEventListener('input', updateLive);
+if(pBody) pBody.addEventListener('input', livePct);
 
 // タップで足す（データカウンターのように）
 const undo = [];
 document.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => {
-  const el = $(b.dataset.add), before = el.value;
-  el.value = num(el) + Number(b.dataset.n);
-  undo.push([el, before]); if(undo.length > 50) undo.shift();
-  el.dispatchEvent(new Event('input', { bubbles: true }));
+  const step = b.dataset.add.split(',').map(id => { const el = $(id), before = el.value; el.value = num(el) + Number(b.dataset.n); return [el, before]; });
+  undo.push(step); if(undo.length > 50) undo.shift();
+  step.forEach(([el]) => el.dispatchEvent(new Event('input', { bubbles: true })));
 }));
 $('undoBtn').addEventListener('click', () => {
   const u = undo.pop(); if(!u) return;
-  u[0].value = u[1]; u[0].dispatchEvent(new Event('input', { bubbles: true }));
+  u.forEach(([el, v]) => { el.value = v; el.dispatchEvent(new Event('input', { bubbles: true })); });
 });
 
 // 示唆
@@ -364,22 +446,31 @@ floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
 const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
 function showMsg(t){ $('topSetting').innerHTML = `<p style="margin:0;font-size:13px;color:var(--muted);">${t}</p>`; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; }
 $('calcBtn').addEventListener('click', () => {
-  const g = num(totalG), a = num(aCount), useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0;
-  if(g <= 0){ showMsg('総回転（通常時）を入れてください。'); return; }
+  const g = num(totalG), a = num(aCount), useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
+  if(g <= 0){ showMsg("総回転（通常時）を入れてください。"); return; }
   if(aCount.value.trim() === ''){ showMsg(`${LABEL_A}の回数を入れてください（0回なら0）。`); return; }
-  if(a > g || b > g){ showMsg('回数がゲーム数を超えています。'); return; }
+  if(useB && gb <= 0){ showMsg(""); return; }
+  const pUse = PDEF.map((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); return { n, k, use: n > 0 || k > 0 }; });
+  if(pUse.some(x => x.use && x.k > x.n)){ showMsg('「そのうち」の回数が、もとの回数より多くなっています。'); return; }
+  const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '' }));
+  if(a > g || b > gb || c > g || xUse.some(x => x.k > g)){ showMsg('回数がゲーム数を超えています。'); return; }
   const { allow, names } = currentAllow();
   if(!allow.size){ showMsg('押した示唆が矛盾しています。見間違いがないか確認してください。'); return; }
-  const av = readCol('aInput'), bv = readCol('bInput'), payout = readCol('payoutInput');
-  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : binomLL(a, g, 1/av[i]) + (useB ? binomLL(b, g, 1/bv[i]) : 0));
+  const pv = PDEF.map((q, j) => readCol('pInput' + j).map(v => Math.min(Math.max(v * q.f / 100, 1e-6), 1 - 1e-6)));
+  const xv = XDEF.map((x, j) => readCol('xInput' + j)), av = readCol('aInput'), bv = readCol('bInput'), cv = readCol('cInput'), payout = readCol('payoutInput');
+  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : binomLL(a, g, 1/av[i]) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + xUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, g, 1/xv[j][i]) : 0), 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
   const mx = Math.max(...ll), w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - mx)), sum = w.reduce((x, y) => x + y, 0), post = w.map(x => x / sum);
   const exp = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
   if (typeof gtag === 'function') gtag('event', 'judge_run', { machine: "garo-yami", has_b: useB });
-  const top = Math.max(...post), best = post.indexOf(top), hi = post[3] + post[4] + post[5];
-  $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${i >= 3 ? ' hi' : ''}${allow.has(SETS[i]) ? '' : ' cut'}"><span class="sl">設定${SETS[i]}</span><span class="track"><span class="swatch" style="width:${top > 0 ? (p/top*100).toFixed(1) : 0}%;"></span></span><span class="pct">${(p*100).toFixed(1)}%</span></div>`).join('');
+  const top = Math.max(...post), best = post.indexOf(top), hi = post.reduce((x, p, i) => x + (HI[i] ? p : 0), 0);
+  $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${HI[i] ? ' hi' : ''}${allow.has(SETS[i]) ? '' : ' cut'}"><span class="sl">設定${SETS[i]}</span><span class="track"><span class="swatch" style="width:${top > 0 ? (p/top*100).toFixed(1) : 0}%;"></span></span><span class="pct">${(p*100).toFixed(1)}%</span></div>`).join('');
   $('pieWrap').style.display = 'block';
-  const parts = [`通常時${g}G`, `${LABEL_A} ${a}回（${rate(g, a)}）`];
-  if(useB) parts.push(`${LABEL_B} ${b}回（${rate(g, b)}）`);
+  const parts = [`${B_G ? "通常時" : '通常時'}${g}G`, `${LABEL_A} ${a}回（${rate(g, a)}）`];
+  if(useB && B_G) parts.push(`${""}${gb}G`);
+  if(useB) parts.push(`${LABEL_B} ${b}回（${rate(gb, b)}）`);
+  if(useC) parts.push(`${LABEL_C} ${c}回`);
+  xUse.forEach((x, j) => { if(x.use) parts.push(`${XDEF[j].label} ${x.k}回`); });
+  pUse.forEach((x, j) => { if(x.use) parts.push(`${PDEF[j].label} ${x.k}/${x.n}`); });
   if(names.length) parts.push(`示唆：${names.join('・')}`);
   let say;
   const minAllow = Math.min(...allow);
@@ -418,11 +509,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "garo-yami", "name": "L牙狼 闇を照らす者", "tags": "#牙狼 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "bonusCount", "q": "bn", "label": "ボーナス", "unit": "回", "rateOf": "totalG"}]}]});
+SettiShare.init({"key": "garo-yami", "name": "L牙狼 闇を照らす者", "tags": "#牙狼 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "bonusCount", "q": "bn", "label": "ボーナス", "unit": "回", "rateOf": "totalG"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "garo-yami", "name": "牙狼", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "bonusCount", "label": "ボーナス", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・CZ・ボーナスは通常時のみ。CZは牙狼モード＋魔界。"});
+SettiCounter.init({"key": "garo-yami", "name": "牙狼", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "bonusCount", "label": "ボーナス", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・CZ・ボーナスは通常時のみ。CZは牙狼モード＋魔界。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "終了画面・トロフィー・獲得枚数・GAROロゴ", "short": "示唆", "optional": true}});
 </script>
 </body>
 </html>

@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>スマスロ ラグナドール 設定判別・AT初当り・CZ・天井 | 設定示唆くん</title>
-<meta name="description" content="スマスロ ラグナドール（ミズホ）の設定判別ツール。通常時の回転数・AT初当り・CZの回数から設定1〜6の可能性を計算します。合成確率・機械割の一覧、CZ間・AT間の天井もまとめています。2026年11月2日導入の新台。">
+<title>スマスロ ラグナドール 設定判別・AT初当り・CZ・エンディングボイス・天井 | 設定示唆くん</title>
+<meta name="description" content="スマスロ ラグナドール（ミズホ）の設定判別ツール。通常時の回転数・AT初当り・CZの回数から設定1〜6の可能性を計算します。エンディング中のボイスで絞り込めます。機械割の一覧、CZ間・AT間の天井もまとめています。2026年11月2日導入の新台。">
 <link rel="canonical" href="https://pachipachi-png.com/ragnador/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="設定示唆くん">
 <meta property="og:title" content="スマスロ ラグナドール 設定判別 | 設定示唆くん">
-<meta property="og:description" content="AT初当りとCZで設定1〜6を判別。設定3と4の間に段差あり。機械割の一覧・天井つき。">
+<meta property="og:description" content="AT初当りとCZで設定1〜6を判別。設定3と4の間に段差あり。エンディングのボイスで絞り込み、機械割の一覧・天井つき。">
 <meta property="og:url" content="https://pachipachi-png.com/ragnador/">
 <meta property="og:image" content="https://pachipachi-png.com/ogp.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -64,6 +64,7 @@
   .rates small{font-size:11px;margin-left:4px;}
   .hint{font-size:12px;color:var(--muted);line-height:1.6;margin:6px 0 0;}
   .data .hint{margin:8px 0 0;font-size:11.5px;color:var(--muted);line-height:1.6;}
+  .pdata{margin-top:10px;} .pcard{border:1px solid #2f2f31;border-radius:4px;padding:10px;margin-top:10px;} .pcard:first-of-type{margin-top:0;} .pcard .pt{margin:0;font-size:14px;font-weight:800;color:var(--text);} .pcard .pr{margin:2px 0 8px;font-size:11.5px;color:var(--muted);line-height:1.6;} .pdata .cells input{font-size:22px;} .pdata .taps button{height:44px;}
   .judge{display:block;width:calc(100% - 32px);margin:12px 16px 0;height:54px;background:var(--amber);color:var(--bg);border:none;border-radius:4px;font-family:inherit;font-weight:800;font-size:17px;letter-spacing:.08em;cursor:pointer;}
   .judge:active{transform:translateY(1px);}
   section{margin:24px 16px 0;}
@@ -169,20 +170,26 @@
   <div class="cells" style="grid-template-columns:repeat(3,minmax(0,1fr));">
     <div><label for="totalG">総回転</label><input type="number" id="totalG" inputmode="numeric" placeholder="0"></div>
     <div><label for="atCount">AT初当り</label><input type="number" id="atCount" inputmode="numeric" placeholder="0"></div>
+    
     <div><label for="czCount">CZ（任意）</label><input type="number" id="czCount" inputmode="numeric" placeholder="-"></div>
+    
   </div>
   <div class="taps" style="grid-template-columns:repeat(4,minmax(0,1fr));">
     <button type="button" data-add="totalG" data-n="100">+100G</button>
     <button type="button" data-add="atCount" data-n="1">AT +1</button>
+    
     <button type="button" data-add="czCount" data-n="1">CZ +1</button>
+    
     <button type="button" class="undo" id="undoBtn">1つ戻す</button>
   </div>
   <div class="rates dot">
     <span>AT <b id="liveA">―</b><small id="liveANote"></small></span>
     <span>CZ <b id="liveB">―</b><small id="liveBNote"></small></span>
+    
   </div>
   <p class="hint">回転数・AT初当り・CZは<b>通常時</b>で数えてください（AT中は除く）。CZは空欄ならAT初当りだけで計算します。</p>
 </div>
+
 <button class="judge" id="calcBtn">判別する</button>
 
 <section id="result">
@@ -196,9 +203,23 @@
 
 <section id="optionalCard">
   <div id="hints">
-    <div class="sh"><h2>示唆</h2><small>まだ未公表</small></div>
-    <div id="floorGroup"></div>
-    <p class="floor" id="floorNow" style="font-size:13px;color:var(--text);">終了画面・トロフィーなどの設定示唆は、導入前の時点でまだ公表されていません。出たらここに押せるボタンを足します。</p>
+    <div class="sh"><h2>見えたら押す</h2><small>「〇以上濃厚」だけ計算に使う</small></div>
+    <div id="floorGroup">
+        <p class="sub">エンディング中のボイス（レア役でサブ液晶タッチ）</p>
+        <div class="tiles" style="grid-template-columns:repeat(4,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,3,4,5,6" data-name="ボイス 貂"><span class="tn">貂</span><span class="tv">2↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="ボイス イヅナ「特別な日なので」"><span class="tn">イヅナ<br>特別な日</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="5,6" data-name="ボイス けうけげん"><span class="tn">けうけげん</span><span class="tv">5↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="ボイス ぬりかべ"><span class="tn">ぬりかべ</span><span class="tv">6</span></label>
+        </div>
+    </div>
+    <p class="floor" id="floorNow">絞り込み：なし</p>
+    <ul class="refs">
+        <li>エンディングのボイスの続き：イヅナ「協力いたします！」＝偶数、「ここは私にお任せください！」＝高設定（弱）、のっぺらぼう＝高設定（強）、イヅナ「よしっ！」＝基本</li>
+        <li>AT終了画面のイヅナのボイス（「まいります！」「勝負はここからです！」など）は高設定の期待度アップ止まり。白虎・玄武・朱雀は次回CZの敵の示唆</li>
+        <li>ステージは内部状態の示唆（屋敷内＝高確、屋敷前＝超高確）</li>
+    </ul>
+    <a class="outlink ref-out" data-sec="settei" href="https://1geki.jp/slot/l_ragnador/0/" target="_blank" rel="noopener">ボイスと終了画面（1geki） ↗</a>
   </div>
   <details style="margin-top:16px;">
     <summary>期待差枚の計算条件</summary>
@@ -210,7 +231,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 10/27</span><p>導入前なので、数字は解析サイトの公表値です（3サイトで一致）。通常時の打ち方の手順はまだどのサイトにも載っていません。出たら打ち方の章に書き足します。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/08</span><p>導入後の解析で、エンディング中のボイス（貂・イヅナ・けうけげん・ぬりかべ）の示唆が3サイトで一致したので、押せるボタンを足しました。AT終了画面のボイスは「期待度アップ」止まりなので参考にしています。通常時の打ち方の手順はまだどのサイトにも載っていません。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -219,7 +240,8 @@
       <li>設定4・5・6の差は小さく（AT 1/271.2〜1/258.3、CZ 1/145.0〜1/142.4）、高設定どうしの区別はほぼできません</li>
       <li>天井はCZ間500G＋α（CZへ）とAT間999G＋α（ATへ）。設定変更後はAT間が500G＋αに短縮されます。AT間のカウントは通常時のG数だけで、CZ中は含みません</li>
       <li>AT終了後は初回CZに当選するまで出玉率が100％を超えるとされ、初回CZまで打つのが基本です</li>
-      <li>小役確率、終了画面・トロフィーなどの設定示唆は、導入前の時点でまだ公表されていません</li>
+      <li><b>エンディング中のボイス</b>（レア役でサブ液晶タッチ）：貂＝2以上、イヅナ「特別な日なので…」＝4以上、けうけげん＝5以上、ぬりかべ＝6濃厚</li>
+      <li>小役は全設定共通とされています</li>
   </ul>
 </section>
 
@@ -236,7 +258,7 @@
         <tr class="hi"><td>6</td><td>258.3</td><td>142.4</td><td>114.5</td></tr>
     </tbody>
   </table>
-  <p class="note">確率は「1/〇〇」の分母。数値はちょんぼりすた・パチマガスロマガ・P-WORLDで一致。50枚あたり約31.0G（設定1）。導入予定は約10,000台です。小役確率は未公表です。</p>
+  <p class="note">確率は「1/〇〇」の分母。数値はちょんぼりすた・パチマガスロマガ・P-WORLDで一致。50枚あたり約31.0G（設定1）。導入予定は約10,000台です。小役に設定差はないとされています。</p>
 </section>
 
 <section id="uchikata">
@@ -263,7 +285,7 @@
     <h3>CZを足すと精度が上がる</h3>
     <p>このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、AT初当りだけでは3000Gで約5％、8000Gで約19％でした。CZも入れると、3000Gで約16％、5000Gで約29％、8000Gで約46％まで上がります。CZは回数が多いぶんブレが小さいので、AT初当りと合わせて数えるのがおすすめです。設定1の台で同じ結果になってしまう割合は2％ほどです。</p>
     <h3>天井と数えるときの注意</h3>
-    <p>天井はCZ間500G＋α、AT間999G＋αで、設定変更後はAT間が500G＋αに短縮されます。AT間のゲーム数は通常時だけを数え、CZ中は含まないとされているので、判別に使う回転数も通常時だけにしてください。AT終了後は初回CZまで出玉率が100％を超えるとされています。終了画面などの設定示唆は導入前の時点でまだ公表されていないため、判明したらこのページに追加し、計算に使えるようにします。</p>
+    <p>天井はCZ間500G＋α、AT間999G＋αで、設定変更後はAT間が500G＋αに短縮されます。AT間のゲーム数は通常時だけを数え、CZ中は含まないとされているので、判別に使う回転数も通常時だけにしてください。AT終了後は初回CZまで出玉率が100％を超えるとされています。導入後の解析で、エンディング中にレア役を引いてサブ液晶をタッチしたときのボイスに示唆があると分かりました。貂「イヅナちゃんと同じくらい…」＝2以上、イヅナ「特別な日なので…」＝4以上、けうけげん「終わったらみんなでパーチーですぞぉ」＝5以上、ぬりかべ「一緒に歩んできた時間が…」＝6濃厚です。</p>
     <h3>使い方のコツ</h3>
     <p>データカウンターでAT初当りとCZの回数を見られる場合は、打つ前の台選びにも使えます。設定4以上の合計が高めに出た台を候補にし、打ちながらCZの回数を足していくと、判断が少しずつ固まっていきます。CZが設定1の1/172.8より明らかに重い場合は、低設定寄りと見てよいでしょう。期待差枚は機械割の加重平均で、残り時間が短いほど小さくなります。</p>
     </details>
@@ -276,7 +298,7 @@
       <thead><tr><th>設定</th><th>AT初当り</th><th>CZ</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
-    <p class="note">解析サイトの公開値です（2026年10月27日時点。2026年11月2日導入予定、メーカーはミズホ）。AT初当り・CZ・機械割は、ちょんぼりすた・パチマガスロマガ・P-WORLDで一致しています。</p>
+    <p class="note">解析サイトの公開値です（数値は2026年10月27日時点、示唆は2026年11月8日時点。2026年11月2日導入、メーカーはミズホ）。AT初当り・CZ・機械割は、ちょんぼりすた・パチマガスロマガ・P-WORLDで一致しています。エンディングのボイスは、ちょんぼりすた・P-WORLD・1gekiで一致したものです。</p>
   </details>
 </section>
 
@@ -298,47 +320,72 @@
 </div>
 
 <script>
-const SETS = [1,2,3,4,5,6], N = 6;
-const HAS_B = true, HAS_CHECKS = false;
-const SPEC = { a: [326.4, 317.2, 307.7, 271.2, 260.8, 258.3], b: [172.8, 167.2, 161.8, 145.0, 143.0, 142.4], payout: [97.6, 98.8, 100.3, 105.7, 110.5, 114.5] };
-const BET = 3, LABEL_A = "AT初当り", LABEL_B = "CZ";
+const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
+const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
+const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
+const XDEF = [];
+const PDEF = [];
+const SPEC = { a: [326.4, 317.2, 307.7, 271.2, 260.8, 258.3], b: [172.8, 167.2, 161.8, 145.0, 143.0, 142.4], c: [1, 1, 1, 1, 1, 1], payout: [97.6, 98.8, 100.3, 105.7, 110.5, 114.5] };
+const BET = 3, LABEL_A = "AT初当り", LABEL_B = "CZ", LABEL_C = "";
 const $ = id => document.getElementById(id);
 const specBody = $('specBody');
 for(let s=0; s<N; s++){
   const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${SETS[s]}</td><td><input type="number" step="0.1" class="aInput" value="${SPEC.a[s].toFixed(1)}"></td>${HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${SPEC.b[s].toFixed(1)}"></td>` : ''}<td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>`;
+  tr.innerHTML = `<td>${SETS[s]}</td><td><input type="number" step="0.1" class="aInput" value="${SPEC.a[s].toFixed(DEC_A)}"></td>${HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${SPEC.b[s].toFixed(DEC_B)}"></td>` : ''}${HAS_C ? `<td><input type="number" step="0.1" class="cInput" value="${SPEC.c[s].toFixed(DEC_C)}"></td>` : ''}${XDEF.map((x, j) => `<td><input type="number" step="0.1" class="xInput${j}" value="${x.spec[s].toFixed(x.dec)}"></td>`).join('')}<td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>`;
   specBody.appendChild(tr);
+}
+const pBody = $('pSpecBody');
+if(pBody) for(let s=0; s<N; s++){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${SETS[s]}</td>` + PDEF.map((q, j) => `<td><input type="number" step="0.1" class="pInput${j}" value="${q.spec[s].toFixed(1)}"></td>`).join('');
+  pBody.appendChild(tr);
 }
 const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
 const totalG = $('totalG'), aCount = $("atCount"), bCount = $("czCount") || { value: '', addEventListener(){}, dispatchEvent(){} };
+const cCount = $("_noC") || { value: '', addEventListener(){}, dispatchEvent(){} };
 const num = el => Math.max(parseFloat(el.value) || 0, 0);
+const bG = B_G ? $(B_G) : totalG;
+const xEls = XDEF.map(x => $(x.id));
+const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
+function livePct(){
+  PDEF.forEach((q, j) => {
+    const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(n > 0){
+      const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
+      $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
+      let best = 0; arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+      $('livePNote' + j).textContent = r <= Math.min(...arr) ? `設定${SETS[0]}以下` : (r >= Math.max(...arr) ? `設定${SETS[N-1]}以上` : `設定${SETS[best]}付近`);
+    } else { $('liveP' + j).textContent = '―'; $('livePNote' + j).textContent = ''; }
+  });
+}
+pEls.flat().forEach(el => el.addEventListener('input', livePct));
 function nearLabel(r, arr){
-  if(r >= Math.max(...arr)) return '設定1より重い';
-  if(r <= Math.min(...arr)) return '設定6より軽い';
+  if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
+  if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
   let best = 0; arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
   return `設定${SETS[best]}付近`;
 }
 const rate = (g, k) => k > 0 ? `1/${(g/k).toFixed(1)}` : '―';
-function live(el, cls, b, n){
-  const g = num(totalG), k = num(el);
+function live(el, cls, b, n, gEl){
+  const g = num(gEl || totalG), k = num(el);
   if(g > 0 && k > 0){ $(b).textContent = rate(g, k); $(n).textContent = nearLabel(g/k, readCol(cls)); }
   else { $(b).textContent = '―'; $(n).textContent = ''; }
 }
-function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote'); }
-[totalG, aCount, bCount].forEach(el => el.addEventListener('input', updateLive));
+function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); if(HAS_C) live(cCount, 'cInput', 'liveC', 'liveCNote'); xEls.forEach((el, j) => live(el, 'xInput' + j, 'liveX' + j, 'liveX' + j + 'Note')); }
+[totalG, aCount, bCount, cCount, bG, ...xEls].forEach(el => el.addEventListener('input', updateLive));
 specBody.addEventListener('input', updateLive);
+if(pBody) pBody.addEventListener('input', livePct);
 
 // タップで足す（データカウンターのように）
 const undo = [];
 document.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => {
-  const el = $(b.dataset.add), before = el.value;
-  el.value = num(el) + Number(b.dataset.n);
-  undo.push([el, before]); if(undo.length > 50) undo.shift();
-  el.dispatchEvent(new Event('input', { bubbles: true }));
+  const step = b.dataset.add.split(',').map(id => { const el = $(id), before = el.value; el.value = num(el) + Number(b.dataset.n); return [el, before]; });
+  undo.push(step); if(undo.length > 50) undo.shift();
+  step.forEach(([el]) => el.dispatchEvent(new Event('input', { bubbles: true })));
 }));
 $('undoBtn').addEventListener('click', () => {
   const u = undo.pop(); if(!u) return;
-  u[0].value = u[1]; u[0].dispatchEvent(new Event('input', { bubbles: true }));
+  u.forEach(([el, v]) => { el.value = v; el.dispatchEvent(new Event('input', { bubbles: true })); });
 });
 
 // 示唆
@@ -362,22 +409,31 @@ floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
 const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
 function showMsg(t){ $('topSetting').innerHTML = `<p style="margin:0;font-size:13px;color:var(--muted);">${t}</p>`; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; }
 $('calcBtn').addEventListener('click', () => {
-  const g = num(totalG), a = num(aCount), useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0;
-  if(g <= 0){ showMsg('総回転（通常時）を入れてください。'); return; }
+  const g = num(totalG), a = num(aCount), useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
+  if(g <= 0){ showMsg("総回転（通常時）を入れてください。"); return; }
   if(aCount.value.trim() === ''){ showMsg(`${LABEL_A}の回数を入れてください（0回なら0）。`); return; }
-  if(a > g || b > g){ showMsg('回数がゲーム数を超えています。'); return; }
+  if(useB && gb <= 0){ showMsg(""); return; }
+  const pUse = PDEF.map((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); return { n, k, use: n > 0 || k > 0 }; });
+  if(pUse.some(x => x.use && x.k > x.n)){ showMsg('「そのうち」の回数が、もとの回数より多くなっています。'); return; }
+  const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '' }));
+  if(a > g || b > gb || c > g || xUse.some(x => x.k > g)){ showMsg('回数がゲーム数を超えています。'); return; }
   const { allow, names } = currentAllow();
   if(!allow.size){ showMsg('押した示唆が矛盾しています。見間違いがないか確認してください。'); return; }
-  const av = readCol('aInput'), bv = readCol('bInput'), payout = readCol('payoutInput');
-  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : binomLL(a, g, 1/av[i]) + (useB ? binomLL(b, g, 1/bv[i]) : 0));
+  const pv = PDEF.map((q, j) => readCol('pInput' + j).map(v => Math.min(Math.max(v * q.f / 100, 1e-6), 1 - 1e-6)));
+  const xv = XDEF.map((x, j) => readCol('xInput' + j)), av = readCol('aInput'), bv = readCol('bInput'), cv = readCol('cInput'), payout = readCol('payoutInput');
+  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : binomLL(a, g, 1/av[i]) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + xUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, g, 1/xv[j][i]) : 0), 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
   const mx = Math.max(...ll), w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - mx)), sum = w.reduce((x, y) => x + y, 0), post = w.map(x => x / sum);
   const exp = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
   if (typeof gtag === 'function') gtag('event', 'judge_run', { machine: "ragnador", has_b: useB });
-  const top = Math.max(...post), best = post.indexOf(top), hi = post[3] + post[4] + post[5];
-  $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${i >= 3 ? ' hi' : ''}${allow.has(SETS[i]) ? '' : ' cut'}"><span class="sl">設定${SETS[i]}</span><span class="track"><span class="swatch" style="width:${top > 0 ? (p/top*100).toFixed(1) : 0}%;"></span></span><span class="pct">${(p*100).toFixed(1)}%</span></div>`).join('');
+  const top = Math.max(...post), best = post.indexOf(top), hi = post.reduce((x, p, i) => x + (HI[i] ? p : 0), 0);
+  $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${HI[i] ? ' hi' : ''}${allow.has(SETS[i]) ? '' : ' cut'}"><span class="sl">設定${SETS[i]}</span><span class="track"><span class="swatch" style="width:${top > 0 ? (p/top*100).toFixed(1) : 0}%;"></span></span><span class="pct">${(p*100).toFixed(1)}%</span></div>`).join('');
   $('pieWrap').style.display = 'block';
-  const parts = [`通常時${g}G`, `${LABEL_A} ${a}回（${rate(g, a)}）`];
-  if(useB) parts.push(`${LABEL_B} ${b}回（${rate(g, b)}）`);
+  const parts = [`${B_G ? "通常時" : '通常時'}${g}G`, `${LABEL_A} ${a}回（${rate(g, a)}）`];
+  if(useB && B_G) parts.push(`${""}${gb}G`);
+  if(useB) parts.push(`${LABEL_B} ${b}回（${rate(gb, b)}）`);
+  if(useC) parts.push(`${LABEL_C} ${c}回`);
+  xUse.forEach((x, j) => { if(x.use) parts.push(`${XDEF[j].label} ${x.k}回`); });
+  pUse.forEach((x, j) => { if(x.use) parts.push(`${PDEF[j].label} ${x.k}/${x.n}`); });
   if(names.length) parts.push(`示唆：${names.join('・')}`);
   let say;
   const minAllow = Math.min(...allow);
@@ -416,11 +472,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "ragnador", "name": "スマスロ ラグナドール", "tags": "#ラグナドール #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}]}]});
+SettiShare.init({"key": "ragnador", "name": "スマスロ ラグナドール", "tags": "#ラグナドール #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "ragnador", "name": "ラグナドール", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "czCount", "label": "CZ", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・CZは通常時のみ。"});
+SettiCounter.init({"key": "ragnador", "name": "ラグナドール", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "czCount", "label": "CZ", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・CZは通常時のみ。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "エンディングのボイス", "short": "示唆", "optional": true}});
 </script>
 </body>
 </html>

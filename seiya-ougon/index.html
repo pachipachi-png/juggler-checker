@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>L聖闘士星矢 黄金十二宮（スマスロ星矢）設定判別・トロフィー・終了画面・打ち方 | 設定示唆くん</title>
-<meta name="description" content="L聖闘士星矢 黄金十二宮（スマスロ聖闘士星矢・サンスリー）の設定判別ツール。通常時の回転数・AT初当り・CZの回数から設定1〜6の可能性を計算。クジラッキートロフィー・AT終了画面・エクストララウンドのキャラ・カード演出の星座で絞り込めます。機械割の一覧・天井・打ち方つき。2026年11月2日導入の新台。">
+<meta name="description" content="L聖闘士星矢 黄金十二宮（スマスロ聖闘士星矢・サンスリー）の設定判別ツール。通常時の回転数・AT初当り・CZの回数から設定1〜6の可能性を計算。クジラッキートロフィー・AT終了画面・エクストララウンドのキャラ・カード演出の星座・エンディングのPUSHボタンの色で絞り込めます。機械割の一覧・天井・打ち方つき。2026年11月2日導入の新台。">
 <link rel="canonical" href="https://pachipachi-png.com/seiya-ougon/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="設定示唆くん">
@@ -64,6 +64,7 @@
   .rates small{font-size:11px;margin-left:4px;}
   .hint{font-size:12px;color:var(--muted);line-height:1.6;margin:6px 0 0;}
   .data .hint{margin:8px 0 0;font-size:11.5px;color:var(--muted);line-height:1.6;}
+  .pdata{margin-top:10px;} .pcard{border:1px solid #2f2f31;border-radius:4px;padding:10px;margin-top:10px;} .pcard:first-of-type{margin-top:0;} .pcard .pt{margin:0;font-size:14px;font-weight:800;color:var(--text);} .pcard .pr{margin:2px 0 8px;font-size:11.5px;color:var(--muted);line-height:1.6;} .pdata .cells input{font-size:22px;} .pdata .taps button{height:44px;}
   .judge{display:block;width:calc(100% - 32px);margin:12px 16px 0;height:54px;background:var(--amber);color:var(--bg);border:none;border-radius:4px;font-family:inherit;font-weight:800;font-size:17px;letter-spacing:.08em;cursor:pointer;}
   .judge:active{transform:translateY(1px);}
   section{margin:24px 16px 0;}
@@ -169,20 +170,26 @@
   <div class="cells" style="grid-template-columns:repeat(3,minmax(0,1fr));">
     <div><label for="totalG">総回転</label><input type="number" id="totalG" inputmode="numeric" placeholder="0"></div>
     <div><label for="atCount">AT初当り</label><input type="number" id="atCount" inputmode="numeric" placeholder="0"></div>
+    
     <div><label for="czCount">CZ（任意）</label><input type="number" id="czCount" inputmode="numeric" placeholder="-"></div>
+    
   </div>
   <div class="taps" style="grid-template-columns:repeat(4,minmax(0,1fr));">
     <button type="button" data-add="totalG" data-n="100">+100G</button>
     <button type="button" data-add="atCount" data-n="1">AT +1</button>
+    
     <button type="button" data-add="czCount" data-n="1">CZ +1</button>
+    
     <button type="button" class="undo" id="undoBtn">1つ戻す</button>
   </div>
   <div class="rates dot">
     <span>AT <b id="liveA">―</b><small id="liveANote"></small></span>
     <span>CZ <b id="liveB">―</b><small id="liveBNote"></small></span>
+    
   </div>
   <p class="hint">通常時だけ数える（AT中は除く）。CZはフーアーユーと影ノ襲来の合計。空欄ならAT初当りだけで計算。</p>
 </div>
+
 <button class="judge" id="calcBtn">判別する</button>
 
 <section id="result">
@@ -219,12 +226,19 @@
           <label class="tile"><input type="checkbox" data-allow="5,6" data-name="エビ座"><span class="tn">エビ</span><span class="tv">5↑</span></label>
           <label class="tile"><input type="checkbox" data-allow="6" data-name="アンコウ座"><span class="tn">アンコウ</span><span class="tv">6</span></label>
         </div>
+        <p class="sub">エンディング中のPUSHボタンの色（レア役で押す）</p>
+        <div class="tiles" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,3,4,5,6" data-name="PUSHボタン緑"><span class="tn">緑</span><span class="tv">2↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="PUSHボタン赤"><span class="tn">赤</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="PUSHボタン虹"><span class="tn">虹</span><span class="tv">6</span></label>
+        </div>
     </div>
     <p class="floor" id="floorNow">絞り込み：なし</p>
     <ul class="refs">
         <li>AT終了画面：キャラなしは基本。青銅3人＝奇数、青銅4人＝偶数、左向きの青銅4人＝高設定、青銅5人（正面に一輝）＝高設定（強）。一輝は設定ではなく復活の示唆</li>
         <li>キャラ紹介：シャカ（1人目）・ムウ（2人目）＝高設定、アイオロス（2人目）＝高設定（強）</li>
         <li>ジェミニはエクストララウンドの1人目。トロフィーの出方はホールの設定（カスタム）で変わることがあります</li>
+        <li>エンディング（グランドフィナーレ）中のPUSHボタン：白＝デフォルト、青＝奇数、黄＝偶数の期待度アップ。強レア役のほうが強い示唆が出やすいとされています</li>
     </ul>
     <a class="outlink ref-out" data-sec="settei" href="https://chonborista.com/slot/sanyo-slot/260304/" target="_blank" rel="noopener">示唆の画面（ちょんぼりすた） ↗</a>
   </div>
@@ -238,7 +252,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 10/30</span><p>導入前なので、数字は解析サイトの公表値です（スロベースとちょんぼりすたで一致したものだけ）。CZは設定5のほうが設定6より軽いので、CZの回数で5と6は分けられません。導入後に示唆の出方が分かったら書き足します。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/08</span><p>導入後の解析で、エンディング中のPUSHボタンの色（緑＝2以上、赤＝4以上、虹＝6）がスロベースと1gekiで一致したので、押せるボタンを足しました。CZは設定5のほうが設定6より軽いので、CZの回数で5と6は分けられません。キャラ紹介の1人目・2人目の区分はサイトで書き方が違うので、参考のままにしています。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -294,7 +308,7 @@
     <h3>回数だけではほぼ判別できない</h3>
     <p>このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、AT初当りとCZを両方入れても3000Gで0％、5000Gで約2％、8000Gで約7％でした。回数は「明らかに重い台を避ける」程度の目安と考え、判別の決め手は示唆にしてください。</p>
     <h3>見えたら押したい示唆</h3>
-    <p>クジラッキートロフィーは銅＝2以上、銀＝3以上、金＝4以上、クマノミ柄＝5以上、虹＝6が濃厚です。AT終了画面では魔鈴＆シャイナが4以上、沙織が6濃厚。エクストララウンドの1人目にジェミニが出れば4以上濃厚です。通常時のカード演出の星座も、ハリセンボン座＝2以上、サメ座＝4以上、エビ座＝5以上、アンコウ座＝6濃厚と、見逃せない示唆になっています。押すと、当てはまらない設定を0％にして計算し直します。</p>
+    <p>クジラッキートロフィーは銅＝2以上、銀＝3以上、金＝4以上、クマノミ柄＝5以上、虹＝6が濃厚です。AT終了画面では魔鈴＆シャイナが4以上、沙織が6濃厚。エクストララウンドの1人目にジェミニが出れば4以上濃厚です。通常時のカード演出の星座も、ハリセンボン座＝2以上、サメ座＝4以上、エビ座＝5以上、アンコウ座＝6濃厚と、見逃せない示唆になっています。導入後には、エンディング中にレア役を引いてPUSHボタンを押したときの色（緑＝2以上、赤＝4以上、虹＝6濃厚）も分かりました。押すと、当てはまらない設定を0％にして計算し直します。</p>
     <h3>使い方のコツ</h3>
     <p>青銅3人・4人の終了画面（奇数・偶数）や、シャカ・ムウ・アイオロスのキャラ紹介は「期待度アップ」止まりなので計算には使わず、参考として見てください。データカウンターでATとCZの回数が分かれば、打つ前の台選びにも使えます。期待差枚は各設定の機械割を確率で重み付けした値で、閉店までの残り時間が短いほど小さくなります。</p>
     </details>
@@ -307,7 +321,7 @@
       <thead><tr><th>設定</th><th>AT初当り</th><th>CZ</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
-    <p class="note">解析サイトの公開値（2026年10月30日時点）。AT初当り・機械割はスロベース・ちょんぼりすた・パチマガスロマガで一致、CZ合算はスロベース・ちょんぼりすたで一致。示唆はスロベース・ちょんぼりすたで一致したものだけを計算に使っています。</p>
+    <p class="note">解析サイトの公開値（数値は2026年10月30日時点、エンディングのPUSHボタンは2026年11月8日時点）。AT初当り・機械割はスロベース・ちょんぼりすた・パチマガスロマガで一致、CZ合算はスロベース・ちょんぼりすたで一致。示唆はスロベース・ちょんぼりすたで一致したものだけを計算に使っています。</p>
   </details>
 </section>
 
@@ -329,47 +343,72 @@
 </div>
 
 <script>
-const SETS = [1,2,3,4,5,6], N = 6;
-const HAS_B = true, HAS_CHECKS = true;
-const SPEC = { a: [364.2, 356.1, 345.6, 322.3, 313.7, 310.5], b: [214.4, 214.1, 211.7, 202.5, 197.2, 200.3], payout: [97.5, 98.5, 100.5, 105.2, 110.0, 114.9] };
-const BET = 3, LABEL_A = "AT初当り", LABEL_B = "CZ";
+const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
+const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
+const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
+const XDEF = [];
+const PDEF = [];
+const SPEC = { a: [364.2, 356.1, 345.6, 322.3, 313.7, 310.5], b: [214.4, 214.1, 211.7, 202.5, 197.2, 200.3], c: [1, 1, 1, 1, 1, 1], payout: [97.5, 98.5, 100.5, 105.2, 110.0, 114.9] };
+const BET = 3, LABEL_A = "AT初当り", LABEL_B = "CZ", LABEL_C = "";
 const $ = id => document.getElementById(id);
 const specBody = $('specBody');
 for(let s=0; s<N; s++){
   const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${SETS[s]}</td><td><input type="number" step="0.1" class="aInput" value="${SPEC.a[s].toFixed(1)}"></td>${HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${SPEC.b[s].toFixed(1)}"></td>` : ''}<td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>`;
+  tr.innerHTML = `<td>${SETS[s]}</td><td><input type="number" step="0.1" class="aInput" value="${SPEC.a[s].toFixed(DEC_A)}"></td>${HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${SPEC.b[s].toFixed(DEC_B)}"></td>` : ''}${HAS_C ? `<td><input type="number" step="0.1" class="cInput" value="${SPEC.c[s].toFixed(DEC_C)}"></td>` : ''}${XDEF.map((x, j) => `<td><input type="number" step="0.1" class="xInput${j}" value="${x.spec[s].toFixed(x.dec)}"></td>`).join('')}<td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>`;
   specBody.appendChild(tr);
+}
+const pBody = $('pSpecBody');
+if(pBody) for(let s=0; s<N; s++){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${SETS[s]}</td>` + PDEF.map((q, j) => `<td><input type="number" step="0.1" class="pInput${j}" value="${q.spec[s].toFixed(1)}"></td>`).join('');
+  pBody.appendChild(tr);
 }
 const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
 const totalG = $('totalG'), aCount = $("atCount"), bCount = $("czCount") || { value: '', addEventListener(){}, dispatchEvent(){} };
+const cCount = $("_noC") || { value: '', addEventListener(){}, dispatchEvent(){} };
 const num = el => Math.max(parseFloat(el.value) || 0, 0);
+const bG = B_G ? $(B_G) : totalG;
+const xEls = XDEF.map(x => $(x.id));
+const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
+function livePct(){
+  PDEF.forEach((q, j) => {
+    const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(n > 0){
+      const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
+      $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
+      let best = 0; arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+      $('livePNote' + j).textContent = r <= Math.min(...arr) ? `設定${SETS[0]}以下` : (r >= Math.max(...arr) ? `設定${SETS[N-1]}以上` : `設定${SETS[best]}付近`);
+    } else { $('liveP' + j).textContent = '―'; $('livePNote' + j).textContent = ''; }
+  });
+}
+pEls.flat().forEach(el => el.addEventListener('input', livePct));
 function nearLabel(r, arr){
-  if(r >= Math.max(...arr)) return '設定1より重い';
-  if(r <= Math.min(...arr)) return '設定6より軽い';
+  if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
+  if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
   let best = 0; arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
   return `設定${SETS[best]}付近`;
 }
 const rate = (g, k) => k > 0 ? `1/${(g/k).toFixed(1)}` : '―';
-function live(el, cls, b, n){
-  const g = num(totalG), k = num(el);
+function live(el, cls, b, n, gEl){
+  const g = num(gEl || totalG), k = num(el);
   if(g > 0 && k > 0){ $(b).textContent = rate(g, k); $(n).textContent = nearLabel(g/k, readCol(cls)); }
   else { $(b).textContent = '―'; $(n).textContent = ''; }
 }
-function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote'); }
-[totalG, aCount, bCount].forEach(el => el.addEventListener('input', updateLive));
+function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); if(HAS_C) live(cCount, 'cInput', 'liveC', 'liveCNote'); xEls.forEach((el, j) => live(el, 'xInput' + j, 'liveX' + j, 'liveX' + j + 'Note')); }
+[totalG, aCount, bCount, cCount, bG, ...xEls].forEach(el => el.addEventListener('input', updateLive));
 specBody.addEventListener('input', updateLive);
+if(pBody) pBody.addEventListener('input', livePct);
 
 // タップで足す（データカウンターのように）
 const undo = [];
 document.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => {
-  const el = $(b.dataset.add), before = el.value;
-  el.value = num(el) + Number(b.dataset.n);
-  undo.push([el, before]); if(undo.length > 50) undo.shift();
-  el.dispatchEvent(new Event('input', { bubbles: true }));
+  const step = b.dataset.add.split(',').map(id => { const el = $(id), before = el.value; el.value = num(el) + Number(b.dataset.n); return [el, before]; });
+  undo.push(step); if(undo.length > 50) undo.shift();
+  step.forEach(([el]) => el.dispatchEvent(new Event('input', { bubbles: true })));
 }));
 $('undoBtn').addEventListener('click', () => {
   const u = undo.pop(); if(!u) return;
-  u[0].value = u[1]; u[0].dispatchEvent(new Event('input', { bubbles: true }));
+  u.forEach(([el, v]) => { el.value = v; el.dispatchEvent(new Event('input', { bubbles: true })); });
 });
 
 // 示唆
@@ -393,22 +432,31 @@ floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
 const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
 function showMsg(t){ $('topSetting').innerHTML = `<p style="margin:0;font-size:13px;color:var(--muted);">${t}</p>`; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; }
 $('calcBtn').addEventListener('click', () => {
-  const g = num(totalG), a = num(aCount), useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0;
-  if(g <= 0){ showMsg('総回転（通常時）を入れてください。'); return; }
+  const g = num(totalG), a = num(aCount), useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
+  if(g <= 0){ showMsg("総回転（通常時）を入れてください。"); return; }
   if(aCount.value.trim() === ''){ showMsg(`${LABEL_A}の回数を入れてください（0回なら0）。`); return; }
-  if(a > g || b > g){ showMsg('回数がゲーム数を超えています。'); return; }
+  if(useB && gb <= 0){ showMsg(""); return; }
+  const pUse = PDEF.map((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); return { n, k, use: n > 0 || k > 0 }; });
+  if(pUse.some(x => x.use && x.k > x.n)){ showMsg('「そのうち」の回数が、もとの回数より多くなっています。'); return; }
+  const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '' }));
+  if(a > g || b > gb || c > g || xUse.some(x => x.k > g)){ showMsg('回数がゲーム数を超えています。'); return; }
   const { allow, names } = currentAllow();
   if(!allow.size){ showMsg('押した示唆が矛盾しています。見間違いがないか確認してください。'); return; }
-  const av = readCol('aInput'), bv = readCol('bInput'), payout = readCol('payoutInput');
-  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : binomLL(a, g, 1/av[i]) + (useB ? binomLL(b, g, 1/bv[i]) : 0));
+  const pv = PDEF.map((q, j) => readCol('pInput' + j).map(v => Math.min(Math.max(v * q.f / 100, 1e-6), 1 - 1e-6)));
+  const xv = XDEF.map((x, j) => readCol('xInput' + j)), av = readCol('aInput'), bv = readCol('bInput'), cv = readCol('cInput'), payout = readCol('payoutInput');
+  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : binomLL(a, g, 1/av[i]) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + xUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, g, 1/xv[j][i]) : 0), 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
   const mx = Math.max(...ll), w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - mx)), sum = w.reduce((x, y) => x + y, 0), post = w.map(x => x / sum);
   const exp = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
   if (typeof gtag === 'function') gtag('event', 'judge_run', { machine: "seiya-ougon", has_b: useB });
-  const top = Math.max(...post), best = post.indexOf(top), hi = post[3] + post[4] + post[5];
-  $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${i >= 3 ? ' hi' : ''}${allow.has(SETS[i]) ? '' : ' cut'}"><span class="sl">設定${SETS[i]}</span><span class="track"><span class="swatch" style="width:${top > 0 ? (p/top*100).toFixed(1) : 0}%;"></span></span><span class="pct">${(p*100).toFixed(1)}%</span></div>`).join('');
+  const top = Math.max(...post), best = post.indexOf(top), hi = post.reduce((x, p, i) => x + (HI[i] ? p : 0), 0);
+  $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${HI[i] ? ' hi' : ''}${allow.has(SETS[i]) ? '' : ' cut'}"><span class="sl">設定${SETS[i]}</span><span class="track"><span class="swatch" style="width:${top > 0 ? (p/top*100).toFixed(1) : 0}%;"></span></span><span class="pct">${(p*100).toFixed(1)}%</span></div>`).join('');
   $('pieWrap').style.display = 'block';
-  const parts = [`通常時${g}G`, `${LABEL_A} ${a}回（${rate(g, a)}）`];
-  if(useB) parts.push(`${LABEL_B} ${b}回（${rate(g, b)}）`);
+  const parts = [`${B_G ? "通常時" : '通常時'}${g}G`, `${LABEL_A} ${a}回（${rate(g, a)}）`];
+  if(useB && B_G) parts.push(`${""}${gb}G`);
+  if(useB) parts.push(`${LABEL_B} ${b}回（${rate(gb, b)}）`);
+  if(useC) parts.push(`${LABEL_C} ${c}回`);
+  xUse.forEach((x, j) => { if(x.use) parts.push(`${XDEF[j].label} ${x.k}回`); });
+  pUse.forEach((x, j) => { if(x.use) parts.push(`${PDEF[j].label} ${x.k}/${x.n}`); });
   if(names.length) parts.push(`示唆：${names.join('・')}`);
   let say;
   const minAllow = Math.min(...allow);
@@ -451,7 +499,7 @@ SettiShare.init({"key": "seiya-ougon", "name": "L聖闘士星矢 黄金十二宮
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "seiya-ougon", "name": "聖闘士星矢 黄金十二宮", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "czCount", "label": "CZ", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・CZは通常時のみ。CZはフーアーユー＋影ノ襲来。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・終了画面・ジェミニ・カードの星座", "short": "示唆", "optional": true}});
+SettiCounter.init({"key": "seiya-ougon", "name": "聖闘士星矢 黄金十二宮", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "czCount", "label": "CZ", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・CZは通常時のみ。CZはフーアーユー＋影ノ襲来。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・終了画面・ジェミニ・カードの星座・PUSHボタン", "short": "示唆", "optional": true}});
 </script>
 </body>
 </html>
