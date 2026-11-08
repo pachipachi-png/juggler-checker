@@ -82,9 +82,9 @@
  "mahoako/": {
   "name": "まほあこ",
   "req3000": 12,
-  "all3000": 46,
-  "all5000": 64,
-  "false1": 2.5,
+  "all3000": 47,
+  "all5000": 65,
+  "false1": 2.6,
   "lv": "normal"
  },
  "mhsunbreak/": {
@@ -154,9 +154,9 @@
  "karakuri2/": {
   "name": "からくり2",
   "req3000": 0,
-  "all3000": 0,
-  "all5000": 2,
-  "false1": 0.0,
+  "all3000": 5,
+  "all5000": 11,
+  "false1": 0.2,
   "lv": "hard"
  },
  "index2/": {
