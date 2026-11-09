@@ -202,7 +202,23 @@
   </div>
   <p class="hint">G数・回数はすべて<b>通常時</b>で数えます。ブレイクゾーンはCZの当選回数。猛焔一閃の直撃は、レア役からブレイクゾーンに当たった時に猛焔一閃が発生してATへ直撃したもの。アイルー福引は通常時に入った福引の回数です。空欄の項目は計算に使いません。</p>
 </div>
-
+<div class="data pdata">
+  <div class="data-h"><span class="dot">DATA 2</span><small>任意。数えたものだけ</small></div>
+  <div class="pcard">
+    <p class="pt">周期到達時のCZの種類</p>
+    <p class="pr">オトモ潜水艇の周期到達でCZに当たったら「周期CZ」。それがアイルー福引だったら「福引」も押す（レア役から当たったブレイクゾーンは数えない）。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="cycCz">周期到達でCZ</label><input type="number" id="cycCz" inputmode="numeric" placeholder="-"></div>
+      <div><label for="cycFk">そのうち福引</label><input type="number" id="cycFk" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="cycCz" data-n="1">周期CZ +1</button>
+      <button type="button" data-add="cycFk" data-n="1">福引 +1</button>
+    </div>
+    <div class="rates dot"><span>周期CZ→福引 <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  </div>
+  <p class="hint">周期到達時のCZがアイルー福引になる割合は設定1 20.0%〜設定6 39.5%。福引の回数（上の欄）と一部同じ情報なので、両方入れると結果はやや強めに出ます。</p>
+</div>
 <button class="judge" id="calcBtn" style="display:none;">判別する</button>
 
 <button type="button" class="mini" id="miniRes" hidden><span class="mini-bars" id="miniBars"></span><span class="mini-t" id="miniTxt"></span></button>
@@ -254,6 +270,8 @@
     </div>
     <p class="floor" id="floorNow">絞り込み：なし</p>
     <ul class="refs">
+        <li>レア役からのブレイクゾーン当選率（通常時の弱レア役 9.8%→16.4%、強レア役 33.2%→42.2%）にも設定差あり（ちょんぼりすた）。高確・超高確で率が変わり、状態が見えにくいので計算には使いません</li>
+        <li>1サイトのみ（未確認）：QUEST（黄）アイコン獲得時のクエスト成功期待度 1.6%→7.8%、BZシナリオE〜Iは高設定ほど選ばれやすい（1geki）</li>
         <li>AT終了画面（1人だけの時）：ジェイ／アルロー／ガレアス＝奇数、ロンディーネ／ルーチカ＝偶数、フィオレーネ＋オトモアイルー＝高設定（弱）、チッチェ＋オトモアイルー＋オトモガルク＝高設定（強）</li>
         <li>エンディングのスタンプ：青＝奇数、黄＝偶数、緑＝高設定（弱）、赤＝高設定（強）の示唆</li>
         <li>ブレイクゾーンのシナリオE以上の選択率にも設定差あり（14.1%→30.6%）。シナリオは見えにくいので計算には使いません</li>
@@ -271,13 +289,14 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/04</span><p>新しいデザインに作り直し、ブレイクゾーン・アイルー福引・猛焔一閃の直撃を入れられるようにしました（1geki・ちょんぼりすたで一致）。スタンプの銅・銀・金も5サイトで一致したので、絞り込みに入れています。小役は全設定共通です。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/09</span><p>周期到達時のCZがアイルー福引になる割合（設定1 20.0%→設定6 39.5%）が2サイトで判明したので、入力を足しました。新しいデザインに作り直し、ブレイクゾーン・アイルー福引・猛焔一閃の直撃を入れられるようにしました（1geki・ちょんぼりすたで一致）。スタンプの銅・銀・金も5サイトで一致したので、絞り込みに入れています。小役は全設定共通です。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
   <ul class="list">
       <li><b>AT初当り</b> 1/349.9→1/242.3（約1.44倍）。設定3（1/319.8）と設定4（1/283.6）の間で大きく軽くなる</li>
       <li><b>ブレイクゾーン</b> 1/111.4→1/95.8（約1.16倍）。差は小さいが3000Gで約27〜31回と回数が多い</li>
+      <li><b>周期到達時のCZの種類</b>：アイルー福引が選ばれる割合は20.0%→39.5%。規定周期も高設定ほど1〜3周期に寄る（設定6は4・5周期が各9.8%）</li>
       <li><b>アイルー福引</b> 1/2290.1→1/976.4（約2.3倍）、<b>猛焔一閃の直撃</b> 1/16281.7→1/4263.1（約3.8倍）。どちらも出たら大きい</li>
       <li>小役（リプレイ・ベル・チェリー・スイカ・チャンス目）は全設定共通</li>
       <li>ATの多くはブレイクゾーンを経由し、AT初当りに直撃も含まれるので、全部入れると同じ情報を一部二重に数えて結果はやや強めに出る</li>
@@ -300,6 +319,18 @@
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。AT初当り・機械割は1geki・ちょんぼりすた・スロパチクエスト・パチマガで一致。ブレイクゾーン・アイルー福引・猛焔一閃の直撃（実質確率）は1geki・ちょんぼりすたで一致。</p>
+  <table class="t" style="margin-top:14px;">
+    <thead><tr><th>設定</th><th>周期CZ→福引</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>20.0%</td></tr>
+        <tr><td>2</td><td>21.5%</td></tr>
+        <tr><td>3</td><td>24.2%</td></tr>
+        <tr class="hi"><td>4</td><td>28.1%</td></tr>
+        <tr class="hi"><td>5</td><td>32.8%</td></tr>
+        <tr class="hi"><td>6</td><td>39.5%</td></tr>
+    </tbody>
+  </table>
+  <p class="note">周期到達時のCZのうちアイルー福引の割合（%）。1geki・ちょんぼりすた（11/6更新）で一致。</p>
 </section>
 
 <section id="uchikata">
@@ -343,7 +374,11 @@
       <thead><tr><th>設定</th><th>AT初当り</th><th>ブレイクゾーン</th><th>猛焔一閃の直撃</th><th>アイルー福引</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
-    <p class="note">解析サイトの公開値（2026年11月4日時点）。AT初当り・機械割は1geki・ちょんぼりすた・スロパチクエスト・パチマガ、ブレイクゾーン・アイルー福引・猛焔一閃の直撃は1geki・ちょんぼりすたで確認。スタンプ銅・銀・金は1geki・ちょんぼりすた・スロパチクエスト・スロガチ・パチマガで一致。</p>
+    <table class="t" style="margin-top:10px;">
+      <thead><tr><th>設定</th><th>周期CZ→福引</th></tr></thead>
+      <tbody id="pSpecBody"></tbody>
+    </table>
+    <p class="note">解析サイトの公開値（2026年11月9日時点）。周期到達時のCZの種類は1geki・ちょんぼりすた（11/6）で一致。AT初当り・機械割は1geki・ちょんぼりすた・スロパチクエスト・パチマガ、ブレイクゾーン・アイルー福引・猛焔一閃の直撃は1geki・ちょんぼりすたで確認。スタンプ銅・銀・金は1geki・ちょんぼりすた・スロパチクエスト・スロガチ・パチマガで一致。</p>
   </details>
 </section>
 
@@ -369,7 +404,7 @@ const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
 const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = true, HAS_CHECKS = true;
 const XDEF = [{"id": "fkCount", "spec": [2290.1, 2090.4, 1821.1, 1472.5, 1219.3, 976.4], "dec": 1, "label": "アイルー福引"}];
-const PDEF = [];
+const PDEF = [{"n": "cycCz", "k": "cycFk", "spec": [20.0, 21.5, 24.2, 28.1, 32.8, 39.5], "f": 1, "label": "周期CZ→福引"}];
 const SPEC = { a: [349.9, 337.0, 319.8, 283.6, 264.0, 242.3], b: [111.4, 108.8, 105.6, 99.3, 97.2, 95.8], c: [16281.7, 14875.5, 12788.0, 8702.1, 6351.2, 4263.1], payout: [97.5, 98.8, 100.8, 105.2, 108.4, 112.4] };
 const BET = 3, LABEL_A = "AT初当り", LABEL_B = "ブレイクゾーン", LABEL_C = "猛焔一閃の直撃";
 const $ = id => document.getElementById(id);
@@ -529,11 +564,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "mhsunbreak", "name": "スマスロ モンスターハンターライズ：サンブレイク", "tags": "#モンハンサンブレイク #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "bzCount", "q": "bz", "label": "ブレイクゾーン", "unit": "回", "rateOf": "totalG"}, {"id": "mkCount", "q": "mk", "label": "猛焔一閃の直撃", "unit": "回", "rateOf": "totalG"}, {"id": "fkCount", "q": "fk", "label": "アイルー福引", "unit": "回", "rateOf": "totalG"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "mhsunbreak", "name": "スマスロ モンスターハンターライズ：サンブレイク", "tags": "#モンハンサンブレイク #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "bzCount", "q": "bz", "label": "ブレイクゾーン", "unit": "回", "rateOf": "totalG"}, {"id": "mkCount", "q": "mk", "label": "猛焔一閃の直撃", "unit": "回", "rateOf": "totalG"}, {"id": "fkCount", "q": "fk", "label": "アイルー福引", "unit": "回", "rateOf": "totalG"}, {"id": "cycCz", "q": "cc", "label": "周期到達でCZ", "unit": "回"}, {"id": "cycFk", "q": "cf", "label": "そのうち福引", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "mhsunbreak", "name": "モンハン サンブレイク", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "bzCount", "label": "ブレイクゾーン", "optional": true}, {"id": "mkCount", "label": "猛焔一閃の直撃", "optional": true}, {"id": "fkCount", "label": "アイルー福引", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT・ブレイクゾーン・福引・直撃は通常時のみ。猛焔一閃の直撃はレア役からのブレイクゾーン当選時にATへ直撃したもの。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・終了画面・枚数表示・スタンプ", "short": "示唆", "optional": true}});
+SettiCounter.init({"key": "mhsunbreak", "name": "モンハン サンブレイク", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "bzCount", "label": "ブレイクゾーン", "optional": true}, {"id": "mkCount", "label": "猛焔一閃の直撃", "optional": true}, {"id": "fkCount", "label": "アイルー福引", "optional": true}, {"id": "cycCz", "label": "周期到達でCZ", "optional": true, "group": "周期到達・CZの種類", "rate": false, "defaultOff": true}, {"id": "cycFk", "label": "周期CZ→福引", "optional": true, "group": "周期到達・CZの種類", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT・ブレイクゾーン・福引・直撃は通常時のみ。猛焔一閃の直撃はレア役からのブレイクゾーン当選時にATへ直撃したもの。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・終了画面・枚数表示・スタンプ", "short": "示唆", "optional": true}});
 </script>
 </body>
 </html>
