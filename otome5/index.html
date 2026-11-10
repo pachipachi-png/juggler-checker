@@ -3,181 +3,149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L戦国乙女5 業火を穿つ宿焔の双刃 設定判別ツール（AT初当り・終了画面・獲得枚数・ゴエモンボイス）| 設定示唆くん</title>
-<meta name="description" content="L戦国乙女5 業火を穿つ宿焔の双刃（戦国乙女5・2026年6月導入）の設定判別ツール。通常時の回転数とAT初当り回数を入れるだけで設定1〜6の可能性を計算。戦国乙女ボーナスや乙女アタックの突入率を足したり、出陣ボーナス終了画面・獲得枚数表示・ゴエモンのボイスで絞り込んだりできます。小役カウンター付き・無料・登録不要。">
+<title>L戦国乙女5 設定判別ツール（AT初当り・戦国乙女ボーナス・乙女アタック・スタンプ・ゴエモンボイス） | 設定示唆くん</title>
+<meta name="description" content="スマスロ L戦国乙女5 業火を穿つ宿焔の双刃の設定判別ツール。通常時の回転数とAT初当り回数を入れるだけで設定1〜6の可能性を計算。戦国乙女ボーナス、乙女アタック突入率の追加入力と、出陣ボーナス終了画面のスタンプ・獲得枚数表示・AT終了画面・ゴエモンのボイスによる絞り込みに対応。打ち方つき。">
 <link rel="canonical" href="https://pachipachi-png.com/otome5/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="設定示唆くん">
 <meta property="og:title" content="戦国乙女5 設定判別ツール | 設定示唆くん">
-<meta property="og:description" content="通常時G数とAT初当り回数を入れるだけ。終了画面・獲得枚数・ゴエモンボイスで設定を絞り込み。">
+<meta property="og:description" content="通常時G数とAT初当り回数を入れるだけ。戦国乙女ボーナス・乙女アタック、スタンプやゴエモンボイスで設定を絞り込み。">
 <meta property="og:url" content="https://pachipachi-png.com/otome5/">
 <meta property="og:image" content="https://pachipachi-png.com/ogp.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+1p:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
+  /* 案A：データカウンター風（2026-10-30 試作） */
   :root{
-    --bg: #14171c; --panel: #1d2229; --panel-2: #262c35; --line: #333b46;
-    --gold: #e8a93b; --gold-dim: #8a6a2a; --teal: #33b6a4; --text: #edeff2;
-    --muted: #8993a1; --red: #e07a7a; --violet: #8f8ce6; --otome: #e8487a;
+    --bg:#0c0c0d; --panel:#17171a; --panel-2:#1f1f22; --line:#2c2c30; --text:#ebe8e1; --muted:#a9a59c;
+    --amber:#ffb21e; --amber-dim:#3a2a0c; --led-bg:#120d05;
+    /* counter.js・share.js が使う名前 */
+    --gold:#ffb21e; --gold-dim:#6b4c10; --teal:#ffb21e; --red:#ff7a6b;
   }
-  *{ box-sizing: border-box; }
-  html,body{ margin:0; padding:0; }
-  body{
-    background: radial-gradient(1200px 600px at 50% -200px, #23293280, transparent), var(--bg);
-    color: var(--text); font-family: 'Zen Maru Gothic', sans-serif; line-height: 1.7; padding-bottom: 80px;
-  }
-  h1,h2,h3{ font-family: 'Zen Kaku Gothic New', sans-serif; }
-  .wrap{ max-width: 560px; margin: 0 auto; padding: 0 18px; }
-
-  .topnav{ max-width:560px; margin:0 auto; padding:14px 18px 0; font-size:13px; }
-  .topnav a{ color: var(--muted); text-decoration:none; }
-  .hero{ padding: 44px 18px 30px; text-align: center; }
-  .lamp{
-    width: 84px; height: 84px; margin: 0 auto 18px; border-radius: 50%;
-    background: radial-gradient(circle at 40% 35%, #ffe0ea, var(--otome) 55%, #4a0a22 100%);
-    box-shadow: 0 0 40px 6px #e8487a55, inset 0 0 18px #ffe0ea80;
-    animation: pulse 2.6s ease-in-out infinite;
-    display:flex; align-items:center; justify-content:center;
-    font-weight:900; color:#3a0618; font-size: 14px; letter-spacing: 0.05em;
-    font-family: 'Zen Kaku Gothic New', sans-serif;
-  }
-  @keyframes pulse{
-    0%,100%{ box-shadow: 0 0 40px 4px #e8487a40, inset 0 0 18px #ffe0ea70; }
-    50%{ box-shadow: 0 0 56px 10px #e8487a80, inset 0 0 22px #ffe0eaa0; }
-  }
-  .hero h1{ font-size: 24px; font-weight: 900; margin: 0 0 8px; }
-  .hero p{ color: var(--muted); font-size: 14px; margin: 0; }
-
-  section{ margin: 26px 0; }
-  .card{ background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
-  .section-title{ display:flex; align-items:baseline; gap: 10px; margin-bottom: 14px; }
-  .section-title .num{
-    font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900; color: var(--gold); font-size: 15px;
-    border: 1px solid var(--gold-dim); border-radius: 8px;
-    width: 26px; height: 26px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
-  }
-  .section-title h2{ font-size: 16px; margin:0; font-weight:700; }
-  .hint{ color: var(--muted); font-size: 12.5px; margin: 6px 0 0; }
-
-  label{ display:block; font-size: 13px; color: var(--muted); margin: 12px 0 6px; }
-  input[type=number], input[type=time]{
-    width:100%; background: var(--panel-2); border: 1px solid var(--line);
-    color: var(--text); padding: 10px 12px; border-radius: 9px; font-size: 15px; font-family: inherit;
-  }
-  input:focus, button:focus-visible{ outline: 2px solid var(--teal); outline-offset: 1px; }
-  .row2{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .row2 label{ margin-top: 0; }
-
-  button{
-    font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 700; font-size: 14.5px;
-    border-radius: 10px; border: none; padding: 12px 16px; cursor:pointer; width: 100%;
-  }
-  .btn-primary{ background: var(--teal); color: #08211d; }
-  .btn-primary:active{ transform: translateY(1px); }
-  .btn-ghost{ background: transparent; border: 1px solid var(--line); color: var(--text); }
-  .btn-small{ width:auto; padding: 9px 14px; font-size: 13px; }
-
-  table.spec{ width:100%; border-collapse: collapse; margin-top: 10px; font-size: 12.5px; }
-  table.spec th, table.spec td{ padding: 6px 2px; text-align:center; border-bottom: 1px solid var(--line); }
-  table.spec th{ color: var(--muted); font-weight: 500; }
-  table.spec td:first-child{ white-space: nowrap; width: 3.2em; }
-  table.spec td input{ padding: 5px; font-size: 12.5px; text-align:center; }
-
-  .live-rate{
-    display:flex; align-items:center; justify-content:space-between;
-    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px;
-    padding: 12px 14px; margin-top: 10px; font-size: 13px; color: var(--muted);
-  }
-  .live-rate b{ color: var(--teal); font-size: 16px; font-family:'Zen Kaku Gothic New',sans-serif; }
-  .live-rate small{ display:block; font-size: 11.5px; color: var(--muted); font-weight: 400; text-align:right; }
-
-  .optional-panel{ margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); display:none; }
-  .optional-panel.open{ display:block; }
-
-  .bell-guide{ display:flex; gap: 16px; align-items:center; margin: 4px 0 6px; flex-wrap: wrap; }
-  .bell-guide svg{ width: 150px; height: auto; flex-shrink:0; }
-  .bell-guide ul{ margin:0; padding-left: 18px; font-size: 13px; flex:1; min-width: 180px; }
-  .bell-guide li{ margin-bottom: 3px; }
-  .bell-guide li b{ color: var(--gold); }
-
-  .chk-group{ margin-top: 6px; }
-  .chk-group h3{ font-size: 13.5px; margin: 14px 0 6px; }
-  .chk{
-    display:flex; align-items:center; gap: 10px; padding: 9px 12px; margin: 0 0 6px;
-    background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px; cursor: pointer;
-    font-size: 13.5px; color: var(--text);
-  }
-  .chk input{ width: 18px; height: 18px; accent-color: var(--teal); flex-shrink:0; }
-  .chk .tag{ margin-left:auto; font-size: 12px; color: var(--gold); white-space: nowrap; }
-  .chk:has(input:checked){ border-color: var(--teal); }
-  .floor-now{ margin-top: 10px; font-size: 13px; color: var(--muted); }
-  .floor-now b{ color: var(--teal); }
-  .hint-link{ display:block; margin: 10px 0 2px; padding: 10px 12px; border-radius: 9px; border: 1px solid var(--teal); color: var(--teal); text-decoration:none; font-size: 13.5px; font-weight: 700; text-align:center; font-family:'Zen Kaku Gothic New',sans-serif; }
-  .mini-link{ font-size: 11.5px; font-weight: 500; color: var(--teal); margin-left: 6px; }
-  #hints{ scroll-margin-top: 12px; }
-  .ref-list{ font-size: 12.5px; color: var(--muted); margin: 6px 0 0; padding-left: 18px; }
-
-  .pie-wrap{ display:flex; align-items:center; gap: 22px; margin-top: 16px; flex-wrap: wrap; }
-  .pie{ width: 150px; height: 150px; border-radius: 50%; flex-shrink:0; background: var(--panel-2); }
-  .legend{ flex: 1; min-width: 180px; }
-  .legend-row{ display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:7px; }
-  .legend-row.cut{ opacity: .4; text-decoration: line-through; }
-  .swatch{ width:11px; height:11px; border-radius:3px; flex-shrink:0; }
-  .legend-row .pct{ margin-left:auto; font-variant-numeric: tabular-nums; }
-
-  .top-setting{
-    margin-top: 14px; padding: 12px 14px; border-radius: 10px;
-    background: #22303022; border: 1px solid #33665544; font-size: 13.5px;
-  }
-  .top-setting b{ color: var(--teal); }
-
-  .ev-output{ margin-top: 14px; padding: 16px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--line); text-align:center; }
-  .ev-output .num{ font-size: 28px; font-weight: 900; font-family:'Zen Kaku Gothic New',sans-serif; }
-  .ev-output .num.pos{ color: #6fd6a8; }
-  .ev-output .num.neg{ color: #e08787; }
-  .ev-output .sub{ font-size: 12.5px; color: var(--muted); margin-top: 4px; }
-  .tip-prompt{ margin-top: 14px; padding: 14px; background: var(--panel-2); border-radius: 10px; border: 1px dashed var(--line); }
-
-  .ad-slot{ display:none; }
-  footer{ text-align:center; color: var(--muted); font-size: 11.5px; padding: 20px 18px 0; }
-  #specBody td input, #specBody2 td input{ padding: 5px 2px; font-size: 12px; }
-  table.spec th{ font-size: 11.5px; }
-
-  /* layout v2: 判別ボタンを必須入力の直下に */
-  .btn-judge{ width:100%; margin-top:16px; font-size:17px; padding:15px 12px; }
-  .opt-block{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
-  .opt-block:first-of-type{ margin-top:6px; }
-  .sub-h{ font-size:14.5px; margin:0 0 10px; font-weight:700; }
-  .guide p{ font-size:13.5px; line-height:1.8; margin:6px 0 10px; }
-  .guide .sub-h{ margin-top:16px; }
-  #recalcBtn{ width:100%; margin-top:16px; }
-  .spec-details > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; }
-  .spec-details > summary::-webkit-details-marker{ display:none; }
-  .spec-details > summary::after{ content:'＋ 開く'; margin-left:auto; font-size:12.5px; color:var(--muted); font-weight:400; }
-  .spec-details[open] > summary::after{ content:'－ 閉じる'; }
-  .spec-details[open] > summary{ margin-bottom:14px; }
-  .machine{ margin: 0 auto 14px; width: 130px; }
-  .machine img{ display:block; width:100%; height:auto; filter: drop-shadow(0 8px 24px #e8487a45); }
-  /* 示唆グループの折りたたみ */
-  .hint-acc{ border:1px solid var(--line); border-radius:10px; margin:0 0 8px; background:#1a1f26; }
-  .hint-acc > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:8px; padding:12px 12px; font-size:13.5px; font-weight:700; font-family:'Zen Kaku Gothic New',sans-serif; }
-  .hint-acc > summary::-webkit-details-marker{ display:none; }
-  .hint-acc > summary::after{ content:'＋'; color:var(--muted); font-weight:400; font-size:15px; flex-shrink:0; }
-  .hint-acc[open] > summary::after{ content:'－'; }
-  .hint-acc .acc-title{ flex:1; min-width:0; }
-  .hint-acc .acc-title small{ display:block; font-weight:400; font-size:11.5px; color:var(--muted); font-family:'Zen Maru Gothic',sans-serif; }
-  .hint-acc .acc-cnt{ font-size:11.5px; font-weight:700; color:#08211d; background:var(--teal); border-radius:999px; padding:1px 9px; white-space:nowrap; display:none; }
-  .hint-acc.has-on{ border-color:var(--teal); }
-  .hint-acc.has-on .acc-cnt{ display:inline-block; }
-  .hint-acc > .chk{ margin:0 10px 6px; }
-  .hint-acc > .chk:last-child{ margin-bottom:10px; }
-  .ref-acc{ margin-top:12px; }
-  .ref-acc > .ref-list{ margin:0 12px 8px 0; }
-  .ref-acc > .hint{ margin:0 12px 12px; }
-  .notice{ margin:0 0 4px; padding:10px 14px; border:1px solid var(--gold-dim); border-radius:10px; background:#2a2312; color:#f0d9a6; font-size:13px; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'M PLUS 1p',sans-serif;line-height:1.7;padding-bottom:72px;}
+  .dot{font-variant-numeric:tabular-nums;font-weight:700;}
+  .led{font-family:'DotGothic16',monospace;font-weight:400;}
+  .wrap{max-width:520px;margin:0 auto;}
+  a{color:var(--amber);}
+  .bar-top{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);font-size:12px;}
+  .bar-top a{text-decoration:none;font-weight:800;font-size:14px;letter-spacing:.04em;}
+  .bar-top span{color:var(--muted);}
+  .hero{display:flex;gap:14px;padding:18px 16px 14px;align-items:flex-end;}
+  .hero img{width:140px;height:auto;flex-shrink:0;background:#fff;border-radius:4px;}
+  .hero .new{align-self:flex-start;background:var(--amber);color:var(--bg);font-size:12px;padding:1px 6px;}
+  .hero h1{margin:6px 0 4px;font-size:22px;line-height:1.3;font-weight:800;}
+  .hero p{margin:0;font-size:12px;color:var(--muted);line-height:1.6;}
+  .lead{margin:0 16px;padding:12px 14px;background:#1b1a17;border-top:3px solid var(--amber);font-size:13.5px;}
+  .lead b.h{display:block;color:var(--amber);font-size:15.5px;font-weight:800;margin-bottom:2px;}
+  .lead p{margin:0;}
+  .lead .warn{margin-top:8px;padding-top:8px;border-top:1px dashed #3a3730;font-size:12px;color:var(--muted);}
+  .jump{display:flex;gap:0;margin:14px 16px 0;border:1px solid var(--line);}
+  .jump a{flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--muted);text-decoration:none;border-left:1px solid var(--line);}
+  .jump a:first-child{border-left:none;}
+  .data{margin:16px 16px 0;background:#050505;border:2px solid #2f2f31;border-radius:6px;padding:14px 12px 12px;}
+  .data-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .data-h .dot{font-family:'DotGothic16',monospace;font-weight:400;font-size:13px;color:var(--muted);letter-spacing:.1em;}
+  .data-h small{font-size:11px;color:var(--muted);}
+  .cells{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+  .cells{align-items:end;}
+  .cells label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .cells input{width:100%;background:var(--led-bg);border:1px solid var(--amber-dim);color:var(--amber);font-family:'DotGothic16',monospace;font-size:26px;text-align:right;padding:6px;border-radius:3px;}
+  .cells input::placeholder{color:#5a4316;}
+  input:focus,button:focus-visible,.tile:focus-within{outline:2px solid var(--amber);outline-offset:1px;}
+  .taps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px;}
+  .taps button{height:48px;background:#26262a;color:var(--text);border:1px solid #3a3a3e;border-radius:4px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;}
+  .taps button:active{background:#34343a;}
+  .taps button.undo{color:var(--muted);font-weight:500;}
+  .rates{display:flex;justify-content:space-between;gap:8px;margin-top:10px;font-size:13.5px;color:var(--muted);flex-wrap:wrap;}
+  .rates b{color:var(--amber);font-weight:800;}
+  .mini{position:fixed;left:14px;bottom:16px;z-index:899;display:flex;align-items:center;gap:8px;width:auto;margin:0;padding:8px 14px 8px 10px;background:#141414;border:2px solid var(--amber);border-radius:999px;color:var(--text);font-family:inherit;cursor:pointer;text-align:left;box-shadow:0 6px 20px #0008;max-width:calc(100% - 200px);}
+  .mini.away{opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .2s,transform .2s;}
+  .mini{transition:opacity .2s,transform .2s;}
+  .mini[hidden]{display:none;}
+  .mini-bars{display:flex;align-items:flex-end;gap:2px;height:26px;flex:none;}
+  .mini-bars span{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:2px;}
+  .mini-bars i{display:block;width:6px;background:#5c5a55;min-height:2px;}
+  .mini-bars .hi i{background:var(--amber);}
+  .mini-bars em{display:none;}
+  .mini-t{font-size:10.5px;color:var(--muted);line-height:1.2;white-space:nowrap;}
+  .mini-t b{display:block;font-size:15px;color:var(--amber);font-weight:800;font-variant-numeric:tabular-nums;}
+  #result{margin:16px 16px 0 !important;padding:12px 12px 14px;border:2px solid var(--amber);border-radius:6px;background:#0b0b0b;}
+  #result .sh{border-bottom-color:#3a2c10;}
+  .rates small{font-size:11px;margin-left:4px;}
+  .hint{font-size:12px;color:var(--muted);line-height:1.6;margin:6px 0 0;}
+  .data .hint{margin:8px 0 0;font-size:11.5px;color:var(--muted);line-height:1.6;}
+  .pdata{margin-top:10px;} .pcard{border:1px solid #2f2f31;border-radius:4px;padding:10px;margin-top:10px;} .pcard:first-of-type{margin-top:0;} .pcard .pt{margin:0;font-size:14px;font-weight:800;color:var(--text);} .pcard .pr{margin:2px 0 8px;font-size:11.5px;color:var(--muted);line-height:1.6;} .pdata .cells input{font-size:22px;} .pdata .taps button{height:44px;}
+  .judge{display:block;width:calc(100% - 32px);margin:12px 16px 0;height:54px;background:var(--amber);color:var(--bg);border:none;border-radius:4px;font-family:inherit;font-weight:800;font-size:17px;letter-spacing:.08em;cursor:pointer;}
+  .judge:active{transform:translateY(1px);}
+  section{margin:24px 16px 0;}
+  .sh{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:6px;margin:0 0 10px;}
+  .sh h2{margin:0;font-size:15.5px;font-weight:800;}
+  .sh small{font-size:12px;color:var(--muted);}
+  #pieWrap{margin-top:2px;}
+  .legend-row{display:flex;align-items:center;gap:8px;font-variant-numeric:tabular-nums;font-size:13px;margin-bottom:6px;}
+  .legend-row .sl{width:44px;color:var(--muted);}
+  .legend-row.hi .sl{color:var(--amber);}
+  .legend-row .track{flex:1;height:14px;background:#1b1b1d;}
+  .legend-row .swatch{display:block;height:14px;background:#5c5a55;}
+  .legend-row.hi .swatch{background:var(--amber);}
+  .legend-row .pct{width:50px;text-align:right;}
+  .legend-row.cut{opacity:.35;}
+  .summary{font-size:13.5px;line-height:1.7;}
+  .summary .big{font-variant-numeric:tabular-nums;font-weight:800;color:var(--amber);font-size:21px;}
+  .summary .meta{display:block;font-size:12px;color:var(--muted);margin-top:4px;}
+  .ev{margin-top:12px;padding:12px;border:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .ev .n{font-variant-numeric:tabular-nums;font-weight:800;font-size:22px;}
+  .ev .n.pos{color:var(--amber);} .ev .n.neg{color:#ff7a6b;}
+  .ev small{font-size:11.5px;color:var(--muted);}
+  .tip{margin-top:12px;font-size:12.5px;color:var(--muted);}
+  .tip a{font-weight:700;}
+  .sub{margin:12px 0 6px;font-size:12px;color:var(--muted);}
+  .tiles{display:grid;gap:6px;}
+  .tile{position:relative;min-height:56px;background:#1b1a17;border:1px solid #3a3a3e;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;text-align:center;padding:4px 2px;}
+  .tile input{position:absolute;opacity:0;width:1px;height:1px;}
+  .tile .tn{font-size:12px;font-weight:700;line-height:1.3;}
+  .tile .tv{font-variant-numeric:tabular-nums;font-size:12px;color:var(--muted);}
+  .tile:has(input:checked){background:var(--amber);border-color:var(--amber);color:var(--bg);}
+  .tile:has(input:checked) .tv{color:var(--bg);}
+  .floor{margin:10px 0 0;font-size:12.5px;color:var(--muted);}
+  .floor b{color:var(--amber);font-weight:700;}
+  .refs{margin:12px 0 0;padding-left:18px;font-size:12px;color:var(--muted);}
+  .refs li{margin-bottom:4px;}
+  .outlink{display:inline-block;margin-top:10px;font-size:12.5px;text-decoration:none;}
+  .memo{margin:24px 16px 0;padding:14px;border:1px dashed #3a3a3e;font-size:13px;}
+  .memo .dot{display:block;font-weight:700;color:var(--amber);font-size:12px;margin-bottom:4px;}
+  .memo p{margin:0;}
+  .list{margin:0;padding-left:18px;font-size:13px;}
+  .list li{margin-bottom:6px;} .list b{color:var(--amber);font-weight:700;}
+  table.t{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:13.5px;}
+  table.t th{color:var(--muted);font-weight:400;text-align:right;padding:6px 0;}
+  table.t th:first-child,table.t td:first-child{text-align:left;}
+  table.t td{text-align:right;padding:6px 0;border-top:1px solid #222224;}
+  table.t tr.hi td{color:var(--amber);}
+  .note{margin:8px 0 0;font-size:11.5px;color:var(--muted);}
+  .steps{margin:4px 0 0;padding-left:20px;font-size:13px;} .steps li{margin-bottom:5px;}
+  h3{font-size:13.5px;margin:14px 0 4px;}
+  .guide p{font-size:13.5px;line-height:1.85;margin:4px 0 10px;}
+  details summary{cursor:pointer;font-size:13px;color:var(--muted);list-style:none;}
+  details summary::-webkit-details-marker{display:none;}
+  details summary::before{content:'＋ ';} details[open] summary::before{content:'－ ';}
+  #specBody input{width:100%;background:var(--panel-2);border:1px solid var(--line);color:var(--text);font-family:inherit;font-variant-numeric:tabular-nums;font-size:13px;text-align:right;padding:4px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .row2 label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:4px;}
+  .row2 input{width:100%;background:var(--panel-2);border:1px solid var(--line);color:var(--text);padding:8px;font-family:inherit;font-size:14px;border-radius:3px;}
+  .card{background:transparent;}
+  .btn-primary{background:var(--amber);color:var(--bg);border:none;border-radius:4px;padding:10px 12px;font-weight:800;text-decoration:none;display:inline-block;text-align:center;font-family:inherit;}
+  .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--text);border-radius:4px;padding:10px 12px;font-family:inherit;}
+  .rel{margin:28px 16px 0;}
+  .rel h2{font-size:15px;margin:0 0 10px;}
+  .rel li a{border-radius:3px !important;}
+  .ad-slot{display:none;}
+  footer{margin-top:28px;padding:16px;border-top:1px solid var(--line);font-size:11.5px;color:#8d8980;}
+  footer a{color:#8d8980;margin-right:12px;}
 </style>
-
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFM94DE8Y3"></script>
 <script>
@@ -189,211 +157,238 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9150472731628445" crossorigin="anonymous"></script>
 </head>
 <body>
+<div class="wrap">
+<nav class="bar-top"><a href="../">設定示唆くん</a><span><a href="../list/" style="font-size:12px;font-weight:500;color:var(--muted);">機種一覧</a></span></nav>
 
-<nav class="topnav"><a href="../">← 機種一覧（設定示唆くん）</a></nav>
-<div class="hero">
-  <figure class="machine"><img src="machine.webp" width="130" height="221" alt="L戦国乙女5 業火を穿つ宿焔の双刃の筐体"></figure>
-  <h1>L戦国乙女5<br>業火を穿つ宿焔の双刃 設定判別</h1>
-  <p>通常時の回転数とAT初当り回数から設定1〜6の可能性を推定。戦国乙女ボーナスや乙女アタックの突入率を足したり、終了画面・獲得枚数・ゴエモンボイスで絞り込んだりできます</p>
+<header class="hero">
+  <img src="machine.webp" width="140" height="214" alt="L戦国乙女5 業火を穿つ宿焔の双刃の筐体">
+  <div>
+    <h1>L戦国乙女5<br>業火を穿つ宿焔の双刃</h1>
+    <p>オリンピア／2026年6月導入<br>AT初当り 1/359.5〜1/262.9<br>機械割 97.9〜114.9%</p>
+  </div>
+</header>
+
+<div class="lead">
+  <b class="h">AT初当りが軸。戦国乙女ボーナスは1回で大きく動く。</b>
+  <p>AT初当りは設定1と6で1/359.5→1/262.9（約1.37倍）で、設定3と4の間で大きく変わる。戦国乙女ボーナスは1/21206.7→1/5502.7（約3.9倍）で、めったに当たらないが1回引けると高設定寄りに動く。「〇以上濃厚」の示唆も多い。</p>
+  
 </div>
 
-<div class="wrap">
+<nav class="jump" aria-label="ページ内の目次"><a href="#mainCard">判別</a><a href="#hints">示唆</a><a href="#gousei">設定差</a><a href="#uchikata">打ち方</a><a href="#guide">解説</a></nav>
 
-  <!-- 1. 実戦データ → 判別 -->
-  <section class="card">
-    <div class="section-title"><span class="num">1</span><h2>実戦データを入力して判別</h2></div>
-    <div class="row2">
-      <div>
-        <label for="normalG">通常時の回転数</label>
-        <input type="number" id="normalG" inputmode="numeric" placeholder="例：3000">
-      </div>
-      <div>
-        <label for="atCount">AT初当り回数</label>
-        <input type="number" id="atCount" inputmode="numeric" placeholder="例：9">
-      </div>
+<div id="mainCard">
+<div style="margin:0 16px;"><button type="button" data-sc-open></button></div>
+<div class="data">
+  <div class="data-h"><span class="dot">DATA</span><small>通常時だけ数える</small></div>
+  <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+    <div><label for="totalG">通常時G</label><input type="number" id="totalG" inputmode="numeric" placeholder="0"></div>
+    <div><label for="atCount">AT初当り</label><input type="number" id="atCount" inputmode="numeric" placeholder="0"></div>
+    
+    
+    <div><label for="obCount">戦国乙女ボーナス</label><input type="number" id="obCount" inputmode="numeric" placeholder="-"></div>
+  </div>
+  <div class="taps" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+    <button type="button" data-add="totalG" data-n="100">+100G</button>
+    <button type="button" data-add="atCount" data-n="1">AT +1</button>
+    
+    
+    <button type="button" data-add="obCount" data-n="1">乙女B +1</button>
+    <button type="button" class="undo" id="undoBtn">1つ戻す</button>
+  </div>
+  <div class="rates dot">
+    <span>AT <b id="liveA">―</b><small id="liveANote"></small></span>
+    
+    <span>乙女B <b id="liveC">―</b><small id="liveCNote"></small></span>
+  </div>
+  <p class="hint">G数・AT初当り・戦国乙女ボーナスは<b>通常時</b>で数えます。AT初当りは通常時から当たったATを1回とし、乙女アタック経由・戦国乙女ボーナス経由も含めます（AT中の上乗せや継続は含めない）。戦国乙女ボーナスはAT初当りにも数えたままで大丈夫です（少しだけ二重に数える形になります）。空欄の項目は計算に使いません。</p>
+</div>
+<div class="data pdata">
+  <div class="data-h"><span class="dot">DATA 2</span><small>数えたものだけ</small></div>
+  <div class="pcard">
+    <p class="pt">乙女アタックの突入率</p>
+    <p class="pr">乙女ポイントが0ptになったら「0pt到達」。CZ「乙女アタック」に入ったら「突入」も押す。乙女ストラップモード「カンスケ」滞在中の到達は数えない。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="zeroPt">0pt到達</label><input type="number" id="zeroPt" inputmode="numeric" placeholder="-"></div>
+      <div><label for="oaIn">そのうち乙女アタック</label><input type="number" id="oaIn" inputmode="numeric" placeholder="-"></div>
     </div>
-    <div class="live-rate">
-      <span>現在のAT初当り確率</span>
-      <span><b id="liveAt">ー</b><small id="liveAtNote"></small></span>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="zeroPt" data-n="1">0pt到達 +1</button>
+      <button type="button" data-add="oaIn" data-n="1">突入 +1</button>
     </div>
-    <p class="hint">通常時から当たったATを1回と数えます（乙女アタック経由・戦国乙女ボーナス経由も含む）。AT中の上乗せや継続は含めません。回転数は<b>通常時のみ</b>（AT中のゲーム数は含めない）。<a class="mini-link ref-out" data-sec="spec" href="https://pachiseven.jp/machines/7396" target="_blank" rel="noopener">初当り確率↗</a></p>
-    <button class="btn-primary btn-judge" id="calcBtn">この数字で判別する</button>
+    <div class="rates dot"><span>乙女アタック <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  </div>
+  <p class="hint">乙女アタック突入率は設定1が20.3%、設定6が25.7%。差は小さいので、回数がたまってから効いてきます。</p>
+</div>
+<button class="judge" id="calcBtn" style="display:none;">判別する</button>
 
-    <div class="pie-wrap" id="pieWrap" style="display:none;">
-      <div class="pie" id="pieChart"></div>
-      <div class="legend" id="legend"></div>
-    </div>
-    <div id="topSetting"></div>
-    <div class="ev-output" id="evOutput" style="display:none;"></div>
-    <div class="tip-prompt" id="tipPromptCalc" style="display:none;">
-      <p style="margin:0 0 10px; font-size:13.5px;">勝ったら10円でもいいので投げ銭ください🍶</p>
-      <a class="btn-ghost" style="display:block; text-align:center; text-decoration:none;" href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭する</a>
-    </div>
-    <p class="hint">AT初当り回数（と、追加で入れた項目）の二項分布の尤度から、設定ごとの相対的な可能性をベイズ的に算出しています（事前は一様、示唆にチェックした場合は当てはまらない設定を0%に）。天井や周期の影響を受けるため、回転数が少ないうちはブレが大きくなります。統計的な目安であり、実際の設定を保証するものではありません。</p>
-  </section>
+<button type="button" class="mini" id="miniRes" hidden><span class="mini-bars" id="miniBars"></span><span class="mini-t" id="miniTxt"></span></button>
+<section id="result">
+  <div class="sh"><h2>結果</h2><small>入れた分でその場で計算</small></div>
+  <div id="pieWrap" style="display:none;"><div id="legend"></div></div>
+  <div id="topSetting" class="summary"><p style="margin:0;font-size:12.5px;color:var(--muted);">数えたものを入れると、設定1〜6の可能性がここに出ます。入れた分だけ、その場で計算し直します。</p></div>
+  <div class="ev" id="evOutput" style="display:none;"></div>
+  <div class="tip" id="tipPromptCalc" style="display:none;">勝ったら10円でもいいので <a href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭</a> ください。</div>
+</section>
+</div>
 
-  <!-- 2. 任意入力 -->
-  <section class="card" id="optionalCard">
-    <div class="section-title"><span class="num">2</span><h2>もっと絞り込む（任意）</h2></div>
-    <p class="hint" style="margin-top:0;">入れなくても判別できます。数えたものだけ開いて入力すると、判別済みの結果に自動で反映されます。</p>
-
-    <div class="opt-block">
-      <button class="btn-ghost btn-small opt-toggle" id="toggleBonus" data-panel="bonusPanel" data-label="＋ 戦国乙女ボーナスの回数を入力する" style="margin-top:0;">＋ 戦国乙女ボーナスの回数を入力する</button>
-      <div class="optional-panel" id="bonusPanel">
-        <div class="row2">
-          <div>
-            <label for="bonusCount">戦国乙女ボーナスの回数</label>
-            <input type="number" id="bonusCount" inputmode="numeric" placeholder="例：0">
-          </div>
-          <div class="live-rate" style="margin:22px 0 0;">
-            <span>戦国乙女ボーナス</span>
-            <span><b id="liveBonus">ー</b><small id="liveBonusNote"></small></span>
-          </div>
+<section id="optionalCard">
+  <div id="hints">
+    <div class="sh"><h2>見えたら押す</h2><small>「〇以上濃厚」だけ計算に使う</small></div>
+    <div id="floorGroup">
+        <p class="sub">出陣ボーナス終了画面のスタンプ</p>
+        <div class="tiles" style="grid-template-columns:repeat(5,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,3,4,5,6" data-name="スタンプ可"><span class="tn">可</span><span class="tv">2↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="3,4,5,6" data-name="スタンプ吉"><span class="tn">吉</span><span class="tv">3↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="スタンプ良"><span class="tn">良</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="5,6" data-name="スタンプ優"><span class="tn">優</span><span class="tv">5↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="スタンプ極"><span class="tn">極</span><span class="tv">6</span></label>
         </div>
-        <ul class="ref-list" style="margin-top:8px;">
-          <li>通常時に当たった戦国乙女ボーナスの回数です。分母は上の通常時の回転数。<b>0回でも入れると計算に使います</b></li>
-          <li>設定1 1/21206.7〜設定6 1/5502.7（約3.9倍）。めったに当たらないので、1回でも引けると高設定寄りに動きます</li>
-          <li>AT初当りの一部なので、AT初当り回数にも数えたままで大丈夫です（少しだけ二重に数える形になります）</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="opt-block">
-      <button class="btn-ghost btn-small opt-toggle" id="toggleOa" data-panel="oaPanel" data-label="＋ 乙女アタックの突入率を入力する">＋ 乙女アタックの突入率を入力する</button>
-      <div class="optional-panel" id="oaPanel">
-        <div class="row2">
-          <div>
-            <label for="oaTry">乙女ポイント0pt到達回数</label>
-            <input type="number" id="oaTry" inputmode="numeric" placeholder="例：20">
-          </div>
-          <div>
-            <label for="oaHit">うち乙女アタック突入</label>
-            <input type="number" id="oaHit" inputmode="numeric" placeholder="例：5">
-          </div>
+        <p class="sub">獲得枚数表示（AT中）</p>
+        <div class="tiles" style="grid-template-columns:repeat(5,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,3,4,5,6" data-name="222枚OVER"><span class="tn">222枚<br>OVER</span><span class="tv">2↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="3,4,5,6" data-name="333枚OVER"><span class="tn">333枚<br>OVER</span><span class="tv">3↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="444枚OVER"><span class="tn">444枚<br>OVER</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="5,6" data-name="555枚OVER"><span class="tn">555枚<br>OVER</span><span class="tv">5↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="666枚OVER"><span class="tn">666枚<br>OVER</span><span class="tv">6</span></label>
         </div>
-        <div class="live-rate">
-          <span>乙女アタック突入率</span>
-          <span><b id="liveOa">ー</b><small id="liveOaNote"></small></span>
+        <p class="sub">AT終了画面（示唆が外れた時・金背景）</p>
+        <div class="tiles" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,3,4,5,6" data-name="乙女集合 金背景"><span class="tn">乙女集合<br>（金背景）</span><span class="tv">2↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="乙女4人 示唆外れ"><span class="tn">乙女4人<br>B以上外れ</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="乙女集合赤 天国外れ"><span class="tn">乙女集合赤<br>天国外れ</span><span class="tv">4↑</span></label>
         </div>
-        <ul class="ref-list" style="margin-top:8px;">
-          <li>乙女ポイントが0ptになった時に、CZ「乙女アタック」へ入った割合です</li>
-          <li>設定1 20.3%〜設定6 25.7%。差は小さいので、回数がたまってから効いてきます</li>
-          <li>乙女ストラップモード「カンスケ」滞在中の到達は数えないでください（解析値から除かれています）</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="opt-block">
-      <h3 class="sub-h">期待差枚の計算条件</h3>
-      <div class="row2">
-        <div>
-          <label for="closingTime">閉店時刻</label>
-          <input type="time" id="closingTime" value="22:45">
+        <p class="sub">ゴエモンのボイス（エンディング中）</p>
+        <div class="tiles" style="grid-template-columns:repeat(4,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,3,4,5,6" data-name="さんきゅ〜"><span class="tn">さんきゅ〜</span><span class="tv">2↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="3,4,5,6" data-name="ご機嫌っしょ"><span class="tn">ご機嫌<br>っしょ！</span><span class="tv">3↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="攻めどきっしょ"><span class="tn">攻めどき<br>っしょ！</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="5,6" data-name="気分アゲアゲだし"><span class="tn">気分<br>アゲアゲだし！</span><span class="tv">5↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="名乗り"><span class="tn">名乗り</span><span class="tv">6</span></label>
+          <label class="tile"><input type="checkbox" data-allow="1,3,4,5,6" data-name="なになに気になるー"><span class="tn">なになに、<br>気になるー？</span><span class="tv">2否定</span></label>
+          <label class="tile"><input type="checkbox" data-allow="1,2,4,5,6" data-name="ちょ〜っとホンキ"><span class="tn">ちょ〜っと<br>ホンキ…</span><span class="tv">3否定</span></label>
         </div>
-        <div>
-          <label for="spinsPerHour">1時間あたりの回転数</label>
-          <input type="number" id="spinsPerHour" value="700">
+        <p class="sub">ハルルナPUSH・隠れ凪（推測の段階）</p>
+        <div class="tiles" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="ハルルナPUSH（推測）"><span class="tn">ハルルナPUSH</span><span class="tv">4↑?</span></label>
+          <label class="tile"><input type="checkbox" data-allow="2,3,4,5,6" data-name="隠れ凪 一味違う（推測）"><span class="tn">隠れ凪<br>「一味違う」系</span><span class="tv">2↑?</span></label>
+          <label class="tile"><input type="checkbox" data-allow="3,4,5,6" data-name="隠れ凪 不思議な気配（推測）"><span class="tn">隠れ凪<br>「不思議な気配」系</span><span class="tv">3↑?</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="隠れ凪 良い予感（推測）"><span class="tn">隠れ凪<br>「良い予感」系</span><span class="tv">4↑?</span></label>
+          <label class="tile"><input type="checkbox" data-allow="5,6" data-name="隠れ凪 遊び尽くす（推測）"><span class="tn">隠れ凪<br>「遊び尽くす」系</span><span class="tv">5↑?</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="隠れ凪 お肉（推測）"><span class="tn">隠れ凪<br>「お肉」系</span><span class="tv">6?</span></label>
         </div>
-      </div>
     </div>
-    <button class="btn-ghost" id="recalcBtn" type="button">この内容で再計算する</button>
-  </section>
-
-  <!-- 3. 終了画面・示唆 -->
-  <section class="card" id="hintCard">
-    <div class="section-title"><span class="num">3</span><h2>終了画面・示唆で絞り込む</h2></div>
-    <div id="hints">
-    <p class="hint" style="margin-top:0;">見えたものがある項目を開いてチェック。「〇以上濃厚」「〇否定」に当てはまらない設定を計算から外します。</p>
-    <a class="hint-link ref-out" data-sec="settei" href="https://1geki.jp/slot/l_otome5/10/" target="_blank" rel="noopener">終了画面の解説を見る（1geki）↗</a>
-    <div class="chk-group" id="floorGroup">
-      <details class="hint-acc"><summary><span class="acc-title">出陣ボーナス終了画面（スタンプ）<small>出陣ボーナス終了時</small></span><span class="acc-cnt"></span></summary>
-      <label class="chk"><input type="checkbox" data-allow="2,3,4,5,6" data-name="スタンプ可">「可」（封印の塔）<span class="tag">設定2以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="3,4,5,6" data-name="スタンプ吉">「吉」（ゴエモン）<span class="tag">設定3以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="スタンプ良">「良」（ノブナガ＆ミツヒデ）<span class="tag">設定4以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="5,6" data-name="スタンプ優">「優」（乙女集合）<span class="tag">設定5以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="6" data-name="スタンプ極">「極」（ノブナガ白衣装）<span class="tag">設定6濃厚</span></label>
-      </details>
-      <details class="hint-acc"><summary><span class="acc-title">獲得枚数表示<small>AT中</small></span><span class="acc-cnt"></span></summary>
-      <label class="chk"><input type="checkbox" data-allow="2,3,4,5,6" data-name="222枚OVER">222枚OVER<span class="tag">設定2以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="3,4,5,6" data-name="333枚OVER">333枚OVER<span class="tag">設定3以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="444枚OVER">444枚OVER<span class="tag">設定4以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="5,6" data-name="555枚OVER">555枚OVER<span class="tag">設定5以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="6" data-name="666枚OVER">666枚OVER<span class="tag">設定6濃厚</span></label>
-      </details>
-      <details class="hint-acc"><summary><span class="acc-title">AT終了画面<small>示唆が外れた時・金背景</small></span><span class="acc-cnt"></span></summary>
-      <label class="chk"><input type="checkbox" data-allow="2,3,4,5,6" data-name="AT終了 乙女集合（金背景）">乙女集合（背景が金）<span class="tag">設定2以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="AT終了 乙女4人・示唆外れ">乙女4人（イエヤス・シンゲン／カンスケ・ヨシモト）が出たのに、テーブルB以上の示唆が外れた<span class="tag">設定4以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="AT終了 乙女集合（赤背景）・天国外れ">乙女集合（背景が赤）が出たのに、天国に行かなかった<span class="tag">設定4以上濃厚</span></label>
-      </details>
-      <details class="hint-acc"><summary><span class="acc-title">ゴエモンのボイス<small>エンディング中</small></span><span class="acc-cnt"></span></summary>
-      <label class="chk"><input type="checkbox" data-allow="2,3,4,5,6" data-name="ボイス さんきゅ〜">「さんきゅ〜」<span class="tag">設定2以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="3,4,5,6" data-name="ボイス ご機嫌っしょ">「ご機嫌っしょ！」<span class="tag">設定3以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="ボイス 攻めどきっしょ">「攻めどきっしょ！」<span class="tag">設定4以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="5,6" data-name="ボイス 気分アゲアゲ">「気分アゲアゲだし！」<span class="tag">設定5以上濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="6" data-name="ボイス 名乗り">名乗り（「…石川ゴエモン！」）<span class="tag">設定6濃厚</span></label>
-      <label class="chk"><input type="checkbox" data-allow="1,3,4,5,6" data-name="ボイス なになに、気になる">「なになに、気になるー？」<span class="tag">設定2否定</span></label>
-      <label class="chk"><input type="checkbox" data-allow="1,2,4,5,6" data-name="ボイス ちょ〜っとホンキ">「ちょ〜っとホンキ…」<span class="tag">設定3否定</span></label>
-      </details>
-      <details class="hint-acc"><summary><span class="acc-title">ハルルナPUSH・隠れ凪<small>推測の段階（下の注記を参照）</small></span><span class="acc-cnt"></span></summary>
-      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="ハルルナPUSH">ハルルナPUSHが出た<span class="tag">設定4以上濃厚（推測）</span></label>
-      <label class="chk"><input type="checkbox" data-allow="2,3,4,5,6" data-name="隠れ凪 一味違う">隠れ凪「一味違いますね」系<span class="tag">設定2以上濃厚（推測）</span></label>
-      <label class="chk"><input type="checkbox" data-allow="3,4,5,6" data-name="隠れ凪 不思議な気配">隠れ凪「不思議な気配」系<span class="tag">設定3以上濃厚（推測）</span></label>
-      <label class="chk"><input type="checkbox" data-allow="4,5,6" data-name="隠れ凪 良い予感">隠れ凪「良い予感」系<span class="tag">設定4以上濃厚（推測）</span></label>
-      <label class="chk"><input type="checkbox" data-allow="5,6" data-name="隠れ凪 遊び尽くす">隠れ凪「遊び尽くす」系<span class="tag">設定5以上濃厚（推測）</span></label>
-      <label class="chk"><input type="checkbox" data-allow="6" data-name="隠れ凪 お肉">隠れ凪「お肉」系<span class="tag">設定6濃厚（推測）</span></label>
-      </details>
-    </div>
-    <p class="floor-now" id="floorNow">絞り込み：なし（設定1〜6すべてで計算）</p>
-
-    <details class="hint-acc ref-acc"><summary><span class="acc-title">参考・注記<small>計算には使いません</small></span><span class="acc-cnt"></span></summary>
-    <ul class="ref-list">
-      <li>ゴエモンのボイス「感謝、感謝！」は奇数設定、「怪しい…！」は偶数設定の示唆です（濃厚ではないので絞り込みには使いません）</li>
-      <li>AT終了画面の乙女4人はテーブルB以上、乙女集合（赤・金）は天国の示唆です。示唆どおりになった時は設定の手がかりになりません</li>
-      <li>ハルルナPUSHと隠れ凪は、解析サイトが他のシリーズ機を参考に「推測」として載せている段階です。外れる可能性もあるので、気になる人はチェックしないでください</li>
-      <li>乙女ストラップモード（ノブナガ・ヒデヨシ・ゴエモン）の出現率、エンディング中のレア役ボイス・キャラ紹介にも設定差があるとされますが、数値は未公表です</li>
+    <p class="floor" id="floorNow">絞り込み：なし</p>
+    <ul class="refs">
+        <li>スタンプの画面：可＝封印の塔、吉＝ゴエモン、良＝ノブナガ＆ミツヒデ、優＝乙女集合、極＝ノブナガ白衣装。ゴエモンの名乗りは「…石川ゴエモン！」（「戦乱に忍ぶ…」から始まるもの）</li>
+        <li>ゴエモンのボイス「感謝、感謝！」は奇数設定、「怪しい…！」は偶数設定の示唆です（濃厚ではないので絞り込みには使いません）</li>
+        <li>AT終了画面の乙女4人はテーブルB以上、乙女集合（赤・金）は天国の示唆です。示唆どおりになった時は設定の手がかりになりません。敵キャラ集合はヨシテル濃厚</li>
+        <li>獲得枚数表示は、ちょんぼりすたは「濃厚」、nana-pressは「従来機を参考にした推測」と書いています</li>
+        <li>ハルルナPUSHと隠れ凪は、解析サイトが他のシリーズ機を参考に「推測」として載せている段階です。外れる可能性もあるので、気になる人はチェックしないでください</li>
+        <li>強カワチャンス（設定1 1/36.8）、本能寺の変（設定1 1/114.8）、出陣ボーナス（設定1 1/183.6）は設定2〜6が未公表。乙女ストラップモード・紫炎突入率・エンディング中のキャラ紹介にも設定差があるとされますが、数値は未公表です</li>
     </ul>
-    </details>
+    <a class="outlink ref-out" data-sec="settei" href="https://1geki.jp/slot/l_otome5/0/" target="_blank" rel="noopener">終了画面の画像（1geki） ↗</a>
+  </div>
+  <details style="margin-top:16px;">
+    <summary>期待差枚の計算条件</summary>
+    <div class="row2" style="margin-top:8px;">
+      <div><label for="closingTime">閉店時刻</label><input type="time" id="closingTime" value="22:45"></div>
+      <div><label for="spinsPerHour">1時間の回転数</label><input type="number" id="spinsPerHour" value="700"></div>
     </div>
-  </section>
+    <button class="btn-ghost" id="recalcBtn" type="button" style="width:100%;margin-top:10px;">この条件で再計算</button>
+  </details>
+</section>
 
-  <!-- 4. 設定差 -->
-  <section class="card" id="specCard">
-    <details class="spec-details">
-      <summary><div class="section-title" style="margin:0;"><span class="num">4</span><h2>設定差を見る・編集する</h2></div></summary>
-    <table class="spec">
-      <thead><tr><th>設定</th><th>AT初当り(1/n)</th><th>戦国乙女ボーナス(1/n)</th><th>機械割%</th></tr></thead>
-      <tbody id="specBody"></tbody>
-    </table>
-    <table class="spec" style="margin-top:16px;">
-      <thead><tr><th>設定</th><th>乙女アタック突入率%</th></tr></thead>
-      <tbody id="specBody2"></tbody>
-    </table>
-    <p class="hint">解析サイトの公開値です（2026年10月17日時点。1geki・altema・ちょんぼりすた・パチセブンで一致）。AT初当りは設定1と6で<b>約1.37倍</b>の差で、設定3と4の間で大きく変わります（1/332.5→1/302.8）。小役確率は全設定共通です。</p>
-    <h3 style="font-size:13.5px; margin:18px 0 4px;">ほかの数値（計算には使いません）</h3>
-    <ul class="ref-list">
-      <li>強カワチャンス 設定1 1/36.8、本能寺の変（AT中CZ）移行率 設定1 1/114.8、出陣ボーナス（AT中）設定1 1/183.6。いずれも設定2〜6は未公表</li>
-      <li>小役確率（全設定共通）：リプレイ 1/9.4、共通ベル 1/17.5、スイカ 1/69.4、弱チェリー 1/88.2、チャンス目A・B 各1/392.4、強チェリー 1/397.2</li>
-    </ul>
-    </details>
-  </section>
+<div class="memo"><span class="dot">運営メモ 11/11</span><p>新しいデザインに作り直しました。2026年11月9日時点の解析を確認し、新しく数値が出た設定差はありませんでした。</p></div>
 
-  <section class="card guide" id="guide">
-    <div class="section-title"><span class="num">5</span><h2>戦国乙女5の設定判別の考え方と数えるコツ</h2></div>
-    <h3 class="sub-h">AT初当りと戦国乙女ボーナス</h3>
+<section id="know">
+  <div class="sh"><h2>先に知っておくこと</h2></div>
+  <ul class="list">
+      <li><b>AT初当り</b> 1/359.5→1/262.9（約1.37倍）。設定3（1/332.5）と設定4（1/302.8）の間で大きく変わる</li>
+      <li><b>戦国乙女ボーナス</b> 1/21206.7→1/5502.7（約3.9倍）。0回でも入れると計算に使う</li>
+      <li><b>乙女アタック突入率</b> 20.3%→25.7%。乙女ポイント0pt到達時。カンスケ滞在中は数えない</li>
+      <li>小役確率（リプレイ 1/9.4、共通ベル 1/17.5、スイカ 1/69.4、弱チェリー 1/88.2、チャンス目A・B 各1/392.4、強チェリー 1/397.2）は全設定共通で、判別には使えない</li>
+  </ul>
+</section>
+
+<section id="gousei">
+  <div class="sh"><h2>設定差・機械割</h2></div>
+  <table class="t">
+    <thead><tr><th>設定</th><th>AT初当り</th><th>戦国乙女ボーナス</th><th>機械割</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>359.5</td><td>21206.7</td><td>97.9</td></tr>
+        <tr><td>2</td><td>350.8</td><td>15648.9</td><td>98.9</td></tr>
+        <tr><td>3</td><td>332.5</td><td>13143.5</td><td>101.0</td></tr>
+        <tr class="hi"><td>4</td><td>302.8</td><td>8143.4</td><td>106.2</td></tr>
+        <tr class="hi"><td>5</td><td>281.0</td><td>6427.6</td><td>111.1</td></tr>
+        <tr class="hi"><td>6</td><td>262.9</td><td>5502.7</td><td>114.9</td></tr>
+    </tbody>
+  </table>
+  <p class="note">確率は「1/〇〇」の分母。AT初当り・戦国乙女ボーナス・乙女アタック突入率は1geki・altema・ちょんぼりすた・パチセブン・nana-pressで一致。機械割はちょんぼりすた。</p>
+  <table class="t" style="margin-top:14px;">
+    <thead><tr><th>設定</th><th>乙女アタック</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>20.3%</td></tr>
+        <tr><td>2</td><td>21.4%</td></tr>
+        <tr><td>3</td><td>23.2%</td></tr>
+        <tr class="hi"><td>4</td><td>24.7%</td></tr>
+        <tr class="hi"><td>5</td><td>25.2%</td></tr>
+        <tr class="hi"><td>6</td><td>25.7%</td></tr>
+    </tbody>
+  </table>
+  <p class="note">乙女アタック突入率（%）。カンスケ滞在時とリールロック2段階契機の一部を除いた値。1geki・ちょんぼりすた・nana-pressで一致。</p>
+</section>
+
+<section id="uchikata">
+  <div class="sh"><h2>打ち方</h2></div>
+    <h3>通常時</h3>
+    <ol class="steps">
+      <li>左リールから押す（変則押しは抽選が冷遇される可能性あり）</li>
+      <li>左リール上段にBARを狙う</li>
+      <li>BARが中段（弱・強チェリー）・下段に止まったら、中・右はフリー</li>
+      <li>左上段にスイカが止まったら、中リールは白7を目安にスイカを狙う。右はフリー（スイカはリプレイなので取りこぼしても問題なし。チャンス目Bは3枚払い出しなので取りこぼし注意）</li>
+    </ol>
+    <h3>AT中</h3>
+    <ol class="steps">
+      <li>ナビが出たら従う</li>
+      <li>「宿焔目を狙え」カットインや絶景チャンスが出たら、中リールにバチェバ（BAR・チェリー・BAR）を狙う。そのあと左右にBARを狙う</li>
+    </ol>
+  <p class="note">宿焔目は、BARが止まらなければ弱宿焔目、右にBARで強宿焔目A、左にBARで強宿焔目B、BARがひし形か中段にそろえば乙女チェリーです。停止形の図はリンク先が詳しいです。</p>
+    <a class="outlink ref-out" data-sec="uchikata" href="https://nana-press.com/kaiseki/machine/1160/36416/" target="_blank" rel="noopener">打ち方・停止形（nana-press） ↗</a>
+    <a class="outlink ref-out" data-sec="uchikata1" href="https://chonborista.com/slot/orinpia-slot/256147/" target="_blank" rel="noopener">設定差・示唆（ちょんぼりすた） ↗</a>
+</section>
+
+<section id="guide" class="guide">
+  <div class="sh"><h2>戦国乙女5の設定判別の考え方と数えるコツ</h2></div>
+    <h3>AT初当りと戦国乙女ボーナス</h3>
     <p>L戦国乙女5のAT初当りは、設定1が1/359.5、設定6が1/262.9で約1.37倍の差があり、設定3（1/332.5）と設定4（1/302.8）の間で大きく変わります。めったに当たらない戦国乙女ボーナスは、設定1が1/21206.7、設定6が1/5502.7と約3.9倍の差があり、1回引けるだけで高設定寄りに動きます。小役確率は全設定共通なので、数えても判別には使えません。</p>
     <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
-    <h3 class="sub-h">3000Gでどれくらい差が出る？</h3>
-    <p>通常時を3000G回したときのAT初当りの平均は、設定1で約8.3回、設定6で約11.4回です。設定1の台が設定6の平均以上に当たる確率は約14％、設定6の台が設定1の平均以下にとどまる確率は約20％あります。天井や周期の影響も受けるので、数回の差だけで判断しないようにしましょう。</p>
-    <h3 class="sub-h">回転数を重ねるほど見えてくる</h3>
-    <p>このツールの計算方法で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、AT初当りだけでは3000Gで約6％、5000Gで約23％、8000Gで約34％でした。戦国乙女ボーナスの回数（0回でも入れると計算に使います）も足すと、3000Gで約20％、5000Gで約35％、8000Gで約51％まで上がります。設定1の台で同じ結果になってしまう割合は2％前後です。</p>
-    <h3 class="sub-h">終了画面・獲得枚数・ゴエモンボイス</h3>
-    <p>この機種は「〇以上濃厚」の示唆がとても多いのが特徴です。出陣ボーナス終了画面のスタンプは「可」＝2以上〜「極」＝6、AT中の獲得枚数表示は222枚OVER＝2以上〜666枚OVER＝6、エンディング中のゴエモンのボイスは「さんきゅ〜」＝2以上〜名乗り＝6が濃厚です。「なになに、気になるー？」は設定2否定、「ちょ〜っとホンキ…」は設定3否定。見えたらチェックを入れて計算し直してください。</p>
-    <h3 class="sub-h">数えるときのコツ</h3>
-    <p>AT初当りは通常時から当たったATを1回と数え、乙女アタック経由・戦国乙女ボーナス経由も含めます。AT中の上乗せや継続は含めません。戦国乙女ボーナスはAT初当りにも数えたままで大丈夫です。乙女アタックの突入率は、乙女ポイントが0ptになったときにCZへ入った割合で、カンスケ滞在中の到達は数えません。ハルルナPUSHと隠れ凪は解析サイトでも「推測」の段階なので、気になる人はチェックしないでください。</p>
+    <h3>3000Gでどれくらい差が出る？</h3>
+    <p>通常時を3000G回したときのAT初当りの平均は、設定1で約8.3回、設定6で約11.4回です。このツールの計算方法で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、AT初当りだけでは3000Gで約6％、5000Gで約23％、8000Gで約34％でした。戦国乙女ボーナスの回数（0回でも入れると計算に使います）も足すと、3000Gで約20％、5000Gで約35％、8000Gで約51％まで上がります。設定1の台で同じ結果になってしまう割合は2％前後です。</p>
+    <h3>乙女アタックの突入率</h3>
+    <p>乙女ポイントが0ptになったときにCZ「乙女アタック」へ入る割合は、設定1の20.3%から設定6の25.7%まで上がります。差は小さいので回数がたまってから効いてくる項目ですが、0ptのたびに2つのボタンを押すだけで使えます。乙女ストラップモード「カンスケ」滞在中の到達は解析値から除かれているので、数えないでください。</p>
+    <h3>スタンプ・獲得枚数・ゴエモンボイス</h3>
+    <p>この機種は「〇以上濃厚」の示唆がとても多いのが特徴です。出陣ボーナス終了画面のスタンプは「可」＝2以上〜「極」＝6、AT中の獲得枚数表示は222枚OVER＝2以上〜666枚OVER＝6、エンディング中のゴエモンのボイスは「さんきゅ〜」＝2以上〜名乗り＝6が濃厚です。「なになに、気になるー？」は設定2否定、「ちょ〜っとホンキ…」は設定3否定。見えたら押して計算し直してください。</p>
+    <h3>数えるときのコツ</h3>
+    <p>AT初当りは通常時から当たったATを1回と数え、乙女アタック経由・戦国乙女ボーナス経由も含めます。AT中の上乗せや継続は含めません。ハルルナPUSHと隠れ凪は解析サイトでも「推測」の段階なので、気になる人はチェックしないでください。</p>
     </details>
-  </section>
+</section>
 
-  <!--RELATED-->
+<section id="specCard">
+  <details>
+    <summary>計算に使う設定差を見る・編集する</summary>
+    <table class="t" style="margin-top:8px;">
+      <thead><tr><th>設定</th><th>AT初当り</th><th>戦国乙女ボーナス</th><th>機械割%</th></tr></thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    <table class="t" style="margin-top:10px;">
+      <thead><tr><th>設定</th><th>乙女アタック</th></tr></thead>
+      <tbody id="pSpecBody"></tbody>
+    </table>
+    <p class="note">解析サイトの公開値（2026年11月11日に再確認。ちょんぼりすた 11/9更新・nana-press 11/4更新）。AT初当り・戦国乙女ボーナス・乙女アタック突入率は1geki・altema・ちょんぼりすた・パチセブン・nana-pressで一致。</p>
+  </details>
+</section>
+
+<!--RELATED-->
   <nav class="card rel" aria-label="ほかの機種の設定判別">
     <style>.rel h2{font-size:15px;margin:0 0 10px;}.rel ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;}.rel li a{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:8px;color:var(--text);text-decoration:none;font-size:13px;line-height:1.4;}.rel .rel-all{display:block;margin-top:12px;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);text-decoration:none;}@media (max-width:360px){.rel ul{grid-template-columns:1fr;}}</style>
     <h2>ほかの機種の設定判別</h2>
@@ -402,261 +397,184 @@
   </nav>
   <!--/RELATED-->
 
-  <div class="ad-slot">
-    <!-- ここに広告コード（例: Google AdSenseのユニットタグ）を差し込みます -->
-    広告スペース
-  </div>
+<div class="ad-slot">広告スペース</div>
 
-  <footer>
-    設定差の数値は各解析サイトの公開値（2026年10月時点）をもとにしています。<br>
-    本ツールは統計的な参考情報の提供を目的としたエンターテインメントです。実際の遊技は自己責任・適正な範囲でお楽しみください。<br>
-    18歳未満の方はパチンコ・パチスロを遊技できません。<br>
-    <a href="../" style="color:var(--muted);">機種一覧</a>　<a href="../privacy.html" style="color:var(--muted);">プライバシーポリシー</a>　<a href="../about.html" style="color:var(--muted);">運営者情報</a>　<a href="../contact.html" style="color:var(--muted);">お問い合わせ</a>
-  </footer>
+<footer>
+  数値は各解析サイトの公開値（2026年10月時点）。結果は確率の目安で、設定を保証するものではありません。遊技は自己責任・適正な範囲で。18歳未満の方はパチンコ・パチスロを遊技できません。<br>
+  <a href="../">機種一覧</a><a href="../privacy.html">プライバシーポリシー</a><a href="../about.html">運営者情報</a><a href="../contact.html">お問い合わせ</a>
+</footer>
 </div>
 
 <script>
-// ================= 1. 設定差（2026年10月時点の公開値） =================
-const SETS = [1,2,3,4,5,6];
-const SPEC = {
-  at:     [359.5, 350.8, 332.5, 302.8, 281.0, 262.9],
-  bn:     [21206.7, 15648.9, 13143.5, 8143.4, 6427.6, 5502.7],
-  payout: [97.9, 98.9, 101.0, 106.2, 111.1, 114.9],
-  oa:     [20.3, 21.4, 23.2, 24.7, 25.2, 25.7]   // 乙女アタック突入率（%）
-};
-const N = SETS.length, BET = 3;
+const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
+const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
+const HAS_B = false, HAS_C = true, HAS_CHECKS = true;
+const XDEF = [];
+const PDEF = [{"n": "zeroPt", "k": "oaIn", "spec": [20.3, 21.4, 23.2, 24.7, 25.2, 25.7], "f": 1, "label": "乙女アタック"}];
+const SPEC = { a: [359.5, 350.8, 332.5, 302.8, 281.0, 262.9], b: [1, 1, 1, 1, 1, 1], c: [21206.7, 15648.9, 13143.5, 8143.4, 6427.6, 5502.7], payout: [97.9, 98.9, 101.0, 106.2, 111.1, 114.9] };
+const BET = 3, LABEL_A = "AT初当り", LABEL_B = "", LABEL_C = "戦国乙女ボーナス";
 const $ = id => document.getElementById(id);
-
-for(let i=0; i<N; i++){
+const specBody = $('specBody');
+for(let s=0; s<N; s++){
   const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td>設定${SETS[i]}</td>
-    <td><input type="number" step="0.1" class="atInput" value="${SPEC.at[i].toFixed(1)}"></td>
-    <td><input type="number" step="0.1" class="bnInput" value="${SPEC.bn[i].toFixed(1)}"></td>
-    <td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[i].toFixed(1)}"></td>`;
-  $('specBody').appendChild(tr);
-  const tr2 = document.createElement('tr');
-  tr2.innerHTML = `
-    <td>設定${SETS[i]}</td>
-    <td><input type="number" step="0.1" class="oaInput" value="${SPEC.oa[i].toFixed(1)}"></td>`;
-  $('specBody2').appendChild(tr2);
+  tr.innerHTML = `<td>${SETS[s]}</td><td><input type="number" step="0.1" class="aInput" value="${SPEC.a[s].toFixed(DEC_A)}"></td>${HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${SPEC.b[s].toFixed(DEC_B)}"></td>` : ''}${HAS_C ? `<td><input type="number" step="0.1" class="cInput" value="${SPEC.c[s].toFixed(DEC_C)}"></td>` : ''}${XDEF.map((x, j) => `<td><input type="number" step="0.1" class="xInput${j}" value="${x.spec[s].toFixed(x.dec)}"></td>`).join('')}<td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>`;
+  specBody.appendChild(tr);
+}
+const pBody = $('pSpecBody');
+if(pBody) for(let s=0; s<N; s++){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${SETS[s]}</td>` + PDEF.map((q, j) => `<td><input type="number" step="0.1" class="pInput${j}" value="${q.spec[s].toFixed(1)}"></td>`).join('');
+  pBody.appendChild(tr);
 }
 const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
-
-// ================= 2. 実戦データ =================
+const totalG = $('totalG'), aCount = $("atCount"), bCount = $("_noB") || { value: '', addEventListener(){}, dispatchEvent(){} };
+const cCount = $("obCount") || { value: '', addEventListener(){}, dispatchEvent(){} };
 const num = el => Math.max(parseFloat(el.value) || 0, 0);
-const filled = id => $(id).value.trim() !== '';
-const isOpen = id => $(id).classList.contains('open');
-
+const bG = B_G ? $(B_G) : totalG;
+const xEls = XDEF.map(x => $(x.id));
+const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
+function livePct(){
+  PDEF.forEach((q, j) => {
+    const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(n > 0){
+      const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
+      $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
+      let best = 0; arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+      $('livePNote' + j).textContent = r <= Math.min(...arr) ? `設定${SETS[0]}以下` : (r >= Math.max(...arr) ? `設定${SETS[N-1]}以上` : `設定${SETS[best]}付近`);
+    } else { $('liveP' + j).textContent = '―'; $('livePNote' + j).textContent = ''; }
+  });
+}
+pEls.flat().forEach(el => el.addEventListener('input', livePct));
 function nearLabel(r, arr){
-  const max = Math.max(...arr), min = Math.min(...arr);
-  if(r >= max) return `設定${SETS[0]}より重い`;
-  if(r <= min) return `設定${SETS[N-1]}より軽い`;
-  let best = 0;
-  arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+  if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
+  if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
+  let best = 0; arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
   return `設定${SETS[best]}付近`;
 }
-function nearPct(p, arr){
-  const max = Math.max(...arr), min = Math.min(...arr);
-  if(p >= max) return `設定${SETS[N-1]}より高い`;
-  if(p <= min) return `設定${SETS[0]}より低い`;
-  let best = 0;
-  arr.forEach((v, i) => { if(Math.abs(v - p) < Math.abs(arr[best] - p)) best = i; });
-  return `設定${SETS[best]}付近`;
+const rate = (g, k) => k > 0 ? `1/${(g/k).toFixed(1)}` : '―';
+function live(el, cls, b, n, gEl){
+  const g = num(gEl || totalG), k = num(el);
+  if(g > 0 && k > 0){ $(b).textContent = rate(g, k); $(n).textContent = nearLabel(g/k, readCol(cls)); }
+  else { $(b).textContent = '―'; $(n).textContent = ''; }
 }
-function setLive(idB, idN, text, note){ $(idB).textContent = text; $(idN).textContent = note; }
+function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); if(HAS_C) live(cCount, 'cInput', 'liveC', 'liveCNote'); xEls.forEach((el, j) => live(el, 'xInput' + j, 'liveX' + j, 'liveX' + j + 'Note')); }
+[totalG, aCount, bCount, cCount, bG, ...xEls].forEach(el => el.addEventListener('input', updateLive));
+specBody.addEventListener('input', updateLive);
+if(pBody) pBody.addEventListener('input', livePct);
 
-function updateLive(){
-  const g = num($('normalG')), a = num($('atCount')), b = num($('bonusCount'));
-  if(g > 0 && a > 0) setLive('liveAt', 'liveAtNote', `1/${(g/a).toFixed(1)}`, nearLabel(g/a, readCol('atInput')));
-  else setLive('liveAt', 'liveAtNote', 'ー', '');
-  if(g > 0 && b > 0) setLive('liveBonus', 'liveBonusNote', `1/${(g/b).toFixed(1)}`, nearLabel(g/b, readCol('bnInput')));
-  else if(g > 0 && filled('bonusCount')) setLive('liveBonus', 'liveBonusNote', `0回`, `${g}G中`);
-  else setLive('liveBonus', 'liveBonusNote', 'ー', '');
-  const tr = num($('oaTry')), ht = num($('oaHit'));
-  if(tr > 0){
-    const p = ht / tr * 100;
-    setLive('liveOa', 'liveOaNote', `${p.toFixed(1)}%`, nearPct(p, readCol('oaInput')));
-  } else setLive('liveOa', 'liveOaNote', 'ー', '');
-}
-['normalG','atCount','bonusCount','oaTry','oaHit'].forEach(id => $(id).addEventListener('input', updateLive));
-document.querySelectorAll('#specBody input, #specBody2 input').forEach(el => el.addEventListener('input', updateLive));
-
-document.querySelectorAll('.opt-toggle').forEach(btn => btn.addEventListener('click', () => {
-  const panel = $(btn.dataset.panel);
-  panel.classList.toggle('open');
-  btn.textContent = panel.classList.contains('open') ? '－ 閉じる（この項目を計算から外す）' : btn.dataset.label;
+// タップで足す（データカウンターのように）
+const undo = [];
+document.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => {
+  const step = b.dataset.add.split(',').map(id => { const el = $(id), before = el.value; el.value = num(el) + Number(b.dataset.n); return [el, before]; });
+  undo.push(step); if(undo.length > 50) undo.shift();
+  step.forEach(([el]) => el.dispatchEvent(new Event('input', { bubbles: true })));
 }));
+$('undoBtn').addEventListener('click', () => {
+  const u = undo.pop(); if(!u) return;
+  u.forEach(([el, v]) => { el.value = v; el.dispatchEvent(new Event('input', { bubbles: true })); });
+});
 
-// ================= 3. 示唆による絞り込み =================
+// 示唆
 const floorChecks = [...document.querySelectorAll('#floorGroup input[type=checkbox]')];
 function currentAllow(){
   const on = floorChecks.filter(c => c.checked);
   let allow = new Set(SETS);
-  on.forEach(c => {
-    const a = new Set(c.dataset.allow.split(',').map(Number));
-    allow = new Set([...allow].filter(s => a.has(s)));
-  });
+  on.forEach(c => { const a = new Set(c.dataset.allow.split(',').map(Number)); allow = new Set([...allow].filter(s => a.has(s))); });
   return { allow, names: on.map(c => c.dataset.name) };
 }
-const allowLabel = allow => [...allow].map(s => `設定${s}`).join('・');
+const allowLabel = allow => [...allow].join('・');
 function updateFloorText(){
-  const { allow, names } = currentAllow();
-  const el = $('floorNow');
-  if(names.length === 0) el.innerHTML = '絞り込み：なし（設定1〜6すべてで計算）';
-  else if(allow.size === 0) el.innerHTML = '<span style="color:var(--red);">チェックした示唆が矛盾しています（当てはまる設定がありません）。見間違いがないか確認してください。</span>';
-  else el.innerHTML = `絞り込み：<b>${allowLabel(allow)}</b>で計算（${names.join('・')}）`;
+  const { allow, names } = currentAllow(), el = $('floorNow');
+  if(!names.length) el.innerHTML = '絞り込み：なし';
+  else if(!allow.size) el.innerHTML = '<span style="color:var(--red);">押した示唆が矛盾しています。見間違いがないか確認してください。</span>';
+  else el.innerHTML = `絞り込み：設定<b>${allowLabel(allow)}</b>で計算（${names.join('・')}）`;
 }
-function updateAccCount(){
-  document.querySelectorAll('#floorGroup .hint-acc').forEach(d => {
-    const n = d.querySelectorAll('input[type=checkbox]:checked').length;
-    d.classList.toggle('has-on', n > 0);
-    d.querySelector('.acc-cnt').textContent = n > 0 ? `${n}件チェック` : '';
-  });
-}
-floorChecks.forEach(c => c.addEventListener('change', () => { updateFloorText(); updateAccCount(); }));
+floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
 
-// ================= 4. 計算 =================
-const pieColors = ['#e8a93b','#33b6a4','#7fa7d9','#d9668b','#9b7fd9','#6fd6a8'];
-const topSetting = $('topSetting'), pieWrap = $('pieWrap'), evOutput = $('evOutput'), tipPrompt = $('tipPromptCalc');
+// 計算
 const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
-function showMsg(html){
-  topSetting.innerHTML = `<p class="hint">${html}</p>`;
-  pieWrap.style.display = 'none'; evOutput.style.display = 'none'; tipPrompt.style.display = 'none';
-}
-
+function miniMsg(t){ $('miniRes').hidden = true; }
+$('miniRes').addEventListener('click', () => { $('result').scrollIntoView({ behavior: 'smooth', block: 'start' }); if (typeof gtag === 'function') gtag('event', 'result_jump', { machine: "otome5" }); });
+// 結果の数字（設定4以上〜）が画面に見えている間は、下の「結果を見る」を隠す
+if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => $('miniRes').classList.toggle('away', e.isIntersecting)), { threshold: 0.5 }).observe($('topSetting'));
+function showMsg(t){ miniMsg(t); $('topSetting').innerHTML = `<p style="margin:0;font-size:13px;color:var(--muted);">${t}</p>`; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; }
+const INIT_TOP = $('topSetting').innerHTML;
+let judgeTimer = null, judgeLast = 0;
 $('calcBtn').addEventListener('click', () => {
-  const g = num($('normalG')), a = num($('atCount'));
-  const useBonus = isOpen('bonusPanel') && filled('bonusCount');
-  const useOa    = isOpen('oaPanel') && filled('oaTry') && num($('oaTry')) > 0;
-  const b = num($('bonusCount')), tr = num($('oaTry')), ht = num($('oaHit'));
-
-  if(g <= 0){ showMsg('通常時の回転数を入力してください。'); return; }
-  if(a > g || (useBonus && b > g)){ showMsg('回数が回転数を超えています。入力を確認してください。'); return; }
-  if(useOa && ht > tr){ showMsg('乙女アタックの突入回数が、0pt到達回数を超えています。入力を確認してください。'); return; }
-
+  const useA = aCount.value.trim() !== '';
+  const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
+  const pUse = PDEF.map((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); return { n, k, use: n > 0 || k > 0 }; });
+  const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '' }));
   const { allow, names } = currentAllow();
-  if(allow.size === 0){ showMsg('チェックした示唆が矛盾しています。見間違いがないか確認してください。'); return; }
-
-  const at = readCol('atInput'), bn = readCol('bnInput'), payout = readCol('payoutInput'), oa = readCol('oaInput');
-  const ll = [];
-  for(let i=0; i<N; i++){
-    if(!allow.has(SETS[i])){ ll.push(-Infinity); continue; }
-    let x = binomLL(a, g, 1/at[i]);
-    if(useBonus) x += binomLL(b, g, 1/bn[i]);
-    if(useOa) x += binomLL(ht, tr, Math.min(Math.max(oa[i]/100, 1e-6), 0.999999));
-    ll.push(x);
-  }
-  const maxLL = Math.max(...ll);
-  const w = ll.map(x => x === -Infinity ? 0 : Math.exp(x - maxLL));
-  const sum = w.reduce((x, y) => x + y, 0);
-  const post = w.map(x => x / sum);
-  const expSetting = post.reduce((acc, q, i) => acc + q*SETS[i], 0);
-
-  if (typeof gtag === 'function') {
-    gtag('event', 'judge_run', { machine_group: 'otome5', machine: 'otome5', has_bonus: useBonus, has_oa: useOa, allow: [...allow].join('') });
-  }
-
-  let acc = 0;
-  const stops = post.map((q, i) => { const s0 = acc*360; acc += q; return `${pieColors[i]} ${s0}deg ${acc*360}deg`; }).join(', ');
-  $('pieChart').style.background = `conic-gradient(${stops})`;
-  pieWrap.style.display = 'flex';
-  const legend = $('legend'); legend.innerHTML = '';
-  post.forEach((q, i) => {
-    const row = document.createElement('div');
-    row.className = 'legend-row' + (!allow.has(SETS[i]) ? ' cut' : '');
-    row.innerHTML = `<span class="swatch" style="background:${pieColors[i]}"></span><span>設定${SETS[i]}</span><span class="pct">${(q*100).toFixed(1)}%</span>`;
-    legend.appendChild(row);
-  });
-
-  const best = post.indexOf(Math.max(...post));
-  const hi = post.reduce((x, q, i) => x + (SETS[i] >= 4 ? q : 0), 0);
-  const rate = (n, k) => k > 0 ? (n/k).toFixed(1) : '―';
-  const parts = [`通常時${g}G / AT初当り ${a}回（1/${rate(g, a)}）`];
-  if(useBonus) parts.push(`戦国乙女ボーナス ${b}回`);
-  if(useOa) parts.push(`乙女アタック ${ht}/${tr}回（${(ht/tr*100).toFixed(1)}%）`);
-  if(names.length) parts.push(`絞り込み：${allowLabel(allow)}（${names.join('・')}）`);
-  let msg = `最も可能性が高いのは <b>設定${SETS[best]}</b>（推定 ${(post[best]*100).toFixed(1)}%）。設定4以上の合計 <b>${(hi*100).toFixed(1)}%</b>、期待設定 <b>${expSetting.toFixed(2)}</b>。<br><span style="color:var(--muted);font-size:12.5px;">${parts.join(' / ')}</span>`;
-  if(g < 3000) msg += '<br><span style="color:var(--muted);font-size:12.5px;">3,000G未満ではブレが大きく、差が出にくいです。終了画面やボイスも合わせて見てください。</span>';
-  topSetting.innerHTML = `<div class="top-setting">${msg}</div>`;
-
-  const spinsPerHour = parseFloat($('spinsPerHour').value) || 0;
-  const [ch, cm] = $('closingTime').value.split(':').map(Number);
-  const closing = new Date(); closing.setHours(ch, cm, 0, 0);
-  const hours = Math.max((closing - new Date()) / 3600000, 0);
-  const remainG = spinsPerHour * hours;
-  const netPer = payout.map(x => BET * (x/100 - 1) * remainG);
-  const ev = Math.round(post.reduce((x, q, i) => x + q*netPer[i], 0)) || 0;
-  const bestNet = Math.round(netPer[best]) || 0;
-  const sign = val => val > 0 ? '+' : (val < 0 ? '' : '±');
-  evOutput.style.display = 'block';
-  evOutput.innerHTML = `
-    <div class="num ${ev >= 0 ? 'pos' : 'neg'}">${sign(ev)}${ev.toLocaleString()} 枚</div>
-    <div class="sub">残り約${hours.toFixed(1)}時間・約${Math.round(remainG).toLocaleString()}G分の期待差枚（各設定の機械割を確率で重み付け平均）</div>
-    <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--line);">
-      <div class="num ${bestNet >= 0 ? 'pos' : 'neg'}" style="font-size:22px;">${sign(bestNet)}${bestNet.toLocaleString()} 枚</div>
-      <div class="sub">最有力の設定${SETS[best]}だった場合の期待差枚</div>
-    </div>`;
-  tipPrompt.style.display = 'block';
+  const needG = useA || useC || xUse.some(x => x.use) || (useB && !B_G);
+  if(!needG && !useB && !pUse.some(x => x.use) && !names.length){ miniMsg(''); $('topSetting').innerHTML = INIT_TOP; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; return; }
+  if(needG && g <= 0){ showMsg("通常時のゲーム数を入れてください（AT中は含めない）。"); return; }
+  if(useB && gb <= 0){ showMsg(""); return; }
+  if(pUse.some(x => x.use && x.k > x.n)){ showMsg('「そのうち」の回数が、もとの回数より多くなっています。'); return; }
+  if(a > g || b > gb || c > g || xUse.some(x => x.k > g)){ showMsg('回数がゲーム数を超えています。'); return; }
+  if(!allow.size){ showMsg('押した示唆が矛盾しています。見間違いがないか確認してください。'); return; }
+  const pv = PDEF.map((q, j) => readCol('pInput' + j).map(v => Math.min(Math.max(v * q.f / 100, 1e-6), 1 - 1e-6)));
+  const xv = XDEF.map((x, j) => readCol('xInput' + j)), av = readCol('aInput'), bv = readCol('bInput'), cv = readCol('cInput'), payout = readCol('payoutInput');
+  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : (useA ? binomLL(a, g, 1/av[i]) : 0) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + xUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, g, 1/xv[j][i]) : 0), 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
+  const mx = Math.max(...ll), w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - mx)), sum = w.reduce((x, y) => x + y, 0), post = w.map(x => x / sum);
+  const exp = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
+  clearTimeout(judgeTimer);
+  judgeTimer = setTimeout(() => { if(Date.now() - judgeLast < 60000) return; judgeLast = Date.now(); if (typeof gtag === 'function') gtag('event', 'judge_run', { machine: "otome5", has_a: useA, has_b: useB, has_c: useC, hints: names.length }); }, 3000);
+  const top = Math.max(...post), best = post.indexOf(top), hi = post.reduce((x, p, i) => x + (HI[i] ? p : 0), 0);
+  $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${HI[i] ? ' hi' : ''}${allow.has(SETS[i]) ? '' : ' cut'}"><span class="sl">設定${SETS[i]}</span><span class="track"><span class="swatch" style="width:${top > 0 ? (p/top*100).toFixed(1) : 0}%;"></span></span><span class="pct">${(p*100).toFixed(1)}%</span></div>`).join('');
+  $('pieWrap').style.display = 'block';
+  $('miniBars').innerHTML = post.map((p, i) => `<span class="${HI[i] ? 'hi' : ''}"><i style="height:${top > 0 ? Math.max(p/top*26, 2).toFixed(1) : 2}px"></i><em>${SETS[i]}</em></span>`).join('');
+  $('miniTxt').innerHTML = `<b>4以上 ${(hi*100).toFixed(0)}%</b>結果を見る ▼`; $('miniRes').hidden = false;
+  const parts = [];
+  if(g > 0) parts.push(`${B_G ? "通常時" : '通常時'}${g}G`);
+  if(useA) parts.push(`${LABEL_A} ${a}回（${rate(g, a)}）`);
+  if(useB && B_G) parts.push(`${""}${gb}G`);
+  if(useB) parts.push(`${LABEL_B} ${b}回（${rate(gb, b)}）`);
+  if(useC) parts.push(`${LABEL_C} ${c}回`);
+  xUse.forEach((x, j) => { if(x.use) parts.push(`${XDEF[j].label} ${x.k}回`); });
+  pUse.forEach((x, j) => { if(x.use) parts.push(`${PDEF[j].label} ${x.k}/${x.n}`); });
+  if(names.length) parts.push(`示唆：${names.join('・')}`);
+  let say;
+  const minAllow = Math.min(...allow);
+  if(names.length && allow.size === 1) say = `示唆で設定${[...allow][0]}に絞れました。`;
+  else if(names.length && minAllow >= 4) say = `示唆で設定${minAllow}以上に絞れています。あとは回数で上の設定を見ます。`;
+  else if(hi >= 0.8) say = '高設定（4以上）の可能性がかなり高い。';
+  else if(hi >= 0.6) say = '高設定寄り。ただしまだ決めきれない。';
+  else if(hi <= 0.3) say = HAS_CHECKS ? '低設定寄り。示唆が出ないなら深追いは禁物。' : '低設定寄り。数字が戻らないなら深追いは禁物。';
+  else say = HAS_CHECKS ? 'まだ何とも言えない範囲。示唆が1つ出れば大きく変わります。' : 'まだ何とも言えない範囲。回すほど差がはっきりします。';
+  $('topSetting').innerHTML = `<div>設定4以上 <span class="big">${(hi*100).toFixed(0)}%</span>　期待設定 <span class="big">${exp.toFixed(1)}</span></div><div style="margin-top:4px;">${say}</div><span class="meta">${parts.join(' ／ ')}</span>`;
+  const sph = parseFloat($('spinsPerHour').value) || 0;
+  const [hh, mm] = $('closingTime').value.split(':').map(Number);
+  const closing = new Date(); closing.setHours(hh, mm, 0, 0);
+  let hours = Math.max((closing - new Date()) / 3600000, 0);
+  if(hours > 15) hours = 0; // 閉店後〜朝（翌日の閉店まで数えない）
+  const remainG = sph * hours;
+  const net = payout.map(p => BET * (p/100 - 1) * remainG);
+  const ev = Math.round(post.reduce((x, p, i) => x + p*net[i], 0)) || 0;
+  const sign = v => v > 0 ? '+' : (v < 0 ? '' : '±');
+  $('evOutput').style.display = 'flex';
+  $('evOutput').innerHTML = `<span><small>閉店まで（約${Math.round(remainG).toLocaleString()}G）の期待差枚</small></span><span class="n ${ev >= 0 ? 'pos' : 'neg'}">${sign(ev)}${ev.toLocaleString()}枚</span>`;
+  $('tipPromptCalc').style.display = 'block';
 });
-
-document.querySelectorAll('a.ref-out').forEach(el => el.addEventListener('click', () => {
-  if (typeof gtag === 'function') gtag('event', 'outbound_ref', { machine: 'otome5', section: el.dataset.sec });
+document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', () => {
+  if (typeof gtag === 'function') gtag('event', 'outbound_ref', { machine: "otome5", section: a.dataset.sec });
 }));
-</script>
-
-
-<script>
-// layout v2: 任意入力・設定差を変えたら判別結果を自動で再計算（GAのjudge_runは送らない）
+// 入力やチェックを変えたら、その場で計算し直す（判別ボタンは counter.js・share.js 用に隠して残す）
 (function(){
-  var btn = document.getElementById('calcBtn'); if(!btn) return;
-  var done = false, timer = null;
-  btn.addEventListener('click', function(){ done = true; });
-  function silentCalc(){
-    var g = window.gtag;
-    window.gtag = function(a, b){ if(a === 'event' && b === 'judge_run') return; if(typeof g === 'function') return g.apply(this, arguments); };
-    try { btn.click(); } finally { window.gtag = g; }
-  }
-  function auto(e){
-    if(!done) return;
-    if(e && e.target && e.target.id === 'recalcBtn') return;
-    clearTimeout(timer); timer = setTimeout(silentCalc, 350);
-  }
-  ['hintCard', 'optionalCard', 'specCard'].forEach(function(id){
-    var el = document.getElementById(id); if(!el) return;
-    el.addEventListener('input', auto); el.addEventListener('change', auto);
-  });
-  document.querySelectorAll('.opt-toggle').forEach(function(b){ b.addEventListener('click', auto); });
-  var rb = document.getElementById('recalcBtn');
-  if(rb) rb.addEventListener('click', function(){
-    btn.click();
-    var t = document.getElementById('pieWrap');
-    if(t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  });
+  const btn = $('calcBtn'); let timer = null;
+  function silent(){ const g = window.gtag; window.gtag = function(a, b){ if(a === 'event' && b === 'judge_run') return; if(typeof g === 'function') return g.apply(this, arguments); }; try { btn.click(); } finally { window.gtag = g; } }
+  function auto(){ clearTimeout(timer); timer = setTimeout(silent, 300); }
+  ['optionalCard', 'specCard', 'mainCard'].forEach(id => { const el = $(id); el.addEventListener('input', auto); el.addEventListener('change', auto); });
+  $('recalcBtn').addEventListener('click', () => { btn.click(); $('result').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 })();
 </script>
 <script src="../share.js"></script>
 <script>
-(function(){
-  var bp = {"panel": "bonusPanel", "toggle": "toggleBonus"}, op = {"panel": "oaPanel", "toggle": "toggleOa"};
-  var cfg = {"key": "otome5", "name": "L戦国乙女5", "tags": "#戦国乙女5 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "fields": [
-    {"id": "normalG", "q": "g", "label": "通常時", "unit": "G"},
-    {"id": "atCount", "q": "at", "label": "AT", "unit": "回", "rateOf": "normalG"},
-    {"id": "bonusCount", "q": "bn", "label": "乙女ボーナス", "unit": "回", "opt": bp},
-    {"id": "oaTry", "q": "ot", "label": "0pt到達", "unit": "回", "opt": op},
-    {"id": "oaHit", "q": "oh", "label": "乙女アタック", "unit": "回", "opt": op}
-  ]}], "hints": "#floorGroup input[type=checkbox]"};
-  SettiShare.init(cfg);
-})();
+SettiShare.init({"key": "otome5", "name": "L戦国乙女5 業火を穿つ宿焔の双刃", "tags": "#戦国乙女5 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "obCount", "q": "ob", "label": "戦国乙女ボーナス", "unit": "回", "rateOf": "totalG"}, {"id": "zeroPt", "q": "zp", "label": "0pt到達", "unit": "回"}, {"id": "oaIn", "q": "oa", "label": "そのうち乙女アタック", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "otome5", "name": "戦国乙女5", "g": {"id": "normalG", "label": "通常時G数"}, "counts": [
-  {"id": "atCount", "label": "AT初当り"},
-  {"id": "bonusCount", "label": "戦国乙女ボーナス", "optional": true, "openPanel": {"panel": "bonusPanel", "btn": "toggleBonus"}},
-  {"id": "oaTry", "label": "乙女ポイント0pt到達", "optional": true, "defaultOff": true, "rate": false, "openPanel": {"panel": "oaPanel", "btn": "toggleOa"}},
-  {"id": "oaHit", "label": "乙女アタック突入", "optional": true, "defaultOff": true, "rate": false, "openPanel": {"panel": "oaPanel", "btn": "toggleOa"}}
-], checks: { selector: '#floorGroup input[type=checkbox]', title: "終了画面・ボイス", short: '示唆（スタンプ等）', optional: true }, judge: 'calcBtn', wrap: 'pieWrap', legend: 'legend', note: "G数・AT・戦国乙女ボーナスは通常時のみ数える（AT中は数えない）。"});
+SettiCounter.init({"key": "otome5", "name": "戦国乙女5", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "obCount", "label": "戦国乙女ボーナス", "optional": true}, {"id": "zeroPt", "label": "0pt到達", "optional": true, "group": "乙女ポイント0pt", "rate": false, "defaultOff": true}, {"id": "oaIn", "label": "突入", "optional": true, "group": "乙女ポイント0pt", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・戦国乙女ボーナスは通常時のみ。AT初当りは乙女アタック・乙女ボーナス経由も含む。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "スタンプ・獲得枚数・終了画面・ボイス", "short": "示唆", "optional": true}});
 </script>
 </body>
 </html>
