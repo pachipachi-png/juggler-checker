@@ -226,9 +226,9 @@
  "bofuri/": {
   "name": "防振り",
   "req3000": 16,
-  "all3000": 43,
-  "all5000": 63,
-  "false1": 2.4,
+  "all3000": 59,
+  "all5000": 78,
+  "false1": 1.5,
   "lv": "normal"
  },
  "garo-yami/": {
