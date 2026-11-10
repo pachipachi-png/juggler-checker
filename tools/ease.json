@@ -130,10 +130,10 @@
  "tenten/": {
   "name": "転生王女",
   "req3000": 6,
-  "all3000": 20,
-  "all5000": 34,
-  "false1": 1.0,
-  "lv": "hard"
+  "all3000": 37,
+  "all5000": 56,
+  "false1": 1.8,
+  "lv": "normal"
  },
  "lycoris/": {
   "name": "リコリス",
