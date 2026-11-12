@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>炎炎ノ消防隊2（スマスロ）設定判別ツール（ボーナス・炎炎ループ・キャラ紹介・獲得枚数・ミニキャラ） | 設定示唆くん</title>
+<meta name="description" content="Lパチスロ 炎炎ノ消防隊2（炎炎2・スマスロ）の設定判別ツール。通常時の回転数とボーナス初当り回数を入れるだけで設定1〜6の可能性を計算。炎炎ループ初当りの追加入力と、REG中のキャラ紹介（シナリオ・特殊キャラ・まもるくん）、獲得枚数表示（119・246・456・666枚OVER）、エンディング中のミニキャラによる絞り込みに対応。打ち方・天井つき。">
+<link rel="canonical" href="https://pachipachi-png.com/enen2/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="設定示唆くん">
+<meta property="og:title" content="炎炎ノ消防隊2 設定判別ツール | 設定示唆くん">
+<meta property="og:description" content="通常時G数とボーナス初当り回数を入れるだけ。炎炎ループ、キャラ紹介・獲得枚数表示・ミニキャラで設定を絞り込み。">
+<meta property="og:url" content="https://pachipachi-png.com/enen2/">
+<meta property="og:image" content="https://pachipachi-png.com/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+1p:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  /* 案A：データカウンター風（2026-10-30 試作） */
+  :root{
+    --bg:#0c0c0d; --panel:#17171a; --panel-2:#1f1f22; --line:#2c2c30; --text:#ebe8e1; --muted:#a9a59c;
+    --amber:#ffb21e; --amber-dim:#3a2a0c; --led-bg:#120d05;
+    /* counter.js・share.js が使う名前 */
+    --gold:#ffb21e; --gold-dim:#6b4c10; --teal:#ffb21e; --red:#ff7a6b;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'M PLUS 1p',sans-serif;line-height:1.7;padding-bottom:72px;}
+  .dot{font-variant-numeric:tabular-nums;font-weight:700;}
+  .led{font-family:'DotGothic16',monospace;font-weight:400;}
+  .wrap{max-width:520px;margin:0 auto;}
+  a{color:var(--amber);}
+  .bar-top{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);font-size:12px;}
+  .bar-top a{text-decoration:none;font-weight:800;font-size:14px;letter-spacing:.04em;}
+  .bar-top span{color:var(--muted);}
+  .hero{display:flex;gap:14px;padding:18px 16px 14px;align-items:flex-end;}
+  .hero img{width:140px;height:auto;flex-shrink:0;background:#fff;border-radius:4px;}
+  .hero .new{align-self:flex-start;background:var(--amber);color:var(--bg);font-size:12px;padding:1px 6px;}
+  .hero h1{margin:6px 0 4px;font-size:22px;line-height:1.3;font-weight:800;}
+  .hero p{margin:0;font-size:12px;color:var(--muted);line-height:1.6;}
+  .lead{margin:0 16px;padding:12px 14px;background:#1b1a17;border-top:3px solid var(--amber);font-size:13.5px;}
+  .lead b.h{display:block;color:var(--amber);font-size:15.5px;font-weight:800;margin-bottom:2px;}
+  .lead p{margin:0;}
+  .lead .warn{margin-top:8px;padding-top:8px;border-top:1px dashed #3a3730;font-size:12px;color:var(--muted);}
+  .jump{display:flex;gap:0;margin:14px 16px 0;border:1px solid var(--line);}
+  .jump a{flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--muted);text-decoration:none;border-left:1px solid var(--line);}
+  .jump a:first-child{border-left:none;}
+  .data{margin:16px 16px 0;background:#050505;border:2px solid #2f2f31;border-radius:6px;padding:14px 12px 12px;}
+  .data-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .data-h .dot{font-family:'DotGothic16',monospace;font-weight:400;font-size:13px;color:var(--muted);letter-spacing:.1em;}
+  .data-h small{font-size:11px;color:var(--muted);}
+  .cells{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+  .cells{align-items:end;}
+  .cells label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .cells input{width:100%;background:var(--led-bg);border:1px solid var(--amber-dim);color:var(--amber);font-family:'DotGothic16',monospace;font-size:26px;text-align:right;padding:6px;border-radius:3px;}
+  .cells input::placeholder{color:#5a4316;}
+  input:focus,button:focus-visible,.tile:focus-within{outline:2px solid var(--amber);outline-offset:1px;}
+  .taps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px;}
+  .taps button{height:48px;background:#26262a;color:var(--text);border:1px solid #3a3a3e;border-radius:4px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;}
+  .taps button:active{background:#34343a;}
+  .taps button.undo{color:var(--muted);font-weight:500;}
+  .rates{display:flex;justify-content:space-between;gap:8px;margin-top:10px;font-size:13.5px;color:var(--muted);flex-wrap:wrap;}
+  .rates b{color:var(--amber);font-weight:800;}
+  .mini{position:fixed;left:14px;bottom:16px;z-index:899;display:flex;align-items:center;gap:8px;width:auto;margin:0;padding:8px 14px 8px 10px;background:#141414;border:2px solid var(--amber);border-radius:999px;color:var(--text);font-family:inherit;cursor:pointer;text-align:left;box-shadow:0 6px 20px #0008;max-width:calc(100% - 200px);}
+  .mini.away{opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .2s,transform .2s;}
+  .mini{transition:opacity .2s,transform .2s;}
+  .mini[hidden]{display:none;}
+  .mini-bars{display:flex;align-items:flex-end;gap:2px;height:26px;flex:none;}
+  .mini-bars span{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:2px;}
+  .mini-bars i{display:block;width:6px;background:#5c5a55;min-height:2px;}
+  .mini-bars .hi i{background:var(--amber);}
+  .mini-bars em{display:none;}
+  .mini-t{font-size:10.5px;color:var(--muted);line-height:1.2;white-space:nowrap;}
+  .mini-t b{display:block;font-size:15px;color:var(--amber);font-weight:800;font-variant-numeric:tabular-nums;}
+  #result{margin:16px 16px 0 !important;padding:12px 12px 14px;border:2px solid var(--amber);border-radius:6px;background:#0b0b0b;}
+  #result .sh{border-bottom-color:#3a2c10;}
+  .rates small{font-size:11px;margin-left:4px;}
+  .hint{font-size:12px;color:var(--muted);line-height:1.6;margin:6px 0 0;}
+  .data .hint{margin:8px 0 0;font-size:11.5px;color:var(--muted);line-height:1.6;}
+  .pdata{margin-top:10px;} .pcard{border:1px solid #2f2f31;border-radius:4px;padding:10px;margin-top:10px;} .pcard:first-of-type{margin-top:0;} .pcard .pt{margin:0;font-size:14px;font-weight:800;color:var(--text);} .pcard .pr{margin:2px 0 8px;font-size:11.5px;color:var(--muted);line-height:1.6;} .pdata .cells input{font-size:22px;} .pdata .taps button{height:44px;}
+  .judge{display:block;width:calc(100% - 32px);margin:12px 16px 0;height:54px;background:var(--amber);color:var(--bg);border:none;border-radius:4px;font-family:inherit;font-weight:800;font-size:17px;letter-spacing:.08em;cursor:pointer;}
+  .judge:active{transform:translateY(1px);}
+  section{margin:24px 16px 0;}
+  .sh{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:6px;margin:0 0 10px;}
+  .sh h2{margin:0;font-size:15.5px;font-weight:800;}
+  .sh small{font-size:12px;color:var(--muted);}
+  #pieWrap{margin-top:2px;}
+  .legend-row{display:flex;align-items:center;gap:8px;font-variant-numeric:tabular-nums;font-size:13px;margin-bottom:6px;}
+  .legend-row .sl{width:44px;color:var(--muted);}
+  .legend-row.hi .sl{color:var(--amber);}
+  .legend-row .track{flex:1;height:14px;background:#1b1b1d;}
+  .legend-row .swatch{display:block;height:14px;background:#5c5a55;}
+  .legend-row.hi .swatch{background:var(--amber);}
+  .legend-row .pct{width:50px;text-align:right;}
+  .legend-row.cut{opacity:.35;}
+  .summary{font-size:13.5px;line-height:1.7;}
+  .summary .big{font-variant-numeric:tabular-nums;font-weight:800;color:var(--amber);font-size:21px;}
+  .summary .meta{display:block;font-size:12px;color:var(--muted);margin-top:4px;}
+  .ev{margin-top:12px;padding:12px;border:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .ev .n{font-variant-numeric:tabular-nums;font-weight:800;font-size:22px;}
+  .ev .n.pos{color:var(--amber);} .ev .n.neg{color:#ff7a6b;}
+  .ev small{font-size:11.5px;color:var(--muted);}
+  .tip{margin-top:12px;font-size:12.5px;color:var(--muted);}
+  .tip a{font-weight:700;}
+  .sub{margin:12px 0 6px;font-size:12px;color:var(--muted);}
+  .tiles{display:grid;gap:6px;}
+  .tile{position:relative;min-height:56px;background:#1b1a17;border:1px solid #3a3a3e;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;text-align:center;padding:4px 2px;}
+  .tile input{position:absolute;opacity:0;width:1px;height:1px;}
+  .tile .tn{font-size:12px;font-weight:700;line-height:1.3;}
+  .tile .tv{font-variant-numeric:tabular-nums;font-size:12px;color:var(--muted);}
+  .tile:has(input:checked){background:var(--amber);border-color:var(--amber);color:var(--bg);}
+  .tile:has(input:checked) .tv{color:var(--bg);}
+  .floor{margin:10px 0 0;font-size:12.5px;color:var(--muted);}
+  .floor b{color:var(--amber);font-weight:700;}
+  .refs{margin:12px 0 0;padding-left:18px;font-size:12px;color:var(--muted);}
+  .refs li{margin-bottom:4px;}
+  .outlink{display:inline-block;margin-top:10px;font-size:12.5px;text-decoration:none;}
+  .memo{margin:24px 16px 0;padding:14px;border:1px dashed #3a3a3e;font-size:13px;}
+  .memo .dot{display:block;font-weight:700;color:var(--amber);font-size:12px;margin-bottom:4px;}
+  .memo p{margin:0;}
+  .list{margin:0;padding-left:18px;font-size:13px;}
+  .list li{margin-bottom:6px;} .list b{color:var(--amber);font-weight:700;}
+  table.t{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:13.5px;}
+  table.t th{color:var(--muted);font-weight:400;text-align:right;padding:6px 0;}
+  table.t th:first-child,table.t td:first-child{text-align:left;}
+  table.t td{text-align:right;padding:6px 0;border-top:1px solid #222224;}
+  table.t tr.hi td{color:var(--amber);}
+  .note{margin:8px 0 0;font-size:11.5px;color:var(--muted);}
+  .steps{margin:4px 0 0;padding-left:20px;font-size:13px;} .steps li{margin-bottom:5px;}
+  h3{font-size:13.5px;margin:14px 0 4px;}
+  .guide p{font-size:13.5px;line-height:1.85;margin:4px 0 10px;}
+  details summary{cursor:pointer;font-size:13px;color:var(--muted);list-style:none;}
+  details summary::-webkit-details-marker{display:none;}
+  details summary::before{content:'＋ ';} details[open] summary::before{content:'－ ';}
+  #specBody input{width:100%;background:var(--panel-2);border:1px solid var(--line);color:var(--text);font-family:inherit;font-variant-numeric:tabular-nums;font-size:13px;text-align:right;padding:4px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .row2 label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:4px;}
+  .row2 input{width:100%;background:var(--panel-2);border:1px solid var(--line);color:var(--text);padding:8px;font-family:inherit;font-size:14px;border-radius:3px;}
+  .card{background:transparent;}
+  .btn-primary{background:var(--amber);color:var(--bg);border:none;border-radius:4px;padding:10px 12px;font-weight:800;text-decoration:none;display:inline-block;text-align:center;font-family:inherit;}
+  .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--text);border-radius:4px;padding:10px 12px;font-family:inherit;}
+  .rel{margin:28px 16px 0;}
+  .rel h2{font-size:15px;margin:0 0 10px;}
+  .rel li a{border-radius:3px !important;}
+  .ad-slot{display:none;}
+  footer{margin-top:28px;padding:16px;border-top:1px solid var(--line);font-size:11.5px;color:#8d8980;}
+  footer a{color:#8d8980;margin-right:12px;}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFM94DE8Y3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZFM94DE8Y3');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9150472731628445" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+<nav class="bar-top"><a href="../">設定示唆くん</a><span><a href="../list/" style="font-size:12px;font-weight:500;color:var(--muted);">機種一覧</a></span></nav>
+
+<header class="hero">
+  
+  <div>
+    <h1>Lパチスロ<br>炎炎ノ消防隊2</h1>
+    <p>SANKYO／2026年2月導入<br>ボーナス初当り 1/272〜1/227<br>機械割 97.7〜114.9%</p>
+  </div>
+</header>
+
+<div class="lead">
+  <b class="h">回数だけでは差が小さい。キャラ紹介と枚数表示が決め手。</b>
+  <p>ボーナス初当りは設定1と6で1/272→1/227（約1.20倍）、炎炎ループ初当りは1/684→1/486（約1.41倍）。回数の差は小さめなので、REG中のキャラ紹介・獲得枚数表示・エンディングのミニキャラなど「〇以上濃厚」の示唆が出たら必ず押す。</p>
+  
+</div>
+
+<nav class="jump" aria-label="ページ内の目次"><a href="#mainCard">判別</a><a href="#hints">示唆</a><a href="#gousei">設定差</a><a href="#uchikata">打ち方</a><a href="#guide">解説</a></nav>
+
+<div id="mainCard">
+<div style="margin:0 16px;"><button type="button" data-sc-open></button></div>
+<div class="data">
+  <div class="data-h"><span class="dot">DATA</span><small>通常時だけ数える</small></div>
+  <div class="cells" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+    <div><label for="totalG">通常時G</label><input type="number" id="totalG" inputmode="numeric" placeholder="0"></div>
+    <div><label for="bnCount">ボーナス初当り</label><input type="number" id="bnCount" inputmode="numeric" placeholder="0"></div>
+    
+    <div><label for="loopCount">炎炎ループ初当り</label><input type="number" id="loopCount" inputmode="numeric" placeholder="-"></div>
+    
+  </div>
+  <div class="taps" style="grid-template-columns:repeat(4,minmax(0,1fr));">
+    <button type="button" data-add="totalG" data-n="100">+100G</button>
+    <button type="button" data-add="bnCount" data-n="1">ボーナス +1</button>
+    
+    <button type="button" data-add="loopCount" data-n="1">炎炎ループ +1</button>
+    
+    <button type="button" class="undo" id="undoBtn">1つ戻す</button>
+  </div>
+  <div class="rates dot">
+    <span>ボーナス <b id="liveA">―</b><small id="liveANote"></small></span>
+    <span>炎炎ループ <b id="liveB">―</b><small id="liveBNote"></small></span>
+    
+  </div>
+  <p class="hint">G数・ボーナス初当り・炎炎ループ初当りは<b>通常時</b>で数えます。ボーナス初当りは通常時から当たった最初のボーナス（REG・エピソードボーナスなど）を1回とし、炎炎ループ中のボーナスは含めません。炎炎ループ初当りは、通常時から炎炎激闘（炎炎ループ）に入った回数です（ボーナス経由も含む）。空欄の項目は計算に使いません。</p>
+</div>
+
+<button class="judge" id="calcBtn" style="display:none;">判別する</button>
+
+<button type="button" class="mini" id="miniRes" hidden><span class="mini-bars" id="miniBars"></span><span class="mini-t" id="miniTxt"></span></button>
+<section id="result">
+  <div class="sh"><h2>結果</h2><small>入れた分でその場で計算</small></div>
+  <div id="pieWrap" style="display:none;"><div id="legend"></div></div>
+  <div id="topSetting" class="summary"><p style="margin:0;font-size:12.5px;color:var(--muted);">数えたものを入れると、設定1〜6の可能性がここに出ます。入れた分だけ、その場で計算し直します。</p></div>
+  <div class="ev" id="evOutput" style="display:none;"></div>
+  <div class="tip" id="tipPromptCalc" style="display:none;">勝ったら10円でもいいので <a href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭</a> ください。</div>
+</section>
+</div>
+
+<section id="optionalCard">
+  <div id="hints">
+    <div class="sh"><h2>見えたら押す</h2><small>「〇以上濃厚」だけ計算に使う</small></div>
+    <div id="floorGroup">
+        <p class="sub">獲得枚数表示（AT終了時）</p>
+        <div class="tiles" style="grid-template-columns:repeat(4,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,3,4,5,6" data-name="119枚OVER"><span class="tn">119枚<br>OVER</span><span class="tv">2↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="2,4,6" data-name="246枚OVER"><span class="tn">246枚<br>OVER</span><span class="tv">偶数</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="456枚OVER"><span class="tn">456枚<br>OVER</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="666枚OVER"><span class="tn">666枚<br>OVER</span><span class="tv">6</span></label>
+        </div>
+        <p class="sub">REG中のキャラ紹介（シナリオ）</p>
+        <div class="tiles" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="第8③"><span class="tn">第8③<br>5人目 紅丸</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="大隊長シナリオ"><span class="tn">大隊長</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="5,6" data-name="伝導者④"><span class="tn">伝導者④<br>5人目 ショウ</span><span class="tv">5↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="第8④"><span class="tn">第8④<br>5人目 シンラ</span><span class="tv">6</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="アイリス まもるくんなし"><span class="tn">アイリス<br>まもるくんなし</span><span class="tv">6</span></label>
+        </div>
+        <p class="sub">REG中の特殊キャラ（出る場所は問わない）</p>
+        <div class="tiles" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="黒野"><span class="tn">黒野</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="5,6" data-name="ジョーカー"><span class="tn">ジョーカー</span><span class="tv">5↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="シンラ死ノ圧"><span class="tn">シンラ<br>（死ノ圧）</span><span class="tv">6</span></label>
+        </div>
+        <p class="sub">アイリスシナリオのまもるくん（出た位置）</p>
+        <div class="tiles" style="grid-template-columns:repeat(5,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,3,4,5,6" data-name="まもるくん1人目"><span class="tn">1人目</span><span class="tv">1否定</span></label>
+          <label class="tile"><input type="checkbox" data-allow="1,3,4,5,6" data-name="まもるくん2人目"><span class="tn">2人目</span><span class="tv">2否定</span></label>
+          <label class="tile"><input type="checkbox" data-allow="1,2,4,5,6" data-name="まもるくん3人目"><span class="tn">3人目</span><span class="tv">3否定</span></label>
+          <label class="tile"><input type="checkbox" data-allow="1,2,3,5,6" data-name="まもるくん4人目"><span class="tn">4人目</span><span class="tv">4否定</span></label>
+          <label class="tile"><input type="checkbox" data-allow="1,2,3,4,6" data-name="まもるくん5人目"><span class="tn">5人目</span><span class="tv">5否定</span></label>
+        </div>
+        <p class="sub">エンディング中のミニキャラ（レア役）</p>
+        <div class="tiles" style="grid-template-columns:repeat(4,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,3,4,5,6" data-name="ミニキャラ119"><span class="tn">119</span><span class="tv">1否定</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="ミニキャラ アイリス"><span class="tn">アイリス</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="5,6" data-name="ミニキャラ 紅丸＆ジョーカー"><span class="tn">紅丸＆<br>ジョーカー</span><span class="tv">5↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="ミニキャラ ショウ"><span class="tn">ショウ</span><span class="tv">6</span></label>
+        </div>
+    </div>
+    <p class="floor" id="floorNow">絞り込み：なし</p>
+    <ul class="refs">
+        <li>キャラ紹介のシナリオ：第8①＝デフォルト、第8②（5人目オウビ）＝偶数設定示唆、伝導者①（5人目インカ）＝奇数設定示唆、伝導者②（5人目オロチ）＝高設定示唆（弱）、伝導者③（5人目リツ）＝高設定示唆（強）。金背景のキャラは設定4以上濃厚</li>
+        <li>エンディング中のミニキャラ：シンラ・アーサー＝デフォルト、タマキ＝高設定示唆（nana-pressはシンラ＝奇数、アーサー＝偶数の示唆と記載）</li>
+        <li>ボーナス終了画面は、デフォルト以外の出現率に設定差があります（BIG後のデフォルトは設定1 約86%→設定6 約70%、REG後は約77%→約55%）。REG後のほうが差が大きい。黒シルエット・帽子・119はモード示唆です</li>
+        <li>nana-pressは終了画面の全員集合＝4以上、赤枠9人＝5以上、金枠＝6濃厚と載せていますが、ほかのサイトでは確認できていないので計算には使いません</li>
+        <li>伝導者の罠中の十字目変換（設定1 42%→高設定 50%）と、そこからのボーナス期待度（30%→40%）にも設定差あり（途中の設定の値がないので計算には使いません）</li>
+        <li>示唆の出方は店長カスタムで変わる場合があります</li>
+    </ul>
+    <a class="outlink ref-out" data-sec="settei" href="https://nana-press.com/kaiseki/machine/1088/34531/" target="_blank" rel="noopener">キャラ紹介・終了画面の画像（nana-press） ↗</a>
+  </div>
+  <details style="margin-top:16px;">
+    <summary>期待差枚の計算条件</summary>
+    <div class="row2" style="margin-top:8px;">
+      <div><label for="closingTime">閉店時刻</label><input type="time" id="closingTime" value="22:45"></div>
+      <div><label for="spinsPerHour">1時間の回転数</label><input type="number" id="spinsPerHour" value="700"></div>
+    </div>
+    <button class="btn-ghost" id="recalcBtn" type="button" style="width:100%;margin-top:10px;">この条件で再計算</button>
+  </details>
+</section>
+
+<div class="memo"><span class="dot">運営メモ 11/13</span><p>スロベースの「よく見られている機種」で6位に入っていたので、判別ページを作りました。ボーナス・炎炎ループの回数だけでは差が小さいので、キャラ紹介・獲得枚数表示・ミニキャラの濃厚パターンが出たら押してください。</p></div>
+
+<section id="know">
+  <div class="sh"><h2>先に知っておくこと</h2></div>
+  <ul class="list">
+      <li><b>ボーナス初当り</b> 1/272→1/227（約1.20倍）。設定3と4の間で差が開く</li>
+      <li><b>炎炎ループ初当り</b> 1/684→1/486（約1.41倍）。回数は少ないが、ボーナスより差が大きい</li>
+      <li><b>REG中のキャラ紹介</b>は濃厚パターンが多い：第8③・大隊長＝4以上、伝導者④＝5以上、第8④・まもるくんなし＝6。黒野・ジョーカー・シンラ（死ノ圧）はどのシナリオでも出る特殊キャラ</li>
+      <li><b>獲得枚数表示</b> 119＝2以上、246＝偶数、456＝4以上、666＝6</li>
+      <li>天井：ボーナス間850G＋α（設定変更後650G＋α）、炎炎ループ間2000G＋α（設定変更後1500G＋α）。伝導者の罠を5回連続でスルーすると次回はSPエピソードボーナス</li>
+  </ul>
+</section>
+
+<section id="gousei">
+  <div class="sh"><h2>設定差・機械割</h2></div>
+  <table class="t">
+    <thead><tr><th>設定</th><th>ボーナス初当り</th><th>炎炎ループ初当り</th><th>機械割</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>272.0</td><td>684.0</td><td>97.7</td></tr>
+        <tr><td>2</td><td>269.0</td><td>662.0</td><td>98.8</td></tr>
+        <tr><td>3</td><td>257.0</td><td>617.0</td><td>101.2</td></tr>
+        <tr class="hi"><td>4</td><td>242.0</td><td>546.0</td><td>105.6</td></tr>
+        <tr class="hi"><td>5</td><td>236.0</td><td>518.0</td><td>110.2</td></tr>
+        <tr class="hi"><td>6</td><td>227.0</td><td>486.0</td><td>114.9</td></tr>
+    </tbody>
+  </table>
+  <p class="note">確率は「1/〇〇」の分母。ボーナス初当り・炎炎ループ初当り・機械割はnana-press・ちょんぼりすた・スロベース・パチセブンで一致。キャラ紹介・獲得枚数表示・ミニキャラはnana-press・ちょんぼりすた・スロベースで一致。</p>
+</section>
+
+<section id="uchikata">
+  <div class="sh"><h2>打ち方</h2></div>
+    <h3>通常時</h3>
+    <ol class="steps">
+      <li>左リールにBARを狙い、チェリー・スイカをフォロー</li>
+      <li>中リールはフリー</li>
+      <li>右リールはスイカがテンパイしたらスイカを狙う。それ以外はフリー</li>
+    </ol>
+    <h3>ボーナス中</h3>
+    <ol class="steps">
+      <li>ナビが出たら従う</li>
+      <li>ナビがなければ通常時と同じ打ち方でレア役をフォロー</li>
+    </ol>
+  <p class="note">レア役の停止形はリンク先の図が詳しいです。</p>
+    <a class="outlink ref-out" data-sec="uchikata" href="https://nana-press.com/kaiseki/machine/1088/34897/" target="_blank" rel="noopener">打ち方・停止形（nana-press） ↗</a>
+    <a class="outlink ref-out" data-sec="uchikata1" href="https://chonborista.com/slot/sankyo-slot/247643/" target="_blank" rel="noopener">設定差・示唆・天井（ちょんぼりすた） ↗</a>
+</section>
+
+<section id="guide" class="guide">
+  <div class="sh"><h2>炎炎ノ消防隊2の設定判別の考え方と数えるコツ</h2></div>
+    <h3>ボーナスと炎炎ループ</h3>
+    <p>Lパチスロ 炎炎ノ消防隊2のボーナス初当りは、設定1が1/272、設定6が1/227で約1.20倍、炎炎ループ（炎炎激闘）の初当りは1/684→1/486で約1.41倍の差があります。どちらも設定3と4の間で差が開きます。回数の差は小さめなので、数字だけで決めるのは難しい機種です。</p>
+    <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
+    <h3>3000Gでどれくらい差が出る？</h3>
+    <p>通常時を3000G回したときのボーナス初当りの平均は、設定1で約11.0回、設定6で約13.2回です。このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、ボーナスと炎炎ループの回数だけでは3000Gで約8％、5000Gで約21％、8000Gで約36％でした。設定1の台で同じ結果になってしまう割合は1％未満です。回数だけで判断せず、示唆を待つ前提で打ってください。</p>
+    <h3>REG中のキャラ紹介が最大の手がかり</h3>
+    <p>REG中のキャラ紹介は、シナリオと5人目のキャラで設定を示します。第8③（5人目が金の紅丸）と大隊長は設定4以上、伝導者④（5人目がショウ）は設定5以上、第8④（5人目がシンラ）は設定6が濃厚です。アイリスシナリオでは、まもるくんが出た位置の設定が否定され（1人目なら設定1否定〜5人目なら設定5否定）、最後まで出なければ設定6濃厚です。黒野は4以上、ジョーカーは5以上、シンラ（死ノ圧）は6で、どのシナリオでも出ます。</p>
+    <h3>獲得枚数表示とエンディングのミニキャラ</h3>
+    <p>AT終了時の獲得枚数表示は、119枚OVER＝2以上、246枚OVER＝偶数設定、456枚OVER＝4以上、666枚OVER＝6が濃厚です。エンディング中にレア役で出るミニキャラは、119＝設定1否定、アイリス＝4以上、紅丸＆ジョーカー＝5以上、ショウ＝6が濃厚です。見えたら押して計算し直してください。</p>
+    <h3>数えるときのコツ</h3>
+    <p>回転数は通常時だけで、ボーナス・炎炎ループ中のゲーム数は入れません。設定変更後（朝一）はボーナス天井が850Gから650Gに短くなるので、朝一の初当りが軽く出ても高設定とは限りません。ボーナス終了画面はデフォルト以外の出現率に設定差がありますが、「濃厚」ではないので計算には使っていません。</p>
+    </details>
+</section>
+
+<section id="specCard">
+  <details>
+    <summary>計算に使う設定差を見る・編集する</summary>
+    <table class="t" style="margin-top:8px;">
+      <thead><tr><th>設定</th><th>ボーナス初当り</th><th>炎炎ループ初当り</th><th>機械割%</th></tr></thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    <p class="note">解析サイトの公開値（2026年11月13日時点。2026年2月2日導入、メーカーはSANKYO）。ボーナス・炎炎ループ初当り・機械割はnana-press・ちょんぼりすた・スロベース・パチセブン、示唆はnana-press・ちょんぼりすた・スロベースで一致。</p>
+  </details>
+</section>
+
+<!--RELATED-->
+  <nav class="card rel" aria-label="ほかの機種の設定判別">
+    <style>.rel h2{font-size:15px;margin:0 0 10px;}.rel ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;}.rel li a{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:8px;color:var(--text);text-decoration:none;font-size:13px;line-height:1.4;}.rel .rel-all{display:block;margin-top:12px;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);text-decoration:none;}@media (max-width:360px){.rel ul{grid-template-columns:1fr;}}</style>
+    <h2>ほかの機種の設定判別</h2>
+    <ul><li><a href="../karakuri2/">Lパチスロ からくりサーカス2</a></li><li><a href="../kanokari/">Lパチスロ 彼女、お借りします</a></li><li><a href="../juggler/">ジャグラーシリーズ</a></li><li><a href="../sao2/">スロット ソードアート・オンラインⅡ</a></li><li><a href="../lycoris/">スマスロ リコリス・リコイル</a></li><li><a href="../ggo/">L ソードアート・オンライン オルタナティブ ガンゲイル・オンライン</a></li><li><a href="../gojieva2/">Lパチスロ ゴジラ対エヴァンゲリオン2</a></li><li><a href="../mhsunbreak/">スマスロ モンスターハンターライズ：サンブレイク</a></li></ul>
+    <a class="rel-all" href="../list/">全機種一覧（43機種）を見る →</a>
+  </nav>
+  <!--/RELATED-->
+
+<div class="ad-slot">広告スペース</div>
+
+<footer>
+  数値は各解析サイトの公開値（2026年10月時点）。結果は確率の目安で、設定を保証するものではありません。遊技は自己責任・適正な範囲で。18歳未満の方はパチンコ・パチスロを遊技できません。<br>
+  <a href="../">機種一覧</a><a href="../privacy.html">プライバシーポリシー</a><a href="../about.html">運営者情報</a><a href="../contact.html">お問い合わせ</a>
+</footer>
+</div>
+
+<script>
+const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
+const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
+const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
+const XDEF = [];
+const PDEF = [];
+const SPEC = { a: [272, 269, 257, 242, 236, 227], b: [684, 662, 617, 546, 518, 486], c: [1, 1, 1, 1, 1, 1], payout: [97.7, 98.8, 101.2, 105.6, 110.2, 114.9] };
+const BET = 3, LABEL_A = "ボーナス初当り", LABEL_B = "炎炎ループ初当り", LABEL_C = "";
+const $ = id => document.getElementById(id);
+const specBody = $('specBody');
+for(let s=0; s<N; s++){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${SETS[s]}</td><td><input type="number" step="0.1" class="aInput" value="${SPEC.a[s].toFixed(DEC_A)}"></td>${HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${SPEC.b[s].toFixed(DEC_B)}"></td>` : ''}${HAS_C ? `<td><input type="number" step="0.1" class="cInput" value="${SPEC.c[s].toFixed(DEC_C)}"></td>` : ''}${XDEF.map((x, j) => `<td><input type="number" step="0.1" class="xInput${j}" value="${x.spec[s].toFixed(x.dec)}"></td>`).join('')}<td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>`;
+  specBody.appendChild(tr);
+}
+const pBody = $('pSpecBody');
+if(pBody) for(let s=0; s<N; s++){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${SETS[s]}</td>` + PDEF.map((q, j) => `<td><input type="number" step="0.1" class="pInput${j}" value="${q.spec[s].toFixed(1)}"></td>`).join('');
+  pBody.appendChild(tr);
+}
+const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
+const totalG = $('totalG'), aCount = $("bnCount"), bCount = $("loopCount") || { value: '', addEventListener(){}, dispatchEvent(){} };
+const cCount = $("_noC") || { value: '', addEventListener(){}, dispatchEvent(){} };
+const num = el => Math.max(parseFloat(el.value) || 0, 0);
+const bG = B_G ? $(B_G) : totalG;
+const xEls = XDEF.map(x => $(x.id));
+const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
+function livePct(){
+  PDEF.forEach((q, j) => {
+    const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(n > 0){
+      const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
+      $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
+      let best = 0; arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+      $('livePNote' + j).textContent = r <= Math.min(...arr) ? `設定${SETS[0]}以下` : (r >= Math.max(...arr) ? `設定${SETS[N-1]}以上` : `設定${SETS[best]}付近`);
+    } else { $('liveP' + j).textContent = '―'; $('livePNote' + j).textContent = ''; }
+  });
+}
+pEls.flat().forEach(el => el.addEventListener('input', livePct));
+function nearLabel(r, arr){
+  if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
+  if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
+  let best = 0; arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+  return `設定${SETS[best]}付近`;
+}
+const rate = (g, k) => k > 0 ? `1/${(g/k).toFixed(1)}` : '―';
+function live(el, cls, b, n, gEl){
+  const g = num(gEl || totalG), k = num(el);
+  if(g > 0 && k > 0){ $(b).textContent = rate(g, k); $(n).textContent = nearLabel(g/k, readCol(cls)); }
+  else { $(b).textContent = '―'; $(n).textContent = ''; }
+}
+function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); if(HAS_C) live(cCount, 'cInput', 'liveC', 'liveCNote'); xEls.forEach((el, j) => live(el, 'xInput' + j, 'liveX' + j, 'liveX' + j + 'Note')); }
+[totalG, aCount, bCount, cCount, bG, ...xEls].forEach(el => el.addEventListener('input', updateLive));
+specBody.addEventListener('input', updateLive);
+if(pBody) pBody.addEventListener('input', livePct);
+
+// タップで足す（データカウンターのように）
+const undo = [];
+document.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => {
+  const step = b.dataset.add.split(',').map(id => { const el = $(id), before = el.value; el.value = num(el) + Number(b.dataset.n); return [el, before]; });
+  undo.push(step); if(undo.length > 50) undo.shift();
+  step.forEach(([el]) => el.dispatchEvent(new Event('input', { bubbles: true })));
+}));
+$('undoBtn').addEventListener('click', () => {
+  const u = undo.pop(); if(!u) return;
+  u.forEach(([el, v]) => { el.value = v; el.dispatchEvent(new Event('input', { bubbles: true })); });
+});
+
+// 示唆
+const floorChecks = [...document.querySelectorAll('#floorGroup input[type=checkbox]')];
+function currentAllow(){
+  const on = floorChecks.filter(c => c.checked);
+  let allow = new Set(SETS);
+  on.forEach(c => { const a = new Set(c.dataset.allow.split(',').map(Number)); allow = new Set([...allow].filter(s => a.has(s))); });
+  return { allow, names: on.map(c => c.dataset.name) };
+}
+const allowLabel = allow => [...allow].join('・');
+function updateFloorText(){
+  const { allow, names } = currentAllow(), el = $('floorNow');
+  if(!names.length) el.innerHTML = '絞り込み：なし';
+  else if(!allow.size) el.innerHTML = '<span style="color:var(--red);">押した示唆が矛盾しています。見間違いがないか確認してください。</span>';
+  else el.innerHTML = `絞り込み：設定<b>${allowLabel(allow)}</b>で計算（${names.join('・')}）`;
+}
+floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
+
+// 計算
+const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
+function miniMsg(t){ $('miniRes').hidden = true; }
+$('miniRes').addEventListener('click', () => { $('result').scrollIntoView({ behavior: 'smooth', block: 'start' }); if (typeof gtag === 'function') gtag('event', 'result_jump', { machine: "enen2" }); });
+// 結果の数字（設定4以上〜）が画面に見えている間は、下の「結果を見る」を隠す
+if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => $('miniRes').classList.toggle('away', e.isIntersecting)), { threshold: 0.5 }).observe($('topSetting'));
+function showMsg(t){ miniMsg(t); $('topSetting').innerHTML = `<p style="margin:0;font-size:13px;color:var(--muted);">${t}</p>`; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; }
+const INIT_TOP = $('topSetting').innerHTML;
+let judgeTimer = null, judgeLast = 0;
+$('calcBtn').addEventListener('click', () => {
+  const useA = aCount.value.trim() !== '';
+  const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
+  const pUse = PDEF.map((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); return { n, k, use: n > 0 || k > 0 }; });
+  const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '' }));
+  const { allow, names } = currentAllow();
+  const needG = useA || useC || xUse.some(x => x.use) || (useB && !B_G);
+  if(!needG && !useB && !pUse.some(x => x.use) && !names.length){ miniMsg(''); $('topSetting').innerHTML = INIT_TOP; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; return; }
+  if(needG && g <= 0){ showMsg("通常時のゲーム数を入れてください（ボーナス・炎炎ループ中は含めない）。"); return; }
+  if(useB && gb <= 0){ showMsg(""); return; }
+  if(pUse.some(x => x.use && x.k > x.n)){ showMsg('「そのうち」の回数が、もとの回数より多くなっています。'); return; }
+  if(a > g || b > gb || c > g || xUse.some(x => x.k > g)){ showMsg('回数がゲーム数を超えています。'); return; }
+  if(!allow.size){ showMsg('押した示唆が矛盾しています。見間違いがないか確認してください。'); return; }
+  const pv = PDEF.map((q, j) => readCol('pInput' + j).map(v => Math.min(Math.max(v * q.f / 100, 1e-6), 1 - 1e-6)));
+  const xv = XDEF.map((x, j) => readCol('xInput' + j)), av = readCol('aInput'), bv = readCol('bInput'), cv = readCol('cInput'), payout = readCol('payoutInput');
+  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : (useA ? binomLL(a, g, 1/av[i]) : 0) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + xUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, g, 1/xv[j][i]) : 0), 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
+  const mx = Math.max(...ll), w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - mx)), sum = w.reduce((x, y) => x + y, 0), post = w.map(x => x / sum);
+  const exp = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
+  clearTimeout(judgeTimer);
+  judgeTimer = setTimeout(() => { if(Date.now() - judgeLast < 60000) return; judgeLast = Date.now(); if (typeof gtag === 'function') gtag('event', 'judge_run', { machine: "enen2", has_a: useA, has_b: useB, hints: names.length }); }, 3000);
+  const top = Math.max(...post), best = post.indexOf(top), hi = post.reduce((x, p, i) => x + (HI[i] ? p : 0), 0);
+  $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${HI[i] ? ' hi' : ''}${allow.has(SETS[i]) ? '' : ' cut'}"><span class="sl">設定${SETS[i]}</span><span class="track"><span class="swatch" style="width:${top > 0 ? (p/top*100).toFixed(1) : 0}%;"></span></span><span class="pct">${(p*100).toFixed(1)}%</span></div>`).join('');
+  $('pieWrap').style.display = 'block';
+  $('miniBars').innerHTML = post.map((p, i) => `<span class="${HI[i] ? 'hi' : ''}"><i style="height:${top > 0 ? Math.max(p/top*26, 2).toFixed(1) : 2}px"></i><em>${SETS[i]}</em></span>`).join('');
+  $('miniTxt').innerHTML = `<b>4以上 ${(hi*100).toFixed(0)}%</b>結果を見る ▼`; $('miniRes').hidden = false;
+  const parts = [];
+  if(g > 0) parts.push(`${B_G ? "通常時" : '通常時'}${g}G`);
+  if(useA) parts.push(`${LABEL_A} ${a}回（${rate(g, a)}）`);
+  if(useB && B_G) parts.push(`${""}${gb}G`);
+  if(useB) parts.push(`${LABEL_B} ${b}回（${rate(gb, b)}）`);
+  if(useC) parts.push(`${LABEL_C} ${c}回`);
+  xUse.forEach((x, j) => { if(x.use) parts.push(`${XDEF[j].label} ${x.k}回`); });
+  pUse.forEach((x, j) => { if(x.use) parts.push(`${PDEF[j].label} ${x.k}/${x.n}`); });
+  if(names.length) parts.push(`示唆：${names.join('・')}`);
+  let say;
+  const minAllow = Math.min(...allow);
+  if(names.length && allow.size === 1) say = `示唆で設定${[...allow][0]}に絞れました。`;
+  else if(names.length && minAllow >= 4) say = `示唆で設定${minAllow}以上に絞れています。あとは回数で上の設定を見ます。`;
+  else if(hi >= 0.8) say = '高設定（4以上）の可能性がかなり高い。';
+  else if(hi >= 0.6) say = '高設定寄り。ただしまだ決めきれない。';
+  else if(hi <= 0.3) say = HAS_CHECKS ? '低設定寄り。示唆が出ないなら深追いは禁物。' : '低設定寄り。数字が戻らないなら深追いは禁物。';
+  else say = HAS_CHECKS ? 'まだ何とも言えない範囲。示唆が1つ出れば大きく変わります。' : 'まだ何とも言えない範囲。回すほど差がはっきりします。';
+  $('topSetting').innerHTML = `<div>設定4以上 <span class="big">${(hi*100).toFixed(0)}%</span>　期待設定 <span class="big">${exp.toFixed(1)}</span></div><div style="margin-top:4px;">${say}</div><span class="meta">${parts.join(' ／ ')}</span>`;
+  const sph = parseFloat($('spinsPerHour').value) || 0;
+  const [hh, mm] = $('closingTime').value.split(':').map(Number);
+  const closing = new Date(); closing.setHours(hh, mm, 0, 0);
+  let hours = Math.max((closing - new Date()) / 3600000, 0);
+  if(hours > 15) hours = 0; // 閉店後〜朝（翌日の閉店まで数えない）
+  const remainG = sph * hours;
+  const net = payout.map(p => BET * (p/100 - 1) * remainG);
+  const ev = Math.round(post.reduce((x, p, i) => x + p*net[i], 0)) || 0;
+  const sign = v => v > 0 ? '+' : (v < 0 ? '' : '±');
+  $('evOutput').style.display = 'flex';
+  $('evOutput').innerHTML = `<span><small>閉店まで（約${Math.round(remainG).toLocaleString()}G）の期待差枚</small></span><span class="n ${ev >= 0 ? 'pos' : 'neg'}">${sign(ev)}${ev.toLocaleString()}枚</span>`;
+  $('tipPromptCalc').style.display = 'block';
+});
+document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', () => {
+  if (typeof gtag === 'function') gtag('event', 'outbound_ref', { machine: "enen2", section: a.dataset.sec });
+}));
+// 入力やチェックを変えたら、その場で計算し直す（判別ボタンは counter.js・share.js 用に隠して残す）
+(function(){
+  const btn = $('calcBtn'); let timer = null;
+  function silent(){ const g = window.gtag; window.gtag = function(a, b){ if(a === 'event' && b === 'judge_run') return; if(typeof g === 'function') return g.apply(this, arguments); }; try { btn.click(); } finally { window.gtag = g; } }
+  function auto(){ clearTimeout(timer); timer = setTimeout(silent, 300); }
+  ['optionalCard', 'specCard', 'mainCard'].forEach(id => { const el = $(id); el.addEventListener('input', auto); el.addEventListener('change', auto); });
+  $('recalcBtn').addEventListener('click', () => { btn.click(); $('result').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+})();
+</script>
+<script src="../share.js"></script>
+<script>
+SettiShare.init({"key": "enen2", "name": "Lパチスロ 炎炎ノ消防隊2", "tags": "#炎炎ノ消防隊2 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "bnCount", "q": "bn", "label": "ボーナス初当り", "unit": "回", "rateOf": "totalG"}, {"id": "loopCount", "q": "loop", "label": "炎炎ループ初当り", "unit": "回", "rateOf": "totalG"}]}], "hints": "#floorGroup input[type=checkbox]"});
+</script>
+<script src="../counter.js"></script>
+<script>
+SettiCounter.init({"key": "enen2", "name": "炎炎2", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "bnCount", "label": "ボーナス初当り"}, {"id": "loopCount", "label": "炎炎ループ初当り", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ボーナス初当り・炎炎ループ初当りは通常時のみ。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "枚数表示・キャラ紹介・ミニキャラ", "short": "示唆", "optional": true}});
+</script>
+</body>
+</html>

@@ -77,6 +77,7 @@ def run(name,G,full,si,n):
 
 PATH={'モンキーターンV':'monkey/','クレアBT':'crea-bt/','マジハロ8':'magihallo8/','マジハロToT':'magihallotot/','マジハロBT':'magihallobt/','ミリオンゴッド':'milliongod/','東京喰種':'ghoul/','北斗の拳(無印)':'hokuto/','北斗 転生2':'hokuto-tensei2/','戦国乙女5':'otome5/','まほあこ':'mahoako/','サンブレイク':'mhsunbreak/','カバネリ海門':'kabaneri2/','バイオRE3':'biore3/','SAO2':'sao2/','パリピ孔明':'paripi/','転生王女':'tenten/','リコリス':'lycoris/','かのかり':'kanokari/','からくり2':'karakuri2/','禁書2':'index2/','獣王':'juuou/','ハナビ':'hanabi/','マイジャグラーV':'juggler/','ハナハナ天翔':'hanahana/','沖ドキDUOアンコール':'okidoki-duo/','沖ドキBLACK':'okidoki-black/','沖ドキGOLD':'okidoki-gold/','防振り':'bofuri/','牙狼 闇を照らす者':'garo-yami/','ラグナドール':'ragnador/','ガンゲイル・オンライン':'ggo/','ゴジエヴァ2':'gojieva2/','Vivy':'vivy/','聖闘士星矢 黄金十二宮':'seiya-ougon/','ハイハイシオサイRe':'shiosai-re/','戦国コレクション6':'sencolle6/','真打吉宗':'shinuchi-yoshimune/'}
 def lv(p): return 'easy' if p>=0.6 else ('normal' if p>=0.3 else 'hard')
+add('炎炎2',[1,2,3,4,5,6],4,[('ボーナス','g',A([272,269,257,242,236,227]),None,1),('炎炎ループ','g',A([684,662,617,546,518,486]),None,0)])
 if __name__=='__main__':
     n=int(sys.argv[1]) if len(sys.argv)>1 else 2000
     out={}
