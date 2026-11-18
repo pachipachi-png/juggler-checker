@@ -112,6 +112,20 @@
   .tile:has(input:checked) .tv{color:var(--bg);}
   .floor{margin:10px 0 0;font-size:12.5px;color:var(--muted);}
   .floor b{color:var(--amber);font-weight:700;}
+  .scrgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:4px 0 6px;}
+  .scr{margin:0;background:#1b1a17;border:1px solid #3a3a3e;border-radius:4px;overflow:hidden;}
+  .scr[data-check]{cursor:pointer;}
+  .scr img{display:block;width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;background:#111;font-size:11px;color:var(--muted);}
+  .scr figcaption{padding:5px 6px 6px;display:flex;flex-direction:column;gap:1px;}
+  .scr .sn{font-size:12.5px;font-weight:700;line-height:1.3;}
+  .scr .sm{font-size:12px;color:var(--muted);line-height:1.3;}
+  .scr.k-k .sm{color:var(--amber);font-weight:700;}
+  .scr.k-n .sm{color:var(--muted);font-style:normal;}
+  .scr.on{border-color:var(--amber);box-shadow:0 0 0 2px var(--amber) inset;}
+  .scr.on .sn::after{content:"  ✓ 絞り込み中";color:var(--amber);font-size:11px;}
+  .scrnote{font-size:11.5px;color:var(--muted);margin:2px 0 6px;}
+  .scrnote a{color:var(--muted);}
+  .scrcopy{display:block;max-width:100%;height:auto;background:#fff;border-radius:3px;margin:0 0 14px;}
   .refs{margin:12px 0 0;padding-left:18px;font-size:12px;color:var(--muted);}
   .refs li{margin-bottom:4px;}
   .outlink{display:inline-block;margin-top:10px;font-size:12.5px;text-decoration:none;}
@@ -218,6 +232,21 @@
 
 <section id="optionalCard">
   <div id="hints">
+    <div class="sh"><h2>終了画面の早見表</h2><small>色つき＝タップで絞り込み</small></div>
+    <div class="scrgrid">
+        <figure class="scr k-k" data-check="終了画面 レイ背景" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou81.png?f=webp" alt="ゴジエヴァ2 レイ背景（設定2以上濃厚）" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">レイ背景</span><span class="sm">設定2以上濃厚</span></figcaption></figure>
+        <figure class="scr k-k" data-check="終了画面 ゴジラ＆初号機" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou76.png?f=webp" alt="ゴジエヴァ2 ゴジラ＆初号機（設定4以上濃厚）" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">ゴジラ＆初号機</span><span class="sm">設定4以上濃厚</span></figcaption></figure>
+        <figure class="scr k-k" data-check="終了画面 全員集合" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou82.png?f=webp" alt="ゴジエヴァ2 全員集合（設定5以上濃厚）" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">全員集合</span><span class="sm">設定5以上濃厚</span></figcaption></figure>
+        <figure class="scr k-k" data-check="終了画面 カヲル" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou75.png?f=webp" alt="ゴジエヴァ2 カヲル（設定6濃厚）" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">カヲル</span><span class="sm">設定6濃厚</span></figcaption></figure>
+        <figure class="scr k-s"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou77.png?f=webp" alt="ゴジエヴァ2 シンジ（奇数の期待度アップ）" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">シンジ</span><span class="sm">奇数の期待度アップ</span></figcaption></figure>
+        <figure class="scr k-s"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou80.png?f=webp" alt="ゴジエヴァ2 レイ（偶数の期待度アップ）" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">レイ</span><span class="sm">偶数の期待度アップ</span></figcaption></figure>
+        <figure class="scr k-s"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou78.png?f=webp" alt="ゴジエヴァ2 マリ（高設定の期待度アップ（弱））" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">マリ</span><span class="sm">高設定の期待度アップ（弱）</span></figcaption></figure>
+        <figure class="scr k-s"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou84.png?f=webp" alt="ゴジエヴァ2 アスカ（高設定の期待度アップ（強））" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">アスカ</span><span class="sm">高設定の期待度アップ（強）</span></figcaption></figure>
+        <figure class="scr k-n" data-check="終了画面 モスラ（推察）" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou79.png?f=webp" alt="ゴジエヴァ2 モスラ（設定1・3否定？（推察））" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">モスラ</span><span class="sm">設定1・3否定？（推察）</span></figcaption></figure>
+        <figure class="scr k-n" data-check="終了画面 Xレイ（推察）" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou83.png?f=webp" alt="ゴジエヴァ2 Xレイ（設定2・4否定？（推察））" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">Xレイ</span><span class="sm">設定2・4否定？（推察）</span></figcaption></figure>
+    </div>
+    <p class="scrnote">AT・ボーナスに当たらなかった時の終了画面です。濃厚・推察の画面はタップすると下のボタンと連動します。画像の出典：<a href="https://1geki.jp/slot/l_goji_eva2/6/" target="_blank" rel="noopener">1geki（ゴジエヴァ2 終了画面の示唆）</a></p>
+    <img class="scrcopy" src="https://images.1geki.jp/machines/slot/l_gojieva2/l_gojieva2_copyright.png?f=webp" alt="コピーライト表記" loading="lazy">
     <div class="sh"><h2>見えたら押す</h2><small>「〇以上濃厚」だけ計算に使う</small></div>
     <div id="floorGroup">
         <p class="sub">AT中の獲得枚数表示</p>
@@ -322,14 +351,12 @@
   <div class="sh"><h2>ゴジエヴァ2の設定判別の考え方と数えるコツ</h2></div>
     <h3>ボーナスよりATの差が大きい</h3>
     <p>ゴジエヴァ2で設定差が公表されているのは、ボーナス初当り（設定1 1/234.2、設定6 1/195.0）とAT初当り（1/460.5、1/355.5）です。ボーナスの差は約1.20倍と小さめで、AT初当りの約1.30倍のほうが判別には効きます。どちらも設定3と4の間で差が開き、設定4はボーナス1/207.0、AT 1/390.4です。3000G回したときの平均は、ボーナスが設定1で約12.8回・設定6で約15.4回、ATは約6.5回と約8.4回。設定1の台が設定6の平均以上にボーナスを引くことも2割ほどあります。</p>
-    <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
     <h3>2つを合わせても時間はかかる</h3>
     <p>このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、ボーナスだけでは3000Gで約1％、8000Gで約12％でした。AT初当りも入れると、3000Gで約8％、5000Gで約20％、8000Gで約34％まで上がり、月蝕変異の回数も足すと3000Gで約16％、5000Gで約30％になります。判別しやすい機種ではないので、数字は長く回したデータで見て、示唆が出たときに合わせて判断するのがおすすめです。設定1の台で同じ結果になってしまう割合は1％ほどです。</p>
     <h3>獲得枚数表示と終了画面</h3>
     <p>導入後の解析で、AT中の獲得枚数表示に示唆があることが分かりました。222枚OVER＝設定2以上、456枚OVER＝設定4以上、666枚OVER＝設定6濃厚で、押すと当てはまらない設定を0％にして計算し直します。AT・ボーナス非当選時の終了画面は、シンジ＝奇数設定、レイ＝偶数設定、マリ＝高設定（弱）、アスカ＝高設定（強）の期待度アップで、「濃厚」ではないので計算には使っていません。一方、レイ背景＝2以上、ゴジラ＆初号機＝4以上、全員集合＝5以上、カヲル＝6の終了画面と、エンディング中のレア役でPUSHを押したときのボイス（レイ＝2以上、加持＝4以上、ゲンドウ＝5以上、カヲル＝6）は濃厚パターンなので、見えたら押してください。回転数は通常時だけを数え、ボーナス・AT中のゲーム数は含めないでください。天井はAT間500G・1000G・1500Gの3パターンです。</p>
     <h3>使い方のコツ</h3>
     <p>データカウンターでボーナスとATの回数が分かれば、打つ前の台選びにも使えます。ボーナスは多いのにATが少ない台、その逆の台もあるので、片方だけを見ずに両方を入れて「設定4以上の合計」で比べてください。ATの回数は少ないので、1回の差で結果が大きく動きます。期待差枚は機械割の加重平均で、閉店までの残り時間が短いほど小さくなります。</p>
-    </details>
 </section>
 
 <section id="specCard">
@@ -431,6 +458,16 @@ $('undoBtn').addEventListener('click', () => {
 
 // 示唆
 const floorChecks = [...document.querySelectorAll('#floorGroup input[type=checkbox]')];
+const scrCards = [...document.querySelectorAll('.scr[data-check]')];
+const scrInput = c => floorChecks.find(x => x.dataset.name === c.dataset.check);
+function syncScr(){ scrCards.forEach(c => { const i = scrInput(c); c.classList.toggle('on', !!(i && i.checked)); }); }
+scrCards.forEach(c => {
+  const go = () => { const i = scrInput(c); if(i){ i.click(); syncScr(); } };
+  c.addEventListener('click', go);
+  c.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } });
+});
+floorChecks.forEach(x => x.addEventListener('change', syncScr));
+setTimeout(syncScr, 0); setTimeout(syncScr, 600);
 function currentAllow(){
   const on = floorChecks.filter(c => c.checked);
   let allow = new Set(SETS);
