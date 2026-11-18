@@ -203,7 +203,23 @@
   </div>
   <p class="hint">通常時だけ数える（AT中は除く）。CZはフーアーユーと影ノ襲来の合計。空欄ならAT初当りだけで計算。</p>
 </div>
-
+<div class="data pdata">
+  <div class="data-h"><span class="dot">DATA 2</span><small>任意。数えたものだけ</small></div>
+  <div class="pcard">
+    <p class="pt">規定周期到達時のAT直撃</p>
+    <p class="pr">通常時に規定周期に到達したら（火時計12個点灯→前兆「聖域」）「周期到達」を押す。CZ（フーアーユー）になってもATに直撃しても押す。ATに直撃したら「直撃」も押す。影ノ襲来は周期と関係ないので押さない。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="cycCount">周期到達（CZ＋直撃）</label><input type="number" id="cycCount" inputmode="numeric" placeholder="-"></div>
+      <div><label for="cycAt">そのうちAT直撃</label><input type="number" id="cycAt" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="cycCount" data-n="1">周期到達 +1</button>
+      <button type="button" data-add="cycAt" data-n="1">直撃 +1</button>
+    </div>
+    <div class="rates dot"><span>周期直撃 <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  </div>
+  <p class="hint">規定周期到達時のAT直撃率は設定1が0.78%、設定6が6.25%（約8倍）。ただし設定1でも1日1回出ることは珍しくないので、1回出ただけで高設定とは言えません。</p>
+</div>
 <button class="judge" id="calcBtn" style="display:none;">判別する</button>
 
 <button type="button" class="mini" id="miniRes" hidden><span class="mini-bars" id="miniBars"></span><span class="mini-t" id="miniTxt"></span></button>
@@ -253,6 +269,8 @@
         <li>AT終了画面：キャラなしは基本。青銅3人＝奇数、青銅4人＝偶数、左向きの青銅4人＝高設定、青銅5人（正面に一輝）＝高設定（強）。一輝は設定ではなく復活の示唆</li>
         <li>キャラ紹介：シャカ（1人目）・ムウ（2人目）＝高設定、アイオロス（2人目）＝高設定（強）</li>
         <li>ジェミニはエクストララウンドの1人目。トロフィーの出方はホールの設定（カスタム）で変わることがあります</li>
+        <li>守護星座の加護は、紫龍（スイカからのヒロインチャージ・影ノ襲来が当たりやすい）、星矢（規定周期の短縮）、一輝（周期のCZがATに書き換わる）に設定差があり、氷河・瞬は設定共通。どの加護かが見えにくく、設定5・6の値がそろっていないので計算には使いません</li>
+        <li>一輝の加護中は規定周期のCZがATに書き換わるので、そのAT直撃も「直撃」で数えてかまいません（一輝の加護自体も高設定ほど選ばれやすい）</li>
         <li>エンディング（グランドフィナーレ）中のPUSHボタン：白＝デフォルト、青＝奇数、黄＝偶数の期待度アップ。強レア役のほうが強い示唆が出やすいとされています</li>
     </ul>
     <a class="outlink ref-out" data-sec="settei" href="https://chonborista.com/slot/sanyo-slot/260304/" target="_blank" rel="noopener">示唆の画面（ちょんぼりすた） ↗</a>
@@ -267,7 +285,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/08</span><p>導入後の解析で、エンディング中のPUSHボタンの色（緑＝2以上、赤＝4以上、虹＝6）がスロベースと1gekiで一致したので、押せるボタンを足しました。CZは設定5のほうが設定6より軽いので、CZの回数で5と6は分けられません。キャラ紹介の1人目・2人目の区分はサイトで書き方が違うので、参考のままにしています。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/18</span><p>規定周期に着いたときのAT直撃率（設定1 0.78%→設定6 6.25%）が3サイトで一致したので、「周期到達」と「直撃」を数えられるようにしました。守護星座の加護の振り分けも分かりましたが、加護は見分けにくいので参考にしています。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -275,7 +293,8 @@
       <li><b>AT初当り</b> 1/364.2→1/310.5（約1.17倍）。いちばん開くのは設定3と4の間</li>
       <li><b>CZ合算</b> 1/214.4→1/200.3（約1.07倍）。設定5（1/197.2）のほうが6より軽い</li>
       <li>小役（リプレイ・15枚ベル・チェリー・スイカ・チャンス目）は全設定共通。小宇宙目は内部状態で変わる</li>
-      <li>規定周期の振り分け・守護星座の加護にも設定差がありそうだが、数値は調査中</li>
+      <li><b>規定周期到達時のAT直撃</b> 0.78%→6.25%（約8倍）。周期に着くたびに「周期到達」、直撃したら「直撃」も押す</li>
+      <li><b>守護星座の加護</b>（設定1→4）：加護なし60.9%→49.2%、紫龍3.5%→10.2%、星矢5.9%→7.8%、一輝3.1%→6.3%。紫龍は設定4以上で設定1の約3倍</li>
       <li>天井：CZ間600G＋α、AT間1200G（最大6周期）。設定変更後はCZ間300G＋α、AT間900G</li>
   </ul>
 </section>
@@ -294,6 +313,18 @@
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。AT初当り・機械割はスロベース・ちょんぼりすた・パチマガスロマガで一致、CZ合算はスロベース・ちょんぼりすたで一致。</p>
+  <table class="t" style="margin-top:14px;">
+    <thead><tr><th>設定</th><th>周期直撃</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>0.8%</td></tr>
+        <tr><td>2</td><td>1.6%</td></tr>
+        <tr><td>3</td><td>2.3%</td></tr>
+        <tr class="hi"><td>4</td><td>3.9%</td></tr>
+        <tr class="hi"><td>5</td><td>3.9%</td></tr>
+        <tr class="hi"><td>6</td><td>6.2%</td></tr>
+    </tbody>
+  </table>
+  <p class="note">規定周期到達時のAT直撃率（%）。スロベース・ちょんぼりすた・1gekiで一致（ちょんぼりすたは小数1桁表記）。</p>
 </section>
 
 <section id="uchikata">
@@ -321,7 +352,7 @@
     <p>L聖闘士星矢 黄金十二宮で設定差が公表されている数字は、AT初当り（設定1 1/364.2、設定6 1/310.5）とCZ合算（1/214.4、1/200.3）です。AT初当りは約1.17倍、CZは約1.07倍しか違わず、小役は全設定共通です。AT初当りは設定3（1/345.6）と設定4（1/322.3）の間がいちばん大きな段差で、CZは設定5（1/197.2）が設定6（1/200.3）より軽いため、CZの回数で5と6を区別することはできません。3000G回したときのAT初当りの平均は設定1で約8.2回、設定6で約9.7回で、設定1の台が設定6の平均以上に当たることも3割ほどあります。</p>
     <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
     <h3>回数だけではほぼ判別できない</h3>
-    <p>このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、AT初当りとCZを両方入れても3000Gで0％、5000Gで約2％、8000Gで約7％でした。回数は「明らかに重い台を避ける」程度の目安と考え、判別の決め手は示唆にしてください。</p>
+    <p>このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、AT初当りとCZを両方入れても3000Gで0％、5000Gで約2％、8000Gで約7％でした。回数は「明らかに重い台を避ける」程度の目安と考え、判別の決め手は示唆にしてください。規定周期に着いたときのAT直撃は設定1が0.78％、設定6が6.25％と約8倍の差があるので、周期に着くたびに「周期到達」、ATに直撃したら「直撃」も押しておくと、直撃が重なった台ほど高設定寄りに計算されます。</p>
     <h3>見えたら押したい示唆</h3>
     <p>クジラッキートロフィーは銅＝2以上、銀＝3以上、金＝4以上、クマノミ柄＝5以上、虹＝6が濃厚です。AT終了画面では魔鈴＆シャイナが4以上、沙織が6濃厚。エクストララウンドの1人目にジェミニが出れば4以上濃厚です。通常時のカード演出の星座も、ハリセンボン座＝2以上、サメ座＝4以上、エビ座＝5以上、アンコウ座＝6濃厚と、見逃せない示唆になっています。導入後には、エンディング中にレア役を引いてPUSHボタンを押したときの色（緑＝2以上、赤＝4以上、虹＝6濃厚）も分かりました。押すと、当てはまらない設定を0％にして計算し直します。</p>
     <h3>使い方のコツ</h3>
@@ -336,7 +367,11 @@
       <thead><tr><th>設定</th><th>AT初当り</th><th>CZ</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
-    <p class="note">解析サイトの公開値（数値は2026年10月30日時点、エンディングのPUSHボタンは2026年11月8日時点）。AT初当り・機械割はスロベース・ちょんぼりすた・パチマガスロマガで一致、CZ合算はスロベース・ちょんぼりすたで一致。示唆はスロベース・ちょんぼりすたで一致したものだけを計算に使っています。</p>
+    <table class="t" style="margin-top:10px;">
+      <thead><tr><th>設定</th><th>周期直撃</th></tr></thead>
+      <tbody id="pSpecBody"></tbody>
+    </table>
+    <p class="note">解析サイトの公開値（数値は2026年10月30日時点、エンディングのPUSHボタンは2026年11月8日、周期のAT直撃・加護は11月18日時点）。AT初当り・機械割はスロベース・ちょんぼりすた・パチマガスロマガで一致、CZ合算はスロベース・ちょんぼりすたで一致。示唆はスロベース・ちょんぼりすたで一致したものだけを計算に使っています。</p>
   </details>
 </section>
 
@@ -362,7 +397,7 @@ const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
 const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
 const XDEF = [];
-const PDEF = [];
+const PDEF = [{"n": "cycCount", "k": "cycAt", "spec": [0.78, 1.56, 2.34, 3.91, 3.91, 6.25], "f": 2, "label": "周期直撃"}];
 const SPEC = { a: [364.2, 356.1, 345.6, 322.3, 313.7, 310.5], b: [214.4, 214.1, 211.7, 202.5, 197.2, 200.3], c: [1, 1, 1, 1, 1, 1], payout: [97.5, 98.5, 100.5, 105.2, 110.0, 114.9] };
 const BET = 3, LABEL_A = "AT初当り", LABEL_B = "CZ", LABEL_C = "";
 const $ = id => document.getElementById(id);
@@ -522,11 +557,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "seiya-ougon", "name": "L聖闘士星矢 黄金十二宮", "tags": "#聖闘士星矢 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "seiya-ougon", "name": "L聖闘士星矢 黄金十二宮", "tags": "#聖闘士星矢 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "cycCount", "q": "cy", "label": "周期到達（CZ＋直撃）", "unit": "回"}, {"id": "cycAt", "q": "cd", "label": "そのうちAT直撃", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "seiya-ougon", "name": "聖闘士星矢 黄金十二宮", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "czCount", "label": "CZ", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・CZは通常時のみ。CZはフーアーユー＋影ノ襲来。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・終了画面・ジェミニ・カードの星座・PUSHボタン", "short": "示唆", "optional": true}});
+SettiCounter.init({"key": "seiya-ougon", "name": "聖闘士星矢 黄金十二宮", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "czCount", "label": "CZ", "optional": true}, {"id": "cycCount", "label": "周期到達（CZ＋直撃）", "optional": true, "group": "規定周期", "rate": false, "defaultOff": true}, {"id": "cycAt", "label": "AT直撃", "optional": true, "group": "規定周期", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・CZは通常時のみ。CZはフーアーユー＋影ノ襲来。周期到達はCZ・直撃どちらも数える。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・終了画面・ジェミニ・カードの星座・PUSHボタン", "short": "示唆", "optional": true}});
 </script>
 </body>
 </html>

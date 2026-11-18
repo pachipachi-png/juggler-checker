@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>スマート沖スロ ハイハイシオサイRe 設定判別・BIG・REG・機械割 | 設定示唆くん</title>
-<meta name="description" content="スマート沖スロ ハイハイシオサイRe（シオサイRe・パイオニア）の設定判別ツール。総回転数とBIG・REGの回数から設定1・2・4・5・6の可能性を計算します。設定差・機械割の一覧つき。2026年11月16日導入予定の新台。">
+<title>スマート沖スロ ハイハイシオサイRe 設定判別・BIG・REG・フェザーランプ・天井 | 設定示唆くん</title>
+<meta name="description" content="スマート沖スロ ハイハイシオサイRe（シオサイRe・パイオニア）の設定判別ツール。総回転数とBIG・REGの回数から設定1・2・4・5・6の可能性を計算し、BIG終了時のフェザーランプ（緑・紫・虹）で絞り込めます。設定差・機械割の一覧・天井つき。">
 <link rel="canonical" href="https://pachipachi-png.com/shiosai-re/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="設定示唆くん">
 <meta property="og:title" content="ハイハイシオサイRe 設定判別 | 設定示唆くん">
-<meta property="og:description" content="BIGとREGの回数で設定1・2・4・5・6を判別。設定差・機械割の一覧つき。">
+<meta property="og:description" content="BIGとREGの回数で設定1・2・4・5・6を判別。BIG後のフェザーランプで絞り込み、天井つき。">
 <meta property="og:url" content="https://pachipachi-png.com/shiosai-re/">
 <meta property="og:image" content="https://pachipachi-png.com/ogp.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -163,15 +163,14 @@
 <header class="hero">
   
   <div>
-    <span class="new" style="font-weight:800;">11/16 NEW</span>
     <h1>ハイハイ<br>シオサイRe</h1>
-    <p>パイオニア／2026年11月16日導入予定<br>BIG 1/268.8〜1/199.6<br>機械割 97.4〜111.4%</p>
+    <p>パイオニア／2026年11月16日導入<br>BIG 1/268.8〜1/199.6<br>機械割 97.4〜111.4%</p>
   </div>
 </header>
 
 <div class="lead">
   <b class="h">BIGで見る。REGは添えるだけ。</b>
-  <p>BIGは設定1と6で1/268.8→1/199.6（約1.35倍）。REGは1/688.6→1/608.4（約1.13倍）しか違わない。判別の中心はBIGの回数で、REGは足して確かめる程度。</p>
+  <p>BIGは設定1と6で1/268.8→1/199.6（約1.35倍）。REGは1/688.6→1/608.4（約1.13倍）しか違わない。判別の中心はBIGの回数で、REGは足して確かめる程度。BIG終了時のフェザーランプが緑・紫・虹なら必ず押す。</p>
   
 </div>
 
@@ -218,9 +217,23 @@
 
 <section id="optionalCard">
   <div id="hints">
-    <div class="sh"><h2>示唆</h2><small>まだ未公表</small></div>
-    <div id="floorGroup"></div>
-    <p class="floor" id="floorNow" style="font-size:13px;color:var(--text);">終了画面・ランプなどの設定示唆は、導入前の時点でまだ公表されていません。分かりしだい、押せるボタンを足します。</p>
+    <div class="sh"><h2>見えたら押す</h2><small>「〇以上濃厚」だけ計算に使う</small></div>
+    <div id="floorGroup">
+        <p class="sub">BIG終了時のフェザーランプ</p>
+        <div class="tiles" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+          <label class="tile"><input type="checkbox" data-allow="2,4,5,6" data-name="フェザーランプ緑"><span class="tn">緑</span><span class="tv">2↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="4,5,6" data-name="フェザーランプ紫"><span class="tn">紫</span><span class="tv">4↑</span></label>
+          <label class="tile"><input type="checkbox" data-allow="6" data-name="フェザーランプ虹"><span class="tn">虹</span><span class="tv">6</span></label>
+        </div>
+    </div>
+    <p class="floor" id="floorNow">絞り込み：なし</p>
+    <ul class="refs">
+        <li>フェザーランプのほかの色：白＝デフォルト、青＝奇数・高設定の期待度アップ、黄＝偶数・高設定の期待度アップ、赤＝高設定の期待度アップ（強）</li>
+        <li>初当りREG後の天国移行率にも設定差があります（ちょんぼりすたの値で設定1 3.9%、2 4.3%、4 8.2%、5 9.8%、6 10.9%。ほかのサイトは「高設定ほど優遇」とだけ書いているので計算には使いません）</li>
+        <li>REG後のパネルフラッシュは設定ではなく天国の示唆（上パネル＝200G以内の期待度約50%、上下パネル＝天国以上濃厚）</li>
+        <li>高設定ほどボーナス後の天井に333Gが選ばれやすい（リプレイ時に右からSPフラッシュ＝333G選択濃厚）。数値は公表されていません</li>
+    </ul>
+    <a class="outlink ref-out" data-sec="settei" href="https://nana-press.com/kaiseki/machine/1248/40227/" target="_blank" rel="noopener">フェザーランプの示唆（ななプレス） ↗</a>
   </div>
   <details style="margin-top:16px;">
     <summary>期待差枚の計算条件</summary>
@@ -232,7 +245,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/01</span><p>導入前なので、数字は解析サイトの公表値です（ちょんぼりすた・ななプレスで一致）。設定3はありません。BIGはハイシオ天国中にまとまって出るので、実際の数字は計算より荒れます。小役・示唆・天井は分かりしだい書き足します。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/18</span><p>導入後の解析で、BIG終了時のフェザーランプ（緑＝2以上、紫＝4以上、虹＝6濃厚）がちょんぼりすたとななプレスで一致したので、押せるボタンを足しました。天井（最大999G、設定変更時は555Gか200G）も書き足しています。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -242,7 +255,8 @@
       <li>この機種に<b>設定3はありません</b>（設定1・2・4・5・6）</li>
       <li>ボーナスはベルナビの回数で終わる。BIGは30回ナビで約360枚、REGは10回ナビで約120枚</li>
       <li>BIGの約50％で「ハイシオ天国」へ。天国中はBIGが連続しやすく、平均18回ほどボーナスが続く（設定1）</li>
-      <li>通常時にモードはなし。チェリーの規定回数でもボーナスに当たる。天井は調査中</li>
+      <li><b>BIG終了時のフェザーランプ</b> 緑＝2以上、紫＝4以上、虹＝6濃厚</li>
+      <li>天井はボーナス後200G・333G・555G・777G・999Gのいずれかで、最大999G。設定変更時は約75%で555G、約25%で200G（ちょんぼりすた・ななプレス）</li>
   </ul>
 </section>
 
@@ -258,23 +272,25 @@
         <tr class="hi"><td>6</td><td>199.6</td><td>608.4</td><td>111.4</td></tr>
     </tbody>
   </table>
-  <p class="note">確率は「1/〇〇」の分母。ちょんぼりすた・ななプレスで一致。初当りは1/364.1〜1/325.6（約1.12倍）。小役確率は未公表です。</p>
+  <p class="note">確率は「1/〇〇」の分母。数値・フェザーランプ・天井はちょんぼりすた・ななプレスで一致。初当りは1/364.1〜1/325.6（約1.12倍）。小役確率は未公表です。</p>
 </section>
 
 <section id="uchikata">
   <div class="sh"><h2>打ち方</h2></div>
     <h3>通常時</h3>
     <ol class="steps">
-      <li>ハイビスカスが光ればボーナス濃厚</li>
-      <li>33G・77G・133Gで成立したレア役はチャンス</li>
-      <li>打ち方の細かい手順は、導入前のため解析サイトでも準備中</li>
+      <li>左→中→右の順押しで打つ（変則押しはペナルティの可能性あり）</li>
+      <li>左リール上段付近にSIOSAIを狙い、中・右は適当打ち</li>
+      <li>SIOSAIが上段＝チェリー、中段＝スイカ、下段＝ハズレ・リプレイ・ベル</li>
+      <li>ハイビスカスが光ればボーナス濃厚。33G・77G・133Gで成立したレア役はチャンス</li>
     </ol>
     <h3>ボーナス中</h3>
     <ol class="steps">
       <li>ベルナビに従う（BIGは30回、REGは10回）</li>
+      <li>ナビが出ないときは順押しの適当打ちでOK</li>
       <li>残りナビ22回・11回でのレア役に注目</li>
     </ol>
-  <p class="note">打ち方は導入後に分かりしだい書き足します。</p>
+  <p class="note">打ち方はちょんぼりすたの記載です。左リールにハイビスカスを狙う打ち方もあります。</p>
     <a class="outlink ref-out" data-sec="uchikata" href="https://chonborista.com/slot/pionia-slot/268962/" target="_blank" rel="noopener">設定差と機種情報（ちょんぼりすた） ↗</a>
     <a class="outlink ref-out" data-sec="uchikata1" href="https://nana-press.com/kaiseki/machine/1248/" target="_blank" rel="noopener">解析まとめ（ななプレス） ↗</a>
 </section>
@@ -289,7 +305,7 @@
     <h3>天国でBIGが固まる点に注意</h3>
     <p>この機種はBIGの約50％で「ハイシオ天国」に入り、天国中はBIGが続けて当たりやすくなります。上のシミュレーションはボーナスが毎ゲーム同じ確率で当たる前提なので、実際には天国の有無で数字が大きく上下し、判別はもう少し難しくなります。BIGの回数だけでなく、天国以外の初当りが重くないかも合わせて見てください。</p>
     <h3>使い方のコツ</h3>
-    <p>データカウンターの総回転・BIG・REGをそのまま入れれば計算できます（ボーナス中のゲーム数は含めない）。REGは差が小さいので、空欄でもかまいません。終了画面やランプの設定示唆は導入前の時点で公表されていないので、分かりしだい絞り込みのボタンを足します。期待差枚は各設定の機械割を確率で重み付けした値で、閉店までの残り時間が短いほど小さくなります。</p>
+    <p>データカウンターの総回転・BIG・REGをそのまま入れれば計算できます（ボーナス中のゲーム数は含めない）。REGは差が小さいので、空欄でもかまいません。BIG終了時のフェザーランプが緑なら2以上、紫なら4以上、虹なら6が濃厚なので、見えたら押して計算し直してください。期待差枚は各設定の機械割を確率で重み付けした値で、閉店までの残り時間が短いほど小さくなります。</p>
     </details>
 </section>
 
@@ -300,7 +316,7 @@
       <thead><tr><th>設定</th><th>BIG</th><th>REG</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
-    <p class="note">解析サイトの公開値（2026年11月1日時点）。BIG・REG・初当り・機械割はちょんぼりすた（9/2）・ななプレス（8/24更新）で一致。設定3は非搭載。</p>
+    <p class="note">解析サイトの公開値（数値は2026年11月1日、示唆・天井は11月18日時点。2026年11月16日導入）。BIG・REG・初当り・機械割・フェザーランプ・天井はちょんぼりすた・ななプレスで一致。設定3は非搭載。</p>
   </details>
 </section>
 
@@ -324,7 +340,7 @@
 <script>
 const SETS = [1, 2, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
 const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
-const HAS_B = true, HAS_C = false, HAS_CHECKS = false;
+const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
 const XDEF = [];
 const PDEF = [];
 const SPEC = { a: [268.8, 262.0, 228.8, 218.7, 199.6], b: [688.6, 671.0, 632.6, 623.2, 608.4], c: [1, 1, 1, 1, 1], payout: [97.4, 98.7, 104.5, 106.9, 111.4] };
@@ -486,11 +502,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "shiosai-re", "name": "スマート沖スロ ハイハイシオサイRe", "tags": "#ハイハイシオサイ #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "総回転", "unit": "G"}, {"id": "bbCount", "q": "bb", "label": "BIG", "unit": "回", "rateOf": "totalG"}, {"id": "rbCount", "q": "rb", "label": "REG", "unit": "回", "rateOf": "totalG"}]}]});
+SettiShare.init({"key": "shiosai-re", "name": "スマート沖スロ ハイハイシオサイRe", "tags": "#ハイハイシオサイ #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "総回転", "unit": "G"}, {"id": "bbCount", "q": "bb", "label": "BIG", "unit": "回", "rateOf": "totalG"}, {"id": "rbCount", "q": "rb", "label": "REG", "unit": "回", "rateOf": "totalG"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "shiosai-re", "name": "ハイハイシオサイRe", "g": {"id": "totalG", "label": "総回転数"}, "counts": [{"id": "bbCount", "label": "BIG"}, {"id": "rbCount", "label": "REG", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "総回転・BIG・REGはデータカウンターの数字（ボーナス中のゲーム数は含めない）。"});
+SettiCounter.init({"key": "shiosai-re", "name": "ハイハイシオサイRe", "g": {"id": "totalG", "label": "総回転数"}, "counts": [{"id": "bbCount", "label": "BIG"}, {"id": "rbCount", "label": "REG", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "総回転・BIG・REGはデータカウンターの数字（ボーナス中のゲーム数は含めない）。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "フェザーランプ", "short": "示唆", "optional": true}});
 </script>
 </body>
 </html>
