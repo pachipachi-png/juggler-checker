@@ -512,7 +512,7 @@ var MACHINES = [
     path: 'seiya-ougon/',
     maker: 'サンスリー',
     date: '2026-11-02',
-    ease: { lv: 'hard', key: '示唆（AT初当り・CZは差が小さい）', p3000: 0, d: '2026-10-30' },
+    ease: { lv: 'hard', key: '規定周期のAT直撃（AT初当り・CZは差が小さい）', p3000: 24, d: '2026-11-18' },
     status: 'ready',
     hot: 24,
     tag: '11/2新台',
