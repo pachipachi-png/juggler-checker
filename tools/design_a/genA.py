@@ -79,7 +79,7 @@ if m.get('screens'):
         dc = f' data-check="{ck}" role="button" tabindex="0"' if ck else ''
         cards += f'''        <figure class="scr k-{kind}"{dc}><img src="{img}" alt="{m['short']} {nm}（{mean}）" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">{nm}</span><span class="sm">{mean}</span></figcaption></figure>\n'''
     copyimg = f'''<img class="scrcopy" src="{S_['copyimg']}" alt="コピーライト表記" loading="lazy">''' if S_.get('copyimg') else ''
-    scr_html = f'''    <div class="sh"><h2>{S_['title']}</h2><small>{S_.get('sub','色つき＝タップで絞り込み')}</small></div>
+    scr_html = f'''    <div class="sh" id="screens"><h2>{S_['title']}</h2><small>{S_.get('sub','色つき＝タップで絞り込み')}</small></div>
     <div class="scrgrid">
 {cards}    </div>
     <p class="scrnote">{S_.get('note','')}画像の出典：<a href="{S_['src'][0]}" target="_blank" rel="noopener">{S_['src'][1]}</a></p>
@@ -113,6 +113,8 @@ tapcols = 3 if (BG or C or X) else (4 if B else 3)
 newtag_html = f'''    <span class="new" style="font-weight:800;">{m['newtag']}</span>\n''' if m.get('newtag') else ''
 img_html = f'''<img src="{m['img'][0]}" width="140" height="{round(140*397/260)}" alt="{m['img'][2]}">''' if m.get('img') else ''
 warn_html = f'''<p class="warn">{m['warn']}</p>''' if m.get('warn') else ''
+scr_lead = f'''<a class="scrjump" href="#screens">{m['screens']['title']}（画像つき）を見る ↓</a>''' if m.get('screens') else ''
+scr_nav = f'''<a href="#screens">{m['screens'].get('nav', '終了画面')}</a>''' if m.get('screens') else ''
 if hasChecks:
     hints_html = scr_html + f'''    <div class="sh"><h2>見えたら押す</h2><small>「〇以上濃厚」だけ計算に使う</small></div>
     <div id="floorGroup">
@@ -172,6 +174,7 @@ html = f'''<!DOCTYPE html>
   .lead{{margin:0 16px;padding:12px 14px;background:#1b1a17;border-top:3px solid var(--amber);font-size:13.5px;}}
   .lead b.h{{display:block;color:var(--amber);font-size:15.5px;font-weight:800;margin-bottom:2px;}}
   .lead p{{margin:0;}}
+  .scrjump{{display:block;margin-top:10px;padding:9px 10px;border:1px solid var(--amber);border-radius:4px;color:var(--amber);font-weight:700;font-size:13.5px;text-decoration:none;text-align:center;}}
   .lead .warn{{margin-top:8px;padding-top:8px;border-top:1px dashed #3a3730;font-size:12px;color:var(--muted);}}
   .jump{{display:flex;gap:0;margin:14px 16px 0;border:1px solid var(--line);}}
   .jump a{{flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--muted);text-decoration:none;border-left:1px solid var(--line);}}
@@ -316,10 +319,10 @@ html = f'''<!DOCTYPE html>
 <div class="lead">
   <b class="h">{m['lead_h']}</b>
   <p>{m['lead']}</p>
-  {warn_html}
+  {warn_html}{scr_lead}
 </div>
 
-<nav class="jump" aria-label="ページ内の目次"><a href="#mainCard">判別</a><a href="#hints">示唆</a><a href="#gousei">設定差</a><a href="#uchikata">打ち方</a><a href="#guide">解説</a></nav>
+<nav class="jump" aria-label="ページ内の目次"><a href="#mainCard">判別</a>{scr_nav}<a href="#hints">示唆</a><a href="#gousei">設定差</a><a href="#uchikata">打ち方</a><a href="#guide">解説</a></nav>
 
 <div id="mainCard">
 <div style="margin:0 16px;"><button type="button" data-sc-open></button></div>
