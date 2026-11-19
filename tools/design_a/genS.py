@@ -2,6 +2,8 @@
 # 使い方: python3 tools/design_a/genS.py tools/design_a/<key>.py
 # データは genA と同じ <key>.py の screens・checks・refs を使い、CSS は親ページ（<key>/index.html）から取る。
 import sys, re, json, os, datetime
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import screens as SCR
 src = sys.argv[1]
 g = {}
 exec(open(src, encoding='utf-8').read(), g)
@@ -11,13 +13,11 @@ parent = open(f'{key}/index.html', encoding='utf-8').read()
 css = re.search(r'<style>(.*?)</style>', parent, re.S).group(1)
 short, full = m['short'], m['full']
 url = f'https://pachipachi-png.com/{key}/shuryo/'
-title = S.get('ptitle', f'{short} 終了画面の示唆一覧（画像つき）| 設定示唆くん')
-h1 = S.get('ph1', f'{short}<br>終了画面の示唆一覧')
-desc = S.get('pdesc', f'{full}の終了画面の設定示唆を画像つきで一覧にしました。濃厚パターン、期待度アップ、否定の画面と、ボイス・獲得枚数表示の示唆もまとめています。')
-KIND = {'k': ('濃厚', '計算に使える「〇以上濃厚」'), 's': ('期待度アップ', '濃厚ではない示唆'), 'n': ('否定（推察）', '1サイトのみ・推察'), 'd': ('デフォルト', '')}
-cards = ''
-for img, nm, mean, kind, ck in S['items']:
-    cards += f'''      <figure class="scr k-{kind}"><img src="{img}" alt="{short} 終了画面 {nm}（{mean}）" loading="lazy" width="280" height="224"><figcaption><span class="sn">{nm}</span><span class="sm">{mean}</span></figcaption></figure>\n'''
+NM = SCR.names(S)
+title = S.get('ptitle', f'{short} {NM}の示唆一覧（画像つき）| 設定示唆くん')
+h1 = S.get('ph1', f'{short}<br>{NM}の示唆一覧')
+desc = S.get('pdesc', f'{full}の{NM}を画像つきで一覧にしました。設定の濃厚パターンや示唆、モード・状態の示唆と、判別ツールで使える示唆の一覧もまとめています。')
+gallery = SCR.block(S, short, '', only_inline=False, link=False, hid='gallery')
 # 文字の一覧（濃厚系のボタン群をそのまま表に）
 rows = ''
 for grp, cols, items in m.get('checks', []):
@@ -27,11 +27,10 @@ for grp, cols, items in m.get('checks', []):
     li = ''.join(f'<li><b>{re.sub("<br>", "", lb)}</b>　{tagtxt(tg)}</li>' for lb, al, nm, tg in items)
     rows += f'    <h3>{grp}</h3>\n    <ul class="hlist">{li}</ul>\n'
 refs = ''.join(f'      <li>{x}</li>\n' for x in m.get('refs', []))
-copyimg = f'''<img class="scrcopy" src="{S['copyimg']}" alt="コピーライト表記" loading="lazy">''' if S.get('copyimg') else ''
 ld = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
     {"@type": "ListItem", "position": 1, "name": "設定示唆くん", "item": "https://pachipachi-png.com/"},
     {"@type": "ListItem", "position": 2, "name": f"{short} 設定判別", "item": f"https://pachipachi-png.com/{key}/"},
-    {"@type": "ListItem", "position": 3, "name": "終了画面の示唆一覧", "item": url}]}, ensure_ascii=False)
+    {"@type": "ListItem", "position": 3, "name": f"{NM}の示唆一覧", "item": url}]}, ensure_ascii=False)
 gtag = re.search(r'(<!-- Google tag.*?</script>\s*<script>.*?</script>)', parent, re.S).group(1)
 ads = re.search(r'(<script async src="https://pagead2[^>]*></script>)', parent).group(1)
 html = f'''<!DOCTYPE html>
@@ -44,7 +43,7 @@ html = f'''<!DOCTYPE html>
 <link rel="canonical" href="{url}">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="設定示唆くん">
-<meta property="og:title" content="{short} 終了画面の示唆一覧 | 設定示唆くん">
+<meta property="og:title" content="{short} {NM}の示唆一覧 | 設定示唆くん">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{url}">
 <meta property="og:image" content="https://pachipachi-png.com/ogp.png">
@@ -68,7 +67,7 @@ html = f'''<!DOCTYPE html>
 <body>
 <div class="wrap">
 <nav class="bar-top"><a href="../../">設定示唆くん</a><span><a href="../../list/" style="font-size:12px;font-weight:500;color:var(--muted);">機種一覧</a></span></nav>
-<p class="crumb"><a href="../../">トップ</a> ＞ <a href="../">{short} 設定判別</a> ＞ 終了画面</p>
+<p class="crumb"><a href="../../">トップ</a> ＞ <a href="../">{short} 設定判別</a> ＞ {NM}</p>
 <header class="hero">
   <div>
     <h1>{h1}</h1>
@@ -78,13 +77,8 @@ html = f'''<!DOCTYPE html>
 
 <section class="sbody">
   <a class="cta" href="../">見えた示唆を入れて設定判別する →</a>
-  <div class="sh"><h2>{S['title']}</h2><small>{S.get('psub', '画像で確認')}</small></div>
-  <p class="legend2">黄色の文字＝計算に使える「〇以上濃厚」。グレー＝期待度アップ・推察。</p>
-  <div class="scrgrid">
-{cards}  </div>
-  <p class="scrnote">{S.get('pnote', '')}画像の出典：<a href="{S['src'][0]}" target="_blank" rel="noopener">{S['src'][1]}</a></p>
-  {copyimg}
-
+  <p class="legend2">黄色の文字＝判別ツールで使える「〇以上濃厚」。青＝モード・状態の示唆。グレー＝期待度アップ・推察など。</p>
+{gallery}
   <div class="sh"><h2>示唆の一覧（文字）</h2><small>判別ツールのボタンと同じ</small></div>
 {rows}
   <h3>そのほかの示唆・注意</h3>

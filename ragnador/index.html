@@ -41,6 +41,7 @@
   .lead{margin:0 16px;padding:12px 14px;background:#1b1a17;border-top:3px solid var(--amber);font-size:13.5px;}
   .lead b.h{display:block;color:var(--amber);font-size:15.5px;font-weight:800;margin-bottom:2px;}
   .lead p{margin:0;}
+  .scrjump{display:block;margin-top:10px;padding:9px 10px;border:1px solid var(--amber);border-radius:4px;color:var(--amber);font-weight:700;font-size:13.5px;text-decoration:none;text-align:center;}
   .lead .warn{margin-top:8px;padding-top:8px;border-top:1px dashed #3a3730;font-size:12px;color:var(--muted);}
   .jump{display:flex;gap:0;margin:14px 16px 0;border:1px solid var(--line);}
   .jump a{flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--muted);text-decoration:none;border-left:1px solid var(--line);}
@@ -112,6 +113,22 @@
   .tile:has(input:checked) .tv{color:var(--bg);}
   .floor{margin:10px 0 0;font-size:12.5px;color:var(--muted);}
   .floor b{color:var(--amber);font-weight:700;}
+  .scrgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:4px 0 6px;}
+  .scr{margin:0;background:#1b1a17;border:1px solid #3a3a3e;border-radius:4px;overflow:hidden;}
+  .scr[data-check]{cursor:pointer;}
+  .scr img{display:block;width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;background:#111;font-size:11px;color:var(--muted);}
+  .scr figcaption{padding:5px 6px 6px;display:flex;flex-direction:column;gap:1px;}
+  .scr .sn{font-size:12.5px;font-weight:700;line-height:1.3;}
+  .scr .sm{font-size:12px;color:var(--muted);line-height:1.3;}
+  .scr.k-k .sm{color:var(--amber);font-weight:700;}
+  .scr.k-m .sm{color:#8fb7d9;}
+  .scr.on{border-color:var(--amber);box-shadow:0 0 0 2px var(--amber) inset;}
+  .scr.on .sn::after{content:"  ✓ 絞り込み中";color:var(--amber);font-size:11px;}
+  .scrnote{font-size:11.5px;color:var(--muted);margin:2px 0 10px;}
+  .scrnote a{color:var(--muted);}
+  .scrmore{display:block;margin:4px 0 10px;padding:9px 10px;border:1px solid #3a3a3e;border-radius:4px;color:var(--fg,#eee);font-size:13px;font-weight:700;text-decoration:none;text-align:center;}
+  .scrcopyt{font-size:10.5px;color:var(--muted);margin:0 0 14px;}
+  .scrcopy{display:block;max-width:100%;height:auto;background:#fff;border-radius:3px;margin:0 0 14px;}
   .refs{margin:12px 0 0;padding-left:18px;font-size:12px;color:var(--muted);}
   .refs li{margin-bottom:4px;}
   .outlink{display:inline-block;margin-top:10px;font-size:12.5px;text-decoration:none;}
@@ -172,10 +189,10 @@
 <div class="lead">
   <b class="h">設定3と4の間に段差。</b>
   <p>AT初当りは1/307.7→1/271.2、CZは1/161.8→1/145.0と、設定4から一気に軽くなる。設定4〜6どうしはほぼ同じなので、「4以上かどうか」を見る機種。CZも数えて足す。</p>
-  
+  <a class="scrjump" href="#screens">アイキャッチの早見表（画像つき）を見る ↓</a>
 </div>
 
-<nav class="jump" aria-label="ページ内の目次"><a href="#mainCard">判別</a><a href="#hints">示唆</a><a href="#gousei">設定差</a><a href="#uchikata">打ち方</a><a href="#guide">解説</a></nav>
+<nav class="jump" aria-label="ページ内の目次"><a href="#mainCard">判別</a><a href="#screens">画面</a><a href="#hints">示唆</a><a href="#gousei">設定差</a><a href="#uchikata">打ち方</a><a href="#guide">解説</a></nav>
 
 <div id="mainCard">
 <div style="margin:0 16px;"><button type="button" data-sc-open></button></div>
@@ -218,6 +235,15 @@
 
 <section id="optionalCard">
   <div id="hints">
+    <div class="sh" id="screens"><h2>アイキャッチ（発展演出失敗時）の早見表</h2><small>画像で確認</small></div>
+    <div class="scrgrid">
+        <figure class="scr k-m"><img src="https://images.1geki.jp/machines/slot/l_ragnador/l_ragnador_ekishou137.png?f=webp" alt="ラグナドール アイキャッチ（発展演出失敗時） 白虎（次回CZ「白虎」以上濃厚）" loading="lazy" width="280" height="224"><figcaption><span class="sn">白虎</span><span class="sm">次回CZ「白虎」以上濃厚</span></figcaption></figure>
+        <figure class="scr k-m"><img src="https://images.1geki.jp/machines/slot/l_ragnador/l_ragnador_ekishou138.png?f=webp" alt="ラグナドール アイキャッチ（発展演出失敗時） 玄武（次回CZ「玄武」以上濃厚）" loading="lazy" width="280" height="224"><figcaption><span class="sn">玄武</span><span class="sm">次回CZ「玄武」以上濃厚</span></figcaption></figure>
+        <figure class="scr k-m"><img src="https://images.1geki.jp/machines/slot/l_ragnador/l_ragnador_ekishou139.png?f=webp" alt="ラグナドール アイキャッチ（発展演出失敗時） 朱雀（次回CZ「朱雀」濃厚）" loading="lazy" width="280" height="224"><figcaption><span class="sn">朱雀</span><span class="sm">次回CZ「朱雀」濃厚</span></figcaption></figure>
+    </div>
+    <p class="scrnote">発展演出に失敗した次のゲームで出ることがあるアイキャッチです。次回CZの敵の示唆で、設定の示唆ではありません。画像の出典：<a href="https://1geki.jp/slot/l_ragnador/53/" target="_blank" rel="noopener">1geki（ラグナドール アイキャッチ）</a></p>
+    <a class="scrmore" href="shuryo/">アイキャッチだけのページ →</a>
+    <p class="scrcopyt">©Grams. All rights Reserved. ©UNIVERSAL ENTERTAINMENT</p>
     <div class="sh"><h2>見えたら押す</h2><small>「〇以上濃厚」だけ計算に使う</small></div>
     <div id="floorGroup">
         <p class="sub">エンディング中のボイス（レア役でサブ液晶タッチ）</p>
@@ -406,6 +432,16 @@ $('undoBtn').addEventListener('click', () => {
 
 // 示唆
 const floorChecks = [...document.querySelectorAll('#floorGroup input[type=checkbox]')];
+const scrCards = [...document.querySelectorAll('.scr[data-check]')];
+const scrInput = c => floorChecks.find(x => x.dataset.name === c.dataset.check);
+function syncScr(){ scrCards.forEach(c => { const i = scrInput(c); c.classList.toggle('on', !!(i && i.checked)); }); }
+scrCards.forEach(c => {
+  const go = () => { const i = scrInput(c); if(i){ i.click(); syncScr(); } };
+  c.addEventListener('click', go);
+  c.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } });
+});
+floorChecks.forEach(x => x.addEventListener('change', syncScr));
+setTimeout(syncScr, 0); setTimeout(syncScr, 600);
 function currentAllow(){
   const on = floorChecks.filter(c => c.checked);
   let allow = new Set(SETS);

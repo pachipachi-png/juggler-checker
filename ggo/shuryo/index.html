@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ガンゲイル・オンライン 終了画面の示唆一覧（画像つき）| 設定示唆くん</title>
+<meta name="description" content="L ソードアート・オンライン オルタナティブ ガンゲイル・オンラインの終了画面を画像つきで一覧にしました。設定の濃厚パターンや示唆、モード・状態の示唆と、判別ツールで使える示唆の一覧もまとめています。">
+<link rel="canonical" href="https://pachipachi-png.com/ggo/shuryo/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="設定示唆くん">
+<meta property="og:title" content="ガンゲイル・オンライン 終了画面の示唆一覧 | 設定示唆くん">
+<meta property="og:description" content="L ソードアート・オンライン オルタナティブ ガンゲイル・オンラインの終了画面を画像つきで一覧にしました。設定の濃厚パターンや示唆、モード・状態の示唆と、判別ツールで使える示唆の一覧もまとめています。">
+<meta property="og:url" content="https://pachipachi-png.com/ggo/shuryo/">
+<meta property="og:image" content="https://pachipachi-png.com/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+1p:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  /* 案A：データカウンター風（2026-10-30 試作） */
+  :root{
+    --bg:#0c0c0d; --panel:#17171a; --panel-2:#1f1f22; --line:#2c2c30; --text:#ebe8e1; --muted:#a9a59c;
+    --amber:#ffb21e; --amber-dim:#3a2a0c; --led-bg:#120d05;
+    /* counter.js・share.js が使う名前 */
+    --gold:#ffb21e; --gold-dim:#6b4c10; --teal:#ffb21e; --red:#ff7a6b;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'M PLUS 1p',sans-serif;line-height:1.7;padding-bottom:72px;}
+  .dot{font-variant-numeric:tabular-nums;font-weight:700;}
+  .led{font-family:'DotGothic16',monospace;font-weight:400;}
+  .wrap{max-width:520px;margin:0 auto;}
+  a{color:var(--amber);}
+  .bar-top{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);font-size:12px;}
+  .bar-top a{text-decoration:none;font-weight:800;font-size:14px;letter-spacing:.04em;}
+  .bar-top span{color:var(--muted);}
+  .hero{display:flex;gap:14px;padding:18px 16px 14px;align-items:flex-end;}
+  .hero img{width:140px;height:auto;flex-shrink:0;background:#fff;border-radius:4px;}
+  .hero .new{align-self:flex-start;background:var(--amber);color:var(--bg);font-size:12px;padding:1px 6px;}
+  .hero h1{margin:6px 0 4px;font-size:22px;line-height:1.3;font-weight:800;}
+  .hero p{margin:0;font-size:12px;color:var(--muted);line-height:1.6;}
+  .lead{margin:0 16px;padding:12px 14px;background:#1b1a17;border-top:3px solid var(--amber);font-size:13.5px;}
+  .lead b.h{display:block;color:var(--amber);font-size:15.5px;font-weight:800;margin-bottom:2px;}
+  .lead p{margin:0;}
+  .scrjump{display:block;margin-top:10px;padding:9px 10px;border:1px solid var(--amber);border-radius:4px;color:var(--amber);font-weight:700;font-size:13.5px;text-decoration:none;text-align:center;}
+  .lead .warn{margin-top:8px;padding-top:8px;border-top:1px dashed #3a3730;font-size:12px;color:var(--muted);}
+  .jump{display:flex;gap:0;margin:14px 16px 0;border:1px solid var(--line);}
+  .jump a{flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--muted);text-decoration:none;border-left:1px solid var(--line);}
+  .jump a:first-child{border-left:none;}
+  .data{margin:16px 16px 0;background:#050505;border:2px solid #2f2f31;border-radius:6px;padding:14px 12px 12px;}
+  .data-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .data-h .dot{font-family:'DotGothic16',monospace;font-weight:400;font-size:13px;color:var(--muted);letter-spacing:.1em;}
+  .data-h small{font-size:11px;color:var(--muted);}
+  .cells{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+  .cells{align-items:end;}
+  .cells label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .cells input{width:100%;background:var(--led-bg);border:1px solid var(--amber-dim);color:var(--amber);font-family:'DotGothic16',monospace;font-size:26px;text-align:right;padding:6px;border-radius:3px;}
+  .cells input::placeholder{color:#5a4316;}
+  input:focus,button:focus-visible,.tile:focus-within{outline:2px solid var(--amber);outline-offset:1px;}
+  .taps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px;}
+  .taps button{height:48px;background:#26262a;color:var(--text);border:1px solid #3a3a3e;border-radius:4px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;}
+  .taps button:active{background:#34343a;}
+  .taps button.undo{color:var(--muted);font-weight:500;}
+  .rates{display:flex;justify-content:space-between;gap:8px;margin-top:10px;font-size:13.5px;color:var(--muted);flex-wrap:wrap;}
+  .rates b{color:var(--amber);font-weight:800;}
+  .mini{position:fixed;left:14px;bottom:16px;z-index:899;display:flex;align-items:center;gap:8px;width:auto;margin:0;padding:8px 14px 8px 10px;background:#141414;border:2px solid var(--amber);border-radius:999px;color:var(--text);font-family:inherit;cursor:pointer;text-align:left;box-shadow:0 6px 20px #0008;max-width:calc(100% - 200px);}
+  .mini.away{opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .2s,transform .2s;}
+  .mini{transition:opacity .2s,transform .2s;}
+  .mini[hidden]{display:none;}
+  .mini-bars{display:flex;align-items:flex-end;gap:2px;height:26px;flex:none;}
+  .mini-bars span{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:2px;}
+  .mini-bars i{display:block;width:6px;background:#5c5a55;min-height:2px;}
+  .mini-bars .hi i{background:var(--amber);}
+  .mini-bars em{display:none;}
+  .mini-t{font-size:10.5px;color:var(--muted);line-height:1.2;white-space:nowrap;}
+  .mini-t b{display:block;font-size:15px;color:var(--amber);font-weight:800;font-variant-numeric:tabular-nums;}
+  #result{margin:16px 16px 0 !important;padding:12px 12px 14px;border:2px solid var(--amber);border-radius:6px;background:#0b0b0b;}
+  #result .sh{border-bottom-color:#3a2c10;}
+  .rates small{font-size:11px;margin-left:4px;}
+  .hint{font-size:12px;color:var(--muted);line-height:1.6;margin:6px 0 0;}
+  .data .hint{margin:8px 0 0;font-size:11.5px;color:var(--muted);line-height:1.6;}
+  .pdata{margin-top:10px;} .pcard{border:1px solid #2f2f31;border-radius:4px;padding:10px;margin-top:10px;} .pcard:first-of-type{margin-top:0;} .pcard .pt{margin:0;font-size:14px;font-weight:800;color:var(--text);} .pcard .pr{margin:2px 0 8px;font-size:11.5px;color:var(--muted);line-height:1.6;} .pdata .cells input{font-size:22px;} .pdata .taps button{height:44px;}
+  .judge{display:block;width:calc(100% - 32px);margin:12px 16px 0;height:54px;background:var(--amber);color:var(--bg);border:none;border-radius:4px;font-family:inherit;font-weight:800;font-size:17px;letter-spacing:.08em;cursor:pointer;}
+  .judge:active{transform:translateY(1px);}
+  section{margin:24px 16px 0;}
+  .sh{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:6px;margin:0 0 10px;}
+  .sh h2{margin:0;font-size:15.5px;font-weight:800;}
+  .sh small{font-size:12px;color:var(--muted);}
+  #pieWrap{margin-top:2px;}
+  .legend-row{display:flex;align-items:center;gap:8px;font-variant-numeric:tabular-nums;font-size:13px;margin-bottom:6px;}
+  .legend-row .sl{width:44px;color:var(--muted);}
+  .legend-row.hi .sl{color:var(--amber);}
+  .legend-row .track{flex:1;height:14px;background:#1b1b1d;}
+  .legend-row .swatch{display:block;height:14px;background:#5c5a55;}
+  .legend-row.hi .swatch{background:var(--amber);}
+  .legend-row .pct{width:50px;text-align:right;}
+  .legend-row.cut{opacity:.35;}
+  .summary{font-size:13.5px;line-height:1.7;}
+  .summary .big{font-variant-numeric:tabular-nums;font-weight:800;color:var(--amber);font-size:21px;}
+  .summary .meta{display:block;font-size:12px;color:var(--muted);margin-top:4px;}
+  .ev{margin-top:12px;padding:12px;border:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .ev .n{font-variant-numeric:tabular-nums;font-weight:800;font-size:22px;}
+  .ev .n.pos{color:var(--amber);} .ev .n.neg{color:#ff7a6b;}
+  .ev small{font-size:11.5px;color:var(--muted);}
+  .tip{margin-top:12px;font-size:12.5px;color:var(--muted);}
+  .tip a{font-weight:700;}
+  .sub{margin:12px 0 6px;font-size:12px;color:var(--muted);}
+  .tiles{display:grid;gap:6px;}
+  .tile{position:relative;min-height:56px;background:#1b1a17;border:1px solid #3a3a3e;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;text-align:center;padding:4px 2px;}
+  .tile input{position:absolute;opacity:0;width:1px;height:1px;}
+  .tile .tn{font-size:12px;font-weight:700;line-height:1.3;}
+  .tile .tv{font-variant-numeric:tabular-nums;font-size:12px;color:var(--muted);}
+  .tile:has(input:checked){background:var(--amber);border-color:var(--amber);color:var(--bg);}
+  .tile:has(input:checked) .tv{color:var(--bg);}
+  .floor{margin:10px 0 0;font-size:12.5px;color:var(--muted);}
+  .floor b{color:var(--amber);font-weight:700;}
+  .scrgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:4px 0 6px;}
+  .scr{margin:0;background:#1b1a17;border:1px solid #3a3a3e;border-radius:4px;overflow:hidden;}
+  .scr[data-check]{cursor:pointer;}
+  .scr img{display:block;width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;background:#111;font-size:11px;color:var(--muted);}
+  .scr figcaption{padding:5px 6px 6px;display:flex;flex-direction:column;gap:1px;}
+  .scr .sn{font-size:12.5px;font-weight:700;line-height:1.3;}
+  .scr .sm{font-size:12px;color:var(--muted);line-height:1.3;}
+  .scr.k-k .sm{color:var(--amber);font-weight:700;}
+  .scr.k-m .sm{color:#8fb7d9;}
+  .scr.on{border-color:var(--amber);box-shadow:0 0 0 2px var(--amber) inset;}
+  .scr.on .sn::after{content:"  ✓ 絞り込み中";color:var(--amber);font-size:11px;}
+  .scrnote{font-size:11.5px;color:var(--muted);margin:2px 0 10px;}
+  .scrnote a{color:var(--muted);}
+  .scrmore{display:block;margin:4px 0 10px;padding:9px 10px;border:1px solid #3a3a3e;border-radius:4px;color:var(--fg,#eee);font-size:13px;font-weight:700;text-decoration:none;text-align:center;}
+  .scrcopyt{font-size:10.5px;color:var(--muted);margin:0 0 14px;}
+  .scrcopy{display:block;max-width:100%;height:auto;background:#fff;border-radius:3px;margin:0 0 14px;}
+  .refs{margin:12px 0 0;padding-left:18px;font-size:12px;color:var(--muted);}
+  .refs li{margin-bottom:4px;}
+  .outlink{display:inline-block;margin-top:10px;font-size:12.5px;text-decoration:none;}
+  .memo{margin:24px 16px 0;padding:14px;border:1px dashed #3a3a3e;font-size:13px;}
+  .memo .dot{display:block;font-weight:700;color:var(--amber);font-size:12px;margin-bottom:4px;}
+  .memo p{margin:0;}
+  .list{margin:0;padding-left:18px;font-size:13px;}
+  .list li{margin-bottom:6px;} .list b{color:var(--amber);font-weight:700;}
+  table.t{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:13.5px;}
+  table.t th{color:var(--muted);font-weight:400;text-align:right;padding:6px 0;}
+  table.t th:first-child,table.t td:first-child{text-align:left;}
+  table.t td{text-align:right;padding:6px 0;border-top:1px solid #222224;}
+  table.t tr.hi td{color:var(--amber);}
+  .note{margin:8px 0 0;font-size:11.5px;color:var(--muted);}
+  .steps{margin:4px 0 0;padding-left:20px;font-size:13px;} .steps li{margin-bottom:5px;}
+  h3{font-size:13.5px;margin:14px 0 4px;}
+  .guide p{font-size:13.5px;line-height:1.85;margin:4px 0 10px;}
+  details summary{cursor:pointer;font-size:13px;color:var(--muted);list-style:none;}
+  details summary::-webkit-details-marker{display:none;}
+  details summary::before{content:'＋ ';} details[open] summary::before{content:'－ ';}
+  #specBody input{width:100%;background:var(--panel-2);border:1px solid var(--line);color:var(--text);font-family:inherit;font-variant-numeric:tabular-nums;font-size:13px;text-align:right;padding:4px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .row2 label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:4px;}
+  .row2 input{width:100%;background:var(--panel-2);border:1px solid var(--line);color:var(--text);padding:8px;font-family:inherit;font-size:14px;border-radius:3px;}
+  .card{background:transparent;}
+  .btn-primary{background:var(--amber);color:var(--bg);border:none;border-radius:4px;padding:10px 12px;font-weight:800;text-decoration:none;display:inline-block;text-align:center;font-family:inherit;}
+  .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--text);border-radius:4px;padding:10px 12px;font-family:inherit;}
+  .rel{margin:28px 16px 0;}
+  .rel h2{font-size:15px;margin:0 0 10px;}
+  .rel li a{border-radius:3px !important;}
+  .ad-slot{display:none;}
+  footer{margin-top:28px;padding:16px;border-top:1px solid var(--line);font-size:11.5px;color:#8d8980;}
+  footer a{color:#8d8980;margin-right:12px;}
+
+  .crumb{margin:6px 16px 0;font-size:12px;color:var(--muted);}
+  .crumb a{color:var(--muted);}
+  .sbody{margin:0 16px;}
+  .sbody h3{font-size:14px;margin:16px 0 6px;}
+  .hlist{margin:0;padding-left:18px;font-size:13px;}
+  .hlist li{margin-bottom:3px;}
+  .cta{display:block;margin:14px 0;padding:12px;border-radius:4px;background:var(--amber);color:var(--bg);font-weight:800;text-align:center;text-decoration:none;font-size:15px;}
+  .legend2{font-size:12px;color:var(--muted);margin:0 0 8px;}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "設定示唆くん", "item": "https://pachipachi-png.com/"}, {"@type": "ListItem", "position": 2, "name": "ガンゲイル・オンライン 設定判別", "item": "https://pachipachi-png.com/ggo/"}, {"@type": "ListItem", "position": 3, "name": "終了画面の示唆一覧", "item": "https://pachipachi-png.com/ggo/shuryo/"}]}</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFM94DE8Y3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZFM94DE8Y3');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9150472731628445" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+<nav class="bar-top"><a href="../../">設定示唆くん</a><span><a href="../../list/" style="font-size:12px;font-weight:500;color:var(--muted);">機種一覧</a></span></nav>
+<p class="crumb"><a href="../../">トップ</a> ＞ <a href="../">ガンゲイル・オンライン 設定判別</a> ＞ 終了画面</p>
+<header class="hero">
+  <div>
+    <h1>ガンゲイル・オンライン<br>終了画面の示唆一覧</h1>
+    <p>ボーナス・SJの終了画面は、モード（通常B・チャンスA・天国）と報酬の示唆です。目を瞑る画面は天国濃厚、シルエットはチャンスA以上濃厚。</p>
+  </div>
+</header>
+
+<section class="sbody">
+  <a class="cta" href="../">見えた示唆を入れて設定判別する →</a>
+  <p class="legend2">黄色の文字＝判別ツールで使える「〇以上濃厚」。青＝モード・状態の示唆。グレー＝期待度アップ・推察など。</p>
+    <div class="sh" id="gallery"><h2>終了画面の早見表</h2><small>画像で確認</small></div>
+    <div class="scrgrid">
+        <figure class="scr k-d"><img src="https://images.1geki.jp/machines/slot/l_sao_ggo/l_sao_ggo_ekishou80.png?f=webp" alt="ガンゲイル・オンライン 終了画面 レン①（ボーナス終了時の基本）" loading="lazy" width="280" height="224"><figcaption><span class="sn">レン①</span><span class="sm">ボーナス終了時の基本</span></figcaption></figure>
+        <figure class="scr k-d"><img src="https://images.1geki.jp/machines/slot/l_sao_ggo/l_sao_ggo_ekishou81.png?f=webp" alt="ガンゲイル・オンライン 終了画面 レン②（SJ終了時の基本）" loading="lazy" width="280" height="224"><figcaption><span class="sn">レン②</span><span class="sm">SJ終了時の基本</span></figcaption></figure>
+        <figure class="scr k-m"><img src="https://images.1geki.jp/machines/slot/l_sao_ggo/l_sao_ggo_ekishou82.png?f=webp" alt="ガンゲイル・オンライン 終了画面 腕組み（通常B以上示唆）" loading="lazy" width="280" height="224"><figcaption><span class="sn">腕組み</span><span class="sm">通常B以上示唆</span></figcaption></figure>
+        <figure class="scr k-m"><img src="https://images.1geki.jp/machines/slot/l_sao_ggo/l_sao_ggo_ekishou83.png?f=webp" alt="ガンゲイル・オンライン 終了画面 レン＆フカ次郎（天国期待度50%）" loading="lazy" width="280" height="224"><figcaption><span class="sn">レン＆フカ次郎</span><span class="sm">天国期待度50%</span></figcaption></figure>
+        <figure class="scr k-m"><img src="https://images.1geki.jp/machines/slot/l_sao_ggo/l_sao_ggo_ekishou84.png?f=webp" alt="ガンゲイル・オンライン 終了画面 シルエット（チャンスA以上濃厚）" loading="lazy" width="280" height="224"><figcaption><span class="sn">シルエット</span><span class="sm">チャンスA以上濃厚</span></figcaption></figure>
+        <figure class="scr k-m"><img src="https://images.1geki.jp/machines/slot/l_sao_ggo/l_sao_ggo_ekishou85.png?f=webp" alt="ガンゲイル・オンライン 終了画面 目を瞑る（天国濃厚）" loading="lazy" width="280" height="224"><figcaption><span class="sn">目を瞑る</span><span class="sm">天国濃厚</span></figcaption></figure>
+        <figure class="scr k-m"><img src="https://images.1geki.jp/machines/slot/l_sao_ggo/l_sao_ggo_ekishou86.png?f=webp" alt="ガンゲイル・オンライン 終了画面 チャンス告知（SJ以上獲得）" loading="lazy" width="280" height="224"><figcaption><span class="sn">チャンス告知</span><span class="sm">SJ以上獲得</span></figcaption></figure>
+        <figure class="scr k-m"><img src="https://images.1geki.jp/machines/slot/l_sao_ggo/l_sao_ggo_ekishou87.png?f=webp" alt="ガンゲイル・オンライン 終了画面 いつでも告知（SJ以上獲得）" loading="lazy" width="280" height="224"><figcaption><span class="sn">いつでも告知</span><span class="sm">SJ以上獲得</span></figcaption></figure>
+        <figure class="scr k-m"><img src="https://images.1geki.jp/machines/slot/l_sao_ggo/l_sao_ggo_ekishou88.png?f=webp" alt="ガンゲイル・オンライン 終了画面 後告知（1）（報酬獲得）" loading="lazy" width="280" height="224"><figcaption><span class="sn">後告知（1）</span><span class="sm">報酬獲得</span></figcaption></figure>
+        <figure class="scr k-m"><img src="https://images.1geki.jp/machines/slot/l_sao_ggo/l_sao_ggo_ekishou89.png?f=webp" alt="ガンゲイル・オンライン 終了画面 後告知（2）（報酬獲得）" loading="lazy" width="280" height="224"><figcaption><span class="sn">後告知（2）</span><span class="sm">報酬獲得</span></figcaption></figure>
+        <figure class="scr k-m"><img src="https://images.1geki.jp/machines/slot/l_sao_ggo/l_sao_ggo_ekishou90.png?f=webp" alt="ガンゲイル・オンライン 終了画面 CZ獲得（CZ獲得）" loading="lazy" width="280" height="224"><figcaption><span class="sn">CZ獲得</span><span class="sm">CZ獲得</span></figcaption></figure>
+    </div>
+    <p class="scrnote">ボーナス・SJ終了時の画面です。モードや報酬の示唆で、設定の示唆ではありません（設定は金カード＝6濃厚など、下のボタンで）。画像の出典：<a href="https://1geki.jp/slot/l_sao_ggo/6/" target="_blank" rel="noopener">1geki（GGO 終了画面）</a></p>
+    <p class="scrcopyt">©2023 時雨沢恵一/KADOKAWA/GGO2 Project ©KYORAKU</p>
+
+  <div class="sh"><h2>示唆の一覧（文字）</h2><small>判別ツールのボタンと同じ</small></div>
+    <h3>ボーナス終了画面のカード</h3>
+    <ul class="hlist"><li><b>金カード（Excellent）</b>　設定6濃厚</li></ul>
+
+  <h3>そのほかの示唆・注意</h3>
+  <ul class="hlist">
+      <li>金カードは「銃が出てくる作品ばかり書いている小説家」「TS」「神崎エルザ」「たぬ吉＆玉ちゃん」の4種類。ほかのカードの意味は調査中</li>
+      <li>玉ちゃんトロフィー（SJ終了画面）：銅2以上〜虹6とする解析サイトがあるが、過去機種からの推察で1サイトのみ。計算には使っていません</li>
+      <li>クライマックスバトルの開始画面の赤背景は設定示唆とみられるが、内容は調査中</li>
+      <li>天国の選択率は設定1 21.9%→設定6 31.6%（ちょんぼりすた）</li>
+  </ul>
+  <a class="cta" href="../">ガンゲイル・オンラインの設定判別ツールを開く →</a>
+</section>
+
+<div class="ad-slot">広告スペース</div>
+
+<footer>
+  示唆は各解析サイトの公開値です。示唆の出方は店長カスタムで変わる場合があります。遊技は自己責任・適正な範囲で。18歳未満の方はパチンコ・パチスロを遊技できません。<br>
+  <a href="../../">機種一覧</a><a href="../../privacy.html">プライバシーポリシー</a><a href="../../about.html">運営者情報</a><a href="../../contact.html">お問い合わせ</a>
+</footer>
+</div>
+</body>
+</html>

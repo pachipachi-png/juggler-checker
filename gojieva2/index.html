@@ -121,11 +121,12 @@
   .scr .sn{font-size:12.5px;font-weight:700;line-height:1.3;}
   .scr .sm{font-size:12px;color:var(--muted);line-height:1.3;}
   .scr.k-k .sm{color:var(--amber);font-weight:700;}
-  .scr.k-n .sm{color:var(--muted);font-style:normal;}
+  .scr.k-m .sm{color:#8fb7d9;}
   .scr.on{border-color:var(--amber);box-shadow:0 0 0 2px var(--amber) inset;}
   .scr.on .sn::after{content:"  ✓ 絞り込み中";color:var(--amber);font-size:11px;}
-  .scrnote{font-size:11.5px;color:var(--muted);margin:2px 0 6px;}
+  .scrnote{font-size:11.5px;color:var(--muted);margin:2px 0 10px;}
   .scrnote a{color:var(--muted);}
+  .scrmore{display:block;margin:4px 0 10px;padding:9px 10px;border:1px solid #3a3a3e;border-radius:4px;color:var(--fg,#eee);font-size:13px;font-weight:700;text-decoration:none;text-align:center;}
   .scrcopy{display:block;max-width:100%;height:auto;background:#fff;border-radius:3px;margin:0 0 14px;}
   .refs{margin:12px 0 0;padding-left:18px;font-size:12px;color:var(--muted);}
   .refs li{margin-bottom:4px;}
@@ -190,7 +191,7 @@
   <p class="warn">ボーナスの差が小さい機種です。AT初当りも必ず数えてください。</p><a class="scrjump" href="#screens">終了画面の早見表（画像つき）を見る ↓</a>
 </div>
 
-<nav class="jump" aria-label="ページ内の目次"><a href="#mainCard">判別</a><a href="#screens">終了画面</a><a href="#hints">示唆</a><a href="#gousei">設定差</a><a href="#uchikata">打ち方</a><a href="#guide">解説</a></nav>
+<nav class="jump" aria-label="ページ内の目次"><a href="#mainCard">判別</a><a href="#screens">画面</a><a href="#hints">示唆</a><a href="#gousei">設定差</a><a href="#uchikata">打ち方</a><a href="#guide">解説</a></nav>
 
 <div id="mainCard">
 <div style="margin:0 16px;"><button type="button" data-sc-open></button></div>
@@ -233,20 +234,21 @@
 
 <section id="optionalCard">
   <div id="hints">
-    <div class="sh" id="screens"><h2>終了画面の早見表</h2><small>色つき＝タップで絞り込み</small></div>
+    <div class="sh" id="screens"><h2>終了画面の早見表</h2><small>黄色＝タップで絞り込み</small></div>
     <div class="scrgrid">
-        <figure class="scr k-k" data-check="終了画面 レイ背景" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou81.png?f=webp" alt="ゴジエヴァ2 レイ背景（設定2以上濃厚）" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">レイ背景</span><span class="sm">設定2以上濃厚</span></figcaption></figure>
-        <figure class="scr k-k" data-check="終了画面 ゴジラ＆初号機" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou76.png?f=webp" alt="ゴジエヴァ2 ゴジラ＆初号機（設定4以上濃厚）" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">ゴジラ＆初号機</span><span class="sm">設定4以上濃厚</span></figcaption></figure>
-        <figure class="scr k-k" data-check="終了画面 全員集合" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou82.png?f=webp" alt="ゴジエヴァ2 全員集合（設定5以上濃厚）" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">全員集合</span><span class="sm">設定5以上濃厚</span></figcaption></figure>
-        <figure class="scr k-k" data-check="終了画面 カヲル" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou75.png?f=webp" alt="ゴジエヴァ2 カヲル（設定6濃厚）" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">カヲル</span><span class="sm">設定6濃厚</span></figcaption></figure>
-        <figure class="scr k-s"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou77.png?f=webp" alt="ゴジエヴァ2 シンジ（奇数の期待度アップ）" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">シンジ</span><span class="sm">奇数の期待度アップ</span></figcaption></figure>
-        <figure class="scr k-s"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou80.png?f=webp" alt="ゴジエヴァ2 レイ（偶数の期待度アップ）" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">レイ</span><span class="sm">偶数の期待度アップ</span></figcaption></figure>
-        <figure class="scr k-s"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou78.png?f=webp" alt="ゴジエヴァ2 マリ（高設定の期待度アップ（弱））" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">マリ</span><span class="sm">高設定の期待度アップ（弱）</span></figcaption></figure>
-        <figure class="scr k-s"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou84.png?f=webp" alt="ゴジエヴァ2 アスカ（高設定の期待度アップ（強））" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">アスカ</span><span class="sm">高設定の期待度アップ（強）</span></figcaption></figure>
-        <figure class="scr k-n" data-check="終了画面 モスラ（推察）" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou79.png?f=webp" alt="ゴジエヴァ2 モスラ（設定1・3否定？（推察））" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">モスラ</span><span class="sm">設定1・3否定？（推察）</span></figcaption></figure>
-        <figure class="scr k-n" data-check="終了画面 Xレイ（推察）" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou83.png?f=webp" alt="ゴジエヴァ2 Xレイ（設定2・4否定？（推察））" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">Xレイ</span><span class="sm">設定2・4否定？（推察）</span></figcaption></figure>
+        <figure class="scr k-k" data-check="終了画面 レイ背景" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou81.png?f=webp" alt="ゴジエヴァ2 終了画面 レイ背景（設定2以上濃厚）" loading="lazy" width="280" height="224"><figcaption><span class="sn">レイ背景</span><span class="sm">設定2以上濃厚</span></figcaption></figure>
+        <figure class="scr k-k" data-check="終了画面 ゴジラ＆初号機" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou76.png?f=webp" alt="ゴジエヴァ2 終了画面 ゴジラ＆初号機（設定4以上濃厚）" loading="lazy" width="280" height="224"><figcaption><span class="sn">ゴジラ＆初号機</span><span class="sm">設定4以上濃厚</span></figcaption></figure>
+        <figure class="scr k-k" data-check="終了画面 全員集合" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou82.png?f=webp" alt="ゴジエヴァ2 終了画面 全員集合（設定5以上濃厚）" loading="lazy" width="280" height="224"><figcaption><span class="sn">全員集合</span><span class="sm">設定5以上濃厚</span></figcaption></figure>
+        <figure class="scr k-k" data-check="終了画面 カヲル" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou75.png?f=webp" alt="ゴジエヴァ2 終了画面 カヲル（設定6濃厚）" loading="lazy" width="280" height="224"><figcaption><span class="sn">カヲル</span><span class="sm">設定6濃厚</span></figcaption></figure>
+        <figure class="scr k-s"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou77.png?f=webp" alt="ゴジエヴァ2 終了画面 シンジ（奇数の期待度アップ）" loading="lazy" width="280" height="224"><figcaption><span class="sn">シンジ</span><span class="sm">奇数の期待度アップ</span></figcaption></figure>
+        <figure class="scr k-s"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou80.png?f=webp" alt="ゴジエヴァ2 終了画面 レイ（偶数の期待度アップ）" loading="lazy" width="280" height="224"><figcaption><span class="sn">レイ</span><span class="sm">偶数の期待度アップ</span></figcaption></figure>
+        <figure class="scr k-s"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou78.png?f=webp" alt="ゴジエヴァ2 終了画面 マリ（高設定の期待度アップ（弱））" loading="lazy" width="280" height="224"><figcaption><span class="sn">マリ</span><span class="sm">高設定の期待度アップ（弱）</span></figcaption></figure>
+        <figure class="scr k-s"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou84.png?f=webp" alt="ゴジエヴァ2 終了画面 アスカ（高設定の期待度アップ（強））" loading="lazy" width="280" height="224"><figcaption><span class="sn">アスカ</span><span class="sm">高設定の期待度アップ（強）</span></figcaption></figure>
+        <figure class="scr k-n" data-check="終了画面 モスラ（推察）" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou79.png?f=webp" alt="ゴジエヴァ2 終了画面 モスラ（設定1・3否定？（推察））" loading="lazy" width="280" height="224"><figcaption><span class="sn">モスラ</span><span class="sm">設定1・3否定？（推察）</span></figcaption></figure>
+        <figure class="scr k-n" data-check="終了画面 Xレイ（推察）" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_goji_eva2/l_goji_eva2_ekishou83.png?f=webp" alt="ゴジエヴァ2 終了画面 Xレイ（設定2・4否定？（推察））" loading="lazy" width="280" height="224"><figcaption><span class="sn">Xレイ</span><span class="sm">設定2・4否定？（推察）</span></figcaption></figure>
     </div>
-    <p class="scrnote">AT・ボーナスに当たらなかった時の終了画面です。濃厚・推察の画面はタップすると下のボタンと連動します。画像の出典：<a href="https://1geki.jp/slot/l_goji_eva2/6/" target="_blank" rel="noopener">1geki（ゴジエヴァ2 終了画面の示唆）</a>　<a href="shuryo/">終了画面だけのページ →</a></p>
+    <p class="scrnote">AT・ボーナスに当たらなかった時の終了画面です（ATを獲得したボーナスの後は出ません）。画像の出典：<a href="https://1geki.jp/slot/l_goji_eva2/6/" target="_blank" rel="noopener">1geki（ゴジエヴァ2 終了画面の示唆）</a></p>
+    <a class="scrmore" href="shuryo/">終了画面だけのページ →</a>
     <img class="scrcopy" src="https://images.1geki.jp/machines/slot/l_gojieva2/l_gojieva2_copyright.png?f=webp" alt="コピーライト表記" loading="lazy">
     <div class="sh"><h2>見えたら押す</h2><small>「〇以上濃厚」だけ計算に使う</small></div>
     <div id="floorGroup">

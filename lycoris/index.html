@@ -41,6 +41,7 @@
   .lead{margin:0 16px;padding:12px 14px;background:#1b1a17;border-top:3px solid var(--amber);font-size:13.5px;}
   .lead b.h{display:block;color:var(--amber);font-size:15.5px;font-weight:800;margin-bottom:2px;}
   .lead p{margin:0;}
+  .scrjump{display:block;margin-top:10px;padding:9px 10px;border:1px solid var(--amber);border-radius:4px;color:var(--amber);font-weight:700;font-size:13.5px;text-decoration:none;text-align:center;}
   .lead .warn{margin-top:8px;padding-top:8px;border-top:1px dashed #3a3730;font-size:12px;color:var(--muted);}
   .jump{display:flex;gap:0;margin:14px 16px 0;border:1px solid var(--line);}
   .jump a{flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--muted);text-decoration:none;border-left:1px solid var(--line);}
@@ -112,6 +113,22 @@
   .tile:has(input:checked) .tv{color:var(--bg);}
   .floor{margin:10px 0 0;font-size:12.5px;color:var(--muted);}
   .floor b{color:var(--amber);font-weight:700;}
+  .scrgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:4px 0 6px;}
+  .scr{margin:0;background:#1b1a17;border:1px solid #3a3a3e;border-radius:4px;overflow:hidden;}
+  .scr[data-check]{cursor:pointer;}
+  .scr img{display:block;width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;background:#111;font-size:11px;color:var(--muted);}
+  .scr figcaption{padding:5px 6px 6px;display:flex;flex-direction:column;gap:1px;}
+  .scr .sn{font-size:12.5px;font-weight:700;line-height:1.3;}
+  .scr .sm{font-size:12px;color:var(--muted);line-height:1.3;}
+  .scr.k-k .sm{color:var(--amber);font-weight:700;}
+  .scr.k-m .sm{color:#8fb7d9;}
+  .scr.on{border-color:var(--amber);box-shadow:0 0 0 2px var(--amber) inset;}
+  .scr.on .sn::after{content:"  ✓ 絞り込み中";color:var(--amber);font-size:11px;}
+  .scrnote{font-size:11.5px;color:var(--muted);margin:2px 0 10px;}
+  .scrnote a{color:var(--muted);}
+  .scrmore{display:block;margin:4px 0 10px;padding:9px 10px;border:1px solid #3a3a3e;border-radius:4px;color:var(--fg,#eee);font-size:13px;font-weight:700;text-decoration:none;text-align:center;}
+  .scrcopyt{font-size:10.5px;color:var(--muted);margin:0 0 14px;}
+  .scrcopy{display:block;max-width:100%;height:auto;background:#fff;border-radius:3px;margin:0 0 14px;}
   .refs{margin:12px 0 0;padding-left:18px;font-size:12px;color:var(--muted);}
   .refs li{margin-bottom:4px;}
   .outlink{display:inline-block;margin-top:10px;font-size:12.5px;text-decoration:none;}
@@ -171,10 +188,10 @@
 <div class="lead">
   <b class="h">決め手は共通ベル。直撃は出たら大きい。</b>
   <p>CZは設定1と6で約1.17倍しか違わない。右下がりの共通ベルは設定4から軽くなり（1/95.8→1/79.1、約1.21倍）、数えるかどうかで精度がまるで変わる。ラッシュ直撃は1/22429.5→1/6263.7と約3.6倍の差があり、1回でも出れば高設定寄りに大きく動く。</p>
-  <p class="warn">CZの設定差は約1.17倍と小さい機種です。CZの回数だけだと8000G回してもほぼ見分けられません。</p>
+  <p class="warn">CZの設定差は約1.17倍と小さい機種です。CZの回数だけだと8000G回してもほぼ見分けられません。</p><a class="scrjump" href="#screens">ラッシュ終了画面・アイキャッチの早見表（画像つき）を見る ↓</a>
 </div>
 
-<nav class="jump" aria-label="ページ内の目次"><a href="#mainCard">判別</a><a href="#hints">示唆</a><a href="#gousei">設定差</a><a href="#uchikata">打ち方</a><a href="#guide">解説</a></nav>
+<nav class="jump" aria-label="ページ内の目次"><a href="#mainCard">判別</a><a href="#screens">画面</a><a href="#hints">示唆</a><a href="#gousei">設定差</a><a href="#uchikata">打ち方</a><a href="#guide">解説</a></nav>
 
 <div id="mainCard">
 <div style="margin:0 16px;"><button type="button" data-sc-open></button></div>
@@ -259,6 +276,20 @@
 
 <section id="optionalCard">
   <div id="hints">
+    <div class="sh" id="screens"><h2>ラッシュ終了画面の早見表</h2><small>黄色＝タップで絞り込み</small></div>
+    <div class="scrgrid">
+        <figure class="scr k-k" data-check="押上の風景" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_lycoreco/l_lycoreco_ekishou125.png?f=webp" alt="リコリス・リコイル ラッシュ終了画面 押上の風景（設定2以上濃厚）" loading="lazy" width="280" height="224"><figcaption><span class="sn">押上の風景</span><span class="sm">設定2以上濃厚</span></figcaption></figure>
+        <figure class="scr k-k" data-check="ロボ太" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_lycoreco/l_lycoreco_ekishou126.png?f=webp" alt="リコリス・リコイル ラッシュ終了画面 ロボ太（設定4以上濃厚）" loading="lazy" width="280" height="224"><figcaption><span class="sn">ロボ太</span><span class="sm">設定4以上濃厚</span></figcaption></figure>
+        <figure class="scr k-k" data-check="ハワイ" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_lycoreco/l_lycoreco_ekishou127.png?f=webp" alt="リコリス・リコイル ラッシュ終了画面 ハワイ（設定6濃厚）" loading="lazy" width="280" height="224"><figcaption><span class="sn">ハワイ</span><span class="sm">設定6濃厚</span></figcaption></figure>
+        <figure class="scr k-k" data-check="違うキャラの私服" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_lycoreco/l_lycoreco_ekishou122.png?f=webp" alt="リコリス・リコイル ラッシュ終了画面 たきな私服（千束ラッシュ後なら設定4以上濃厚（たきな・上位ラッシュ後は高設定示唆・弱））" loading="lazy" width="280" height="224"><figcaption><span class="sn">たきな私服</span><span class="sm">千束ラッシュ後なら設定4以上濃厚（たきな・上位ラッシュ後は高設定示唆・弱）</span></figcaption></figure>
+        <figure class="scr k-k" data-check="違うキャラの私服" role="button" tabindex="0"><img src="https://images.1geki.jp/machines/slot/l_lycoreco/l_lycoreco_ekishou123.png?f=webp" alt="リコリス・リコイル ラッシュ終了画面 千束私服（たきなラッシュ後なら設定4以上濃厚（千束・上位ラッシュ後は高設定示唆・弱））" loading="lazy" width="280" height="224"><figcaption><span class="sn">千束私服</span><span class="sm">たきなラッシュ後なら設定4以上濃厚（千束・上位ラッシュ後は高設定示唆・弱）</span></figcaption></figure>
+        <figure class="scr k-d"><img src="https://images.1geki.jp/machines/slot/l_lycoreco/l_lycoreco_ekishou120.png?f=webp" alt="リコリス・リコイル ラッシュ終了画面 たきな（リコリス制服）（たきなラッシュ後の基本）" loading="lazy" width="280" height="224"><figcaption><span class="sn">たきな（リコリス制服）</span><span class="sm">たきなラッシュ後の基本</span></figcaption></figure>
+        <figure class="scr k-d"><img src="https://images.1geki.jp/machines/slot/l_lycoreco/l_lycoreco_ekishou121.png?f=webp" alt="リコリス・リコイル ラッシュ終了画面 千束（リコリス制服）（千束ラッシュ後の基本）" loading="lazy" width="280" height="224"><figcaption><span class="sn">千束（リコリス制服）</span><span class="sm">千束ラッシュ後の基本</span></figcaption></figure>
+        <figure class="scr k-s"><img src="https://images.1geki.jp/machines/slot/l_lycoreco/l_lycoreco_ekishou124.png?f=webp" alt="リコリス・リコイル ラッシュ終了画面 千束＆たきな（ドレスコード）（高設定の期待度アップ（強））" loading="lazy" width="280" height="224"><figcaption><span class="sn">千束＆たきな（ドレスコード）</span><span class="sm">高設定の期待度アップ（強）</span></figcaption></figure>
+    </div>
+    <p class="scrnote">ラッシュ終了時の画面です。画像の出典：<a href="https://1geki.jp/slot/l_lycoreco/6/" target="_blank" rel="noopener">1geki（リコリス・リコイル 終了画面）</a></p>
+    <a class="scrmore" href="shuryo/">アイキャッチも見る（画像つきの一覧ページ）→</a>
+    <p class="scrcopyt">©Spider Lily／アニプレックス・ABCアニメーション・BS11 ©Sammy</p>
     <div class="sh"><h2>見えたら押す</h2><small>「〇以上濃厚」だけ計算に使う</small></div>
     <div id="floorGroup">
         <p class="sub">サミートロフィー</p>
@@ -479,6 +510,16 @@ $('undoBtn').addEventListener('click', () => {
 
 // 示唆
 const floorChecks = [...document.querySelectorAll('#floorGroup input[type=checkbox]')];
+const scrCards = [...document.querySelectorAll('.scr[data-check]')];
+const scrInput = c => floorChecks.find(x => x.dataset.name === c.dataset.check);
+function syncScr(){ scrCards.forEach(c => { const i = scrInput(c); c.classList.toggle('on', !!(i && i.checked)); }); }
+scrCards.forEach(c => {
+  const go = () => { const i = scrInput(c); if(i){ i.click(); syncScr(); } };
+  c.addEventListener('click', go);
+  c.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } });
+});
+floorChecks.forEach(x => x.addEventListener('change', syncScr));
+setTimeout(syncScr, 0); setTimeout(syncScr, 600);
 function currentAllow(){
   const on = floorChecks.filter(c => c.checked);
   let allow = new Set(SETS);

@@ -71,20 +71,10 @@ for grp, cols, items in m.get('checks', []):
 refs = ''.join(f'        <li>{x}</li>\n' for x in m.get('refs', []))
 # screens: 終了画面などの早見表（画像つき）。dict(title, note, src=(url,label), copyimg, items=[(img, name, meaning, kind, check)])
 # kind: k=濃厚（計算に使う） s=期待度アップ n=否定（推察） d=デフォルト。check はボタンの data-name（あればタップで連動）
-scr_html = ''
-if m.get('screens'):
-    S_ = m['screens']
-    cards = ''
-    for img, nm, mean, kind, ck in S_['items']:
-        dc = f' data-check="{ck}" role="button" tabindex="0"' if ck else ''
-        cards += f'''        <figure class="scr k-{kind}"{dc}><img src="{img}" alt="{m['short']} {nm}（{mean}）" loading="lazy" width="280" height="224" referrerpolicy="no-referrer-when-downgrade"><figcaption><span class="sn">{nm}</span><span class="sm">{mean}</span></figcaption></figure>\n'''
-    copyimg = f'''<img class="scrcopy" src="{S_['copyimg']}" alt="コピーライト表記" loading="lazy">''' if S_.get('copyimg') else ''
-    scr_html = f'''    <div class="sh" id="screens"><h2>{S_['title']}</h2><small>{S_.get('sub','色つき＝タップで絞り込み')}</small></div>
-    <div class="scrgrid">
-{cards}    </div>
-    <p class="scrnote">{S_.get('note','')}画像の出典：<a href="{S_['src'][0]}" target="_blank" rel="noopener">{S_['src'][1]}</a>{'　<a href="shuryo/">終了画面だけのページ →</a>' if S_.get('page') else ''}</p>
-    {copyimg}
-'''
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+import screens as SCR
+scr_html = SCR.block(m['screens'], m['short'], 'shuryo/' if m['screens'].get('page') else '', only_inline=True) if m.get('screens') else ''
 know = ''.join(f'      <li>{x}</li>\n' for x in m['know'])
 rows = ''.join(f'        <tr{" class=\"hi\"" if SETS[i]>=4 else ""}><td>{SETS[i]}</td><td>{A["spec"][i]:.{decA}f}</td>{f'<td>{B["spec"][i]:.{decB}f}</td>' if B else ''}{f'<td>{C["spec"][i]:.{decC}f}</td>' if C else ''}{''.join(f'<td>{x["spec"][i]:.{x.get("dec",1)}f}</td>' for x in X)}<td>{m["payout"][i]:.1f}</td></tr>\n' for i in range(N))
 uchi = ''.join(f'    <h3>{h}</h3>\n    <ol class="steps">\n' + ''.join(f'      <li>{s}</li>\n' for s in st) + '    </ol>\n' for h, st in m['uchi'])
@@ -113,8 +103,8 @@ tapcols = 3 if (BG or C or X) else (4 if B else 3)
 newtag_html = f'''    <span class="new" style="font-weight:800;">{m['newtag']}</span>\n''' if m.get('newtag') else ''
 img_html = f'''<img src="{m['img'][0]}" width="140" height="{round(140*397/260)}" alt="{m['img'][2]}">''' if m.get('img') else ''
 warn_html = f'''<p class="warn">{m['warn']}</p>''' if m.get('warn') else ''
-scr_lead = f'''<a class="scrjump" href="#screens">{m['screens']['title']}（画像つき）を見る ↓</a>''' if m.get('screens') else ''
-scr_nav = f'''<a href="#screens">{m['screens'].get('nav', '終了画面')}</a>''' if m.get('screens') else ''
+scr_lead = f'''<a class="scrjump" href="#screens">{SCR.names(m['screens'])}の早見表（画像つき）を見る ↓</a>''' if m.get('screens') else ''
+scr_nav = f'''<a href="#screens">{m['screens'].get('nav', '画面')}</a>''' if m.get('screens') else ''
 if hasChecks:
     hints_html = scr_html + f'''    <div class="sh"><h2>見えたら押す</h2><small>「〇以上濃厚」だけ計算に使う</small></div>
     <div id="floorGroup">
@@ -246,21 +236,7 @@ html = f'''<!DOCTYPE html>
   .tile:has(input:checked) .tv{{color:var(--bg);}}
   .floor{{margin:10px 0 0;font-size:12.5px;color:var(--muted);}}
   .floor b{{color:var(--amber);font-weight:700;}}
-  .scrgrid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:4px 0 6px;}}
-  .scr{{margin:0;background:#1b1a17;border:1px solid #3a3a3e;border-radius:4px;overflow:hidden;}}
-  .scr[data-check]{{cursor:pointer;}}
-  .scr img{{display:block;width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;background:#111;font-size:11px;color:var(--muted);}}
-  .scr figcaption{{padding:5px 6px 6px;display:flex;flex-direction:column;gap:1px;}}
-  .scr .sn{{font-size:12.5px;font-weight:700;line-height:1.3;}}
-  .scr .sm{{font-size:12px;color:var(--muted);line-height:1.3;}}
-  .scr.k-k .sm{{color:var(--amber);font-weight:700;}}
-  .scr.k-n .sm{{color:var(--muted);font-style:normal;}}
-  .scr.on{{border-color:var(--amber);box-shadow:0 0 0 2px var(--amber) inset;}}
-  .scr.on .sn::after{{content:"  ✓ 絞り込み中";color:var(--amber);font-size:11px;}}
-  .scrnote{{font-size:11.5px;color:var(--muted);margin:2px 0 6px;}}
-  .scrnote a{{color:var(--muted);}}
-  .scrcopy{{display:block;max-width:100%;height:auto;background:#fff;border-radius:3px;margin:0 0 14px;}}
-  .refs{{margin:12px 0 0;padding-left:18px;font-size:12px;color:var(--muted);}}
+{SCR.CSS}  .refs{{margin:12px 0 0;padding-left:18px;font-size:12px;color:var(--muted);}}
   .refs li{{margin-bottom:4px;}}
   .outlink{{display:inline-block;margin-top:10px;font-size:12.5px;text-decoration:none;}}
   .memo{{margin:24px 16px 0;padding:14px;border:1px dashed #3a3a3e;font-size:13px;}}
