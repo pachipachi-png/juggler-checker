@@ -82,7 +82,7 @@ if m.get('screens'):
     scr_html = f'''    <div class="sh" id="screens"><h2>{S_['title']}</h2><small>{S_.get('sub','色つき＝タップで絞り込み')}</small></div>
     <div class="scrgrid">
 {cards}    </div>
-    <p class="scrnote">{S_.get('note','')}画像の出典：<a href="{S_['src'][0]}" target="_blank" rel="noopener">{S_['src'][1]}</a></p>
+    <p class="scrnote">{S_.get('note','')}画像の出典：<a href="{S_['src'][0]}" target="_blank" rel="noopener">{S_['src'][1]}</a>{'　<a href="shuryo/">終了画面だけのページ →</a>' if S_.get('page') else ''}</p>
     {copyimg}
 '''
 know = ''.join(f'      <li>{x}</li>\n' for x in m['know'])
