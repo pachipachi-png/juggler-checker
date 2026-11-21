@@ -427,7 +427,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = true, HAS_CHECKS = true;
 const XDEF = [{"id": "endCount", "spec": [20177.5, 17579.1, 17586.3, 13784.5, 11459.0, 7077.2], "dec": 1, "label": "確定CZ", "g": null}, {"id": "chanceB", "spec": [1057.0, 993.0, 936.2, 885.6, 840.2, 799.2], "dec": 1, "label": "強チャ目B", "g": null}];
 const XG = null;
-const PDEF = [{"n": "czFail", "k": "itemGet", "spec": [20.3, 21.1, 21.9, 22.7, 25.0, 30.1], "f": 1, "label": "アイテム獲得"}];
+const PDEF = [{"n": "czFail", "k": "itemGet", "nfrom": false, "spec": [20.3, 21.1, 21.9, 22.7, 25.0, 30.1], "f": 1, "label": "アイテム獲得"}];
 const SPEC = { a: [238.4, 232.3, 232.7, 218.9, 225.2, 191.7], b: [386.2, 364.3, 368.1, 326.8, 340.6, 269.6], c: [18091.8, 14160.5, 14390.8, 8498.0, 4723.3, 3415.7], payout: [97.6, 98.8, 100.2, 105.3, 110.4, 114.9] };
 const BET = 3, LABEL_A = "CZ", LABEL_B = "AT初当り", LABEL_C = "AT直撃";
 const $ = id => document.getElementById(id);
@@ -454,6 +454,7 @@ const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
 function livePct(){
   PDEF.forEach((q, j) => {
     const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(q.nfrom){ const f = $('pFrom' + j); if(f) f.textContent = n > 0 ? n : '-'; }
     if(n > 0){
       const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
       $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
@@ -463,6 +464,7 @@ function livePct(){
   });
 }
 pEls.flat().forEach(el => el.addEventListener('input', livePct));
+setTimeout(livePct, 0);
 function nearLabel(r, arr){
   if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
   if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
@@ -532,7 +534,7 @@ $('calcBtn').addEventListener('click', () => {
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
   // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
-  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
+  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && !q.nfrom && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
   const pUse = PDEF.map((q, j) => { const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return { n, k, use: n > 0 || k > 0 }; });
   const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }));
   const { allow, names } = currentAllow();
@@ -606,7 +608,7 @@ SettiShare.init({"key": "sao2", "name": "スロット ソードアート・オ�
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "sao2", "name": "SAO2", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "atCount", "label": "AT初当り", "optional": true}, {"id": "directCount", "label": "AT直撃", "optional": true}, {"id": "endCount", "label": "確定CZ", "optional": true}, {"id": "chanceB", "label": "強チャ目B", "optional": true}, {"id": "czFail", "label": "CZ失敗", "optional": true, "group": "CZ失敗・アイテム獲得", "rate": false, "defaultOff": true}, {"id": "itemGet", "label": "アイテム獲得", "optional": true, "group": "CZ失敗・アイテム獲得", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・CZ・AT・直撃・確定CZ・強チャンス目Bは通常時のみ。直撃はCZを経由しないAT当選（ウルティマ・チェリー、ロングフリーズ、引き戻し、天井は除く）。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "終了画面・トロフィー・ミニキャラ", "short": "示唆", "optional": true}});
+SettiCounter.init({"key": "sao2", "name": "SAO2", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "atCount", "label": "AT初当り", "optional": true}, {"id": "directCount", "label": "AT直撃", "optional": true}, {"id": "endCount", "label": "確定CZ", "optional": true}, {"id": "chanceB", "label": "強チャ目B", "optional": true}, {"id": "czFail", "label": "CZ失敗", "optional": true, "group": "CZ失敗・アイテム獲得", "rate": false, "defaultOff": true}, {"id": "itemGet", "label": "アイテム獲得", "optional": true, "group": "CZ失敗・アイテム獲得", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・CZ・AT・直撃・確定CZ・強チャンス目Bは通常時のみ。直撃はCZを経由しないAT当選（ウルティマ・チェリー、ロングフリーズ、引き戻し、天井は除く）。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "終了画面・トロフィー・ミニキャラ", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（AT終了画面）"}]});
 </script>
 </body>
 </html>

@@ -445,7 +445,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = true, HAS_CHECKS = true;
 const XDEF = [];
 const XG = null;
-const PDEF = [{"n": "g150", "k": "k150", "spec": [50.0, 50.0, 50.0, 54.7, 58.6, 62.5], "f": 0.9, "label": "150G→高確"}, {"n": "gjr", "k": "kjr", "spec": [38.3, 38.3, 39.1, 41.0, 43.0, 44.9], "f": 0.9, "label": "弱リコ→高確"}, {"n": "g400", "k": "k400", "spec": [10.9, 11.7, 14.5, 16.8, 19.5, 25.4], "f": 1, "label": "400G→CZ"}];
+const PDEF = [{"n": "g150", "k": "k150", "nfrom": false, "spec": [50.0, 50.0, 50.0, 54.7, 58.6, 62.5], "f": 0.9, "label": "150G→高確"}, {"n": "gjr", "k": "kjr", "nfrom": false, "spec": [38.3, 38.3, 39.1, 41.0, 43.0, 44.9], "f": 0.9, "label": "弱リコ→高確"}, {"n": "g400", "k": "k400", "nfrom": false, "spec": [10.9, 11.7, 14.5, 16.8, 19.5, 25.4], "f": 1, "label": "400G→CZ"}];
 const SPEC = { a: [198.7, 196.9, 191.3, 183.3, 175.9, 169.4], b: [95.8, 95.8, 95.8, 87.6, 83.2, 79.1], c: [22429.5, 19006.5, 15454.1, 10809.3, 7809.6, 6263.7], payout: [97.9, 98.9, 101.3, 106.1, 110.4, 114.6] };
 const BET = 3, LABEL_A = "CZ", LABEL_B = "共通ベル", LABEL_C = "ラッシュ直撃";
 const $ = id => document.getElementById(id);
@@ -472,6 +472,7 @@ const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
 function livePct(){
   PDEF.forEach((q, j) => {
     const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(q.nfrom){ const f = $('pFrom' + j); if(f) f.textContent = n > 0 ? n : '-'; }
     if(n > 0){
       const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
       $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
@@ -481,6 +482,7 @@ function livePct(){
   });
 }
 pEls.flat().forEach(el => el.addEventListener('input', livePct));
+setTimeout(livePct, 0);
 function nearLabel(r, arr){
   if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
   if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
@@ -550,7 +552,7 @@ $('calcBtn').addEventListener('click', () => {
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
   // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
-  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
+  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && !q.nfrom && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
   const pUse = PDEF.map((q, j) => { const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return { n, k, use: n > 0 || k > 0 }; });
   const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }));
   const { allow, names } = currentAllow();
@@ -624,7 +626,7 @@ SettiShare.init({"key": "lycoris", "name": "スマスロ リコリス・リコ�
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "lycoris", "name": "リコリス・リコイル", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "bellCount", "label": "共通ベル", "optional": true}, {"id": "directCount", "label": "ラッシュ直撃", "optional": true}, {"id": "g150", "label": "150G到達", "optional": true, "group": "150G到達・高確移行", "rate": false, "defaultOff": true}, {"id": "k150", "label": "150G→高確移行", "optional": true, "group": "150G到達・高確移行", "rate": false, "defaultOff": true}, {"id": "gjr", "label": "弱リコリス目", "optional": true, "group": "弱リコリス目・高確移行", "rate": false, "defaultOff": true}, {"id": "kjr", "label": "弱リコ→高確移行", "optional": true, "group": "弱リコリス目・高確移行", "rate": false, "defaultOff": true}, {"id": "g400", "label": "400G到達", "optional": true, "group": "400G到達・CZ当選", "rate": false, "defaultOff": true}, {"id": "k400", "label": "400G→CZ当選", "optional": true, "group": "400G到達・CZ当選", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ベル・直撃は通常時のみ（CZ・ラッシュ・ボーナス中は数えない）。直撃はCZを経由しないラッシュ当選（天井は除く）。150G到達・弱リコリス目・400G到達と、そのうちの高確移行・CZ当選を、確実なものだけ数える。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・ラッシュ終了画面", "short": "示唆", "optional": true}});
+SettiCounter.init({"key": "lycoris", "name": "リコリス・リコイル", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "bellCount", "label": "共通ベル", "optional": true}, {"id": "directCount", "label": "ラッシュ直撃", "optional": true}, {"id": "g150", "label": "150G到達", "optional": true, "group": "150G到達・高確移行", "rate": false, "defaultOff": true}, {"id": "k150", "label": "150G→高確移行", "optional": true, "group": "150G到達・高確移行", "rate": false, "defaultOff": true}, {"id": "gjr", "label": "弱リコリス目", "optional": true, "group": "弱リコリス目・高確移行", "rate": false, "defaultOff": true}, {"id": "kjr", "label": "弱リコ→高確移行", "optional": true, "group": "弱リコリス目・高確移行", "rate": false, "defaultOff": true}, {"id": "g400", "label": "400G到達", "optional": true, "group": "400G到達・CZ当選", "rate": false, "defaultOff": true}, {"id": "k400", "label": "400G→CZ当選", "optional": true, "group": "400G到達・CZ当選", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ベル・直撃は通常時のみ（CZ・ラッシュ・ボーナス中は数えない）。直撃はCZを経由しないラッシュ当選（天井は除く）。150G到達・弱リコリス目・400G到達と、そのうちの高確移行・CZ当選を、確実なものだけ数える。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・ラッシュ終了画面", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（ラッシュ終了画面・アイキャッチ）"}]});
 </script>
 </body>
 </html>

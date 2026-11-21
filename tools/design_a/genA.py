@@ -103,6 +103,9 @@ if hasChecks: ccfg["checks"] = {"selector": "#floorGroup input[type=checkbox]", 
 if BG: ccfg["g2"] = [{"id": BG, "label": B['gcount'], "item": B['id']}]
 XG = m.get('XG')  # X の一部を別のG数で割るとき：dict(id, label, gcount, gshare, gmsg)。X 側は g=XG['id']
 if XG: ccfg.setdefault("g2", []).extend({"id": XG['id'], "label": XG['gcount'], "item": x['id']} for x in X if x.get('g'))
+if m.get('screens') and m['screens'].get('page'):  # 小役カウンターの下に画面系ページへのリンク
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import screens as _S
+    ccfg["links"] = [{"href": "shuryo/", "label": '画面系の早見表（' + _S.names(m['screens']) + '）'}]
 counter = json.dumps(ccfg, ensure_ascii=False)
 bgcell = f'''<div><label for="{BG}">{B['glabel']}</label><input type="number" id="{BG}" inputmode="numeric" placeholder="-"></div>''' if BG else ''
 bgtap = f'''<button type="button" data-add="{B.get('gadd', BG + ',totalG') if BG else ''}" data-n="100">{B['gbtn']}</button>''' if BG else ''

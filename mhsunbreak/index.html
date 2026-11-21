@@ -440,7 +440,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = true, HAS_CHECKS = true;
 const XDEF = [{"id": "fkCount", "spec": [2290.1, 2090.4, 1821.1, 1472.5, 1219.3, 976.4], "dec": 1, "label": "アイルー福引", "g": null}];
 const XG = null;
-const PDEF = [{"n": "cycCz", "k": "cycFk", "spec": [20.0, 21.5, 24.2, 28.1, 32.8, 39.5], "f": 1, "label": "周期CZ→福引"}];
+const PDEF = [{"n": "cycCz", "k": "cycFk", "nfrom": false, "spec": [20.0, 21.5, 24.2, 28.1, 32.8, 39.5], "f": 1, "label": "周期CZ→福引"}];
 const SPEC = { a: [349.9, 337.0, 319.8, 283.6, 264.0, 242.3], b: [111.4, 108.8, 105.6, 99.3, 97.2, 95.8], c: [16281.7, 14875.5, 12788.0, 8702.1, 6351.2, 4263.1], payout: [97.5, 98.8, 100.8, 105.2, 108.4, 112.4] };
 const BET = 3, LABEL_A = "AT初当り", LABEL_B = "ブレイクゾーン", LABEL_C = "猛焔一閃の直撃";
 const $ = id => document.getElementById(id);
@@ -467,6 +467,7 @@ const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
 function livePct(){
   PDEF.forEach((q, j) => {
     const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(q.nfrom){ const f = $('pFrom' + j); if(f) f.textContent = n > 0 ? n : '-'; }
     if(n > 0){
       const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
       $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
@@ -476,6 +477,7 @@ function livePct(){
   });
 }
 pEls.flat().forEach(el => el.addEventListener('input', livePct));
+setTimeout(livePct, 0);
 function nearLabel(r, arr){
   if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
   if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
@@ -545,7 +547,7 @@ $('calcBtn').addEventListener('click', () => {
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
   // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
-  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
+  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && !q.nfrom && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
   const pUse = PDEF.map((q, j) => { const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return { n, k, use: n > 0 || k > 0 }; });
   const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }));
   const { allow, names } = currentAllow();
@@ -619,7 +621,7 @@ SettiShare.init({"key": "mhsunbreak", "name": "スマスロ モンスターハ�
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "mhsunbreak", "name": "モンハン サンブレイク", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "bzCount", "label": "ブレイクゾーン", "optional": true}, {"id": "mkCount", "label": "猛焔一閃の直撃", "optional": true}, {"id": "fkCount", "label": "アイルー福引", "optional": true}, {"id": "cycCz", "label": "周期到達でCZ", "optional": true, "group": "周期到達・CZの種類", "rate": false, "defaultOff": true}, {"id": "cycFk", "label": "周期CZ→福引", "optional": true, "group": "周期到達・CZの種類", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT・ブレイクゾーン・福引・直撃は通常時のみ。猛焔一閃の直撃はレア役からのブレイクゾーン当選時にATへ直撃したもの。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・終了画面・枚数表示・スタンプ", "short": "示唆", "optional": true}});
+SettiCounter.init({"key": "mhsunbreak", "name": "モンハン サンブレイク", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "bzCount", "label": "ブレイクゾーン", "optional": true}, {"id": "mkCount", "label": "猛焔一閃の直撃", "optional": true}, {"id": "fkCount", "label": "アイルー福引", "optional": true}, {"id": "cycCz", "label": "周期到達でCZ", "optional": true, "group": "周期到達・CZの種類", "rate": false, "defaultOff": true}, {"id": "cycFk", "label": "周期CZ→福引", "optional": true, "group": "周期到達・CZの種類", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT・ブレイクゾーン・福引・直撃は通常時のみ。猛焔一閃の直撃はレア役からのブレイクゾーン当選時にATへ直撃したもの。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・終了画面・枚数表示・スタンプ", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（AT終了画面・アイキャッチ）"}]});
 </script>
 </body>
 </html>

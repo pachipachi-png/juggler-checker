@@ -464,7 +464,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = "allG";
 const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
 const XDEF = [];
 const XG = null;
-const PDEF = [{"n": "charaN", "k": "charaF", "spec": [50.0, 57.5, 41.5, 58.5, 39.9, 60.0], "f": 1, "label": "女性キャラ"}, {"n": "homuraWin", "k": "uraKage", "spec": [6.2, 6.2, 6.6, 10.9, 25.0, 33.2], "f": 1, "label": "裏景之"}, {"n": "cyc3n", "k": "cyc3k", "spec": [18.4, 23.8, 21.1, 28.5, 32.4, 37.1], "f": 1, "label": "3周期目"}, {"n": "cyc4n", "k": "cyc4k", "spec": [33.6, 35.2, 36.3, 40.2, 43.4, 46.9], "f": 1, "label": "4周期目"}];
+const PDEF = [{"n": "charaN", "k": "charaF", "nfrom": false, "spec": [50.0, 57.5, 41.5, 58.5, 39.9, 60.0], "f": 1, "label": "女性キャラ"}, {"n": "homuraWin", "k": "uraKage", "nfrom": false, "spec": [6.2, 6.2, 6.6, 10.9, 25.0, 33.2], "f": 1, "label": "裏景之"}, {"n": "cyc3n", "k": "cyc3k", "nfrom": false, "spec": [18.4, 23.8, 21.1, 28.5, 32.4, 37.1], "f": 1, "label": "3周期目"}, {"n": "cyc4n", "k": "cyc4k", "nfrom": false, "spec": [33.6, 35.2, 36.3, 40.2, 43.4, 46.9], "f": 1, "label": "4周期目"}];
 const SPEC = { a: [254.2, 242.3, 239.6, 214.0, 203.2, 195.1], b: [121.1, 114.4, 112.8, 106.2, 104.2, 99.1], c: [1, 1, 1, 1, 1, 1], payout: [97.5, 98.5, 100.8, 106.0, 111.0, 114.9] };
 const BET = 3, LABEL_A = "ボーナス初当り", LABEL_B = "下段ベル", LABEL_C = "";
 const $ = id => document.getElementById(id);
@@ -491,6 +491,7 @@ const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
 function livePct(){
   PDEF.forEach((q, j) => {
     const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(q.nfrom){ const f = $('pFrom' + j); if(f) f.textContent = n > 0 ? n : '-'; }
     if(n > 0){
       const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
       $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
@@ -500,6 +501,7 @@ function livePct(){
   });
 }
 pEls.flat().forEach(el => el.addEventListener('input', livePct));
+setTimeout(livePct, 0);
 function nearLabel(r, arr){
   if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
   if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
@@ -569,7 +571,7 @@ $('calcBtn').addEventListener('click', () => {
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
   // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
-  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
+  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && !q.nfrom && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
   const pUse = PDEF.map((q, j) => { const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return { n, k, use: n > 0 || k > 0 }; });
   const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }));
   const { allow, names } = currentAllow();
@@ -643,7 +645,7 @@ SettiShare.init({"key": "kabaneri2", "name": "スマスロ 甲鉄城のカバネ
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "kabaneri2", "name": "カバネリ海門", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "bnCount", "label": "ボーナス初当り"}, {"id": "bellCount", "label": "下段ベル", "optional": true, "rateG": "allG"}, {"id": "charaN", "label": "キャラ紹介（男女）", "optional": true, "group": "カバネリボーナス中", "rate": false, "defaultOff": true}, {"id": "charaF", "label": "女性", "optional": true, "group": "カバネリボーナス中", "rate": false, "defaultOff": true}, {"id": "homuraWin", "label": "復讐の焔成功", "optional": true, "group": "復讐の焔", "rate": false, "defaultOff": true}, {"id": "uraKage", "label": "裏景之", "optional": true, "group": "復讐の焔", "rate": false, "defaultOff": true}, {"id": "cyc3n", "label": "3周期目到達", "optional": true, "group": "周期", "rate": false, "defaultOff": true}, {"id": "cyc3k", "label": "当選", "optional": true, "group": "周期", "rate": false, "defaultOff": true}, {"id": "cyc4n", "label": "4周期目到達", "optional": true, "group": "周期", "rate": false, "defaultOff": true}, {"id": "cyc4k", "label": "当選", "optional": true, "group": "周期", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ボーナス初当りは通常時のみ。下段ベルは総回転数（ボーナス・ST込み）で計算。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・おみくじ・ボイス・上乗せ", "short": "示唆", "optional": true}, "g2": [{"id": "allG", "label": "総回転数", "item": "bellCount"}]});
+SettiCounter.init({"key": "kabaneri2", "name": "カバネリ海門", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "bnCount", "label": "ボーナス初当り"}, {"id": "bellCount", "label": "下段ベル", "optional": true, "rateG": "allG"}, {"id": "charaN", "label": "キャラ紹介（男女）", "optional": true, "group": "カバネリボーナス中", "rate": false, "defaultOff": true}, {"id": "charaF", "label": "女性", "optional": true, "group": "カバネリボーナス中", "rate": false, "defaultOff": true}, {"id": "homuraWin", "label": "復讐の焔成功", "optional": true, "group": "復讐の焔", "rate": false, "defaultOff": true}, {"id": "uraKage", "label": "裏景之", "optional": true, "group": "復讐の焔", "rate": false, "defaultOff": true}, {"id": "cyc3n", "label": "3周期目到達", "optional": true, "group": "周期", "rate": false, "defaultOff": true}, {"id": "cyc3k", "label": "当選", "optional": true, "group": "周期", "rate": false, "defaultOff": true}, {"id": "cyc4n", "label": "4周期目到達", "optional": true, "group": "周期", "rate": false, "defaultOff": true}, {"id": "cyc4k", "label": "当選", "optional": true, "group": "周期", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ボーナス初当りは通常時のみ。下段ベルは総回転数（ボーナス・ST込み）で計算。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・おみくじ・ボイス・上乗せ", "short": "示唆", "optional": true}, "g2": [{"id": "allG", "label": "総回転数", "item": "bellCount"}], "links": [{"href": "shuryo/", "label": "画面系の早見表（ST終了画面・アイキャッチ）"}]});
 </script>
 </body>
 </html>

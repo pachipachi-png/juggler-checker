@@ -458,6 +458,7 @@ const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
 function livePct(){
   PDEF.forEach((q, j) => {
     const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(q.nfrom){ const f = $('pFrom' + j); if(f) f.textContent = n > 0 ? n : '-'; }
     if(n > 0){
       const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
       $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
@@ -467,6 +468,7 @@ function livePct(){
   });
 }
 pEls.flat().forEach(el => el.addEventListener('input', livePct));
+setTimeout(livePct, 0);
 function nearLabel(r, arr){
   if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
   if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
@@ -536,7 +538,7 @@ $('calcBtn').addEventListener('click', () => {
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
   // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
-  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
+  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && !q.nfrom && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
   const pUse = PDEF.map((q, j) => { const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return { n, k, use: n > 0 || k > 0 }; });
   const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }));
   const { allow, names } = currentAllow();
@@ -610,7 +612,7 @@ SettiShare.init({"key": "garo-yami", "name": "L牙狼 闇を照らす者", "tags
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "garo-yami", "name": "牙狼", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "bonusCount", "label": "ボーナス", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・CZ・ボーナスは通常時のみ。CZは牙狼モード＋魔界。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "終了画面・トロフィー・獲得枚数・GAROロゴ・アイテム", "short": "示唆", "optional": true}});
+SettiCounter.init({"key": "garo-yami", "name": "牙狼", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "bonusCount", "label": "ボーナス", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・CZ・ボーナスは通常時のみ。CZは牙狼モード＋魔界。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "終了画面・トロフィー・獲得枚数・GAROロゴ・アイテム", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（ボーナス終了画面・RUSH終了画面）"}]});
 </script>
 </body>
 </html>

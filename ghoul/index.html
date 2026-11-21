@@ -450,7 +450,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = "allG";
 const HAS_B = true, HAS_C = true, HAS_CHECKS = true;
 const XDEF = [{"id": "rizeCount", "spec": [2079.1, 1906.5, 1722.8, 1478.9, 1226.6, 1074.9], "dec": 1, "label": "大喰いの利世", "g": null}, {"id": "ebCount", "spec": [6620.2, 5879.7, 5114.5, 4062.5, 3166.7, 2639.5], "dec": 1, "label": "エピソードB", "g": null}, {"id": "remCount", "spec": [300.5, 295.1, 287.6, 276.7, 262.7, 251.2], "dec": 1, "label": "レミニセンス", "g": null}];
 const XG = null;
-const PDEF = [{"n": "atEnd", "k": "pullBack", "spec": [7.81, 7.81, 9.38, 10.94, 12.5, 15.23], "f": 1, "label": "引き戻し"}];
+const PDEF = [{"n": "atEnd", "k": "pullBack", "nfrom": false, "spec": [7.81, 7.81, 9.38, 10.94, 12.5, 15.23], "f": 1, "label": "引き戻し"}];
 const SPEC = { a: [394.4, 380.5, 357.0, 325.9, 291.2, 261.3], b: [1260.3, 1213.6, 1170.3, 1129.9, 1092.3, 1024.0], c: [28460.6, 24453.5, 18093.0, 12019.5, 8615.4, 7036.8], payout: [97.5, 99.0, 101.6, 105.6, 110.3, 114.9] };
 const BET = 3, LABEL_A = "AT初当り", LABEL_B = "下段リプ", LABEL_C = "AT直撃";
 const $ = id => document.getElementById(id);
@@ -477,6 +477,7 @@ const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
 function livePct(){
   PDEF.forEach((q, j) => {
     const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(q.nfrom){ const f = $('pFrom' + j); if(f) f.textContent = n > 0 ? n : '-'; }
     if(n > 0){
       const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
       $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
@@ -486,6 +487,7 @@ function livePct(){
   });
 }
 pEls.flat().forEach(el => el.addEventListener('input', livePct));
+setTimeout(livePct, 0);
 function nearLabel(r, arr){
   if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
   if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
@@ -555,7 +557,7 @@ $('calcBtn').addEventListener('click', () => {
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
   // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
-  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
+  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && !q.nfrom && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
   const pUse = PDEF.map((q, j) => { const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return { n, k, use: n > 0 || k > 0 }; });
   const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }));
   const { allow, names } = currentAllow();
@@ -629,7 +631,7 @@ SettiShare.init({"key": "ghoul", "name": "L 東京喰種", "tags": "#東京喰�
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "ghoul", "name": "東京喰種", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "lowerReplay", "label": "下段リプ", "optional": true, "rateG": "allG"}, {"id": "directCount", "label": "AT直撃", "optional": true}, {"id": "rizeCount", "label": "大喰いの利世", "optional": true}, {"id": "ebCount", "label": "エピソードB", "optional": true}, {"id": "remCount", "label": "レミニセンス", "optional": true}, {"id": "atEnd", "label": "AT終了", "optional": true, "group": "AT終了・引き戻し", "rate": false, "defaultOff": true}, {"id": "pullBack", "label": "引き戻し", "optional": true, "group": "AT終了・引き戻し", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT・CZ・エピソードボーナス・直撃は通常時のみ。直撃はCZを経由しないAT当選（引き戻し・天井・EB経由は除く）。下段リプレイは総ゲーム数（AT込み）で計算。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "終了画面・トロフィー・カード・招待状", "short": "示唆", "optional": true}, "g2": [{"id": "allG", "label": "総G数（AT込み）", "item": "lowerReplay"}]});
+SettiCounter.init({"key": "ghoul", "name": "東京喰種", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "lowerReplay", "label": "下段リプ", "optional": true, "rateG": "allG"}, {"id": "directCount", "label": "AT直撃", "optional": true}, {"id": "rizeCount", "label": "大喰いの利世", "optional": true}, {"id": "ebCount", "label": "エピソードB", "optional": true}, {"id": "remCount", "label": "レミニセンス", "optional": true}, {"id": "atEnd", "label": "AT終了", "optional": true, "group": "AT終了・引き戻し", "rate": false, "defaultOff": true}, {"id": "pullBack", "label": "引き戻し", "optional": true, "group": "AT終了・引き戻し", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT・CZ・エピソードボーナス・直撃は通常時のみ。直撃はCZを経由しないAT当選（引き戻し・天井・EB経由は除く）。下段リプレイは総ゲーム数（AT込み）で計算。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "終了画面・トロフィー・カード・招待状", "short": "示唆", "optional": true}, "g2": [{"id": "allG", "label": "総G数（AT込み）", "item": "lowerReplay"}], "links": [{"href": "shuryo/", "label": "画面系の早見表（AT終了画面・アイキャッチ）"}]});
 </script>
 </body>
 </html>

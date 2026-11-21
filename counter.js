@@ -98,6 +98,8 @@
     + '.sc-toast span{flex:1;}'
     + '.sc-ov .sc-toast button{background:var(--gold);color:#1a1408;border:none;border-radius:8px;padding:8px 12px;font-weight:900;'
     + 'font-size:13.5px;font-family:inherit;cursor:pointer;}'
+    + '.sc-links{display:flex;flex-direction:column;gap:8px;margin:12px 0 4px;}'
+    + '.sc-link{display:block;padding:12px;border-radius:10px;border:1px solid var(--gold);color:var(--gold);text-align:center;font-weight:700;font-size:14px;text-decoration:none;}'
     + '.sc-free{margin-top:4px;}'
     + '.sc-free .sc-sub small{font-weight:400;margin-left:6px;}'
     + '.sc-fgrid:empty{display:none;}'
@@ -243,6 +245,7 @@
         + '<input id="scG2_' + j + '" type="number" inputmode="numeric" placeholder="データカウンターの数字"></div>'; }).join('')
       + (opts.length ? '<div class="sc-use"><span>数える項目：</span>' + opts.map(function (o) { return '<button type="button" class="sc-uchip" data-k="' + o.k + '"></button>'; }).join('') + '</div>' : '')
       + '<div class="sc-grid">' + tiles + '</div>'
+      + ((cfg.links || []).length ? '<div class="sc-links">' + cfg.links.map(function (l) { return '<a class="sc-link" href="' + l.href + '">' + l.label + ' →</a>'; }).join('') + '</div>' : '')
       + '<div class="sc-free"><div class="sc-sub">自由カウント<small>気になるものを名前を付けて数えられます（判別には使いません）</small></div>'
       + '<div class="sc-grid sc-fgrid"></div>'
       + '<div class="sc-free-add"><input type="text" maxlength="12" placeholder="例：チェリー、リーチ目" aria-label="数えたいものの名前">'

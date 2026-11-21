@@ -440,7 +440,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
 const XDEF = [];
 const XG = null;
-const PDEF = [{"n": "czEnd", "k": "czWin", "spec": [50.3, 50.8, 52.2, 54.3, 56.8, 59.1], "f": 1, "label": "CZ成功"}, {"n": "czHit", "k": "czKoyaku", "spec": [45.0, 45.9, 50.0, 51.4, 52.7, 53.6], "f": 1, "label": "小役契機"}];
+const PDEF = [{"n": "czEnd", "k": "czWin", "nfrom": false, "spec": [50.3, 50.8, 52.2, 54.3, 56.8, 59.1], "f": 1, "label": "CZ成功"}, {"n": "czHit", "k": "czKoyaku", "nfrom": false, "spec": [45.0, 45.9, 50.0, 51.4, 52.7, 53.6], "f": 1, "label": "小役契機"}];
 const SPEC = { a: [171.5, 168.3, 154.9, 147.0, 140.4, 136.0], b: [320.0, 314.7, 294.2, 276.9, 260.0, 246.4], c: [1, 1, 1, 1, 1, 1], payout: [97.9, 98.9, 101.0, 103.6, 107.6, 110.3] };
 const BET = 3, LABEL_A = "CZ", LABEL_B = "ボーナス初当り", LABEL_C = "";
 const $ = id => document.getElementById(id);
@@ -467,6 +467,7 @@ const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
 function livePct(){
   PDEF.forEach((q, j) => {
     const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(q.nfrom){ const f = $('pFrom' + j); if(f) f.textContent = n > 0 ? n : '-'; }
     if(n > 0){
       const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
       $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
@@ -476,6 +477,7 @@ function livePct(){
   });
 }
 pEls.flat().forEach(el => el.addEventListener('input', livePct));
+setTimeout(livePct, 0);
 function nearLabel(r, arr){
   if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
   if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
@@ -545,7 +547,7 @@ $('calcBtn').addEventListener('click', () => {
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
   // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
-  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
+  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && !q.nfrom && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
   const pUse = PDEF.map((q, j) => { const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return { n, k, use: n > 0 || k > 0 }; });
   const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }));
   const { allow, names } = currentAllow();
@@ -619,7 +621,7 @@ SettiShare.init({"key": "tenten", "name": "L転生王女と天才令嬢の魔法
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "tenten", "name": "転生王女", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "bnCount", "label": "ボーナス初当り", "optional": true}, {"id": "czEnd", "label": "CZ終了", "optional": true, "group": "CZ", "rate": false, "defaultOff": true}, {"id": "czWin", "label": "成功", "optional": true, "group": "CZ", "rate": false, "defaultOff": true}, {"id": "czHit", "label": "CZ当選", "optional": true, "group": "CZ", "rate": false, "defaultOff": true}, {"id": "czKoyaku", "label": "小役契機", "optional": true, "group": "CZ", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・CZ・ボーナス初当りは通常時のみ。CZはエピソードバトルの回数（輪廻転天チャレンジは除く）。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "スタンプ・獲得枚数・隠れ凪", "short": "示唆", "optional": true}});
+SettiCounter.init({"key": "tenten", "name": "転生王女", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "bnCount", "label": "ボーナス初当り", "optional": true}, {"id": "czEnd", "label": "CZ終了", "optional": true, "group": "CZ", "rate": false, "defaultOff": true}, {"id": "czWin", "label": "成功", "optional": true, "group": "CZ", "rate": false, "defaultOff": true}, {"id": "czHit", "label": "CZ当選", "optional": true, "group": "CZ", "rate": false, "defaultOff": true}, {"id": "czKoyaku", "label": "小役契機", "optional": true, "group": "CZ", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・CZ・ボーナス初当りは通常時のみ。CZはエピソードバトルの回数（輪廻転天チャレンジは除く）。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "スタンプ・獲得枚数・隠れ凪", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（終了画面）"}]});
 </script>
 </body>
 </html>
