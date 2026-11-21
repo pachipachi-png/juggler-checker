@@ -23,6 +23,21 @@ def _pblock():
     if not P: return ''
     h = f'''<div class="data pdata">\n  <div class="data-h"><span class="dot">DATA 2</span><small>{m.get('pnote', '確実なものだけ数える')}</small></div>\n'''
     for j, q in enumerate(P):
+        if q['n'].get('same'):  # もとの回数はほかの入力（例：AT初当り）をそのまま使う
+            h += f'''  <div class="pcard">
+    <p class="pt">{q['title']}</p>
+    <p class="pr">{q['rule']}</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label>{q['n']['label']}</label><p class="pfrom" id="pFrom{j}" style="margin:0;padding:10px 12px;font-size:20px;color:var(--muted);">-</p></div>
+      <div><label for="{q['k']['id']}">{q['k']['label']}</label><input type="number" id="{q['k']['id']}" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(1,minmax(0,1fr));">
+      <button type="button" data-add="{q['k']['id']}" data-n="1">{q['k']['btn']} +1</button>
+    </div>
+    <div class="rates dot"><span>{q['short']} <b id="liveP{j}">―</b><small id="livePNote{j}"></small></span></div>
+  </div>
+'''
+            continue
         h += f'''  <div class="pcard">
     <p class="pt">{q['title']}</p>
     <p class="pr">{q['rule']}</p>
@@ -82,8 +97,8 @@ links = ''.join(f'    <a class="outlink ref-out" data-sec="uchikata{i or ""}" hr
 guide = ''.join(f'    <h3>{h}</h3>\n    <p>{p}</p>\n' for h, p in m['guide'])
 share = json.dumps({"key": key, "name": m['full'], "tags": m['tags'], "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [
     {"id": "totalG", "q": gq, "label": gshare, "unit": "G"},
-    {"id": A['id'], "q": m['qa'], "label": A['label'], "unit": "回", "rateOf": "totalG"}] + ([{"id": BG, "q": B['gq'], "label": B['gshare'], "unit": "G"}] if BG else []) + ([{"id": B['id'], "q": m['qb'], "label": B['label'], "unit": "回", "rateOf": BG or "totalG"}] if B else []) + ([{"id": C['id'], "q": m['qc'], "label": C['label'], "unit": "回", "rateOf": "totalG"}] if C else []) + [{"id": x['id'], "q": x['q'], "label": x['label'], "unit": "回", "rateOf": "totalG"} for x in X] + [f for q in P for f in ({"id": q['n']['id'], "q": q['qn'], "label": q['n']['label'], "unit": "回"}, {"id": q['k']['id'], "q": q['qk'], "label": q['k']['label'], "unit": "回"})]}], **({"hints": "#floorGroup input[type=checkbox]"} if hasChecks else {})}, ensure_ascii=False)
-ccfg = {"key": key, "name": m['cname'], "g": {"id": "totalG", "label": gcount}, "counts": [{"id": A['id'], "label": A['label']}] + ([{"id": B['id'], "label": B['label'], "optional": True, **({"rateG": BG} if BG else {})}] if B else []) + ([{"id": C['id'], "label": C['label'], "optional": True}] if C else []) + [{"id": x['id'], "label": x['label'], "optional": True} for x in X] + [c for q in P for c in ({"id": q['n']['id'], "label": q['n']['label'], "optional": True, "group": q['group'], "rate": False, "defaultOff": True}, {"id": q['k']['id'], "label": q['k'].get('clabel', q['k']['label']), "optional": True, "group": q['group'], "rate": False, "defaultOff": True})], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": m['cnote']}
+    {"id": A['id'], "q": m['qa'], "label": A['label'], "unit": "回", "rateOf": "totalG"}] + ([{"id": BG, "q": B['gq'], "label": B['gshare'], "unit": "G"}] if BG else []) + ([{"id": B['id'], "q": m['qb'], "label": B['label'], "unit": "回", "rateOf": BG or "totalG"}] if B else []) + ([{"id": C['id'], "q": m['qc'], "label": C['label'], "unit": "回", "rateOf": "totalG"}] if C else []) + [{"id": x['id'], "q": x['q'], "label": x['label'], "unit": "回", "rateOf": "totalG"} for x in X] + [f for q in P for f in (([] if q['n'].get('same') else [{"id": q['n']['id'], "q": q['qn'], "label": q['n']['label'], "unit": "回"}]) + [{"id": q['k']['id'], "q": q['qk'], "label": q['k']['label'], "unit": "回"}])]}], **({"hints": "#floorGroup input[type=checkbox]"} if hasChecks else {})}, ensure_ascii=False)
+ccfg = {"key": key, "name": m['cname'], "g": {"id": "totalG", "label": gcount}, "counts": [{"id": A['id'], "label": A['label']}] + ([{"id": B['id'], "label": B['label'], "optional": True, **({"rateG": BG} if BG else {})}] if B else []) + ([{"id": C['id'], "label": C['label'], "optional": True}] if C else []) + [{"id": x['id'], "label": x['label'], "optional": True} for x in X] + [c for q in P for c in (([] if q['n'].get('same') else [{"id": q['n']['id'], "label": q['n']['label'], "optional": True, "group": q['group'], "rate": False, "defaultOff": True}]) + [{"id": q['k']['id'], "label": q['k'].get('clabel', q['k']['label']), "optional": True, "group": q['group'], "rate": False, "defaultOff": True}])], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": m['cnote']}
 if hasChecks: ccfg["checks"] = {"selector": "#floorGroup input[type=checkbox]", "title": m['checktitle'], "short": "示唆", "optional": True}
 if BG: ccfg["g2"] = [{"id": BG, "label": B['gcount'], "item": B['id']}]
 XG = m.get('XG')  # X の一部を別のG数で割るとき：dict(id, label, gcount, gshare, gmsg)。X 側は g=XG['id']
@@ -412,7 +427,7 @@ const DEC_A = {decA}, DEC_B = {decB}, DEC_C = {decC}, B_G = {json.dumps(BG)};
 const HAS_B = {'true' if B else 'false'}, HAS_C = {'true' if C else 'false'}, HAS_CHECKS = {'true' if hasChecks else 'false'};
 const XDEF = {json.dumps([dict(id=x['id'], spec=x['spec'], dec=x.get('dec', 1), label=x['label'], g=x.get('g')) for x in X], ensure_ascii=False)};
 const XG = {json.dumps(XG or None, ensure_ascii=False)};
-const PDEF = {json.dumps([dict(n=q['n']['id'], k=q['k']['id'], spec=q['spec'], f=q.get('f', 1), label=q['short']) for q in P], ensure_ascii=False)};
+const PDEF = {json.dumps([dict(n=q['n'].get('same') or q['n']['id'], k=q['k']['id'], nfrom=bool(q['n'].get('same')), spec=q['spec'], f=q.get('f', 1), label=q['short']) for q in P], ensure_ascii=False)};
 const SPEC = {{ a: {json.dumps(A['spec'])}, b: {json.dumps(BB['spec'])}, c: {json.dumps(CC['spec'])}, payout: {json.dumps(m['payout'])} }};
 const BET = 3, LABEL_A = {json.dumps(A['label'], ensure_ascii=False)}, LABEL_B = {json.dumps(BB['label'], ensure_ascii=False)}, LABEL_C = {json.dumps(CC['label'], ensure_ascii=False)};
 const $ = id => document.getElementById(id);
@@ -439,6 +454,7 @@ const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
 function livePct(){{
   PDEF.forEach((q, j) => {{
     const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(q.nfrom){{ const f = $('pFrom' + j); if(f) f.textContent = n > 0 ? n : '-'; }}
     if(n > 0){{
       const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
       $('liveP' + j).textContent = `${{k}}/${{n}}（${{r.toFixed(0)}}%）`;
@@ -448,6 +464,7 @@ function livePct(){{
   }});
 }}
 pEls.flat().forEach(el => el.addEventListener('input', livePct));
+setTimeout(livePct, 0);
 function nearLabel(r, arr){{
   if(r >= Math.max(...arr)) return `設定${{SETS[0]}}より重い`;
   if(r <= Math.min(...arr)) return `設定${{SETS[N-1]}}より軽い`;
@@ -517,7 +534,7 @@ $('calcBtn').addEventListener('click', () => {{
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
   // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
-  PDEF.forEach((q, j) => {{ const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && document.activeElement !== pEls[j][0]){{ pEls[j][0].value = String(k); }} }});
+  PDEF.forEach((q, j) => {{ const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && !q.nfrom && document.activeElement !== pEls[j][0]){{ pEls[j][0].value = String(k); }} }});
   const pUse = PDEF.map((q, j) => {{ const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return {{ n, k, use: n > 0 || k > 0 }}; }});
   const xUse = xEls.map((el, j) => ({{ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }}));
   const {{ allow, names }} = currentAllow();

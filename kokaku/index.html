@@ -262,29 +262,28 @@
   </div>
   <div class="pcard">
     <p class="pt">AT後のタチコマS.A.M.（200G・400G）</p>
-    <p class="pr">AT終了後、400Gまで回した（または200G・400GでタチコマS.A.M.に当たった）ら「AT後」。そのうちタチコマS.A.M.に当たったら「タチコマ」も押す。途中でCZ・ATに当たった回と、白の境界失敗後は数えない。</p>
+    <p class="pr">AT終了後、400Gまで回したら（または200G・400GでタチコマS.A.M.に当たったら）「400Gまで見た」。タチコマS.A.M.に当たったら「タチコマ」も押す。途中でCZ・ATに当たった回と、白の境界失敗後は数えない。</p>
     <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
-      <div><label for="tN">AT後（400Gまで見た回）</label><input type="number" id="tN" inputmode="numeric" placeholder="-"></div>
+      <div><label for="tN">AT後に400Gまで見た回</label><input type="number" id="tN" inputmode="numeric" placeholder="-"></div>
       <div><label for="tK">そのうちタチコマ</label><input type="number" id="tK" inputmode="numeric" placeholder="-"></div>
     </div>
     <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
-      <button type="button" data-add="tN" data-n="1">AT後 +1</button>
+      <button type="button" data-add="tN" data-n="1">400Gまで見た +1</button>
       <button type="button" data-add="tK" data-n="1">タチコマ +1</button>
     </div>
     <div class="rates dot"><span>タチコマ <b id="liveP3">―</b><small id="livePNote3"></small></span></div>
   </div>
   <div class="pcard">
-    <p class="pt">AT突入時の引き戻しストック</p>
-    <p class="pr">ATが終わったら「AT終了」。そのあと電脳RUSH（REBOOT CHANCE成功の引き戻し）が始まったら「引き戻し」も押す。タチコマS.A.M.成功で付いたストックは数えない。</p>
+    <p class="pt">ストック（AT初当り時の引き戻しストック）</p>
+    <p class="pr">ATが終わったあと電脳RUSH（引き戻し）が始まったら「ストック」を押す。AT初当りの回数は上で入れた数をそのまま使います（タチコマS.A.M.成功で付いたストックは数えない）。</p>
     <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
-      <div><label for="sN">AT終了</label><input type="number" id="sN" inputmode="numeric" placeholder="-"></div>
-      <div><label for="sK">そのうち引き戻し</label><input type="number" id="sK" inputmode="numeric" placeholder="-"></div>
+      <div><label>AT初当り（上の回数）</label><p class="pfrom" id="pFrom4" style="margin:0;padding:10px 12px;font-size:20px;color:var(--muted);">-</p></div>
+      <div><label for="sK">ストック</label><input type="number" id="sK" inputmode="numeric" placeholder="-"></div>
     </div>
-    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
-      <button type="button" data-add="sN" data-n="1">AT終了 +1</button>
-      <button type="button" data-add="sK" data-n="1">引き戻し +1</button>
+    <div class="taps" style="grid-template-columns:repeat(1,minmax(0,1fr));">
+      <button type="button" data-add="sK" data-n="1">ストック +1</button>
     </div>
-    <div class="rates dot"><span>引き戻し <b id="liveP4">―</b><small id="livePNote4"></small></span></div>
+    <div class="rates dot"><span>ストック <b id="liveP4">―</b><small id="livePNote4"></small></span></div>
   </div>
   <div class="pcard">
     <p class="pt">CZ失敗時の視覚HACK</p>
@@ -312,7 +311,7 @@
     </div>
     <div class="rates dot"><span>裏AT <b id="liveP6">―</b><small id="livePNote6"></small></span></div>
   </div>
-  <p class="hint">どれも「起きた回数」と「そのうち当たった回数」を押すだけ。差が大きいのは、殲滅ZONE緑からのCZ（20.0%→30.4%）、AT後のタチコマS.A.M.（30.0%→48.3%）、AOI後の裏AT（設定5・6で30%・40%）。</p>
+  <p class="hint">どれも「起きた回数」と「そのうち当たった回数」を押すだけ。差が大きいのは、殲滅ZONE緑からのCZ（20.0%→30.4%）、AT後に400Gまで見た時のタチコマS.A.M.（30.0%→48.3%）、AOI後の裏AT（設定5・6で30%・40%）。</p>
 </div>
 <button class="judge" id="calcBtn" style="display:none;">判別する</button>
 
@@ -416,14 +415,14 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/21</span><p>殲滅ZONEの緑・赤・青からのCZ、AT後のタチコマS.A.M.、AT突入時の引き戻し、CZ失敗時の視覚HACK、AOI後の裏AT、殲滅ZONE（白〜紫）からのAT直撃を数えられるようにしました。どれも「起きた」「当たった」を押すだけです。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/21</span><p>殲滅ZONEの緑・赤・青からのCZ、AT後のタチコマS.A.M.、AT初当り時のストック、CZ失敗時の視覚HACK、AOI後の裏AT、殲滅ZONE（白〜紫）からのAT直撃を数えられるようにしました。どれも「起きた」「当たった」を押すだけです。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
   <ul class="list">
       <li><b>AT初当り</b> 1/336.3→1/278.0（約1.21倍）。設定3→4で1/319.6→1/298.7</li>
       <li><b>CZ</b> 1/238.0→1/210.1（約1.13倍）。S.A.M.＋タチコマS.A.M.</li>
-      <li><b>押すだけの項目</b> 殲滅ZONE緑からのCZ 20.0%→30.4%、赤からのCZ 55.0%→61.7%、AT後のタチコマ 30.0%→48.3%、視覚HACK 5.7%→10.6%、引き戻し 3.3%→9.6%、AOI後の裏AT 設定5・6で30%・40%</li>
+      <li><b>押すだけの項目</b> 殲滅ZONE緑からのCZ 20.0%→30.4%、赤からのCZ 55.0%→61.7%、AT後のタチコマ 30.0%→48.3%、視覚HACK 5.7%→10.6%、ストック 3.3%→9.6%、AOI後の裏AT 設定5・6で30%・40%</li>
       <li><b>CZ終了画面</b> 青空＋公安9課＝2以上、バカンス＝4以上、全員集合＝6、素子＝設定2・3否定</li>
       <li><b>そのほかの濃厚</b> アオイ（金枠）＝4以上、S.A.M.のエピソード連続＝2以上、エンディング上パネル紫＝2以上・虹＝6、トロフィー銅2以上〜虹6</li>
       <li>天井：CZ間は最大550G＋α（モードで変わり、リセット時350G＋α）、AT間は最大999G（リセット時699G＋α）</li>
@@ -445,7 +444,7 @@
   </table>
   <p class="note">確率は「1/〇〇」の分母。AT初当り・CZ・機械割・示唆は1geki・altemaで一致（CZはDMMぱちタウンとも一致）。AT直撃は1gekiの値。</p>
   <table class="t" style="margin-top:14px;">
-    <thead><tr><th>設定</th><th>緑CZ成功</th><th>赤CZ成功</th><th>青CZ成功</th><th>タチコマ</th><th>引き戻し</th><th>視覚HACK</th><th>裏AT</th></tr></thead>
+    <thead><tr><th>設定</th><th>緑CZ成功</th><th>赤CZ成功</th><th>青CZ成功</th><th>タチコマ</th><th>ストック</th><th>視覚HACK</th><th>裏AT</th></tr></thead>
     <tbody>
         <tr><td>1</td><td>20.0%</td><td>55.0%</td><td>3.8%</td><td>30.0%</td><td>3.3%</td><td>5.7%</td><td>12.5%</td></tr>
         <tr><td>2</td><td>20.4%</td><td>55.4%</td><td>4.2%</td><td>32.9%</td><td>4.6%</td><td>6.1%</td><td>13.3%</td></tr>
@@ -483,7 +482,7 @@
     <p>スマスロ 攻殻機動隊のAT初当りは、設定1が1/336.3、設定6が1/278.0で約1.21倍、CZ（S.A.M.＋タチコマS.A.M.）は1/238.0→1/210.1で約1.13倍の差です。どちらも設定3と4の間で軽くなりますが、差は小さめなので回数だけで決めるのは難しい機種です。</p>
     <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
     <h3>3000Gでどれくらい差が出る？</h3>
-    <p>通常時を3000G回したときのAT初当りの平均は、設定1で約8.9回、設定6で約10.8回です。このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、AT初当りだけでは3000Gで約1％、8000Gで約8％でした。CZも入れると3000Gで約2％、5000Gで約10％、8000Gで約18％です。さらにAT直撃・AT後の引き戻し・CZ失敗時の視覚HACKも数えると、3000Gで約27％、5000Gで約44％、8000Gで約58％まで上がります（設定1の台で同じ結果になる割合は1％前後）。殲滅ZONEの緑・赤・青からのCZやタチコマS.A.M.も数えれば、さらに精度が上がります。</p>
+    <p>通常時を3000G回したときのAT初当りの平均は、設定1で約8.9回、設定6で約10.8回です。このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、AT初当りだけでは3000Gで約1％、8000Gで約8％でした。CZも入れると3000Gで約2％、5000Gで約10％、8000Gで約18％です。さらにAT直撃・ストック・CZ失敗時の視覚HACKも数えると、3000Gで約27％、5000Gで約44％、8000Gで約58％まで上がります（設定1の台で同じ結果になる割合は1％前後）。殲滅ZONEの緑・赤・青からのCZやタチコマS.A.M.も数えれば、さらに精度が上がります。</p>
     <h3>CZ終了画面がいちばんの手がかり</h3>
     <p>S.A.M.・タチコマS.A.M.の終了時にPUSHボタンを押すと出るCZ終了画面は、青空＋公安9課＝設定2以上、バカンス＝設定4以上、全員集合＝設定6が濃厚で、素子は設定2・3を否定（設定1・4・5・6）します。押さないと出ないので、CZのたびに必ず確認してください。AT終了画面のアオイ（金枠）はモードDと設定4以上が濃厚、S.A.M.のエピソード（暴走の証明／恵まれし者たち）が続けて同じなら設定2以上、エンディング中にレア役でPUSHした時の上パネルが紫なら2以上、虹なら6です。画面はページ内の早見表で画像を確認できます。</p>
     <h3>数えるときのコツ</h3>
@@ -499,7 +498,7 @@
       <tbody id="specBody"></tbody>
     </table>
     <table class="t" style="margin-top:10px;">
-      <thead><tr><th>設定</th><th>緑CZ成功</th><th>赤CZ成功</th><th>青CZ成功</th><th>タチコマ</th><th>引き戻し</th><th>視覚HACK</th><th>裏AT</th></tr></thead>
+      <thead><tr><th>設定</th><th>緑CZ成功</th><th>赤CZ成功</th><th>青CZ成功</th><th>タチコマ</th><th>ストック</th><th>視覚HACK</th><th>裏AT</th></tr></thead>
       <tbody id="pSpecBody"></tbody>
     </table>
     <p class="note">解析サイトの公開値（2026年11月21日時点。2026年2月2日導入、メーカーはサミー）。1geki（9/2更新）・altemaで一致したものを計算に使っています。</p>
@@ -529,7 +528,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
 const XDEF = [{"id": "dirCount", "spec": [10676.6, 9795.3, 7732.7, 6127.5, 5247.7, 4473.0], "dec": 1, "label": "AT直撃（殲滅ZONE白〜紫）", "g": null}];
 const XG = null;
-const PDEF = [{"n": "gN", "k": "gK", "spec": [20.0, 20.4, 22.1, 25.1, 27.5, 30.4], "f": 1, "label": "緑CZ成功"}, {"n": "rN", "k": "rK", "spec": [55.0, 55.4, 56.7, 58.5, 60.4, 61.7], "f": 1, "label": "赤CZ成功"}, {"n": "bN", "k": "bK", "spec": [3.8, 4.2, 4.6, 5.4, 7.5, 9.6], "f": 1, "label": "青CZ成功"}, {"n": "tN", "k": "tK", "spec": [30.0, 32.9, 37.5, 41.7, 45.8, 48.3], "f": 1, "label": "タチコマ"}, {"n": "sN", "k": "sK", "spec": [3.3, 4.6, 5.8, 7.1, 8.3, 9.6], "f": 1, "label": "引き戻し"}, {"n": "vN", "k": "vK", "spec": [5.7, 6.1, 6.9, 9.0, 10.1, 10.6], "f": 1, "label": "視覚HACK"}, {"n": "uN", "k": "uK", "spec": [12.5, 13.3, 14.2, 15.0, 30.0, 40.0], "f": 1, "label": "裏AT"}];
+const PDEF = [{"n": "gN", "k": "gK", "nfrom": false, "spec": [20.0, 20.4, 22.1, 25.1, 27.5, 30.4], "f": 1, "label": "緑CZ成功"}, {"n": "rN", "k": "rK", "nfrom": false, "spec": [55.0, 55.4, 56.7, 58.5, 60.4, 61.7], "f": 1, "label": "赤CZ成功"}, {"n": "bN", "k": "bK", "nfrom": false, "spec": [3.8, 4.2, 4.6, 5.4, 7.5, 9.6], "f": 1, "label": "青CZ成功"}, {"n": "tN", "k": "tK", "nfrom": false, "spec": [30.0, 32.9, 37.5, 41.7, 45.8, 48.3], "f": 1, "label": "タチコマ"}, {"n": "atCount", "k": "sK", "nfrom": true, "spec": [3.3, 4.6, 5.8, 7.1, 8.3, 9.6], "f": 1, "label": "ストック"}, {"n": "vN", "k": "vK", "nfrom": false, "spec": [5.7, 6.1, 6.9, 9.0, 10.1, 10.6], "f": 1, "label": "視覚HACK"}, {"n": "uN", "k": "uK", "nfrom": false, "spec": [12.5, 13.3, 14.2, 15.0, 30.0, 40.0], "f": 1, "label": "裏AT"}];
 const SPEC = { a: [336.3, 332.0, 319.6, 298.7, 285.8, 278.0], b: [238.0, 236.3, 231.7, 220.9, 214.0, 210.1], c: [1, 1, 1, 1, 1, 1], payout: [97.9, 98.7, 100.8, 104.9, 109.3, 112.2] };
 const BET = 3, LABEL_A = "AT初当り", LABEL_B = "CZ", LABEL_C = "";
 const $ = id => document.getElementById(id);
@@ -556,6 +555,7 @@ const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
 function livePct(){
   PDEF.forEach((q, j) => {
     const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(q.nfrom){ const f = $('pFrom' + j); if(f) f.textContent = n > 0 ? n : '-'; }
     if(n > 0){
       const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
       $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
@@ -565,6 +565,7 @@ function livePct(){
   });
 }
 pEls.flat().forEach(el => el.addEventListener('input', livePct));
+setTimeout(livePct, 0);
 function nearLabel(r, arr){
   if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
   if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
@@ -634,7 +635,7 @@ $('calcBtn').addEventListener('click', () => {
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
   // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
-  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
+  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && !q.nfrom && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
   const pUse = PDEF.map((q, j) => { const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return { n, k, use: n > 0 || k > 0 }; });
   const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }));
   const { allow, names } = currentAllow();
@@ -704,11 +705,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "kokaku", "name": "スマスロ 攻殻機動隊", "tags": "#攻殻機動隊 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "dirCount", "q": "dr", "label": "AT直撃（殲滅ZONE白〜紫）", "unit": "回", "rateOf": "totalG"}, {"id": "gN", "q": "gn", "label": "殲滅ZONE「緑」", "unit": "回"}, {"id": "gK", "q": "gk", "label": "そのうちCZ成功", "unit": "回"}, {"id": "rN", "q": "rn", "label": "殲滅ZONE「赤」", "unit": "回"}, {"id": "rK", "q": "rk", "label": "そのうちCZ成功", "unit": "回"}, {"id": "bN", "q": "bn", "label": "殲滅ZONE「青」", "unit": "回"}, {"id": "bK", "q": "bk", "label": "そのうちCZ成功", "unit": "回"}, {"id": "tN", "q": "tn", "label": "AT後（400Gまで見た回）", "unit": "回"}, {"id": "tK", "q": "tk", "label": "そのうちタチコマ", "unit": "回"}, {"id": "sN", "q": "sn", "label": "AT終了", "unit": "回"}, {"id": "sK", "q": "sk", "label": "そのうち引き戻し", "unit": "回"}, {"id": "vN", "q": "vn", "label": "CZ失敗", "unit": "回"}, {"id": "vK", "q": "vk", "label": "そのうち視覚HACK", "unit": "回"}, {"id": "uN", "q": "un", "label": "AOI終了", "unit": "回"}, {"id": "uK", "q": "uk", "label": "そのうち裏AT", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "kokaku", "name": "スマスロ 攻殻機動隊", "tags": "#攻殻機動隊 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "dirCount", "q": "dr", "label": "AT直撃（殲滅ZONE白〜紫）", "unit": "回", "rateOf": "totalG"}, {"id": "gN", "q": "gn", "label": "殲滅ZONE「緑」", "unit": "回"}, {"id": "gK", "q": "gk", "label": "そのうちCZ成功", "unit": "回"}, {"id": "rN", "q": "rn", "label": "殲滅ZONE「赤」", "unit": "回"}, {"id": "rK", "q": "rk", "label": "そのうちCZ成功", "unit": "回"}, {"id": "bN", "q": "bn", "label": "殲滅ZONE「青」", "unit": "回"}, {"id": "bK", "q": "bk", "label": "そのうちCZ成功", "unit": "回"}, {"id": "tN", "q": "tn", "label": "AT後に400Gまで見た回", "unit": "回"}, {"id": "tK", "q": "tk", "label": "そのうちタチコマ", "unit": "回"}, {"id": "sK", "q": "sk", "label": "ストック", "unit": "回"}, {"id": "vN", "q": "vn", "label": "CZ失敗", "unit": "回"}, {"id": "vK", "q": "vk", "label": "そのうち視覚HACK", "unit": "回"}, {"id": "uN", "q": "un", "label": "AOI終了", "unit": "回"}, {"id": "uK", "q": "uk", "label": "そのうち裏AT", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "kokaku", "name": "攻殻機動隊", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "czCount", "label": "CZ", "optional": true}, {"id": "dirCount", "label": "AT直撃（殲滅ZONE白〜紫）", "optional": true}, {"id": "gN", "label": "殲滅ZONE「緑」", "optional": true, "group": "殲滅ZONE", "rate": false, "defaultOff": true}, {"id": "gK", "label": "緑CZ成功", "optional": true, "group": "殲滅ZONE", "rate": false, "defaultOff": true}, {"id": "rN", "label": "殲滅ZONE「赤」", "optional": true, "group": "殲滅ZONE", "rate": false, "defaultOff": true}, {"id": "rK", "label": "赤CZ成功", "optional": true, "group": "殲滅ZONE", "rate": false, "defaultOff": true}, {"id": "bN", "label": "殲滅ZONE「青」", "optional": true, "group": "殲滅ZONE", "rate": false, "defaultOff": true}, {"id": "bK", "label": "青CZ成功", "optional": true, "group": "殲滅ZONE", "rate": false, "defaultOff": true}, {"id": "tN", "label": "AT後（400Gまで見た回）", "optional": true, "group": "AT後", "rate": false, "defaultOff": true}, {"id": "tK", "label": "タチコマ", "optional": true, "group": "AT後", "rate": false, "defaultOff": true}, {"id": "sN", "label": "AT終了", "optional": true, "group": "AT後", "rate": false, "defaultOff": true}, {"id": "sK", "label": "引き戻し", "optional": true, "group": "AT後", "rate": false, "defaultOff": true}, {"id": "vN", "label": "CZ失敗", "optional": true, "group": "視覚HACK", "rate": false, "defaultOff": true}, {"id": "vK", "label": "視覚HACK", "optional": true, "group": "視覚HACK", "rate": false, "defaultOff": true}, {"id": "uN", "label": "AOI終了", "optional": true, "group": "上位AT", "rate": false, "defaultOff": true}, {"id": "uK", "label": "裏AT", "optional": true, "group": "上位AT", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・CZは通常時のみ。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "CZ終了画面・アオイ・エピソード・上パネル・トロフィー", "short": "示唆", "optional": true}});
+SettiCounter.init({"key": "kokaku", "name": "攻殻機動隊", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "czCount", "label": "CZ", "optional": true}, {"id": "dirCount", "label": "AT直撃（殲滅ZONE白〜紫）", "optional": true}, {"id": "gN", "label": "殲滅ZONE「緑」", "optional": true, "group": "殲滅ZONE", "rate": false, "defaultOff": true}, {"id": "gK", "label": "緑CZ成功", "optional": true, "group": "殲滅ZONE", "rate": false, "defaultOff": true}, {"id": "rN", "label": "殲滅ZONE「赤」", "optional": true, "group": "殲滅ZONE", "rate": false, "defaultOff": true}, {"id": "rK", "label": "赤CZ成功", "optional": true, "group": "殲滅ZONE", "rate": false, "defaultOff": true}, {"id": "bN", "label": "殲滅ZONE「青」", "optional": true, "group": "殲滅ZONE", "rate": false, "defaultOff": true}, {"id": "bK", "label": "青CZ成功", "optional": true, "group": "殲滅ZONE", "rate": false, "defaultOff": true}, {"id": "tN", "label": "AT後に400Gまで見た回", "optional": true, "group": "タチコマ", "rate": false, "defaultOff": true}, {"id": "tK", "label": "タチコマ", "optional": true, "group": "タチコマ", "rate": false, "defaultOff": true}, {"id": "sK", "label": "ストック", "optional": true, "group": "ストック", "rate": false, "defaultOff": true}, {"id": "vN", "label": "CZ失敗", "optional": true, "group": "視覚HACK", "rate": false, "defaultOff": true}, {"id": "vK", "label": "視覚HACK", "optional": true, "group": "視覚HACK", "rate": false, "defaultOff": true}, {"id": "uN", "label": "AOI終了", "optional": true, "group": "上位AT", "rate": false, "defaultOff": true}, {"id": "uK", "label": "裏AT", "optional": true, "group": "上位AT", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・CZは通常時のみ。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "CZ終了画面・アオイ・エピソード・上パネル・トロフィー", "short": "示唆", "optional": true}});
 </script>
 </body>
 </html>
