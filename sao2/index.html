@@ -202,25 +202,38 @@
     <div><label for="czCount">CZ</label><input type="number" id="czCount" inputmode="numeric" placeholder="0"></div>
     
     <div><label for="atCount">AT初当り</label><input type="number" id="atCount" inputmode="numeric" placeholder="-"></div>
-    <div><label for="directCount">AT直撃</label><input type="number" id="directCount" inputmode="numeric" placeholder="-"></div><div><label for="endCount">確定CZ</label><input type="number" id="endCount" inputmode="numeric" placeholder="-"></div><div><label for="chanceB">強チャ目B</label><input type="number" id="chanceB" inputmode="numeric" placeholder="-"></div>
+    <div><label for="directCount">AT直撃</label><input type="number" id="directCount" inputmode="numeric" placeholder="-"></div><div><label for="shinon">詩乃モードのAT直撃</label><input type="number" id="shinon" inputmode="numeric" placeholder="-"></div><div><label for="endCount">確定CZ</label><input type="number" id="endCount" inputmode="numeric" placeholder="-"></div><div><label for="chanceB">強チャ目B</label><input type="number" id="chanceB" inputmode="numeric" placeholder="-"></div>
   </div>
   <div class="taps" style="grid-template-columns:repeat(3,minmax(0,1fr));">
     <button type="button" data-add="totalG" data-n="100">+100G</button>
     <button type="button" data-add="czCount" data-n="1">CZ +1</button>
     
     <button type="button" data-add="atCount" data-n="1">AT +1</button>
-    <button type="button" data-add="directCount" data-n="1">直撃 +1</button><button type="button" data-add="endCount" data-n="1">確定CZ +1</button><button type="button" data-add="chanceB" data-n="1">強チャB +1</button>
+    <button type="button" data-add="directCount" data-n="1">直撃 +1</button><button type="button" data-add="shinon" data-n="1">詩乃直撃 +1</button><button type="button" data-add="endCount" data-n="1">確定CZ +1</button><button type="button" data-add="chanceB" data-n="1">強チャB +1</button>
     <button type="button" class="undo" id="undoBtn">1つ戻す</button>
   </div>
   <div class="rates dot">
     <span>CZ <b id="liveA">―</b><small id="liveANote"></small></span>
     <span>AT <b id="liveB">―</b><small id="liveBNote"></small></span>
-    <span>直撃 <b id="liveC">―</b><small id="liveCNote"></small></span><span>確定CZ <b id="liveX0">―</b><small id="liveX0Note"></small></span><span>強チャB <b id="liveX1">―</b><small id="liveX1Note"></small></span>
+    <span>直撃 <b id="liveC">―</b><small id="liveCNote"></small></span><span>詩乃直撃 <b id="liveX0">―</b><small id="liveX0Note"></small></span><span>確定CZ <b id="liveX1">―</b><small id="liveX1Note"></small></span><span>強チャB <b id="liveX2">―</b><small id="liveX2Note"></small></span>
   </div>
   <p class="hint">G数・CZ・AT・直撃・確定CZ・強チャンス目Bは<b>通常時</b>で数えます。AT直撃はCZを経由せずにATへ当たったもの（ウルティマ・チェリー、ロングフリーズ、シューティングチャージ中の7停止、引き戻し、AT天井は数えない）。確定CZはCZ開始時からTHE END状態だったもの（途中の昇格は数えない）。強チャンス目Bは左上段・中上段・右下段のスイカ。空欄の項目は計算に使いません。</p>
 </div>
 <div class="data pdata">
   <div class="data-h"><span class="dot">DATA 2</span><small>数えたものだけ</small></div>
+  <div class="pcard">
+    <p class="pt">AT終了時のセット継続</p>
+    <p class="pr">ATが終わる時に「AT終了」。そこでセット継続に当たったら「継続」も押す。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="seN">AT終了</label><input type="number" id="seN" inputmode="numeric" placeholder="-"></div>
+      <div><label for="seK">そのうち継続</label><input type="number" id="seK" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="seN" data-n="1">AT終了 +1</button>
+      <button type="button" data-add="seK" data-n="1">継続 +1</button>
+    </div>
+    <div class="rates dot"><span>セット継続 <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  </div>
   <div class="pcard">
     <p class="pt">CZ失敗時のアイテム獲得</p>
     <p class="pr">CZに失敗したら「CZ失敗」。そのあと次回のATを強くするアイテムを獲得したら「アイテム獲得」も押す。</p>
@@ -232,7 +245,7 @@
       <button type="button" data-add="czFail" data-n="1">CZ失敗 +1</button>
       <button type="button" data-add="itemGet" data-n="1">アイテム +1</button>
     </div>
-    <div class="rates dot"><span>アイテム獲得 <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+    <div class="rates dot"><span>アイテム獲得 <b id="liveP1">―</b><small id="livePNote1"></small></span></div>
   </div>
   <p class="hint">CZ失敗時のアイテム獲得率は設定1 20.3%〜設定6 30.1%。</p>
 </div>
@@ -311,7 +324,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/03</span><p>新しいデザインに作り直し、詩乃モードのAT直撃（設定1と6で約5.3倍）、確定CZ、CZ失敗時のアイテム獲得率を入れられるようにしました。直撃は出ない台のほうが多いので、0回でも低設定とは言えません。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/22</span><p>詩乃モードからのAT直撃（設定1 1/18091.8→設定6 1/3415.7）と、AT終了時のセット継続（6.0%→13.1%）を数えられるようにしました。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -328,26 +341,26 @@
 <section id="gousei">
   <div class="sh"><h2>設定差・機械割</h2></div>
   <table class="t">
-    <thead><tr><th>設定</th><th>CZ</th><th>AT初当り</th><th>AT直撃</th><th>確定CZ</th><th>強チャ目B</th><th>機械割</th></tr></thead>
+    <thead><tr><th>設定</th><th>CZ</th><th>AT初当り</th><th>AT直撃</th><th>詩乃モードのAT直撃</th><th>確定CZ</th><th>強チャ目B</th><th>機械割</th></tr></thead>
     <tbody>
-        <tr><td>1</td><td>238.4</td><td>386.2</td><td>18091.8</td><td>20177.5</td><td>1057.0</td><td>97.6</td></tr>
-        <tr><td>2</td><td>232.3</td><td>364.3</td><td>14160.5</td><td>17579.1</td><td>993.0</td><td>98.8</td></tr>
-        <tr><td>3</td><td>232.7</td><td>368.1</td><td>14390.8</td><td>17586.3</td><td>936.2</td><td>100.2</td></tr>
-        <tr class="hi"><td>4</td><td>218.9</td><td>326.8</td><td>8498.0</td><td>13784.5</td><td>885.6</td><td>105.3</td></tr>
-        <tr class="hi"><td>5</td><td>225.2</td><td>340.6</td><td>4723.3</td><td>11459.0</td><td>840.2</td><td>110.4</td></tr>
-        <tr class="hi"><td>6</td><td>191.7</td><td>269.6</td><td>3415.7</td><td>7077.2</td><td>799.2</td><td>114.9</td></tr>
+        <tr><td>1</td><td>238.4</td><td>386.2</td><td>18091.8</td><td>18091.8</td><td>20177.5</td><td>1057.0</td><td>97.6</td></tr>
+        <tr><td>2</td><td>232.3</td><td>364.3</td><td>14160.5</td><td>14160.5</td><td>17579.1</td><td>993.0</td><td>98.8</td></tr>
+        <tr><td>3</td><td>232.7</td><td>368.1</td><td>14390.8</td><td>14390.8</td><td>17586.3</td><td>936.2</td><td>100.2</td></tr>
+        <tr class="hi"><td>4</td><td>218.9</td><td>326.8</td><td>8498.0</td><td>8498.0</td><td>13784.5</td><td>885.6</td><td>105.3</td></tr>
+        <tr class="hi"><td>5</td><td>225.2</td><td>340.6</td><td>4723.3</td><td>4723.3</td><td>11459.0</td><td>840.2</td><td>110.4</td></tr>
+        <tr class="hi"><td>6</td><td>191.7</td><td>269.6</td><td>3415.7</td><td>3415.7</td><td>7077.2</td><td>799.2</td><td>114.9</td></tr>
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。CZ・AT初当り・機械割は1geki・スロパチクエスト・ちょんぼりすた・P-WORLDで一致。AT直撃・確定CZ・強チャンス目Bは1geki・ちょんぼりすた・ななプレスほかで一致。</p>
   <table class="t" style="margin-top:14px;">
-    <thead><tr><th>設定</th><th>アイテム獲得</th></tr></thead>
+    <thead><tr><th>設定</th><th>セット継続</th><th>アイテム獲得</th></tr></thead>
     <tbody>
-        <tr><td>1</td><td>20.3%</td></tr>
-        <tr><td>2</td><td>21.1%</td></tr>
-        <tr><td>3</td><td>21.9%</td></tr>
-        <tr class="hi"><td>4</td><td>22.7%</td></tr>
-        <tr class="hi"><td>5</td><td>25.0%</td></tr>
-        <tr class="hi"><td>6</td><td>30.1%</td></tr>
+        <tr><td>1</td><td>6.0%</td><td>20.3%</td></tr>
+        <tr><td>2</td><td>6.5%</td><td>21.1%</td></tr>
+        <tr><td>3</td><td>6.6%</td><td>21.9%</td></tr>
+        <tr class="hi"><td>4</td><td>7.7%</td><td>22.7%</td></tr>
+        <tr class="hi"><td>5</td><td>11.3%</td><td>25.0%</td></tr>
+        <tr class="hi"><td>6</td><td>13.1%</td><td>30.1%</td></tr>
     </tbody>
   </table>
   <p class="note">CZ失敗時のアイテム獲得率（%）。1geki・ななプレスほか5サイトで一致。</p>
@@ -393,11 +406,11 @@
   <details>
     <summary>計算に使う設定差を見る・編集する</summary>
     <table class="t" style="margin-top:8px;">
-      <thead><tr><th>設定</th><th>CZ</th><th>AT初当り</th><th>AT直撃</th><th>確定CZ</th><th>強チャ目B</th><th>機械割%</th></tr></thead>
+      <thead><tr><th>設定</th><th>CZ</th><th>AT初当り</th><th>AT直撃</th><th>詩乃モードのAT直撃</th><th>確定CZ</th><th>強チャ目B</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
     <table class="t" style="margin-top:10px;">
-      <thead><tr><th>設定</th><th>アイテム獲得</th></tr></thead>
+      <thead><tr><th>設定</th><th>セット継続</th><th>アイテム獲得</th></tr></thead>
       <tbody id="pSpecBody"></tbody>
     </table>
     <p class="note">解析サイトの公開値（2026年11月3日時点）。CZ・AT初当り・機械割は1geki・スロパチクエスト・ちょんぼりすた・P-WORLD、AT直撃・確定CZ・アイテム獲得率・強チャンス目Bは1geki・ちょんぼりすた・ななプレスほかで確認。</p>
@@ -425,9 +438,9 @@
 const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
 const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = true, HAS_CHECKS = true;
-const XDEF = [{"id": "endCount", "spec": [20177.5, 17579.1, 17586.3, 13784.5, 11459.0, 7077.2], "dec": 1, "label": "確定CZ", "g": null}, {"id": "chanceB", "spec": [1057.0, 993.0, 936.2, 885.6, 840.2, 799.2], "dec": 1, "label": "強チャ目B", "g": null}];
+const XDEF = [{"id": "shinon", "spec": [18091.8, 14160.5, 14390.8, 8498.0, 4723.3, 3415.7], "dec": 1, "label": "詩乃モードのAT直撃", "g": null}, {"id": "endCount", "spec": [20177.5, 17579.1, 17586.3, 13784.5, 11459.0, 7077.2], "dec": 1, "label": "確定CZ", "g": null}, {"id": "chanceB", "spec": [1057.0, 993.0, 936.2, 885.6, 840.2, 799.2], "dec": 1, "label": "強チャ目B", "g": null}];
 const XG = null;
-const PDEF = [{"n": "czFail", "k": "itemGet", "nfrom": false, "spec": [20.3, 21.1, 21.9, 22.7, 25.0, 30.1], "f": 1, "label": "アイテム獲得"}];
+const PDEF = [{"n": "seN", "k": "seK", "nfrom": false, "spec": [6.0, 6.5, 6.6, 7.7, 11.3, 13.1], "f": 1, "label": "セット継続"}, {"n": "czFail", "k": "itemGet", "nfrom": false, "spec": [20.3, 21.1, 21.9, 22.7, 25.0, 30.1], "f": 1, "label": "アイテム獲得"}];
 const SPEC = { a: [238.4, 232.3, 232.7, 218.9, 225.2, 191.7], b: [386.2, 364.3, 368.1, 326.8, 340.6, 269.6], c: [18091.8, 14160.5, 14390.8, 8498.0, 4723.3, 3415.7], payout: [97.6, 98.8, 100.2, 105.3, 110.4, 114.9] };
 const BET = 3, LABEL_A = "CZ", LABEL_B = "AT初当り", LABEL_C = "AT直撃";
 const $ = id => document.getElementById(id);
@@ -604,11 +617,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "sao2", "name": "スロット ソードアート・オンラインⅡ", "tags": "#SAO2 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "directCount", "q": "dir", "label": "AT直撃", "unit": "回", "rateOf": "totalG"}, {"id": "endCount", "q": "end", "label": "確定CZ", "unit": "回", "rateOf": "totalG"}, {"id": "chanceB", "q": "b", "label": "強チャ目B", "unit": "回", "rateOf": "totalG"}, {"id": "czFail", "q": "czf", "label": "CZ失敗", "unit": "回"}, {"id": "itemGet", "q": "itm", "label": "そのうちアイテム獲得", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "sao2", "name": "スロット ソードアート・オンラインⅡ", "tags": "#SAO2 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "directCount", "q": "dir", "label": "AT直撃", "unit": "回", "rateOf": "totalG"}, {"id": "shinon", "q": "sh", "label": "詩乃モードのAT直撃", "unit": "回", "rateOf": "totalG"}, {"id": "endCount", "q": "end", "label": "確定CZ", "unit": "回", "rateOf": "totalG"}, {"id": "chanceB", "q": "b", "label": "強チャ目B", "unit": "回", "rateOf": "totalG"}, {"id": "seN", "q": "sen", "label": "AT終了", "unit": "回"}, {"id": "seK", "q": "sek", "label": "そのうち継続", "unit": "回"}, {"id": "czFail", "q": "czf", "label": "CZ失敗", "unit": "回"}, {"id": "itemGet", "q": "itm", "label": "そのうちアイテム獲得", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "sao2", "name": "SAO2", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "atCount", "label": "AT初当り", "optional": true}, {"id": "directCount", "label": "AT直撃", "optional": true}, {"id": "endCount", "label": "確定CZ", "optional": true}, {"id": "chanceB", "label": "強チャ目B", "optional": true}, {"id": "czFail", "label": "CZ失敗", "optional": true, "group": "CZ失敗・アイテム獲得", "rate": false, "defaultOff": true}, {"id": "itemGet", "label": "アイテム獲得", "optional": true, "group": "CZ失敗・アイテム獲得", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・CZ・AT・直撃・確定CZ・強チャンス目Bは通常時のみ。直撃はCZを経由しないAT当選（ウルティマ・チェリー、ロングフリーズ、引き戻し、天井は除く）。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "終了画面・トロフィー・ミニキャラ", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（AT終了画面）"}]});
+SettiCounter.init({"key": "sao2", "name": "SAO2", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "atCount", "label": "AT初当り", "optional": true}, {"id": "directCount", "label": "AT直撃", "optional": true}, {"id": "shinon", "label": "詩乃モードのAT直撃", "optional": true}, {"id": "endCount", "label": "確定CZ", "optional": true}, {"id": "chanceB", "label": "強チャ目B", "optional": true}, {"id": "seN", "label": "AT終了", "optional": true, "group": "セット継続", "rate": false, "defaultOff": true}, {"id": "seK", "label": "継続", "optional": true, "group": "セット継続", "rate": false, "defaultOff": true}, {"id": "czFail", "label": "CZ失敗", "optional": true, "group": "CZ失敗・アイテム獲得", "rate": false, "defaultOff": true}, {"id": "itemGet", "label": "アイテム獲得", "optional": true, "group": "CZ失敗・アイテム獲得", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・CZ・AT・直撃・確定CZ・強チャンス目Bは通常時のみ。直撃はCZを経由しないAT当選（ウルティマ・チェリー、ロングフリーズ、引き戻し、天井は除く）。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "終了画面・トロフィー・ミニキャラ", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（AT終了画面）"}]});
 </script>
 </body>
 </html>

@@ -202,25 +202,37 @@
     <div><label for="atCount">AT初当り</label><input type="number" id="atCount" inputmode="numeric" placeholder="0"></div>
     <div><label for="allG">総G（AT込み）</label><input type="number" id="allG" inputmode="numeric" placeholder="-"></div>
     <div><label for="lowerReplay">下段リプ</label><input type="number" id="lowerReplay" inputmode="numeric" placeholder="-"></div>
-    <div><label for="directCount">AT直撃</label><input type="number" id="directCount" inputmode="numeric" placeholder="-"></div><div><label for="rizeCount">大喰いの利世</label><input type="number" id="rizeCount" inputmode="numeric" placeholder="-"></div><div><label for="ebCount">エピソードB</label><input type="number" id="ebCount" inputmode="numeric" placeholder="-"></div><div><label for="remCount">レミニセンス</label><input type="number" id="remCount" inputmode="numeric" placeholder="-"></div>
+    <div><label for="directCount">AT直撃</label><input type="number" id="directCount" inputmode="numeric" placeholder="-"></div><div><label for="rpDir">リプレイからのAT直撃</label><input type="number" id="rpDir" inputmode="numeric" placeholder="-"></div><div><label for="rizeCount">大喰いの利世</label><input type="number" id="rizeCount" inputmode="numeric" placeholder="-"></div><div><label for="ebCount">エピソードB</label><input type="number" id="ebCount" inputmode="numeric" placeholder="-"></div><div><label for="remCount">レミニセンス</label><input type="number" id="remCount" inputmode="numeric" placeholder="-"></div>
   </div>
   <div class="taps" style="grid-template-columns:repeat(3,minmax(0,1fr));">
     <button type="button" data-add="totalG" data-n="100">+100G</button>
     <button type="button" data-add="atCount" data-n="1">AT +1</button>
     <button type="button" data-add="allG" data-n="100">総G +100</button>
     <button type="button" data-add="lowerReplay" data-n="1">下段リプ +1</button>
-    <button type="button" data-add="directCount" data-n="1">直撃 +1</button><button type="button" data-add="rizeCount" data-n="1">大喰い +1</button><button type="button" data-add="ebCount" data-n="1">EB +1</button><button type="button" data-add="remCount" data-n="1">レミニ +1</button>
+    <button type="button" data-add="directCount" data-n="1">直撃 +1</button><button type="button" data-add="rpDir" data-n="1">リプ直撃 +1</button><button type="button" data-add="rizeCount" data-n="1">大喰い +1</button><button type="button" data-add="ebCount" data-n="1">EB +1</button><button type="button" data-add="remCount" data-n="1">レミニ +1</button>
     <button type="button" class="undo" id="undoBtn">1つ戻す</button>
   </div>
   <div class="rates dot">
     <span>AT <b id="liveA">―</b><small id="liveANote"></small></span>
     <span>下段リプ <b id="liveB">―</b><small id="liveBNote"></small></span>
-    <span>直撃 <b id="liveC">―</b><small id="liveCNote"></small></span><span>大喰い <b id="liveX0">―</b><small id="liveX0Note"></small></span><span>EB <b id="liveX1">―</b><small id="liveX1Note"></small></span><span>レミニ <b id="liveX2">―</b><small id="liveX2Note"></small></span>
+    <span>直撃 <b id="liveC">―</b><small id="liveCNote"></small></span><span>リプ直撃 <b id="liveX0">―</b><small id="liveX0Note"></small></span><span>大喰い <b id="liveX1">―</b><small id="liveX1Note"></small></span><span>EB <b id="liveX2">―</b><small id="liveX2Note"></small></span><span>レミニ <b id="liveX3">―</b><small id="liveX3Note"></small></span>
   </div>
   <p class="hint">G数・AT・CZ・エピソードボーナス・直撃は<b>通常時</b>で数えます。AT直撃はCZを経由せずにATへ当たったもの（引き戻し・AT天井・エピソードボーナス経由は数えない）。エピソードボーナスは中段チェリーから当たったものを数えません。下段リプレイだけはAT中も含めた総ゲーム数で割るので、使うときは総Gも入れてください。空欄の項目は計算に使いません。</p>
 </div>
 <div class="data pdata">
   <div class="data-h"><span class="dot">DATA 2</span><small>数えたものだけ</small></div>
+  <div class="pcard">
+    <p class="pt">初当り時の裏AT</p>
+    <p class="pr">AT初当りが裏ATだったら「裏AT」を押す（有馬貴将ジャッジメント成功からの裏ATは数えない）。AT初当りの回数は上で入れた数をそのまま使います。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label>AT初当り（上の回数）</label><p class="pfrom" id="pFrom0" style="margin:0;padding:10px 12px;font-size:20px;color:var(--muted);">-</p></div>
+      <div><label for="urK">裏AT</label><input type="number" id="urK" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(1,minmax(0,1fr));">
+      <button type="button" data-add="urK" data-n="1">裏AT +1</button>
+    </div>
+    <div class="rates dot"><span>裏AT <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  </div>
   <div class="pcard">
     <p class="pt">AT終了後の引き戻し</p>
     <p class="pr">ATが終わったら「AT終了」。そのあと前兆を経てすぐATに戻ったら「引き戻し」も押す。</p>
@@ -232,7 +244,7 @@
       <button type="button" data-add="atEnd" data-n="1">AT終了 +1</button>
       <button type="button" data-add="pullBack" data-n="1">引き戻し +1</button>
     </div>
-    <div class="rates dot"><span>引き戻し <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+    <div class="rates dot"><span>引き戻し <b id="liveP1">―</b><small id="livePNote1"></small></span></div>
   </div>
   <p class="hint">引き戻しは設定1・2が7.8%、設定6が15.2%。AT初当りの回数には、引き戻しも1回として入れてください（データカウンターの初当り回数と同じ数え方）。</p>
 </div>
@@ -333,7 +345,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/03</span><p>新しいデザインに作り直し、リプレイからのAT直撃（設定1と6で約4倍）を入れられるようにしました。直撃は出ない台のほうが多いので、0回でも低設定とは言えません。下段リプレイだけは総ゲーム数で割る点に注意してください。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/22</span><p>リプレイからのAT直撃（設定1 1/28460.6→設定6 1/7036.8）と、初当り時の裏AT（設定1 1.10%→設定6 3.32%）を数えられるようにしました。裏ATはAT初当りの回数を分母にして「裏AT」を押すだけです。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -351,26 +363,26 @@
 <section id="gousei">
   <div class="sh"><h2>設定差・機械割</h2></div>
   <table class="t">
-    <thead><tr><th>設定</th><th>AT初当り</th><th>下段リプ</th><th>AT直撃</th><th>大喰いの利世</th><th>エピソードB</th><th>レミニセンス</th><th>機械割</th></tr></thead>
+    <thead><tr><th>設定</th><th>AT初当り</th><th>下段リプ</th><th>AT直撃</th><th>リプレイからのAT直撃</th><th>大喰いの利世</th><th>エピソードB</th><th>レミニセンス</th><th>機械割</th></tr></thead>
     <tbody>
-        <tr><td>1</td><td>394.4</td><td>1260.3</td><td>28460.6</td><td>2079.1</td><td>6620.2</td><td>300.5</td><td>97.5</td></tr>
-        <tr><td>2</td><td>380.5</td><td>1213.6</td><td>24453.5</td><td>1906.5</td><td>5879.7</td><td>295.1</td><td>99.0</td></tr>
-        <tr><td>3</td><td>357.0</td><td>1170.3</td><td>18093.0</td><td>1722.8</td><td>5114.5</td><td>287.6</td><td>101.6</td></tr>
-        <tr class="hi"><td>4</td><td>325.9</td><td>1129.9</td><td>12019.5</td><td>1478.9</td><td>4062.5</td><td>276.7</td><td>105.6</td></tr>
-        <tr class="hi"><td>5</td><td>291.2</td><td>1092.3</td><td>8615.4</td><td>1226.6</td><td>3166.7</td><td>262.7</td><td>110.3</td></tr>
-        <tr class="hi"><td>6</td><td>261.3</td><td>1024.0</td><td>7036.8</td><td>1074.9</td><td>2639.5</td><td>251.2</td><td>114.9</td></tr>
+        <tr><td>1</td><td>394.4</td><td>1260.3</td><td>28460.6</td><td>28460.6</td><td>2079.1</td><td>6620.2</td><td>300.5</td><td>97.5</td></tr>
+        <tr><td>2</td><td>380.5</td><td>1213.6</td><td>24453.5</td><td>24453.5</td><td>1906.5</td><td>5879.7</td><td>295.1</td><td>99.0</td></tr>
+        <tr><td>3</td><td>357.0</td><td>1170.3</td><td>18093.0</td><td>18093.0</td><td>1722.8</td><td>5114.5</td><td>287.6</td><td>101.6</td></tr>
+        <tr class="hi"><td>4</td><td>325.9</td><td>1129.9</td><td>12019.5</td><td>12019.5</td><td>1478.9</td><td>4062.5</td><td>276.7</td><td>105.6</td></tr>
+        <tr class="hi"><td>5</td><td>291.2</td><td>1092.3</td><td>8615.4</td><td>8615.4</td><td>1226.6</td><td>3166.7</td><td>262.7</td><td>110.3</td></tr>
+        <tr class="hi"><td>6</td><td>261.3</td><td>1024.0</td><td>7036.8</td><td>7036.8</td><td>1074.9</td><td>2639.5</td><td>251.2</td><td>114.9</td></tr>
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。AT初当り・CZは1geki・スロパチクエスト・パチセブン・パチマガ・スロミルで一致。AT直撃は1geki・ちょんぼりすたほか、エピソードボーナス・下段リプレイは1geki・ちょんぼりすた・スロパチクエスト・パチマガ・スロミルで一致。機械割はスロパチクエスト・パチセブン（設定5を110.0%とするサイトもあり）。</p>
   <table class="t" style="margin-top:14px;">
-    <thead><tr><th>設定</th><th>引き戻し</th></tr></thead>
+    <thead><tr><th>設定</th><th>裏AT</th><th>引き戻し</th></tr></thead>
     <tbody>
-        <tr><td>1</td><td>7.8%</td></tr>
-        <tr><td>2</td><td>7.8%</td></tr>
-        <tr><td>3</td><td>9.4%</td></tr>
-        <tr class="hi"><td>4</td><td>10.9%</td></tr>
-        <tr class="hi"><td>5</td><td>12.5%</td></tr>
-        <tr class="hi"><td>6</td><td>15.2%</td></tr>
+        <tr><td>1</td><td>1.1%</td><td>7.8%</td></tr>
+        <tr><td>2</td><td>1.3%</td><td>7.8%</td></tr>
+        <tr><td>3</td><td>1.6%</td><td>9.4%</td></tr>
+        <tr class="hi"><td>4</td><td>2.2%</td><td>10.9%</td></tr>
+        <tr class="hi"><td>5</td><td>2.9%</td><td>12.5%</td></tr>
+        <tr class="hi"><td>6</td><td>3.3%</td><td>15.2%</td></tr>
     </tbody>
   </table>
   <p class="note">AT引き戻し率（%）。1geki・ちょんぼりすた・スロパチクエスト・スロミルで一致（1gekiは設定2が空欄、他サイトは7.8%）。</p>
@@ -416,11 +428,11 @@
   <details>
     <summary>計算に使う設定差を見る・編集する</summary>
     <table class="t" style="margin-top:8px;">
-      <thead><tr><th>設定</th><th>AT初当り</th><th>下段リプ</th><th>AT直撃</th><th>大喰いの利世</th><th>エピソードB</th><th>レミニセンス</th><th>機械割%</th></tr></thead>
+      <thead><tr><th>設定</th><th>AT初当り</th><th>下段リプ</th><th>AT直撃</th><th>リプレイからのAT直撃</th><th>大喰いの利世</th><th>エピソードB</th><th>レミニセンス</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
     <table class="t" style="margin-top:10px;">
-      <thead><tr><th>設定</th><th>引き戻し</th></tr></thead>
+      <thead><tr><th>設定</th><th>裏AT</th><th>引き戻し</th></tr></thead>
       <tbody id="pSpecBody"></tbody>
     </table>
     <p class="note">解析サイトの公開値（2026年11月3日時点）。AT初当り・CZ・エピソードボーナス・下段リプレイ・AT直撃・引き戻しは1geki・ちょんぼりすた・スロパチクエスト・パチマガ・スロミルほかで確認。AT初当りに引き戻しを含むかは、どのサイトにも記載がありません。</p>
@@ -448,9 +460,9 @@
 const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
 const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = "allG";
 const HAS_B = true, HAS_C = true, HAS_CHECKS = true;
-const XDEF = [{"id": "rizeCount", "spec": [2079.1, 1906.5, 1722.8, 1478.9, 1226.6, 1074.9], "dec": 1, "label": "大喰いの利世", "g": null}, {"id": "ebCount", "spec": [6620.2, 5879.7, 5114.5, 4062.5, 3166.7, 2639.5], "dec": 1, "label": "エピソードB", "g": null}, {"id": "remCount", "spec": [300.5, 295.1, 287.6, 276.7, 262.7, 251.2], "dec": 1, "label": "レミニセンス", "g": null}];
+const XDEF = [{"id": "rpDir", "spec": [28460.6, 24453.5, 18093.0, 12019.5, 8615.4, 7036.8], "dec": 1, "label": "リプレイからのAT直撃", "g": null}, {"id": "rizeCount", "spec": [2079.1, 1906.5, 1722.8, 1478.9, 1226.6, 1074.9], "dec": 1, "label": "大喰いの利世", "g": null}, {"id": "ebCount", "spec": [6620.2, 5879.7, 5114.5, 4062.5, 3166.7, 2639.5], "dec": 1, "label": "エピソードB", "g": null}, {"id": "remCount", "spec": [300.5, 295.1, 287.6, 276.7, 262.7, 251.2], "dec": 1, "label": "レミニセンス", "g": null}];
 const XG = null;
-const PDEF = [{"n": "atEnd", "k": "pullBack", "nfrom": false, "spec": [7.81, 7.81, 9.38, 10.94, 12.5, 15.23], "f": 1, "label": "引き戻し"}];
+const PDEF = [{"n": "atCount", "k": "urK", "nfrom": true, "spec": [1.1, 1.32, 1.63, 2.19, 2.85, 3.32], "f": 2, "label": "裏AT"}, {"n": "atEnd", "k": "pullBack", "nfrom": false, "spec": [7.81, 7.81, 9.38, 10.94, 12.5, 15.23], "f": 1, "label": "引き戻し"}];
 const SPEC = { a: [394.4, 380.5, 357.0, 325.9, 291.2, 261.3], b: [1260.3, 1213.6, 1170.3, 1129.9, 1092.3, 1024.0], c: [28460.6, 24453.5, 18093.0, 12019.5, 8615.4, 7036.8], payout: [97.5, 99.0, 101.6, 105.6, 110.3, 114.9] };
 const BET = 3, LABEL_A = "AT初当り", LABEL_B = "下段リプ", LABEL_C = "AT直撃";
 const $ = id => document.getElementById(id);
@@ -627,11 +639,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "ghoul", "name": "L 東京喰種", "tags": "#東京喰種 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "allG", "q": "tg", "label": "総G", "unit": "G"}, {"id": "lowerReplay", "q": "lr", "label": "下段リプ", "unit": "回", "rateOf": "allG"}, {"id": "directCount", "q": "dir", "label": "AT直撃", "unit": "回", "rateOf": "totalG"}, {"id": "rizeCount", "q": "rize", "label": "大喰いの利世", "unit": "回", "rateOf": "totalG"}, {"id": "ebCount", "q": "eb", "label": "エピソードB", "unit": "回", "rateOf": "totalG"}, {"id": "remCount", "q": "rem", "label": "レミニセンス", "unit": "回", "rateOf": "totalG"}, {"id": "atEnd", "q": "ae", "label": "AT終了", "unit": "回"}, {"id": "pullBack", "q": "hk", "label": "そのうち引き戻し", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "ghoul", "name": "L 東京喰種", "tags": "#東京喰種 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "allG", "q": "tg", "label": "総G", "unit": "G"}, {"id": "lowerReplay", "q": "lr", "label": "下段リプ", "unit": "回", "rateOf": "allG"}, {"id": "directCount", "q": "dir", "label": "AT直撃", "unit": "回", "rateOf": "totalG"}, {"id": "rpDir", "q": "rd", "label": "リプレイからのAT直撃", "unit": "回", "rateOf": "totalG"}, {"id": "rizeCount", "q": "rize", "label": "大喰いの利世", "unit": "回", "rateOf": "totalG"}, {"id": "ebCount", "q": "eb", "label": "エピソードB", "unit": "回", "rateOf": "totalG"}, {"id": "remCount", "q": "rem", "label": "レミニセンス", "unit": "回", "rateOf": "totalG"}, {"id": "urK", "q": "uk", "label": "裏AT", "unit": "回"}, {"id": "atEnd", "q": "ae", "label": "AT終了", "unit": "回"}, {"id": "pullBack", "q": "hk", "label": "そのうち引き戻し", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "ghoul", "name": "東京喰種", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "lowerReplay", "label": "下段リプ", "optional": true, "rateG": "allG"}, {"id": "directCount", "label": "AT直撃", "optional": true}, {"id": "rizeCount", "label": "大喰いの利世", "optional": true}, {"id": "ebCount", "label": "エピソードB", "optional": true}, {"id": "remCount", "label": "レミニセンス", "optional": true}, {"id": "atEnd", "label": "AT終了", "optional": true, "group": "AT終了・引き戻し", "rate": false, "defaultOff": true}, {"id": "pullBack", "label": "引き戻し", "optional": true, "group": "AT終了・引き戻し", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT・CZ・エピソードボーナス・直撃は通常時のみ。直撃はCZを経由しないAT当選（引き戻し・天井・EB経由は除く）。下段リプレイは総ゲーム数（AT込み）で計算。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "終了画面・トロフィー・カード・招待状", "short": "示唆", "optional": true}, "g2": [{"id": "allG", "label": "総G数（AT込み）", "item": "lowerReplay"}], "links": [{"href": "shuryo/", "label": "画面系の早見表（AT終了画面・アイキャッチ）"}]});
+SettiCounter.init({"key": "ghoul", "name": "東京喰種", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "lowerReplay", "label": "下段リプ", "optional": true, "rateG": "allG"}, {"id": "directCount", "label": "AT直撃", "optional": true}, {"id": "rpDir", "label": "リプレイからのAT直撃", "optional": true}, {"id": "rizeCount", "label": "大喰いの利世", "optional": true}, {"id": "ebCount", "label": "エピソードB", "optional": true}, {"id": "remCount", "label": "レミニセンス", "optional": true}, {"id": "urK", "label": "裏AT", "optional": true, "group": "裏AT", "rate": false, "defaultOff": true}, {"id": "atEnd", "label": "AT終了", "optional": true, "group": "AT終了・引き戻し", "rate": false, "defaultOff": true}, {"id": "pullBack", "label": "引き戻し", "optional": true, "group": "AT終了・引き戻し", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT・CZ・エピソードボーナス・直撃は通常時のみ。直撃はCZを経由しないAT当選（引き戻し・天井・EB経由は除く）。下段リプレイは総ゲーム数（AT込み）で計算。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "終了画面・トロフィー・カード・招待状", "short": "示唆", "optional": true}, "g2": [{"id": "allG", "label": "総G数（AT込み）", "item": "lowerReplay"}], "links": [{"href": "shuryo/", "label": "画面系の早見表（AT終了画面・アイキャッチ）"}]});
 </script>
 </body>
 </html>

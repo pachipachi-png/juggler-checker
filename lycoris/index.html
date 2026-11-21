@@ -202,20 +202,20 @@
     <div><label for="czCount">CZ</label><input type="number" id="czCount" inputmode="numeric" placeholder="0"></div>
     
     <div><label for="bellCount">共通ベル</label><input type="number" id="bellCount" inputmode="numeric" placeholder="-"></div>
-    <div><label for="directCount">ラッシュ直撃</label><input type="number" id="directCount" inputmode="numeric" placeholder="-"></div>
+    <div><label for="directCount">ラッシュ直撃</label><input type="number" id="directCount" inputmode="numeric" placeholder="-"></div><div><label for="first">ファーストリコリス</label><input type="number" id="first" inputmode="numeric" placeholder="-"></div><div><label for="rushDir">ラッシュ直撃</label><input type="number" id="rushDir" inputmode="numeric" placeholder="-"></div>
   </div>
   <div class="taps" style="grid-template-columns:repeat(3,minmax(0,1fr));">
     <button type="button" data-add="totalG" data-n="100">+100G</button>
     <button type="button" data-add="czCount" data-n="1">CZ +1</button>
     
     <button type="button" data-add="bellCount" data-n="1">ベル +1</button>
-    <button type="button" data-add="directCount" data-n="1">直撃 +1</button>
+    <button type="button" data-add="directCount" data-n="1">直撃 +1</button><button type="button" data-add="first" data-n="1">ファースト +1</button><button type="button" data-add="rushDir" data-n="1">ラッシュ直撃 +1</button>
     <button type="button" class="undo" id="undoBtn">1つ戻す</button>
   </div>
   <div class="rates dot">
     <span>CZ <b id="liveA">―</b><small id="liveANote"></small></span>
     <span>ベル <b id="liveB">―</b><small id="liveBNote"></small></span>
-    <span>直撃 <b id="liveC">―</b><small id="liveCNote"></small></span>
+    <span>直撃 <b id="liveC">―</b><small id="liveCNote"></small></span><span>ファースト <b id="liveX0">―</b><small id="liveX0Note"></small></span><span>ラッシュ直撃 <b id="liveX1">―</b><small id="liveX1Note"></small></span>
   </div>
   <p class="hint">G数・ベルは通常時だけ（CZ・ラッシュ・ボーナス中は数えない）。共通ベルは左上段・中中段・右下段の右下がり。ラッシュ直撃はCZを経由せずにラッシュへ当たった回数（アフターエピソードが始まる）。850G天井での当選は数えません。空欄の項目は計算に使いません。</p>
 </div>
@@ -327,7 +327,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/03</span><p>新しいデザインに作り直し、ラッシュ直撃と、150G・弱リコリス目からの変換高確、400GのCZ当選を入れられるようにしました。150Gの設定2・3と弱リコリス目の設定2はP-WORLDだけに載っている値です。どれも空欄なら計算に使わないので、確実に数えたものだけ入れてください。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/22</span><p>ファーストリコリス（幼少期CZ、設定1 1/3965.0→設定6 1/2084.8）とラッシュ直撃（1/22429.5→1/6263.7）の回数を入れられるようにしました。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -345,14 +345,14 @@
 <section id="gousei">
   <div class="sh"><h2>設定差・機械割</h2></div>
   <table class="t">
-    <thead><tr><th>設定</th><th>CZ</th><th>共通ベル</th><th>ラッシュ直撃</th><th>機械割</th></tr></thead>
+    <thead><tr><th>設定</th><th>CZ</th><th>共通ベル</th><th>ラッシュ直撃</th><th>ファーストリコリス</th><th>ラッシュ直撃</th><th>機械割</th></tr></thead>
     <tbody>
-        <tr><td>1</td><td>198.7</td><td>95.8</td><td>22429.5</td><td>97.9</td></tr>
-        <tr><td>2</td><td>196.9</td><td>95.8</td><td>19006.5</td><td>98.9</td></tr>
-        <tr><td>3</td><td>191.3</td><td>95.8</td><td>15454.1</td><td>101.3</td></tr>
-        <tr class="hi"><td>4</td><td>183.3</td><td>87.6</td><td>10809.3</td><td>106.1</td></tr>
-        <tr class="hi"><td>5</td><td>175.9</td><td>83.2</td><td>7809.6</td><td>110.4</td></tr>
-        <tr class="hi"><td>6</td><td>169.4</td><td>79.1</td><td>6263.7</td><td>114.6</td></tr>
+        <tr><td>1</td><td>198.7</td><td>95.8</td><td>22429.5</td><td>3965.0</td><td>22429.5</td><td>97.9</td></tr>
+        <tr><td>2</td><td>196.9</td><td>95.8</td><td>19006.5</td><td>3706.6</td><td>19006.5</td><td>98.9</td></tr>
+        <tr><td>3</td><td>191.3</td><td>95.8</td><td>15454.1</td><td>3107.3</td><td>15454.1</td><td>101.3</td></tr>
+        <tr class="hi"><td>4</td><td>183.3</td><td>87.6</td><td>10809.3</td><td>2925.9</td><td>10809.3</td><td>106.1</td></tr>
+        <tr class="hi"><td>5</td><td>175.9</td><td>83.2</td><td>7809.6</td><td>2425.8</td><td>7809.6</td><td>110.4</td></tr>
+        <tr class="hi"><td>6</td><td>169.4</td><td>79.1</td><td>6263.7</td><td>2084.8</td><td>6263.7</td><td>114.6</td></tr>
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。CZ・ラッシュ直撃は1geki・ちょんぼりすた・スロパチクエストで一致。共通ベルの設定2・3は1gekiなどで空欄（セル結合の表示）、P-WORLD・アルテマで1/95.8。機械割はP-WORLDほか。</p>
@@ -411,7 +411,7 @@
   <details>
     <summary>計算に使う設定差を見る・編集する</summary>
     <table class="t" style="margin-top:8px;">
-      <thead><tr><th>設定</th><th>CZ</th><th>共通ベル</th><th>ラッシュ直撃</th><th>機械割%</th></tr></thead>
+      <thead><tr><th>設定</th><th>CZ</th><th>共通ベル</th><th>ラッシュ直撃</th><th>ファーストリコリス</th><th>ラッシュ直撃</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
     <table class="t" style="margin-top:10px;">
@@ -443,7 +443,7 @@
 const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
 const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = true, HAS_CHECKS = true;
-const XDEF = [];
+const XDEF = [{"id": "first", "spec": [3965.0, 3706.6, 3107.3, 2925.9, 2425.8, 2084.8], "dec": 1, "label": "ファーストリコリス", "g": null}, {"id": "rushDir", "spec": [22429.5, 19006.5, 15454.1, 10809.3, 7809.6, 6263.7], "dec": 1, "label": "ラッシュ直撃", "g": null}];
 const XG = null;
 const PDEF = [{"n": "g150", "k": "k150", "nfrom": false, "spec": [50.0, 50.0, 50.0, 54.7, 58.6, 62.5], "f": 0.9, "label": "150G→高確"}, {"n": "gjr", "k": "kjr", "nfrom": false, "spec": [38.3, 38.3, 39.1, 41.0, 43.0, 44.9], "f": 0.9, "label": "弱リコ→高確"}, {"n": "g400", "k": "k400", "nfrom": false, "spec": [10.9, 11.7, 14.5, 16.8, 19.5, 25.4], "f": 1, "label": "400G→CZ"}];
 const SPEC = { a: [198.7, 196.9, 191.3, 183.3, 175.9, 169.4], b: [95.8, 95.8, 95.8, 87.6, 83.2, 79.1], c: [22429.5, 19006.5, 15454.1, 10809.3, 7809.6, 6263.7], payout: [97.9, 98.9, 101.3, 106.1, 110.4, 114.6] };
@@ -622,11 +622,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "lycoris", "name": "スマスロ リコリス・リコイル", "tags": "#リコリコ #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "bellCount", "q": "bell", "label": "共通ベル", "unit": "回", "rateOf": "totalG"}, {"id": "directCount", "q": "direct", "label": "ラッシュ直撃", "unit": "回", "rateOf": "totalG"}, {"id": "g150", "q": "a150", "label": "150G到達", "unit": "回"}, {"id": "k150", "q": "h150", "label": "そのうち高確移行", "unit": "回"}, {"id": "gjr", "q": "ajr", "label": "弱リコリス目", "unit": "回"}, {"id": "kjr", "q": "hjr", "label": "そのうち高確移行", "unit": "回"}, {"id": "g400", "q": "a400", "label": "400G到達", "unit": "回"}, {"id": "k400", "q": "c400", "label": "そのうちCZ当選", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "lycoris", "name": "スマスロ リコリス・リコイル", "tags": "#リコリコ #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "bellCount", "q": "bell", "label": "共通ベル", "unit": "回", "rateOf": "totalG"}, {"id": "directCount", "q": "direct", "label": "ラッシュ直撃", "unit": "回", "rateOf": "totalG"}, {"id": "first", "q": "fr", "label": "ファーストリコリス", "unit": "回", "rateOf": "totalG"}, {"id": "rushDir", "q": "rdi", "label": "ラッシュ直撃", "unit": "回", "rateOf": "totalG"}, {"id": "g150", "q": "a150", "label": "150G到達", "unit": "回"}, {"id": "k150", "q": "h150", "label": "そのうち高確移行", "unit": "回"}, {"id": "gjr", "q": "ajr", "label": "弱リコリス目", "unit": "回"}, {"id": "kjr", "q": "hjr", "label": "そのうち高確移行", "unit": "回"}, {"id": "g400", "q": "a400", "label": "400G到達", "unit": "回"}, {"id": "k400", "q": "c400", "label": "そのうちCZ当選", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "lycoris", "name": "リコリス・リコイル", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "bellCount", "label": "共通ベル", "optional": true}, {"id": "directCount", "label": "ラッシュ直撃", "optional": true}, {"id": "g150", "label": "150G到達", "optional": true, "group": "150G到達・高確移行", "rate": false, "defaultOff": true}, {"id": "k150", "label": "150G→高確移行", "optional": true, "group": "150G到達・高確移行", "rate": false, "defaultOff": true}, {"id": "gjr", "label": "弱リコリス目", "optional": true, "group": "弱リコリス目・高確移行", "rate": false, "defaultOff": true}, {"id": "kjr", "label": "弱リコ→高確移行", "optional": true, "group": "弱リコリス目・高確移行", "rate": false, "defaultOff": true}, {"id": "g400", "label": "400G到達", "optional": true, "group": "400G到達・CZ当選", "rate": false, "defaultOff": true}, {"id": "k400", "label": "400G→CZ当選", "optional": true, "group": "400G到達・CZ当選", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ベル・直撃は通常時のみ（CZ・ラッシュ・ボーナス中は数えない）。直撃はCZを経由しないラッシュ当選（天井は除く）。150G到達・弱リコリス目・400G到達と、そのうちの高確移行・CZ当選を、確実なものだけ数える。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・ラッシュ終了画面", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（ラッシュ終了画面・アイキャッチ）"}]});
+SettiCounter.init({"key": "lycoris", "name": "リコリス・リコイル", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "bellCount", "label": "共通ベル", "optional": true}, {"id": "directCount", "label": "ラッシュ直撃", "optional": true}, {"id": "first", "label": "ファーストリコリス", "optional": true}, {"id": "rushDir", "label": "ラッシュ直撃", "optional": true}, {"id": "g150", "label": "150G到達", "optional": true, "group": "150G到達・高確移行", "rate": false, "defaultOff": true}, {"id": "k150", "label": "150G→高確移行", "optional": true, "group": "150G到達・高確移行", "rate": false, "defaultOff": true}, {"id": "gjr", "label": "弱リコリス目", "optional": true, "group": "弱リコリス目・高確移行", "rate": false, "defaultOff": true}, {"id": "kjr", "label": "弱リコ→高確移行", "optional": true, "group": "弱リコリス目・高確移行", "rate": false, "defaultOff": true}, {"id": "g400", "label": "400G到達", "optional": true, "group": "400G到達・CZ当選", "rate": false, "defaultOff": true}, {"id": "k400", "label": "400G→CZ当選", "optional": true, "group": "400G到達・CZ当選", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ベル・直撃は通常時のみ（CZ・ラッシュ・ボーナス中は数えない）。直撃はCZを経由しないラッシュ当選（天井は除く）。150G到達・弱リコリス目・400G到達と、そのうちの高確移行・CZ当選を、確実なものだけ数える。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・ラッシュ終了画面", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（ラッシュ終了画面・アイキャッチ）"}]});
 </script>
 </body>
 </html>

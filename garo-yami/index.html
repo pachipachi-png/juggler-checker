@@ -220,7 +220,36 @@
   </div>
   <p class="hint">回転数・CZ・ボーナスは<b>通常時</b>で数えてください（ボーナス・AT中は除く）。CZは「牙狼モード」と特殊CZ「魔界」の合計です。ボーナスはBONUS・BIG BONUSの初当りで、空欄ならCZだけで計算します。</p>
 </div>
-
+<div class="data pdata">
+  <div class="data-h"><span class="dot">DATA 2</span><small>任意。レア役のたびに</small></div>
+  <div class="pcard">
+    <p class="pt">強レア役からのボーナス直撃</p>
+    <p class="pr">通常時に強チェリー・強チャンス目が出たら「強レア役」。そこからCZを通らずボーナスに直撃したら「強レア直撃」も押す。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="srN">強レア役</label><input type="number" id="srN" inputmode="numeric" placeholder="-"></div>
+      <div><label for="srK">そのうち直撃</label><input type="number" id="srK" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="srN" data-n="1">強レア役 +1</button>
+      <button type="button" data-add="srK" data-n="1">強レア直撃 +1</button>
+    </div>
+    <div class="rates dot"><span>強レア直撃 <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  </div>
+  <div class="pcard">
+    <p class="pt">弱レア役からのボーナス直撃</p>
+    <p class="pr">通常時に弱チェリー・スイカ・弱チャンス目が出たら「弱レア役」。そこからボーナスに直撃したら「弱レア直撃」も押す。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="wrN">弱レア役</label><input type="number" id="wrN" inputmode="numeric" placeholder="-"></div>
+      <div><label for="wrK">そのうち直撃</label><input type="number" id="wrK" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="wrN" data-n="1">弱レア役 +1</button>
+      <button type="button" data-add="wrK" data-n="1">弱レア直撃 +1</button>
+    </div>
+    <div class="rates dot"><span>弱レア直撃 <b id="liveP1">―</b><small id="livePNote1"></small></span></div>
+  </div>
+  <p class="hint">強レア役（強チェリー・強チャンス目）からのボーナス直撃は、設定1が0.8%、設定6が3.9%（約5倍）。弱レア役からは設定5・6だけ上がります。</p>
+</div>
 <button class="judge" id="calcBtn" style="display:none;">判別する</button>
 
 <button type="button" class="mini" id="miniRes" hidden><span class="mini-bars" id="miniBars"></span><span class="mini-t" id="miniTxt"></span></button>
@@ -336,7 +365,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/16</span><p>アイテム転送の示唆（プラント＝333Gまでに当たらなければ偶数、尊士の剣＝222Gまでで4以上など）がP-WORLDとちょんぼりすたで一致したので、押せるボタンにしました。天井も設定変更後777G・SUPER GARO BONUS後555G・RUSH後111Gと書き足しています。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/22</span><p>強レア役・弱レア役からのボーナス直撃を数えられるようにしました（強レア役は設定1 0.8%→設定6 3.9%）。レア役が出たら「強レア役」、直撃したら「強レア直撃」を押すだけです。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -363,6 +392,18 @@
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。数値はちょんぼりすた・P-WORLD・パチ&amp;スロ必勝本・ななプレスで一致。50枚あたり約32.9G、AT純増は約9.1枚/G。小役に設定差はないとされています。</p>
+  <table class="t" style="margin-top:14px;">
+    <thead><tr><th>設定</th><th>強レア直撃</th><th>弱レア直撃</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>0.8%</td><td>0.4%</td></tr>
+        <tr><td>2</td><td>0.8%</td><td>0.4%</td></tr>
+        <tr><td>3</td><td>1.2%</td><td>0.4%</td></tr>
+        <tr class="hi"><td>4</td><td>2.3%</td><td>0.4%</td></tr>
+        <tr class="hi"><td>5</td><td>3.1%</td><td>0.8%</td></tr>
+        <tr class="hi"><td>6</td><td>3.9%</td><td>1.2%</td></tr>
+    </tbody>
+  </table>
+  <p class="note">レア役による初当りボーナス直撃当選率（%）。1gekiの値。</p>
 </section>
 
 <section id="uchikata">
@@ -404,6 +445,10 @@
       <thead><tr><th>設定</th><th>CZ</th><th>ボーナス</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
+    <table class="t" style="margin-top:10px;">
+      <thead><tr><th>設定</th><th>強レア直撃</th><th>弱レア直撃</th></tr></thead>
+      <tbody id="pSpecBody"></tbody>
+    </table>
     <p class="note">解析サイトの公開値です（数値は2026年10月27日時点、示唆は2026年11月8日時点。2026年11月2日導入、メーカーはサンセイR&amp;D）。トータルCZ・ボーナス・機械割は、ちょんぼりすた・P-WORLD・パチ&amp;スロ必勝本・ななプレスで一致しています。示唆はちょんぼりすた・P-WORLD・ななプレスで一致したものだけを計算に使っています。トータルCZの数え方（規定G数での牙狼モードを含むか）は、どのサイトにも明記がありません。</p>
   </details>
 </section>
@@ -431,7 +476,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
 const XDEF = [];
 const XG = null;
-const PDEF = [];
+const PDEF = [{"n": "srN", "k": "srK", "nfrom": false, "spec": [0.8, 0.8, 1.2, 2.3, 3.1, 3.9], "f": 1, "label": "強レア直撃"}, {"n": "wrN", "k": "wrK", "nfrom": false, "spec": [0.4, 0.4, 0.4, 0.4, 0.8, 1.2], "f": 1, "label": "弱レア直撃"}];
 const SPEC = { a: [156.6, 154.6, 151.4, 148.7, 144.2, 141.1], b: [291.1, 283.7, 276.1, 265.8, 259.4, 256.5], c: [1, 1, 1, 1, 1, 1], payout: [97.5, 98.8, 101.2, 104.6, 110.5, 114.9] };
 const BET = 3, LABEL_A = "CZ", LABEL_B = "ボーナス", LABEL_C = "";
 const $ = id => document.getElementById(id);
@@ -608,11 +653,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "garo-yami", "name": "L牙狼 闇を照らす者", "tags": "#牙狼 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "bonusCount", "q": "bn", "label": "ボーナス", "unit": "回", "rateOf": "totalG"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "garo-yami", "name": "L牙狼 闇を照らす者", "tags": "#牙狼 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "bonusCount", "q": "bn", "label": "ボーナス", "unit": "回", "rateOf": "totalG"}, {"id": "srN", "q": "sn", "label": "強レア役", "unit": "回"}, {"id": "srK", "q": "sk", "label": "そのうち直撃", "unit": "回"}, {"id": "wrN", "q": "wn", "label": "弱レア役", "unit": "回"}, {"id": "wrK", "q": "wk", "label": "そのうち直撃", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "garo-yami", "name": "牙狼", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "bonusCount", "label": "ボーナス", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・CZ・ボーナスは通常時のみ。CZは牙狼モード＋魔界。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "終了画面・トロフィー・獲得枚数・GAROロゴ・アイテム", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（ボーナス終了画面・RUSH終了画面）"}]});
+SettiCounter.init({"key": "garo-yami", "name": "牙狼", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "czCount", "label": "CZ"}, {"id": "bonusCount", "label": "ボーナス", "optional": true}, {"id": "srN", "label": "強レア役", "optional": true, "group": "レア役直撃", "rate": false, "defaultOff": true}, {"id": "srK", "label": "強レア直撃", "optional": true, "group": "レア役直撃", "rate": false, "defaultOff": true}, {"id": "wrN", "label": "弱レア役", "optional": true, "group": "レア役直撃", "rate": false, "defaultOff": true}, {"id": "wrK", "label": "弱レア直撃", "optional": true, "group": "レア役直撃", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・CZ・ボーナスは通常時のみ。CZは牙狼モード＋魔界。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "終了画面・トロフィー・獲得枚数・GAROロゴ・アイテム", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（ボーナス終了画面・RUSH終了画面）"}]});
 </script>
 </body>
 </html>

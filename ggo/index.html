@@ -220,7 +220,23 @@
   </div>
   <p class="hint">回転数・初当り・STは<b>通常時</b>から数えてください（ボーナス・ST中のゲーム数は回転数に含めない）。STは空欄なら初当りだけで計算します。</p>
 </div>
-
+<div class="data pdata">
+  <div class="data-h"><span class="dot">DATA 2</span><small>任意。見たときだけ押す</small></div>
+  <div class="pcard">
+    <p class="pt">グレネードジャッジの報酬</p>
+    <p class="pr">グレネードジャッジで報酬をもらったら「報酬」。その報酬がボーナスかCZ「Yes Ma’am」なら「ボーナス・CZ」も押す。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="grN">報酬</label><input type="number" id="grN" inputmode="numeric" placeholder="-"></div>
+      <div><label for="grK">そのうちボーナス・CZ</label><input type="number" id="grK" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="grN" data-n="1">報酬 +1</button>
+      <button type="button" data-add="grK" data-n="1">ボーナス・CZ +1</button>
+    </div>
+    <div class="rates dot"><span>ボーナス・CZ <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  </div>
+  <p class="hint">グレネードジャッジの報酬がボーナスかCZ「Yes Ma’am」になる割合は、設定1が19.9%、設定6が34.8%（約1.7倍）。設定3と4の間で大きく上がります。</p>
+</div>
 <button class="judge" id="calcBtn" style="display:none;">判別する</button>
 
 <button type="button" class="mini" id="miniRes" hidden><span class="mini-bars" id="miniBars"></span><span class="mini-t" id="miniTxt"></span></button>
@@ -278,7 +294,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/08</span><p>導入後の解析で、ボーナス終了画面の金カード＝設定6濃厚が2サイトで一致したので、押せるボタンを足しました。玉ちゃんトロフィーは1サイトが過去機種からの推察として載せているだけなので、まだ計算に使っていません。STはサイトによって「SJ」「SQUAD JAM(ST)」と書き方が違いますが、同じ数字です。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/22</span><p>グレネードジャッジの報酬がボーナスかCZ「Yes Ma’am」になった割合（設定1 19.9%→設定6 34.8%）を数えられるようにしました。報酬をもらったら「報酬」、ボーナス・CZなら「ボーナス・CZ」も押すだけです。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -304,6 +320,18 @@
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。初当り・STはちょんぼりすた・P-WORLD・パチ&amp;スロ必勝本で一致、機械割はちょんぼりすた・必勝本の値です。P-WORLDの表記は「SQUAD JAM(ST)確率」。小役確率は未公表です。</p>
+  <table class="t" style="margin-top:14px;">
+    <thead><tr><th>設定</th><th>ボーナス・CZ</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>19.9%</td></tr>
+        <tr><td>2</td><td>20.7%</td></tr>
+        <tr><td>3</td><td>21.5%</td></tr>
+        <tr class="hi"><td>4</td><td>27.7%</td></tr>
+        <tr class="hi"><td>5</td><td>32.8%</td></tr>
+        <tr class="hi"><td>6</td><td>34.8%</td></tr>
+    </tbody>
+  </table>
+  <p class="note">グレネードジャッジ到達時の報酬振り分け（ボーナス＋CZ「Yes Ma’am」の合算、%）。1gekiの値。</p>
 </section>
 
 <section id="uchikata">
@@ -345,6 +373,10 @@
       <thead><tr><th>設定</th><th>初当り</th><th>ST</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
+    <table class="t" style="margin-top:10px;">
+      <thead><tr><th>設定</th><th>ボーナス・CZ</th></tr></thead>
+      <tbody id="pSpecBody"></tbody>
+    </table>
     <p class="note">解析サイトの公開値です（数値は2026年10月27日時点、示唆は2026年11月8日時点。2026年11月2日導入、メーカーはオッケー．／京楽）。初当り・STはちょんぼりすた・P-WORLD・パチ&amp;スロ必勝本で一致、機械割はちょんぼりすた・必勝本で一致しています。金カードはちょんぼりすた・1gekiで一致したものです。</p>
   </details>
 </section>
@@ -372,7 +404,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
 const XDEF = [];
 const XG = null;
-const PDEF = [];
+const PDEF = [{"n": "grN", "k": "grK", "nfrom": false, "spec": [19.9, 20.7, 21.5, 27.7, 32.8, 34.8], "f": 1, "label": "ボーナス・CZ"}];
 const SPEC = { a: [192.0, 189.2, 180.9, 168.6, 155.4, 153.9], b: [521.7, 510.4, 486.6, 445.3, 405.0, 392.6], c: [1, 1, 1, 1, 1, 1], payout: [97.9, 98.8, 100.9, 104.2, 109.7, 114.5] };
 const BET = 3, LABEL_A = "初当り", LABEL_B = "ST", LABEL_C = "";
 const $ = id => document.getElementById(id);
@@ -549,11 +581,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "ggo", "name": "L ソードアート・オンライン オルタナティブ ガンゲイル・オンライン", "tags": "#ガンゲイルオンライン #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "hitCount", "q": "ht", "label": "初当り", "unit": "回", "rateOf": "totalG"}, {"id": "stCount", "q": "st", "label": "ST", "unit": "回", "rateOf": "totalG"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "ggo", "name": "L ソードアート・オンライン オルタナティブ ガンゲイル・オンライン", "tags": "#ガンゲイルオンライン #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "hitCount", "q": "ht", "label": "初当り", "unit": "回", "rateOf": "totalG"}, {"id": "stCount", "q": "st", "label": "ST", "unit": "回", "rateOf": "totalG"}, {"id": "grN", "q": "gn", "label": "報酬", "unit": "回"}, {"id": "grK", "q": "gk", "label": "そのうちボーナス・CZ", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "ggo", "name": "ガンゲイル・オンライン", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "hitCount", "label": "初当り"}, {"id": "stCount", "label": "ST", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・初当り・STは通常時から数える。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "金カード", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（終了画面）"}]});
+SettiCounter.init({"key": "ggo", "name": "ガンゲイル・オンライン", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "hitCount", "label": "初当り"}, {"id": "stCount", "label": "ST", "optional": true}, {"id": "grN", "label": "報酬", "optional": true, "group": "グレネード", "rate": false, "defaultOff": true}, {"id": "grK", "label": "ボーナス・CZ", "optional": true, "group": "グレネード", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・初当り・STは通常時から数える。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "金カード", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（終了画面）"}]});
 </script>
 </body>
 </html>

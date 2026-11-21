@@ -220,7 +220,23 @@
   </div>
   <p class="hint">回転数・AT初当り・CZは<b>通常時</b>で数えてください（AT中は除く）。CZは空欄ならAT初当りだけで計算します。</p>
 </div>
-
+<div class="data pdata">
+  <div class="data-h"><span class="dot">DATA 2</span><small>任意。ATのたびに</small></div>
+  <div class="pcard">
+    <p class="pt">AT終了時のイヅナのボイス</p>
+    <p class="pr">ATが終わったら終了画面で液晶をタッチして「AT終了」。ボイスが「油断せずにいきましょう！」以外なら「示唆ボイス」も押す。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="avN">AT終了</label><input type="number" id="avN" inputmode="numeric" placeholder="-"></div>
+      <div><label for="avK">そのうち示唆ボイス</label><input type="number" id="avK" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="avN" data-n="1">AT終了 +1</button>
+      <button type="button" data-add="avK" data-n="1">示唆ボイス +1</button>
+    </div>
+    <div class="rates dot"><span>示唆ボイス <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  </div>
+  <p class="hint">AT終了時に基本以外のボイス（5種類のどれでも）が出る割合は、設定1が10.0%、設定6が20.0%（2倍）。</p>
+</div>
 <button class="judge" id="calcBtn" style="display:none;">判別する</button>
 
 <button type="button" class="mini" id="miniRes" hidden><span class="mini-bars" id="miniBars"></span><span class="mini-t" id="miniTxt"></span></button>
@@ -273,7 +289,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/08</span><p>導入後の解析で、エンディング中のボイス（貂・イヅナ・けうけげん・ぬりかべ）の示唆が3サイトで一致したので、押せるボタンを足しました。AT終了画面のボイスは「期待度アップ」止まりなので参考にしています。通常時の打ち方の手順はまだどのサイトにも載っていません。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/22</span><p>AT終了時のイヅナのボイスを数えられるようにしました。基本の「油断せずにいきましょう！」以外が出る割合は、設定1が10%、設定6が20%です。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -301,6 +317,18 @@
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。数値はちょんぼりすた・パチマガスロマガ・P-WORLDで一致。50枚あたり約31.0G（設定1）。導入予定は約10,000台です。小役に設定差はないとされています。</p>
+  <table class="t" style="margin-top:14px;">
+    <thead><tr><th>設定</th><th>示唆ボイス</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>10.0%</td></tr>
+        <tr><td>2</td><td>12.0%</td></tr>
+        <tr><td>3</td><td>14.0%</td></tr>
+        <tr class="hi"><td>4</td><td>16.0%</td></tr>
+        <tr class="hi"><td>5</td><td>18.0%</td></tr>
+        <tr class="hi"><td>6</td><td>20.0%</td></tr>
+    </tbody>
+  </table>
+  <p class="note">AT終了時の高設定示唆ボイス出現率（%）。1gekiの値。</p>
 </section>
 
 <section id="uchikata">
@@ -340,6 +368,10 @@
       <thead><tr><th>設定</th><th>AT初当り</th><th>CZ</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
+    <table class="t" style="margin-top:10px;">
+      <thead><tr><th>設定</th><th>示唆ボイス</th></tr></thead>
+      <tbody id="pSpecBody"></tbody>
+    </table>
     <p class="note">解析サイトの公開値です（数値は2026年10月27日時点、示唆は2026年11月8日時点。2026年11月2日導入、メーカーはミズホ）。AT初当り・CZ・機械割は、ちょんぼりすた・パチマガスロマガ・P-WORLDで一致しています。エンディングのボイスは、ちょんぼりすた・P-WORLD・1gekiで一致したものです。</p>
   </details>
 </section>
@@ -367,7 +399,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
 const XDEF = [];
 const XG = null;
-const PDEF = [];
+const PDEF = [{"n": "avN", "k": "avK", "nfrom": false, "spec": [10.0, 12.0, 14.0, 16.0, 18.0, 20.0], "f": 1, "label": "示唆ボイス"}];
 const SPEC = { a: [326.4, 317.2, 307.7, 271.2, 260.8, 258.3], b: [172.8, 167.2, 161.8, 145.0, 143.0, 142.4], c: [1, 1, 1, 1, 1, 1], payout: [97.6, 98.8, 100.3, 105.7, 110.5, 114.5] };
 const BET = 3, LABEL_A = "AT初当り", LABEL_B = "CZ", LABEL_C = "";
 const $ = id => document.getElementById(id);
@@ -544,11 +576,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "ragnador", "name": "スマスロ ラグナドール", "tags": "#ラグナドール #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "ragnador", "name": "スマスロ ラグナドール", "tags": "#ラグナドール #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "avN", "q": "vn", "label": "AT終了", "unit": "回"}, {"id": "avK", "q": "vk", "label": "そのうち示唆ボイス", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "ragnador", "name": "ラグナドール", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "czCount", "label": "CZ", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・CZは通常時のみ。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "エンディングのボイス", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（アイキャッチ）"}]});
+SettiCounter.init({"key": "ragnador", "name": "ラグナドール", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "czCount", "label": "CZ", "optional": true}, {"id": "avN", "label": "AT終了", "optional": true, "group": "ボイス", "rate": false, "defaultOff": true}, {"id": "avK", "label": "示唆ボイス", "optional": true, "group": "ボイス", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・CZは通常時のみ。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "エンディングのボイス", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（アイキャッチ）"}]});
 </script>
 </body>
 </html>

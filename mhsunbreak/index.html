@@ -202,20 +202,20 @@
     <div><label for="atCount">AT初当り</label><input type="number" id="atCount" inputmode="numeric" placeholder="0"></div>
     
     <div><label for="bzCount">ブレイクゾーン</label><input type="number" id="bzCount" inputmode="numeric" placeholder="-"></div>
-    <div><label for="mkCount">猛焔一閃の直撃</label><input type="number" id="mkCount" inputmode="numeric" placeholder="-"></div><div><label for="fkCount">アイルー福引</label><input type="number" id="fkCount" inputmode="numeric" placeholder="-"></div>
+    <div><label for="mkCount">猛焔一閃の直撃</label><input type="number" id="mkCount" inputmode="numeric" placeholder="-"></div><div><label for="moen">猛焔一閃（AT直撃）</label><input type="number" id="moen" inputmode="numeric" placeholder="-"></div><div><label for="fkCount">アイルー福引</label><input type="number" id="fkCount" inputmode="numeric" placeholder="-"></div>
   </div>
   <div class="taps" style="grid-template-columns:repeat(3,minmax(0,1fr));">
     <button type="button" data-add="totalG" data-n="100">+100G</button>
     <button type="button" data-add="atCount" data-n="1">AT +1</button>
     
     <button type="button" data-add="bzCount" data-n="1">BZ +1</button>
-    <button type="button" data-add="mkCount" data-n="1">直撃 +1</button><button type="button" data-add="fkCount" data-n="1">福引 +1</button>
+    <button type="button" data-add="mkCount" data-n="1">直撃 +1</button><button type="button" data-add="moen" data-n="1">猛焔一閃 +1</button><button type="button" data-add="fkCount" data-n="1">福引 +1</button>
     <button type="button" class="undo" id="undoBtn">1つ戻す</button>
   </div>
   <div class="rates dot">
     <span>AT <b id="liveA">―</b><small id="liveANote"></small></span>
     <span>BZ <b id="liveB">―</b><small id="liveBNote"></small></span>
-    <span>直撃 <b id="liveC">―</b><small id="liveCNote"></small></span><span>福引 <b id="liveX0">―</b><small id="liveX0Note"></small></span>
+    <span>直撃 <b id="liveC">―</b><small id="liveCNote"></small></span><span>猛焔一閃 <b id="liveX0">―</b><small id="liveX0Note"></small></span><span>福引 <b id="liveX1">―</b><small id="liveX1Note"></small></span>
   </div>
   <p class="hint">G数・回数はすべて<b>通常時</b>で数えます。ブレイクゾーンはCZの当選回数。猛焔一閃の直撃は、レア役からブレイクゾーンに当たった時に猛焔一閃が発生してATへ直撃したもの。アイルー福引は通常時に入った福引の回数です。空欄の項目は計算に使いません。</p>
 </div>
@@ -324,7 +324,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/09</span><p>周期到達時のCZがアイルー福引になる割合（設定1 20.0%→設定6 39.5%）が2サイトで判明したので、入力を足しました。新しいデザインに作り直し、ブレイクゾーン・アイルー福引・猛焔一閃の直撃を入れられるようにしました（1geki・ちょんぼりすたで一致）。スタンプの銅・銀・金も5サイトで一致したので、絞り込みに入れています。小役は全設定共通です。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/22</span><p>猛焔一閃（AT直撃）の回数を入れられるようにしました（設定1 1/16281.7→設定6 1/4263.1、約3.8倍）。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -343,14 +343,14 @@
 <section id="gousei">
   <div class="sh"><h2>設定差・機械割</h2></div>
   <table class="t">
-    <thead><tr><th>設定</th><th>AT初当り</th><th>ブレイクゾーン</th><th>猛焔一閃の直撃</th><th>アイルー福引</th><th>機械割</th></tr></thead>
+    <thead><tr><th>設定</th><th>AT初当り</th><th>ブレイクゾーン</th><th>猛焔一閃の直撃</th><th>猛焔一閃（AT直撃）</th><th>アイルー福引</th><th>機械割</th></tr></thead>
     <tbody>
-        <tr><td>1</td><td>349.9</td><td>111.4</td><td>16281.7</td><td>2290.1</td><td>97.5</td></tr>
-        <tr><td>2</td><td>337.0</td><td>108.8</td><td>14875.5</td><td>2090.4</td><td>98.8</td></tr>
-        <tr><td>3</td><td>319.8</td><td>105.6</td><td>12788.0</td><td>1821.1</td><td>100.8</td></tr>
-        <tr class="hi"><td>4</td><td>283.6</td><td>99.3</td><td>8702.1</td><td>1472.5</td><td>105.2</td></tr>
-        <tr class="hi"><td>5</td><td>264.0</td><td>97.2</td><td>6351.2</td><td>1219.3</td><td>108.4</td></tr>
-        <tr class="hi"><td>6</td><td>242.3</td><td>95.8</td><td>4263.1</td><td>976.4</td><td>112.4</td></tr>
+        <tr><td>1</td><td>349.9</td><td>111.4</td><td>16281.7</td><td>16281.7</td><td>2290.1</td><td>97.5</td></tr>
+        <tr><td>2</td><td>337.0</td><td>108.8</td><td>14875.5</td><td>14875.5</td><td>2090.4</td><td>98.8</td></tr>
+        <tr><td>3</td><td>319.8</td><td>105.6</td><td>12788.0</td><td>12788.0</td><td>1821.1</td><td>100.8</td></tr>
+        <tr class="hi"><td>4</td><td>283.6</td><td>99.3</td><td>8702.1</td><td>8702.1</td><td>1472.5</td><td>105.2</td></tr>
+        <tr class="hi"><td>5</td><td>264.0</td><td>97.2</td><td>6351.2</td><td>6351.2</td><td>1219.3</td><td>108.4</td></tr>
+        <tr class="hi"><td>6</td><td>242.3</td><td>95.8</td><td>4263.1</td><td>4263.1</td><td>976.4</td><td>112.4</td></tr>
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。AT初当り・機械割は1geki・ちょんぼりすた・スロパチクエスト・パチマガで一致。ブレイクゾーン・アイルー福引・猛焔一閃の直撃（実質確率）は1geki・ちょんぼりすたで一致。</p>
@@ -406,7 +406,7 @@
   <details>
     <summary>計算に使う設定差を見る・編集する</summary>
     <table class="t" style="margin-top:8px;">
-      <thead><tr><th>設定</th><th>AT初当り</th><th>ブレイクゾーン</th><th>猛焔一閃の直撃</th><th>アイルー福引</th><th>機械割%</th></tr></thead>
+      <thead><tr><th>設定</th><th>AT初当り</th><th>ブレイクゾーン</th><th>猛焔一閃の直撃</th><th>猛焔一閃（AT直撃）</th><th>アイルー福引</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
     <table class="t" style="margin-top:10px;">
@@ -438,7 +438,7 @@
 const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
 const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = true, HAS_CHECKS = true;
-const XDEF = [{"id": "fkCount", "spec": [2290.1, 2090.4, 1821.1, 1472.5, 1219.3, 976.4], "dec": 1, "label": "アイルー福引", "g": null}];
+const XDEF = [{"id": "moen", "spec": [16281.7, 14875.5, 12788.0, 8702.1, 6351.2, 4263.1], "dec": 1, "label": "猛焔一閃（AT直撃）", "g": null}, {"id": "fkCount", "spec": [2290.1, 2090.4, 1821.1, 1472.5, 1219.3, 976.4], "dec": 1, "label": "アイルー福引", "g": null}];
 const XG = null;
 const PDEF = [{"n": "cycCz", "k": "cycFk", "nfrom": false, "spec": [20.0, 21.5, 24.2, 28.1, 32.8, 39.5], "f": 1, "label": "周期CZ→福引"}];
 const SPEC = { a: [349.9, 337.0, 319.8, 283.6, 264.0, 242.3], b: [111.4, 108.8, 105.6, 99.3, 97.2, 95.8], c: [16281.7, 14875.5, 12788.0, 8702.1, 6351.2, 4263.1], payout: [97.5, 98.8, 100.8, 105.2, 108.4, 112.4] };
@@ -617,11 +617,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "mhsunbreak", "name": "スマスロ モンスターハンターライズ：サンブレイク", "tags": "#モンハンサンブレイク #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "bzCount", "q": "bz", "label": "ブレイクゾーン", "unit": "回", "rateOf": "totalG"}, {"id": "mkCount", "q": "mk", "label": "猛焔一閃の直撃", "unit": "回", "rateOf": "totalG"}, {"id": "fkCount", "q": "fk", "label": "アイルー福引", "unit": "回", "rateOf": "totalG"}, {"id": "cycCz", "q": "cc", "label": "周期到達でCZ", "unit": "回"}, {"id": "cycFk", "q": "cf", "label": "そのうち福引", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "mhsunbreak", "name": "スマスロ モンスターハンターライズ：サンブレイク", "tags": "#モンハンサンブレイク #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "bzCount", "q": "bz", "label": "ブレイクゾーン", "unit": "回", "rateOf": "totalG"}, {"id": "mkCount", "q": "mk", "label": "猛焔一閃の直撃", "unit": "回", "rateOf": "totalG"}, {"id": "moen", "q": "me", "label": "猛焔一閃（AT直撃）", "unit": "回", "rateOf": "totalG"}, {"id": "fkCount", "q": "fk", "label": "アイルー福引", "unit": "回", "rateOf": "totalG"}, {"id": "cycCz", "q": "cc", "label": "周期到達でCZ", "unit": "回"}, {"id": "cycFk", "q": "cf", "label": "そのうち福引", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "mhsunbreak", "name": "モンハン サンブレイク", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "bzCount", "label": "ブレイクゾーン", "optional": true}, {"id": "mkCount", "label": "猛焔一閃の直撃", "optional": true}, {"id": "fkCount", "label": "アイルー福引", "optional": true}, {"id": "cycCz", "label": "周期到達でCZ", "optional": true, "group": "周期到達・CZの種類", "rate": false, "defaultOff": true}, {"id": "cycFk", "label": "周期CZ→福引", "optional": true, "group": "周期到達・CZの種類", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT・ブレイクゾーン・福引・直撃は通常時のみ。猛焔一閃の直撃はレア役からのブレイクゾーン当選時にATへ直撃したもの。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・終了画面・枚数表示・スタンプ", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（AT終了画面・アイキャッチ）"}]});
+SettiCounter.init({"key": "mhsunbreak", "name": "モンハン サンブレイク", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "bzCount", "label": "ブレイクゾーン", "optional": true}, {"id": "mkCount", "label": "猛焔一閃の直撃", "optional": true}, {"id": "moen", "label": "猛焔一閃（AT直撃）", "optional": true}, {"id": "fkCount", "label": "アイルー福引", "optional": true}, {"id": "cycCz", "label": "周期到達でCZ", "optional": true, "group": "周期到達・CZの種類", "rate": false, "defaultOff": true}, {"id": "cycFk", "label": "周期CZ→福引", "optional": true, "group": "周期到達・CZの種類", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT・ブレイクゾーン・福引・直撃は通常時のみ。猛焔一閃の直撃はレア役からのブレイクゾーン当選時にATへ直撃したもの。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・終了画面・枚数表示・スタンプ", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（AT終了画面・アイキャッチ）"}]});
 </script>
 </body>
 </html>

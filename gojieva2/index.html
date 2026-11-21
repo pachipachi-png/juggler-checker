@@ -220,7 +220,23 @@
   </div>
   <p class="hint">回転数・ボーナス・ATは<b>通常時</b>から数えてください（ボーナス・AT中のゲーム数は回転数に含めない）。AT初当りは、ボーナス後のチャレンジに成功してATに入った回数です。空欄ならボーナスだけで計算します。</p>
 </div>
-
+<div class="data pdata">
+  <div class="data-h"><span class="dot">DATA 2</span><small>任意。スイカのたびに</small></div>
+  <div class="pcard">
+    <p class="pt">スイカからのCZ</p>
+    <p class="pr">通常時にスイカが出たら「スイカ」。そのスイカでCZに当たったら「スイカCZ」も押す。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="swN">スイカ</label><input type="number" id="swN" inputmode="numeric" placeholder="-"></div>
+      <div><label for="swK">そのうちCZ</label><input type="number" id="swK" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="swN" data-n="1">スイカ +1</button>
+      <button type="button" data-add="swK" data-n="1">スイカCZ +1</button>
+    </div>
+    <div class="rates dot"><span>スイカCZ <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  </div>
+  <p class="hint">スイカからCZに当たる割合は、設定1が21.9%、設定6が31.3%。</p>
+</div>
 <button class="judge" id="calcBtn" style="display:none;">判別する</button>
 
 <button type="button" class="mini" id="miniRes" hidden><span class="mini-bars" id="miniBars"></span><span class="mini-t" id="miniTxt"></span></button>
@@ -299,7 +315,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/13</span><p>月蝕変異の発生率（設定1 1/5333→設定6 1/2399、約2.2倍）が判明したので、回数を入れられるようにしました。終了画面（レイ背景＝2以上〜カヲル＝6）とエンディング中のボイス（レイ＝2以上〜カヲル＝6）の濃厚パターンが判明したので、押せるボタンを足しました（1geki・ちょんぼりすたで一致）。天井はAT間500G／1000G／1500Gの3パターンと書き直しています。旧作（初代ゴジエヴァ）の終了画面の情報と混ざっているページがあるので注意してください。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/22</span><p>スイカからのCZ当選（設定1 21.9%→設定6 31.3%）を数えられるようにしました。スイカが出たら「スイカ」、CZに当たったら「スイカCZ」を押すだけです。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -329,6 +345,18 @@
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。数値はちょんぼりすた・1geki・P-WORLDで一致（月蝕変異はちょんぼりすた・1gekiの11/13更新で一致）。小役確率は未公表です。</p>
+  <table class="t" style="margin-top:14px;">
+    <thead><tr><th>設定</th><th>スイカCZ</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>21.9%</td></tr>
+        <tr><td>2</td><td>23.4%</td></tr>
+        <tr><td>3</td><td>25.0%</td></tr>
+        <tr class="hi"><td>4</td><td>28.1%</td></tr>
+        <tr class="hi"><td>5</td><td>29.7%</td></tr>
+        <tr class="hi"><td>6</td><td>31.3%</td></tr>
+    </tbody>
+  </table>
+  <p class="note">スイカ成立時のCZ当選率（%）。1gekiの値。</p>
 </section>
 
 <section id="uchikata">
@@ -372,6 +400,10 @@
       <thead><tr><th>設定</th><th>ボーナス</th><th>AT初当り</th><th>月蝕変異</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
+    <table class="t" style="margin-top:10px;">
+      <thead><tr><th>設定</th><th>スイカCZ</th></tr></thead>
+      <tbody id="pSpecBody"></tbody>
+    </table>
     <p class="note">解析サイトの公開値です（数値は2026年10月27日時点、示唆と月蝕変異は2026年11月13日時点。2026年11月2日導入、メーカーはビスティ／フィールズ）。ボーナス・AT初当り・機械割は、ちょんぼりすた・1geki・P-WORLDで一致しています。獲得枚数表示と終了画面は、ちょんぼりすた・1gekiで一致したものです。</p>
   </details>
 </section>
@@ -399,7 +431,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
 const XDEF = [{"id": "gesshoku", "spec": [5333, 4367, 3734, 3156, 2720, 2399], "dec": 1, "label": "月蝕変異", "g": null}];
 const XG = null;
-const PDEF = [];
+const PDEF = [{"n": "swN", "k": "swK", "nfrom": false, "spec": [21.9, 23.4, 25.0, 28.1, 29.7, 31.3], "f": 1, "label": "スイカCZ"}];
 const SPEC = { a: [234.2, 229.0, 221.8, 207.0, 201.5, 195.0], b: [460.5, 446.5, 425.5, 390.4, 374.2, 355.5], c: [1, 1, 1, 1, 1, 1], payout: [97.7, 98.9, 101.2, 105.8, 110.6, 114.9] };
 const BET = 3, LABEL_A = "ボーナス", LABEL_B = "AT初当り", LABEL_C = "";
 const $ = id => document.getElementById(id);
@@ -576,11 +608,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "gojieva2", "name": "Lパチスロ ゴジラ対エヴァンゲリオン2", "tags": "#ゴジエヴァ2 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "bonusCount", "q": "bn", "label": "ボーナス", "unit": "回", "rateOf": "totalG"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "gesshoku", "q": "gs", "label": "月蝕変異", "unit": "回", "rateOf": "totalG"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "gojieva2", "name": "Lパチスロ ゴジラ対エヴァンゲリオン2", "tags": "#ゴジエヴァ2 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "bonusCount", "q": "bn", "label": "ボーナス", "unit": "回", "rateOf": "totalG"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "gesshoku", "q": "gs", "label": "月蝕変異", "unit": "回", "rateOf": "totalG"}, {"id": "swN", "q": "sn", "label": "スイカ", "unit": "回"}, {"id": "swK", "q": "sk", "label": "そのうちCZ", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "gojieva2", "name": "ゴジエヴァ2", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "bonusCount", "label": "ボーナス"}, {"id": "atCount", "label": "AT初当り", "optional": true}, {"id": "gesshoku", "label": "月蝕変異", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ボーナス・ATは通常時から数える。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "獲得枚数・終了画面・ボイス", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（終了画面）"}]});
+SettiCounter.init({"key": "gojieva2", "name": "ゴジエヴァ2", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "bonusCount", "label": "ボーナス"}, {"id": "atCount", "label": "AT初当り", "optional": true}, {"id": "gesshoku", "label": "月蝕変異", "optional": true}, {"id": "swN", "label": "スイカ", "optional": true, "group": "スイカ", "rate": false, "defaultOff": true}, {"id": "swK", "label": "スイカCZ", "optional": true, "group": "スイカ", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ボーナス・ATは通常時から数える。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "獲得枚数・終了画面・ボイス", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（終了画面）"}]});
 </script>
 </body>
 </html>
