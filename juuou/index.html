@@ -41,6 +41,7 @@
   .lead{margin:0 16px;padding:12px 14px;background:#1b1a17;border-top:3px solid var(--amber);font-size:13.5px;}
   .lead b.h{display:block;color:var(--amber);font-size:15.5px;font-weight:800;margin-bottom:2px;}
   .lead p{margin:0;}
+  .scrjump{display:block;margin-top:10px;padding:9px 10px;border:1px solid var(--amber);border-radius:4px;color:var(--amber);font-weight:700;font-size:13.5px;text-decoration:none;text-align:center;}
   .lead .warn{margin-top:8px;padding-top:8px;border-top:1px dashed #3a3730;font-size:12px;color:var(--muted);}
   .jump{display:flex;gap:0;margin:14px 16px 0;border:1px solid var(--line);}
   .jump a{flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--muted);text-decoration:none;border-left:1px solid var(--line);}
@@ -112,6 +113,22 @@
   .tile:has(input:checked) .tv{color:var(--bg);}
   .floor{margin:10px 0 0;font-size:12.5px;color:var(--muted);}
   .floor b{color:var(--amber);font-weight:700;}
+  .scrgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:4px 0 6px;}
+  .scr{margin:0;background:#1b1a17;border:1px solid #3a3a3e;border-radius:4px;overflow:hidden;}
+  .scr[data-check]{cursor:pointer;}
+  .scr img{display:block;width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;background:#111;font-size:11px;color:var(--muted);}
+  .scr figcaption{padding:5px 6px 6px;display:flex;flex-direction:column;gap:1px;}
+  .scr .sn{font-size:12.5px;font-weight:700;line-height:1.3;}
+  .scr .sm{font-size:12px;color:var(--muted);line-height:1.3;}
+  .scr.k-k .sm{color:var(--amber);font-weight:700;}
+  .scr.k-m .sm{color:#8fb7d9;}
+  .scr.on{border-color:var(--amber);box-shadow:0 0 0 2px var(--amber) inset;}
+  .scr.on .sn::after{content:"  ✓ 絞り込み中";color:var(--amber);font-size:11px;}
+  .scrnote{font-size:11.5px;color:var(--muted);margin:2px 0 10px;}
+  .scrnote a{color:var(--muted);}
+  .scrmore{display:block;margin:4px 0 10px;padding:9px 10px;border:1px solid #3a3a3e;border-radius:4px;color:var(--fg,#eee);font-size:13px;font-weight:700;text-decoration:none;text-align:center;}
+  .scrcopyt{font-size:10.5px;color:var(--muted);margin:0 0 14px;}
+  .scrcopy{display:block;max-width:100%;height:auto;background:#fff;border-radius:3px;margin:0 0 14px;}
   .refs{margin:12px 0 0;padding-left:18px;font-size:12px;color:var(--muted);}
   .refs li{margin-bottom:4px;}
   .outlink{display:inline-block;margin-top:10px;font-size:12.5px;text-decoration:none;}
@@ -386,6 +403,7 @@ const SETS = [1, 2, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
 const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = false, HAS_C = false, HAS_CHECKS = true;
 const XDEF = [];
+const XG = null;
 const PDEF = [{"n": "chanceMe", "k": "chanceDir", "spec": [0.8, 0.8, 2.3, 2.7, 3.1], "f": 1, "label": "チャ目直撃"}, {"n": "mgBig", "k": "mgLeft", "spec": [60, 40, 40, 60, 50], "f": 1, "label": "マングース左"}];
 const SPEC = { a: [326.5, 321.6, 295.8, 287.6, 279.7], b: [1, 1, 1, 1, 1], c: [1, 1, 1, 1, 1], payout: [97.8, 98.7, 105.6, 108.6, 114.3] };
 const BET = 3, LABEL_A = "AT初当り", LABEL_B = "", LABEL_C = "";
@@ -408,6 +426,7 @@ const cCount = $("_noC") || { value: '', addEventListener(){}, dispatchEvent(){}
 const num = el => Math.max(parseFloat(el.value) || 0, 0);
 const bG = B_G ? $(B_G) : totalG;
 const xEls = XDEF.map(x => $(x.id));
+const xgEl = XG ? $(XG.id) : null;
 const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
 function livePct(){
   PDEF.forEach((q, j) => {
@@ -433,8 +452,8 @@ function live(el, cls, b, n, gEl){
   if(g > 0 && k > 0){ $(b).textContent = rate(g, k); $(n).textContent = nearLabel(g/k, readCol(cls)); }
   else { $(b).textContent = '―'; $(n).textContent = ''; }
 }
-function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); if(HAS_C) live(cCount, 'cInput', 'liveC', 'liveCNote'); xEls.forEach((el, j) => live(el, 'xInput' + j, 'liveX' + j, 'liveX' + j + 'Note')); }
-[totalG, aCount, bCount, cCount, bG, ...xEls].forEach(el => el.addEventListener('input', updateLive));
+function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); if(HAS_C) live(cCount, 'cInput', 'liveC', 'liveCNote'); xEls.forEach((el, j) => live(el, 'xInput' + j, 'liveX' + j, 'liveX' + j + 'Note', XDEF[j].g ? xgEl : null)); }
+[totalG, aCount, bCount, cCount, bG, ...xEls, xgEl].filter(Boolean).forEach(el => el.addEventListener('input', updateLive));
 specBody.addEventListener('input', updateLive);
 if(pBody) pBody.addEventListener('input', livePct);
 
@@ -452,6 +471,16 @@ $('undoBtn').addEventListener('click', () => {
 
 // 示唆
 const floorChecks = [...document.querySelectorAll('#floorGroup input[type=checkbox]')];
+const scrCards = [...document.querySelectorAll('.scr[data-check]')];
+const scrInput = c => floorChecks.find(x => x.dataset.name === c.dataset.check);
+function syncScr(){ scrCards.forEach(c => { const i = scrInput(c); c.classList.toggle('on', !!(i && i.checked)); }); }
+scrCards.forEach(c => {
+  const go = () => { const i = scrInput(c); if(i){ i.click(); syncScr(); } };
+  c.addEventListener('click', go);
+  c.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } });
+});
+floorChecks.forEach(x => x.addEventListener('change', syncScr));
+setTimeout(syncScr, 0); setTimeout(syncScr, 600);
 function currentAllow(){
   const on = floorChecks.filter(c => c.checked);
   let allow = new Set(SETS);
@@ -479,19 +508,22 @@ let judgeTimer = null, judgeLast = 0;
 $('calcBtn').addEventListener('click', () => {
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
-  const pUse = PDEF.map((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); return { n, k, use: n > 0 || k > 0 }; });
-  const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '' }));
+  // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
+  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
+  const pUse = PDEF.map((q, j) => { const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return { n, k, use: n > 0 || k > 0 }; });
+  const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }));
   const { allow, names } = currentAllow();
-  const needG = useA || useC || xUse.some(x => x.use) || (useB && !B_G);
+  const needG = useA || useC || xUse.some(x => x.use && x.gg === null) || (useB && !B_G);
   if(!needG && !useB && !pUse.some(x => x.use) && !names.length){ miniMsg(''); $('topSetting').innerHTML = INIT_TOP; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; return; }
   if(needG && g <= 0){ showMsg("通常時のゲーム数を入れてください（AT中とサバンナチャンス後の29Gは含めない）。"); return; }
   if(useB && gb <= 0){ showMsg(""); return; }
+  if(XG && xUse.some(x => x.use && x.gg !== null && x.gg <= 0)){ showMsg(XG.gmsg || 'ゲーム数を入れてください。'); return; }
   if(pUse.some(x => x.use && x.k > x.n)){ showMsg('「そのうち」の回数が、もとの回数より多くなっています。'); return; }
-  if(a > g || b > gb || c > g || xUse.some(x => x.k > g)){ showMsg('回数がゲーム数を超えています。'); return; }
+  if(a > g || b > gb || c > g || xUse.some(x => x.k > (x.gg === null ? g : x.gg))){ showMsg('回数がゲーム数を超えています。'); return; }
   if(!allow.size){ showMsg('押した示唆が矛盾しています。見間違いがないか確認してください。'); return; }
   const pv = PDEF.map((q, j) => readCol('pInput' + j).map(v => Math.min(Math.max(v * q.f / 100, 1e-6), 1 - 1e-6)));
   const xv = XDEF.map((x, j) => readCol('xInput' + j)), av = readCol('aInput'), bv = readCol('bInput'), cv = readCol('cInput'), payout = readCol('payoutInput');
-  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : (useA ? binomLL(a, g, 1/av[i]) : 0) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + xUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, g, 1/xv[j][i]) : 0), 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
+  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : (useA ? binomLL(a, g, 1/av[i]) : 0) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + xUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.gg === null ? g : x.gg, 1/xv[j][i]) : 0), 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
   const mx = Math.max(...ll), w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - mx)), sum = w.reduce((x, y) => x + y, 0), post = w.map(x => x / sum);
   const exp = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
   clearTimeout(judgeTimer);
@@ -507,6 +539,7 @@ $('calcBtn').addEventListener('click', () => {
   if(useB && B_G) parts.push(`${""}${gb}G`);
   if(useB) parts.push(`${LABEL_B} ${b}回（${rate(gb, b)}）`);
   if(useC) parts.push(`${LABEL_C} ${c}回`);
+  if(XG && xUse.some(x => x.use && x.gg !== null)) parts.push(`${XG.gshare}${num(xgEl)}G`);
   xUse.forEach((x, j) => { if(x.use) parts.push(`${XDEF[j].label} ${x.k}回`); });
   pUse.forEach((x, j) => { if(x.use) parts.push(`${PDEF[j].label} ${x.k}/${x.n}`); });
   if(names.length) parts.push(`示唆：${names.join('・')}`);

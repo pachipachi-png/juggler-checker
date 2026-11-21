@@ -438,7 +438,8 @@
 const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
 const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = true, HAS_CHECKS = true;
-const XDEF = [{"id": "fkCount", "spec": [2290.1, 2090.4, 1821.1, 1472.5, 1219.3, 976.4], "dec": 1, "label": "アイルー福引"}];
+const XDEF = [{"id": "fkCount", "spec": [2290.1, 2090.4, 1821.1, 1472.5, 1219.3, 976.4], "dec": 1, "label": "アイルー福引", "g": null}];
+const XG = null;
 const PDEF = [{"n": "cycCz", "k": "cycFk", "spec": [20.0, 21.5, 24.2, 28.1, 32.8, 39.5], "f": 1, "label": "周期CZ→福引"}];
 const SPEC = { a: [349.9, 337.0, 319.8, 283.6, 264.0, 242.3], b: [111.4, 108.8, 105.6, 99.3, 97.2, 95.8], c: [16281.7, 14875.5, 12788.0, 8702.1, 6351.2, 4263.1], payout: [97.5, 98.8, 100.8, 105.2, 108.4, 112.4] };
 const BET = 3, LABEL_A = "AT初当り", LABEL_B = "ブレイクゾーン", LABEL_C = "猛焔一閃の直撃";
@@ -461,6 +462,7 @@ const cCount = $("mkCount") || { value: '', addEventListener(){}, dispatchEvent(
 const num = el => Math.max(parseFloat(el.value) || 0, 0);
 const bG = B_G ? $(B_G) : totalG;
 const xEls = XDEF.map(x => $(x.id));
+const xgEl = XG ? $(XG.id) : null;
 const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
 function livePct(){
   PDEF.forEach((q, j) => {
@@ -486,8 +488,8 @@ function live(el, cls, b, n, gEl){
   if(g > 0 && k > 0){ $(b).textContent = rate(g, k); $(n).textContent = nearLabel(g/k, readCol(cls)); }
   else { $(b).textContent = '―'; $(n).textContent = ''; }
 }
-function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); if(HAS_C) live(cCount, 'cInput', 'liveC', 'liveCNote'); xEls.forEach((el, j) => live(el, 'xInput' + j, 'liveX' + j, 'liveX' + j + 'Note')); }
-[totalG, aCount, bCount, cCount, bG, ...xEls].forEach(el => el.addEventListener('input', updateLive));
+function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); if(HAS_C) live(cCount, 'cInput', 'liveC', 'liveCNote'); xEls.forEach((el, j) => live(el, 'xInput' + j, 'liveX' + j, 'liveX' + j + 'Note', XDEF[j].g ? xgEl : null)); }
+[totalG, aCount, bCount, cCount, bG, ...xEls, xgEl].filter(Boolean).forEach(el => el.addEventListener('input', updateLive));
 specBody.addEventListener('input', updateLive);
 if(pBody) pBody.addEventListener('input', livePct);
 
@@ -542,19 +544,22 @@ let judgeTimer = null, judgeLast = 0;
 $('calcBtn').addEventListener('click', () => {
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
-  const pUse = PDEF.map((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); return { n, k, use: n > 0 || k > 0 }; });
-  const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '' }));
+  // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
+  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
+  const pUse = PDEF.map((q, j) => { const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return { n, k, use: n > 0 || k > 0 }; });
+  const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }));
   const { allow, names } = currentAllow();
-  const needG = useA || useC || xUse.some(x => x.use) || (useB && !B_G);
+  const needG = useA || useC || xUse.some(x => x.use && x.gg === null) || (useB && !B_G);
   if(!needG && !useB && !pUse.some(x => x.use) && !names.length){ miniMsg(''); $('topSetting').innerHTML = INIT_TOP; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; return; }
   if(needG && g <= 0){ showMsg("通常時のゲーム数を入れてください（ブレイクゾーン・AT中は含めない）。"); return; }
   if(useB && gb <= 0){ showMsg(""); return; }
+  if(XG && xUse.some(x => x.use && x.gg !== null && x.gg <= 0)){ showMsg(XG.gmsg || 'ゲーム数を入れてください。'); return; }
   if(pUse.some(x => x.use && x.k > x.n)){ showMsg('「そのうち」の回数が、もとの回数より多くなっています。'); return; }
-  if(a > g || b > gb || c > g || xUse.some(x => x.k > g)){ showMsg('回数がゲーム数を超えています。'); return; }
+  if(a > g || b > gb || c > g || xUse.some(x => x.k > (x.gg === null ? g : x.gg))){ showMsg('回数がゲーム数を超えています。'); return; }
   if(!allow.size){ showMsg('押した示唆が矛盾しています。見間違いがないか確認してください。'); return; }
   const pv = PDEF.map((q, j) => readCol('pInput' + j).map(v => Math.min(Math.max(v * q.f / 100, 1e-6), 1 - 1e-6)));
   const xv = XDEF.map((x, j) => readCol('xInput' + j)), av = readCol('aInput'), bv = readCol('bInput'), cv = readCol('cInput'), payout = readCol('payoutInput');
-  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : (useA ? binomLL(a, g, 1/av[i]) : 0) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + xUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, g, 1/xv[j][i]) : 0), 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
+  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : (useA ? binomLL(a, g, 1/av[i]) : 0) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + xUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.gg === null ? g : x.gg, 1/xv[j][i]) : 0), 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
   const mx = Math.max(...ll), w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - mx)), sum = w.reduce((x, y) => x + y, 0), post = w.map(x => x / sum);
   const exp = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
   clearTimeout(judgeTimer);
@@ -570,6 +575,7 @@ $('calcBtn').addEventListener('click', () => {
   if(useB && B_G) parts.push(`${""}${gb}G`);
   if(useB) parts.push(`${LABEL_B} ${b}回（${rate(gb, b)}）`);
   if(useC) parts.push(`${LABEL_C} ${c}回`);
+  if(XG && xUse.some(x => x.use && x.gg !== null)) parts.push(`${XG.gshare}${num(xgEl)}G`);
   xUse.forEach((x, j) => { if(x.use) parts.push(`${XDEF[j].label} ${x.k}回`); });
   pUse.forEach((x, j) => { if(x.use) parts.push(`${PDEF[j].label} ${x.k}/${x.n}`); });
   if(names.length) parts.push(`示唆：${names.join('・')}`);

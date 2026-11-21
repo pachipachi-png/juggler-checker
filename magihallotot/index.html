@@ -467,7 +467,9 @@ let judgeTimer = null, judgeLast = 0;
 $('calcBtn').addEventListener('click', () => {
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
-  const pUse = PDEF.map((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); return { n, k, use: n > 0 || k > 0 }; });
+  // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
+  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
+  const pUse = PDEF.map((q, j) => { const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return { n, k, use: n > 0 || k > 0 }; });
   const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }));
   const { allow, names } = currentAllow();
   const needG = useA || useC || xUse.some(x => x.use && x.gg === null) || (useB && !B_G);
