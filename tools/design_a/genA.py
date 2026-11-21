@@ -86,6 +86,8 @@ share = json.dumps({"key": key, "name": m['full'], "tags": m['tags'], "boxes": [
 ccfg = {"key": key, "name": m['cname'], "g": {"id": "totalG", "label": gcount}, "counts": [{"id": A['id'], "label": A['label']}] + ([{"id": B['id'], "label": B['label'], "optional": True, **({"rateG": BG} if BG else {})}] if B else []) + ([{"id": C['id'], "label": C['label'], "optional": True}] if C else []) + [{"id": x['id'], "label": x['label'], "optional": True} for x in X] + [c for q in P for c in ({"id": q['n']['id'], "label": q['n']['label'], "optional": True, "group": q['group'], "rate": False, "defaultOff": True}, {"id": q['k']['id'], "label": q['k'].get('clabel', q['k']['label']), "optional": True, "group": q['group'], "rate": False, "defaultOff": True})], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": m['cnote']}
 if hasChecks: ccfg["checks"] = {"selector": "#floorGroup input[type=checkbox]", "title": m['checktitle'], "short": "示唆", "optional": True}
 if BG: ccfg["g2"] = [{"id": BG, "label": B['gcount'], "item": B['id']}]
+XG = m.get('XG')  # X の一部を別のG数で割るとき：dict(id, label, gcount, gshare, gmsg)。X 側は g=XG['id']
+if XG: ccfg.setdefault("g2", []).extend({"id": XG['id'], "label": XG['gcount'], "item": x['id']} for x in X if x.get('g'))
 counter = json.dumps(ccfg, ensure_ascii=False)
 bgcell = f'''<div><label for="{BG}">{B['glabel']}</label><input type="number" id="{BG}" inputmode="numeric" placeholder="-"></div>''' if BG else ''
 bgtap = f'''<button type="button" data-add="{B.get('gadd', BG + ',totalG') if BG else ''}" data-n="100">{B['gbtn']}</button>''' if BG else ''
@@ -95,8 +97,11 @@ brate = f'''<span>{B['btn']} <b id="liveB">―</b><small id="liveBNote"></small>
 ccell = f'''<div><label for="{C['id']}">{C['label']}</label><input type="number" id="{C['id']}" inputmode="numeric" placeholder="-"></div>''' if C else ''
 ctap = f'''<button type="button" data-add="{C['id']}" data-n="1">{C['btn']} +1</button>''' if C else ''
 crate = f'''<span>{C['btn']} <b id="liveC">―</b><small id="liveCNote"></small></span>''' if C else ''
-ccell += ''.join(f'''<div><label for="{x['id']}">{x['label']}</label><input type="number" id="{x['id']}" inputmode="numeric" placeholder="-"></div>''' for x in X)
+_xgcell = f'''<div><label for="{XG['id']}">{XG['label']}</label><input type="number" id="{XG['id']}" inputmode="numeric" placeholder="-"></div>''' if XG else ''
+_xg_at = next((i for i, x in enumerate(X) if x.get('g')), None)
+ccell += ''.join((_xgcell if i == _xg_at else '') + f'''<div><label for="{x['id']}">{x['label']}</label><input type="number" id="{x['id']}" inputmode="numeric" placeholder="-"></div>''' for i, x in enumerate(X))
 ctap += ''.join(f'''<button type="button" data-add="{x['id']}" data-n="1">{x['btn']} +1</button>''' for x in X)
+if XG: ctap += f'''<button type="button" data-add="{XG['id']}" data-n="100">{XG.get('gbtn', XG['gshare'] + ' +100G')}</button>'''
 crate += ''.join(f'''<span>{x['btn']} <b id="liveX{j}">―</b><small id="liveX{j}Note"></small></span>''' for j, x in enumerate(X))
 cellcols = 2 if (BG or C or X) else (3 if B else 2)
 tapcols = 3 if (BG or C or X) else (4 if B else 3)
@@ -405,7 +410,8 @@ html = f'''<!DOCTYPE html>
 const SETS = {json.dumps(SETS)}, N = SETS.length, HI = SETS.map(s => s >= 4);
 const DEC_A = {decA}, DEC_B = {decB}, DEC_C = {decC}, B_G = {json.dumps(BG)};
 const HAS_B = {'true' if B else 'false'}, HAS_C = {'true' if C else 'false'}, HAS_CHECKS = {'true' if hasChecks else 'false'};
-const XDEF = {json.dumps([dict(id=x['id'], spec=x['spec'], dec=x.get('dec', 1), label=x['label']) for x in X], ensure_ascii=False)};
+const XDEF = {json.dumps([dict(id=x['id'], spec=x['spec'], dec=x.get('dec', 1), label=x['label'], g=x.get('g')) for x in X], ensure_ascii=False)};
+const XG = {json.dumps(XG or None, ensure_ascii=False)};
 const PDEF = {json.dumps([dict(n=q['n']['id'], k=q['k']['id'], spec=q['spec'], f=q.get('f', 1), label=q['short']) for q in P], ensure_ascii=False)};
 const SPEC = {{ a: {json.dumps(A['spec'])}, b: {json.dumps(BB['spec'])}, c: {json.dumps(CC['spec'])}, payout: {json.dumps(m['payout'])} }};
 const BET = 3, LABEL_A = {json.dumps(A['label'], ensure_ascii=False)}, LABEL_B = {json.dumps(BB['label'], ensure_ascii=False)}, LABEL_C = {json.dumps(CC['label'], ensure_ascii=False)};
@@ -428,6 +434,7 @@ const cCount = $({json.dumps(CC['id'])}) || {{ value: '', addEventListener(){{}}
 const num = el => Math.max(parseFloat(el.value) || 0, 0);
 const bG = B_G ? $(B_G) : totalG;
 const xEls = XDEF.map(x => $(x.id));
+const xgEl = XG ? $(XG.id) : null;
 const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
 function livePct(){{
   PDEF.forEach((q, j) => {{
@@ -453,8 +460,8 @@ function live(el, cls, b, n, gEl){{
   if(g > 0 && k > 0){{ $(b).textContent = rate(g, k); $(n).textContent = nearLabel(g/k, readCol(cls)); }}
   else {{ $(b).textContent = '―'; $(n).textContent = ''; }}
 }}
-function updateLive(){{ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); if(HAS_C) live(cCount, 'cInput', 'liveC', 'liveCNote'); xEls.forEach((el, j) => live(el, 'xInput' + j, 'liveX' + j, 'liveX' + j + 'Note')); }}
-[totalG, aCount, bCount, cCount, bG, ...xEls].forEach(el => el.addEventListener('input', updateLive));
+function updateLive(){{ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); if(HAS_C) live(cCount, 'cInput', 'liveC', 'liveCNote'); xEls.forEach((el, j) => live(el, 'xInput' + j, 'liveX' + j, 'liveX' + j + 'Note', XDEF[j].g ? xgEl : null)); }}
+[totalG, aCount, bCount, cCount, bG, ...xEls, xgEl].filter(Boolean).forEach(el => el.addEventListener('input', updateLive));
 specBody.addEventListener('input', updateLive);
 if(pBody) pBody.addEventListener('input', livePct);
 
@@ -510,18 +517,19 @@ $('calcBtn').addEventListener('click', () => {{
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
   const pUse = PDEF.map((q, j) => {{ const n = num(pEls[j][0]), k = num(pEls[j][1]); return {{ n, k, use: n > 0 || k > 0 }}; }});
-  const xUse = xEls.map((el, j) => ({{ k: num(el), use: el.value.trim() !== '' }}));
+  const xUse = xEls.map((el, j) => ({{ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }}));
   const {{ allow, names }} = currentAllow();
-  const needG = useA || useC || xUse.some(x => x.use) || (useB && !B_G);
+  const needG = useA || useC || xUse.some(x => x.use && x.gg === null) || (useB && !B_G);
   if(!needG && !useB && !pUse.some(x => x.use) && !names.length){{ miniMsg(''); $('topSetting').innerHTML = INIT_TOP; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; return; }}
   if(needG && g <= 0){{ showMsg({json.dumps(m.get('gmsg', '総回転（通常時）を入れてください。'), ensure_ascii=False)}); return; }}
   if(useB && gb <= 0){{ showMsg({json.dumps((B or {}).get('gmsg', ''), ensure_ascii=False)}); return; }}
+  if(XG && xUse.some(x => x.use && x.gg !== null && x.gg <= 0)){{ showMsg(XG.gmsg || 'ゲーム数を入れてください。'); return; }}
   if(pUse.some(x => x.use && x.k > x.n)){{ showMsg('「そのうち」の回数が、もとの回数より多くなっています。'); return; }}
-  if(a > g || b > gb || c > g || xUse.some(x => x.k > g)){{ showMsg('回数がゲーム数を超えています。'); return; }}
+  if(a > g || b > gb || c > g || xUse.some(x => x.k > (x.gg === null ? g : x.gg))){{ showMsg('回数がゲーム数を超えています。'); return; }}
   if(!allow.size){{ showMsg('押した示唆が矛盾しています。見間違いがないか確認してください。'); return; }}
   const pv = PDEF.map((q, j) => readCol('pInput' + j).map(v => Math.min(Math.max(v * q.f / 100, 1e-6), 1 - 1e-6)));
   const xv = XDEF.map((x, j) => readCol('xInput' + j)), av = readCol('aInput'), bv = readCol('bInput'), cv = readCol('cInput'), payout = readCol('payoutInput');
-  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : (useA ? binomLL(a, g, 1/av[i]) : 0) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + xUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, g, 1/xv[j][i]) : 0), 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
+  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : (useA ? binomLL(a, g, 1/av[i]) : 0) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + xUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.gg === null ? g : x.gg, 1/xv[j][i]) : 0), 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
   const mx = Math.max(...ll), w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - mx)), sum = w.reduce((x, y) => x + y, 0), post = w.map(x => x / sum);
   const exp = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
   clearTimeout(judgeTimer);
@@ -537,6 +545,7 @@ $('calcBtn').addEventListener('click', () => {{
   if(useB && B_G) parts.push(`${{{json.dumps((B or {}).get('gshare',''), ensure_ascii=False)}}}${{gb}}G`);
   if(useB) parts.push(`${{LABEL_B}} ${{b}}回（${{rate(gb, b)}}）`);
   if(useC) parts.push(`${{LABEL_C}} ${{c}}回`);
+  if(XG && xUse.some(x => x.use && x.gg !== null)) parts.push(`${{XG.gshare}}${{num(xgEl)}}G`);
   xUse.forEach((x, j) => {{ if(x.use) parts.push(`${{XDEF[j].label}} ${{x.k}}回`); }});
   pUse.forEach((x, j) => {{ if(x.use) parts.push(`${{PDEF[j].label}} ${{x.k}}/${{x.n}}`); }});
   if(names.length) parts.push(`示唆：${{names.join('・')}}`);
