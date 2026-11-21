@@ -52,6 +52,7 @@ add('Vivy',[1,2,3,4,5,6],4,[('AT','g',A([276.5,251.7,272.1,222.8,235.9,210.3]),N
 add('聖闘士星矢 黄金十二宮',[1,2,3,4,5,6],4,[('AT','g',A([364.2,356.1,345.6,322.3,313.7,310.5]),None,1),('CZ','g',A([214.4,214.1,211.7,202.5,197.2,200.3]),None,0),('周期直撃','pct',A([0.78,1.56,2.34,3.91,3.91,6.25]),('CZ',),0)])  # 周期到達はCZ合算と同じ回数と仮定（オーナー案 11/18）
 
 add('ハイハイシオサイRe',[1,2,4,5,6],4,[('BIG','g',A([268.8,262.0,228.8,218.7,199.6]),None,1),('REG','g',A([688.6,671.0,632.6,623.2,608.4]),None,0)])
+add('ヴァルヴレイヴ2',[1,2,4,5,6],4,[('初当り','g',A([476,473,464,459,456]),None,1)])
 add('戦国コレクション6',[1,2,3,4,5,6],4,[('AT','g',A([363.6,350.4,329.8,289.4,268.5,252.2]),None,1)])
 add('真打吉宗',[1,2,3,4,5,6],4,[('AT','g',A([488.9,471.5,438.5,398.1,377.0,354.9]),None,1),('CZ','g',A([313.0,303.0,283.5,267.1,256.9,250.6]),None,0)])
 def run(name,G,full,si,n):
@@ -75,7 +76,7 @@ def run(name,G,full,si,n):
         w=np.exp(ll-ll.max()); p=w/w.sum(); ok+= p[his].sum()>=0.8
     return ok/n
 
-PATH={'モンキーターンV':'monkey/','クレアBT':'crea-bt/','マジハロ8':'magihallo8/','マジハロToT':'magihallotot/','マジハロBT':'magihallobt/','ミリオンゴッド':'milliongod/','東京喰種':'ghoul/','北斗の拳(無印)':'hokuto/','北斗 転生2':'hokuto-tensei2/','戦国乙女5':'otome5/','まほあこ':'mahoako/','サンブレイク':'mhsunbreak/','カバネリ海門':'kabaneri2/','バイオRE3':'biore3/','SAO2':'sao2/','パリピ孔明':'paripi/','転生王女':'tenten/','リコリス':'lycoris/','かのかり':'kanokari/','からくり2':'karakuri2/','禁書2':'index2/','獣王':'juuou/','ハナビ':'hanabi/','マイジャグラーV':'juggler/','ハナハナ天翔':'hanahana/','沖ドキDUOアンコール':'okidoki-duo/','沖ドキBLACK':'okidoki-black/','沖ドキGOLD':'okidoki-gold/','防振り':'bofuri/','牙狼 闇を照らす者':'garo-yami/','ラグナドール':'ragnador/','ガンゲイル・オンライン':'ggo/','ゴジエヴァ2':'gojieva2/','Vivy':'vivy/','聖闘士星矢 黄金十二宮':'seiya-ougon/','ハイハイシオサイRe':'shiosai-re/','戦国コレクション6':'sencolle6/','真打吉宗':'shinuchi-yoshimune/'}
+PATH={'ヴァルヴレイヴ2':'vvv2/','モンキーターンV':'monkey/','クレアBT':'crea-bt/','マジハロ8':'magihallo8/','マジハロToT':'magihallotot/','マジハロBT':'magihallobt/','ミリオンゴッド':'milliongod/','東京喰種':'ghoul/','北斗の拳(無印)':'hokuto/','北斗 転生2':'hokuto-tensei2/','戦国乙女5':'otome5/','まほあこ':'mahoako/','サンブレイク':'mhsunbreak/','カバネリ海門':'kabaneri2/','バイオRE3':'biore3/','SAO2':'sao2/','パリピ孔明':'paripi/','転生王女':'tenten/','リコリス':'lycoris/','かのかり':'kanokari/','からくり2':'karakuri2/','禁書2':'index2/','獣王':'juuou/','ハナビ':'hanabi/','マイジャグラーV':'juggler/','ハナハナ天翔':'hanahana/','沖ドキDUOアンコール':'okidoki-duo/','沖ドキBLACK':'okidoki-black/','沖ドキGOLD':'okidoki-gold/','防振り':'bofuri/','牙狼 闇を照らす者':'garo-yami/','ラグナドール':'ragnador/','ガンゲイル・オンライン':'ggo/','ゴジエヴァ2':'gojieva2/','Vivy':'vivy/','聖闘士星矢 黄金十二宮':'seiya-ougon/','ハイハイシオサイRe':'shiosai-re/','戦国コレクション6':'sencolle6/','真打吉宗':'shinuchi-yoshimune/'}
 def lv(p): return 'easy' if p>=0.6 else ('normal' if p>=0.3 else 'hard')
 add('炎炎2',[1,2,3,4,5,6],4,[('ボーナス','g',A([272,269,257,242,236,227]),None,1),('炎炎ループ','g',A([684,662,617,546,518,486]),None,0)])
 if __name__=='__main__':
