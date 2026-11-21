@@ -144,7 +144,13 @@
     if (cfg.checks && cfg.checks.optional) opts.push({ k: '__checks', label: cfg.checks.short || cfg.checks.title, def: !cfg.checks.defaultOff });
     var useP = store.get(UKEY) || {};
     var stash = {};
-    var isOn = function (k) { return useP[k] === undefined ? (opts.filter(function (o) { return o.k === k; })[0] || { def: true }).def : !!useP[k]; };
+    // 自分でON/OFFを選んでいない項目は、既定がOFFでも判別ページに数字が入っていればONにする
+    var isOn = function (k) {
+      if (useP[k] !== undefined) return !!useP[k];
+      var o = opts.filter(function (x) { return x.k === k; })[0] || { def: true };
+      if (o.def) return true;
+      return (o.ids || []).some(function (id) { return val(id) > 0; });
+    };
 
     // ---------- 値の読み書き（判別ページの入力欄が正） ----------
     var val = function (id) { var el = $(id); return el ? Math.max(parseInt(el.value, 10) || 0, 0) : 0; };
