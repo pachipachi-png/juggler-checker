@@ -56,6 +56,8 @@ add('ヴァルヴレイヴ2',[1,2,4,5,6],4,[('初当り','g',A([476,473,464,459,
 add('攻殻機動隊',[1,2,3,4,5,6],4,[('AT','g',A([336.3,332.0,319.6,298.7,285.8,278.0]),None,1),('CZ','g',A([238.0,236.3,231.7,220.9,214.0,210.1]),None,0),('直撃','g',A([10676.6,9795.3,7732.7,6127.5,5247.7,4473.0]),None,0),('引き戻し','pct',A([3.3,4.6,5.8,7.1,8.3,9.6]),('AT',),0),('視覚HACK','pct',A([5.7,6.1,6.9,9.0,10.1,10.6]),('CZ',),0)])  # 11/21 引き戻しの母数はAT回数、視覚HACKはCZ回数で近似。タチコマ（400Gまで見られる回が少ない）・緑発展など（頻度不明）は除外
 add('戦国コレクション6',[1,2,3,4,5,6],4,[('AT','g',A([363.6,350.4,329.8,289.4,268.5,252.2]),None,1)])
 add('真打吉宗',[1,2,3,4,5,6],4,[('AT','g',A([488.9,471.5,438.5,398.1,377.0,354.9]),None,1),('CZ','g',A([313.0,303.0,283.5,267.1,256.9,250.6]),None,0),('柳生','pct',A([3.7,3.9,4.7,6.2,7.81,8.7]),('CZ',),0)])
+add('押忍！番長番付',[1,2,3,4,5,6],4,[('AT','g',A([365.1,315.6,359.7,282.1,344.1,272.3]),None,1)])
+add('ツインエンジェル2',[1,2,3,4,5,6],4,[('BIG','g',A([273.1,267.5,262.1,253.0,248.2,243.6]),None,1),('MB','g',A([448.9,436.9,425.6,344.9,337.8,331.0]),None,1)])
 def run(name,G,full,si,n):
     sets,hi,comps=M[name]; S=len(sets); his=np.array([s>=hi for s in sets])
     use=[c for c in comps if c[4] or full]
@@ -77,7 +79,7 @@ def run(name,G,full,si,n):
         w=np.exp(ll-ll.max()); p=w/w.sum(); ok+= p[his].sum()>=0.8
     return ok/n
 
-PATH={'攻殻機動隊':'kokaku/','ヴァルヴレイヴ2':'vvv2/','モンキーターンV':'monkey/','クレアBT':'crea-bt/','マジハロ8':'magihallo8/','マジハロToT':'magihallotot/','マジハロBT':'magihallobt/','ミリオンゴッド':'milliongod/','東京喰種':'ghoul/','北斗の拳(無印)':'hokuto/','北斗 転生2':'hokuto-tensei2/','戦国乙女5':'otome5/','まほあこ':'mahoako/','サンブレイク':'mhsunbreak/','カバネリ海門':'kabaneri2/','バイオRE3':'biore3/','SAO2':'sao2/','パリピ孔明':'paripi/','転生王女':'tenten/','リコリス':'lycoris/','かのかり':'kanokari/','からくり2':'karakuri2/','禁書2':'index2/','獣王':'juuou/','ハナビ':'hanabi/','マイジャグラーV':'juggler/','ハナハナ天翔':'hanahana/','沖ドキDUOアンコール':'okidoki-duo/','沖ドキBLACK':'okidoki-black/','沖ドキGOLD':'okidoki-gold/','防振り':'bofuri/','牙狼 闇を照らす者':'garo-yami/','ラグナドール':'ragnador/','ガンゲイル・オンライン':'ggo/','ゴジエヴァ2':'gojieva2/','Vivy':'vivy/','聖闘士星矢 黄金十二宮':'seiya-ougon/','ハイハイシオサイRe':'shiosai-re/','戦国コレクション6':'sencolle6/','真打吉宗':'shinuchi-yoshimune/'}
+PATH={'攻殻機動隊':'kokaku/','ヴァルヴレイヴ2':'vvv2/','モンキーターンV':'monkey/','クレアBT':'crea-bt/','マジハロ8':'magihallo8/','マジハロToT':'magihallotot/','マジハロBT':'magihallobt/','ミリオンゴッド':'milliongod/','東京喰種':'ghoul/','北斗の拳(無印)':'hokuto/','北斗 転生2':'hokuto-tensei2/','戦国乙女5':'otome5/','まほあこ':'mahoako/','サンブレイク':'mhsunbreak/','カバネリ海門':'kabaneri2/','バイオRE3':'biore3/','SAO2':'sao2/','パリピ孔明':'paripi/','転生王女':'tenten/','リコリス':'lycoris/','かのかり':'kanokari/','からくり2':'karakuri2/','禁書2':'index2/','獣王':'juuou/','ハナビ':'hanabi/','マイジャグラーV':'juggler/','ハナハナ天翔':'hanahana/','沖ドキDUOアンコール':'okidoki-duo/','沖ドキBLACK':'okidoki-black/','沖ドキGOLD':'okidoki-gold/','防振り':'bofuri/','牙狼 闇を照らす者':'garo-yami/','ラグナドール':'ragnador/','ガンゲイル・オンライン':'ggo/','ゴジエヴァ2':'gojieva2/','Vivy':'vivy/','聖闘士星矢 黄金十二宮':'seiya-ougon/','ハイハイシオサイRe':'shiosai-re/','戦国コレクション6':'sencolle6/','真打吉宗':'shinuchi-yoshimune/','押忍！番長番付':'banzuke/','ツインエンジェル2':'twinangel2/'}
 def lv(p): return 'easy' if p>=0.6 else ('normal' if p>=0.3 else 'hard')
 PATH['炎炎2']='enen2/'
 add('炎炎2',[1,2,3,4,5,6],4,[('ボーナス','g',A([272,269,257,242,236,227]),None,1),('炎炎ループ','g',A([684,662,617,546,518,486]),None,0)])

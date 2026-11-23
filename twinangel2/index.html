@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スマスロ 快盗天使ツインエンジェル2 設定判別・BIG・MB・機械割・打ち方 | 設定示唆くん</title>
+<meta name="description" content="スマスロ 快盗天使ツインエンジェル2（ツイン2・サミー）の設定判別ツール。総回転数とBIG（SBB含む）・MBの回数から設定1〜6の可能性を計算します。MBは設定3と4の間で大きく軽くなるのが特徴。機械割の一覧・打ち方つき。2026年12月7日導入の新台。">
+<link rel="canonical" href="https://pachipachi-png.com/twinangel2/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="設定示唆くん">
+<meta property="og:title" content="ツインエンジェル2（スマスロ）設定判別 | 設定示唆くん">
+<meta property="og:description" content="BIGとMBの回数で設定1〜6を判別。MBは設定4から一気に軽い。機械割・打ち方つき。">
+<meta property="og:url" content="https://pachipachi-png.com/twinangel2/">
+<meta property="og:image" content="https://pachipachi-png.com/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+1p:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  /* 案A：データカウンター風（2026-10-30 試作） */
+  :root{
+    --bg:#0c0c0d; --panel:#17171a; --panel-2:#1f1f22; --line:#2c2c30; --text:#ebe8e1; --muted:#a9a59c;
+    --amber:#ffb21e; --amber-dim:#3a2a0c; --led-bg:#120d05;
+    /* counter.js・share.js が使う名前 */
+    --gold:#ffb21e; --gold-dim:#6b4c10; --teal:#ffb21e; --red:#ff7a6b;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'M PLUS 1p',sans-serif;line-height:1.7;padding-bottom:72px;}
+  .dot{font-variant-numeric:tabular-nums;font-weight:700;}
+  .led{font-family:'DotGothic16',monospace;font-weight:400;}
+  .wrap{max-width:520px;margin:0 auto;}
+  a{color:var(--amber);}
+  .bar-top{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);font-size:12px;}
+  .bar-top a{text-decoration:none;font-weight:800;font-size:14px;letter-spacing:.04em;}
+  .bar-top span{color:var(--muted);}
+  .hero{display:flex;gap:14px;padding:18px 16px 14px;align-items:flex-end;}
+  .hero img{width:140px;height:auto;flex-shrink:0;background:#fff;border-radius:4px;}
+  .hero .new{align-self:flex-start;background:var(--amber);color:var(--bg);font-size:12px;padding:1px 6px;}
+  .hero h1{margin:6px 0 4px;font-size:22px;line-height:1.3;font-weight:800;}
+  .hero p{margin:0;font-size:12px;color:var(--muted);line-height:1.6;}
+  .lead{margin:0 16px;padding:12px 14px;background:#1b1a17;border-top:3px solid var(--amber);font-size:13.5px;}
+  .lead b.h{display:block;color:var(--amber);font-size:15.5px;font-weight:800;margin-bottom:2px;}
+  .lead p{margin:0;}
+  .scrjump{display:block;margin-top:10px;padding:9px 10px;border:1px solid var(--amber);border-radius:4px;color:var(--amber);font-weight:700;font-size:13.5px;text-decoration:none;text-align:center;}
+  .lead .warn{margin-top:8px;padding-top:8px;border-top:1px dashed #3a3730;font-size:12px;color:var(--muted);}
+  .jump{display:flex;gap:0;margin:14px 16px 0;border:1px solid var(--line);}
+  .jump a{flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--muted);text-decoration:none;border-left:1px solid var(--line);}
+  .jump a:first-child{border-left:none;}
+  .data{margin:16px 16px 0;background:#050505;border:2px solid #2f2f31;border-radius:6px;padding:14px 12px 12px;}
+  .data-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .data-h .dot{font-family:'DotGothic16',monospace;font-weight:400;font-size:13px;color:var(--muted);letter-spacing:.1em;}
+  .data-h small{font-size:11px;color:var(--muted);}
+  .cells{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+  .cells{align-items:end;}
+  .cells label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .cells input{width:100%;background:var(--led-bg);border:1px solid var(--amber-dim);color:var(--amber);font-family:'DotGothic16',monospace;font-size:26px;text-align:right;padding:6px;border-radius:3px;}
+  .cells input::placeholder{color:#5a4316;}
+  input:focus,button:focus-visible,.tile:focus-within{outline:2px solid var(--amber);outline-offset:1px;}
+  .taps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px;}
+  .taps button{height:48px;background:#26262a;color:var(--text);border:1px solid #3a3a3e;border-radius:4px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;}
+  .taps button:active{background:#34343a;}
+  .taps button.undo{color:var(--muted);font-weight:500;}
+  .rates{display:flex;justify-content:space-between;gap:8px;margin-top:10px;font-size:13.5px;color:var(--muted);flex-wrap:wrap;}
+  .rates b{color:var(--amber);font-weight:800;}
+  .mini{position:fixed;left:14px;bottom:16px;z-index:899;display:flex;align-items:center;gap:8px;width:auto;margin:0;padding:8px 14px 8px 10px;background:#141414;border:2px solid var(--amber);border-radius:999px;color:var(--text);font-family:inherit;cursor:pointer;text-align:left;box-shadow:0 6px 20px #0008;max-width:calc(100% - 200px);}
+  .mini.away{opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .2s,transform .2s;}
+  .mini{transition:opacity .2s,transform .2s;}
+  .mini[hidden]{display:none;}
+  .mini-bars{display:flex;align-items:flex-end;gap:2px;height:26px;flex:none;}
+  .mini-bars span{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:2px;}
+  .mini-bars i{display:block;width:6px;background:#5c5a55;min-height:2px;}
+  .mini-bars .hi i{background:var(--amber);}
+  .mini-bars em{display:none;}
+  .mini-t{font-size:10.5px;color:var(--muted);line-height:1.2;white-space:nowrap;}
+  .mini-t b{display:block;font-size:15px;color:var(--amber);font-weight:800;font-variant-numeric:tabular-nums;}
+  #result{margin:16px 16px 0 !important;padding:12px 12px 14px;border:2px solid var(--amber);border-radius:6px;background:#0b0b0b;}
+  #result .sh{border-bottom-color:#3a2c10;}
+  .rates small{font-size:11px;margin-left:4px;}
+  .hint{font-size:12px;color:var(--muted);line-height:1.6;margin:6px 0 0;}
+  .data .hint{margin:8px 0 0;font-size:11.5px;color:var(--muted);line-height:1.6;}
+  .pdata{margin-top:10px;} .pcard{border:1px solid #2f2f31;border-radius:4px;padding:10px;margin-top:10px;} .pcard:first-of-type{margin-top:0;} .pcard .pt{margin:0;font-size:14px;font-weight:800;color:var(--text);} .pcard .pr{margin:2px 0 8px;font-size:11.5px;color:var(--muted);line-height:1.6;} .pdata .cells input{font-size:22px;} .pdata .taps button{height:44px;}
+  .judge{display:block;width:calc(100% - 32px);margin:12px 16px 0;height:54px;background:var(--amber);color:var(--bg);border:none;border-radius:4px;font-family:inherit;font-weight:800;font-size:17px;letter-spacing:.08em;cursor:pointer;}
+  .judge:active{transform:translateY(1px);}
+  section{margin:24px 16px 0;}
+  .sh{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:6px;margin:0 0 10px;}
+  .sh h2{margin:0;font-size:15.5px;font-weight:800;}
+  .sh small{font-size:12px;color:var(--muted);}
+  #pieWrap{margin-top:2px;}
+  .legend-row{display:flex;align-items:center;gap:8px;font-variant-numeric:tabular-nums;font-size:13px;margin-bottom:6px;}
+  .legend-row .sl{width:44px;color:var(--muted);}
+  .legend-row.hi .sl{color:var(--amber);}
+  .legend-row .track{flex:1;height:14px;background:#1b1b1d;}
+  .legend-row .swatch{display:block;height:14px;background:#5c5a55;}
+  .legend-row.hi .swatch{background:var(--amber);}
+  .legend-row .pct{width:50px;text-align:right;}
+  .legend-row.cut{opacity:.35;}
+  .summary{font-size:13.5px;line-height:1.7;}
+  .summary .big{font-variant-numeric:tabular-nums;font-weight:800;color:var(--amber);font-size:21px;}
+  .summary .meta{display:block;font-size:12px;color:var(--muted);margin-top:4px;}
+  .ev{margin-top:12px;padding:12px;border:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .ev .n{font-variant-numeric:tabular-nums;font-weight:800;font-size:22px;}
+  .ev .n.pos{color:var(--amber);} .ev .n.neg{color:#ff7a6b;}
+  .ev small{font-size:11.5px;color:var(--muted);}
+  .tip{margin-top:12px;font-size:12.5px;color:var(--muted);}
+  .tip a{font-weight:700;}
+  .sub{margin:12px 0 6px;font-size:12px;color:var(--muted);}
+  .tiles{display:grid;gap:6px;}
+  .tile{position:relative;min-height:56px;background:#1b1a17;border:1px solid #3a3a3e;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;text-align:center;padding:4px 2px;}
+  .tile input{position:absolute;opacity:0;width:1px;height:1px;}
+  .tile .tn{font-size:12px;font-weight:700;line-height:1.3;}
+  .tile .tv{font-variant-numeric:tabular-nums;font-size:12px;color:var(--muted);}
+  .tile:has(input:checked){background:var(--amber);border-color:var(--amber);color:var(--bg);}
+  .tile:has(input:checked) .tv{color:var(--bg);}
+  .floor{margin:10px 0 0;font-size:12.5px;color:var(--muted);}
+  .floor b{color:var(--amber);font-weight:700;}
+  .scrgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:4px 0 6px;}
+  .scr{margin:0;background:#1b1a17;border:1px solid #3a3a3e;border-radius:4px;overflow:hidden;}
+  .scr[data-check]{cursor:pointer;}
+  .scr img{display:block;width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;background:#111;font-size:11px;color:var(--muted);}
+  .scr figcaption{padding:5px 6px 6px;display:flex;flex-direction:column;gap:1px;}
+  .scr .sn{font-size:12.5px;font-weight:700;line-height:1.3;}
+  .scr .sm{font-size:12px;color:var(--muted);line-height:1.3;}
+  .scr.k-k .sm{color:var(--amber);font-weight:700;}
+  .scr.k-m .sm{color:#8fb7d9;}
+  .scr.on{border-color:var(--amber);box-shadow:0 0 0 2px var(--amber) inset;}
+  .scr.on .sn::after{content:"  ✓ 絞り込み中";color:var(--amber);font-size:11px;}
+  .scrnote{font-size:11.5px;color:var(--muted);margin:2px 0 10px;}
+  .scrnote a{color:var(--muted);}
+  .scrmore{display:block;margin:4px 0 10px;padding:9px 10px;border:1px solid #3a3a3e;border-radius:4px;color:var(--fg,#eee);font-size:13px;font-weight:700;text-decoration:none;text-align:center;}
+  .scrcopyt{font-size:10.5px;color:var(--muted);margin:0 0 14px;}
+  .scrcopy{display:block;max-width:100%;height:auto;background:#fff;border-radius:3px;margin:0 0 14px;}
+  .refs{margin:12px 0 0;padding-left:18px;font-size:12px;color:var(--muted);}
+  .refs li{margin-bottom:4px;}
+  .outlink{display:inline-block;margin-top:10px;font-size:12.5px;text-decoration:none;}
+  .memo{margin:24px 16px 0;padding:14px;border:1px dashed #3a3a3e;font-size:13px;}
+  .memo .dot{display:block;font-weight:700;color:var(--amber);font-size:12px;margin-bottom:4px;}
+  .memo p{margin:0;}
+  .list{margin:0;padding-left:18px;font-size:13px;}
+  .list li{margin-bottom:6px;} .list b{color:var(--amber);font-weight:700;}
+  table.t{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:13.5px;}
+  table.t th{color:var(--muted);font-weight:400;text-align:right;padding:6px 0;}
+  table.t th:first-child,table.t td:first-child{text-align:left;}
+  table.t td{text-align:right;padding:6px 0;border-top:1px solid #222224;}
+  table.t tr.hi td{color:var(--amber);}
+  .note{margin:8px 0 0;font-size:11.5px;color:var(--muted);}
+  .steps{margin:4px 0 0;padding-left:20px;font-size:13px;} .steps li{margin-bottom:5px;}
+  h3{font-size:13.5px;margin:14px 0 4px;}
+  .guide p{font-size:13.5px;line-height:1.85;margin:4px 0 10px;}
+  details summary{cursor:pointer;font-size:13px;color:var(--muted);list-style:none;}
+  details summary::-webkit-details-marker{display:none;}
+  details summary::before{content:'＋ ';} details[open] summary::before{content:'－ ';}
+  #specBody input{width:100%;background:var(--panel-2);border:1px solid var(--line);color:var(--text);font-family:inherit;font-variant-numeric:tabular-nums;font-size:13px;text-align:right;padding:4px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .row2 label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:4px;}
+  .row2 input{width:100%;background:var(--panel-2);border:1px solid var(--line);color:var(--text);padding:8px;font-family:inherit;font-size:14px;border-radius:3px;}
+  .card{background:transparent;}
+  .btn-primary{background:var(--amber);color:var(--bg);border:none;border-radius:4px;padding:10px 12px;font-weight:800;text-decoration:none;display:inline-block;text-align:center;font-family:inherit;}
+  .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--text);border-radius:4px;padding:10px 12px;font-family:inherit;}
+  .rel{margin:28px 16px 0;}
+  .rel h2{font-size:15px;margin:0 0 10px;}
+  .rel li a{border-radius:3px !important;}
+  .ad-slot{display:none;}
+  footer{margin-top:28px;padding:16px;border-top:1px solid var(--line);font-size:11.5px;color:#8d8980;}
+  footer a{color:#8d8980;margin-right:12px;}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFM94DE8Y3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZFM94DE8Y3');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9150472731628445" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+<nav class="bar-top"><a href="../">設定示唆くん</a><span><a href="../list/" style="font-size:12px;font-weight:500;color:var(--muted);">機種一覧</a></span></nav>
+
+<header class="hero">
+  
+  <div>
+    <span class="new" style="font-weight:800;">12/7 NEW</span>
+    <h1>快盗天使<br>ツインエンジェル2</h1>
+    <p>サミー／2026年12月7日導入<br>BIG 1/273.1〜1/243.6・MB 1/448.9〜1/331.0<br>機械割 97.9〜109.0%</p>
+  </div>
+</header>
+
+<div class="lead">
+  <b class="h">MBで見る。設定3と4の間に段差。</b>
+  <p>MBは設定3の1/425.6から設定4の1/344.9へ一気に軽くなる（設定1→6で約1.36倍）。BIG（SBB含む）は1/273.1→1/243.6で約1.12倍しか違わない。「4以上かどうか」はMBの回数で見て、BIGは足して確かめる。</p>
+  
+</div>
+
+<nav class="jump" aria-label="ページ内の目次"><a href="#mainCard">判別</a><a href="#hints">示唆</a><a href="#gousei">設定差</a><a href="#uchikata">打ち方</a><a href="#guide">解説</a></nav>
+
+<div id="mainCard">
+<div style="margin:0 16px;"><button type="button" data-sc-open></button></div>
+<div class="data">
+  <div class="data-h"><span class="dot">DATA</span><small>ボーナス中は数えない</small></div>
+  <div class="cells" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+    <div><label for="totalG">総回転</label><input type="number" id="totalG" inputmode="numeric" placeholder="0"></div>
+    <div><label for="bbCount">BIG</label><input type="number" id="bbCount" inputmode="numeric" placeholder="0"></div>
+    
+    <div><label for="mbCount">MB</label><input type="number" id="mbCount" inputmode="numeric" placeholder="-"></div>
+    
+  </div>
+  <div class="taps" style="grid-template-columns:repeat(4,minmax(0,1fr));">
+    <button type="button" data-add="totalG" data-n="100">+100G</button>
+    <button type="button" data-add="bbCount" data-n="1">BIG +1</button>
+    
+    <button type="button" data-add="mbCount" data-n="1">MB +1</button>
+    
+    <button type="button" class="undo" id="undoBtn">1つ戻す</button>
+  </div>
+  <div class="rates dot">
+    <span>BIG <b id="liveA">―</b><small id="liveANote"></small></span>
+    <span>MB <b id="liveB">―</b><small id="liveBNote"></small></span>
+    
+  </div>
+  <p class="hint">BIGはSBB（スペシャルビッグ）も含めた回数、MBはミドルボーナスの回数です。データカウンターのBB・RBをそのまま入れてOK（ART中のゲーム数は含めない）。MBが空欄ならBIGだけで計算します。</p>
+</div>
+
+<button class="judge" id="calcBtn" style="display:none;">判別する</button>
+
+<button type="button" class="mini" id="miniRes" hidden><span class="mini-bars" id="miniBars"></span><span class="mini-t" id="miniTxt"></span></button>
+<section id="result">
+  <div class="sh"><h2>結果</h2><small>入れた分でその場で計算</small></div>
+  <div id="pieWrap" style="display:none;"><div id="legend"></div></div>
+  <div id="topSetting" class="summary"><p style="margin:0;font-size:12.5px;color:var(--muted);">数えたものを入れると、設定1〜6の可能性がここに出ます。入れた分だけ、その場で計算し直します。</p></div>
+  <div class="ev" id="evOutput" style="display:none;"></div>
+  <div class="tip" id="tipPromptCalc" style="display:none;">勝ったら10円でもいいので <a href="https://ofuse.me/cec8e32a" target="_blank" rel="noopener">投げ銭</a> ください。</div>
+</section>
+</div>
+
+<section id="optionalCard">
+  <div id="hints">
+    <div class="sh"><h2>示唆</h2><small>まだ未公表</small></div>
+    <div id="floorGroup"></div>
+    <p class="floor" id="floorNow" style="font-size:13px;color:var(--text);">MB中のボイスに設定示唆があるとされていますが、導入前の時点で中身はまだ公表されていません。分かりしだい押せるボタンを足します。</p>
+  </div>
+  <details style="margin-top:16px;">
+    <summary>期待差枚の計算条件</summary>
+    <div class="row2" style="margin-top:8px;">
+      <div><label for="closingTime">閉店時刻</label><input type="time" id="closingTime" value="22:45"></div>
+      <div><label for="spinsPerHour">1時間の回転数</label><input type="number" id="spinsPerHour" value="700"></div>
+    </div>
+    <button class="btn-ghost" id="recalcBtn" type="button" style="width:100%;margin-top:10px;">この条件で再計算</button>
+  </details>
+</section>
+
+<div class="memo"><span class="dot">運営メモ 11/24</span><p>導入前なので、数字は解析サイトの公表値です（ちょんぼりすた・ななプレスで一致）。機械割は通常の値で、完全攻略時は約1.5%上がります（99.4〜110.8%）。MB中のボイスの示唆と小役確率は導入後に足します。</p></div>
+
+<section id="know">
+  <div class="sh"><h2>先に知っておくこと</h2></div>
+  <ul class="list">
+      <li><b>MB</b> 1/448.9→1/331.0（約1.36倍）。設定3（1/425.6）と設定4（1/344.9）の間で一気に軽くなる</li>
+      <li><b>BIG</b>（SBB含む）1/273.1→1/243.6（約1.12倍）。<b>ボーナス合算</b>は1/169.8→1/140.3</li>
+      <li>A＋ART機。ボーナス後はエンジェルチャンス→エンジェルチャレンジを経てART「エンジェルタイム」（1セット33G）を目指す</li>
+      <li><b>天井はありません</b>。やめどきはエンジェルチャレンジ失敗後、ステージを確認してから（夕方ステージは高確示唆）</li>
+      <li>MB中に左リールへカバン・カバン・ベルを狙うとボイスが出て、設定の示唆があるとされています（中身は調査中）</li>
+  </ul>
+</section>
+
+<section id="gousei">
+  <div class="sh"><h2>設定差・機械割</h2></div>
+  <table class="t">
+    <thead><tr><th>設定</th><th>BIG</th><th>MB</th><th>機械割</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>273.1</td><td>448.9</td><td>97.9</td></tr>
+        <tr><td>2</td><td>267.5</td><td>436.9</td><td>99.0</td></tr>
+        <tr><td>3</td><td>262.1</td><td>425.6</td><td>101.3</td></tr>
+        <tr class="hi"><td>4</td><td>253.0</td><td>344.9</td><td>105.0</td></tr>
+        <tr class="hi"><td>5</td><td>248.2</td><td>337.8</td><td>107.0</td></tr>
+        <tr class="hi"><td>6</td><td>243.6</td><td>331.0</td><td>109.0</td></tr>
+    </tbody>
+  </table>
+  <p class="note">確率は「1/〇〇」の分母。BIG・MB・機械割はちょんぼりすた・ななプレスで一致（完全攻略時の機械割はP-WORLDとも一致）。50枚あたり約35G。小役確率は未公表です。</p>
+</section>
+
+<section id="uchikata">
+  <div class="sh"><h2>打ち方</h2></div>
+    <h3>通常時</h3>
+    <ol class="steps">
+      <li>左リール上段付近に<b>白7</b>を狙う</li>
+      <li>白7下段停止・チェリー停止は中・右を適当打ちでOK</li>
+      <li>白7枠下停止・2連カバン停止は中・右に白7を目安にカバンを狙う（中は青7か白7、右は赤7か白7が目安）</li>
+      <li>中段チェリーはボーナス濃厚。白7はどのラインに揃ってもリーチ目</li>
+    </ol>
+    <h3>エンジェルチャンス・ART中</h3>
+    <ol class="steps">
+      <li>エンジェルチャンス中は変則押しをせず、左リールに白7を狙う</li>
+      <li>ART中は押し順ナビに従う</li>
+    </ol>
+  <p class="note">打ち方はちょんぼりすたの記載です。クルミ打ち・あおい打ち・はるか打ちの変則押しもあります。</p>
+    <a class="outlink ref-out" data-sec="uchikata" href="https://chonborista.com/slot/sammy-slot/270149/" target="_blank" rel="noopener">打ち方と解析（ちょんぼりすた） ↗</a>
+    <a class="outlink ref-out" data-sec="uchikata1" href="https://nana-press.com/kaiseki/machine/1155/35620/" target="_blank" rel="noopener">スペック（ななプレス） ↗</a>
+</section>
+
+<section id="guide" class="guide">
+  <div class="sh"><h2>ツインエンジェル2の設定判別の考え方と数えるコツ</h2></div>
+    <h3>MBに段差がある</h3>
+    <p>スマスロ 快盗天使ツインエンジェル2で設定差が公表されているのは、BIG・MB・機械割です。判別の中心はMBで、設定1の1/448.9から設定6の1/331.0まで約1.36倍の差があり、特に設定3（1/425.6）と設定4（1/344.9）の間で大きく軽くなります。一方でBIG（スペシャルビッグを含む）は1/273.1→1/243.6と約1.12倍しか違いません。BIGが多くてもMBが少ない台は、低設定の可能性が残ります。</p>
+    <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
+    <h3>3000Gでどこまで分かるか</h3>
+    <p>総回転3000Gでの平均は、MBが設定1で約6.7回、設定6で約9.1回、BIGは約11.0回と約12.3回です。MBは回数が少ないので、1〜2回の差で結果が大きく動きます。このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、BIGとMBを両方入れて3000Gで約12％、5000Gで約22％、8000Gで約36％でした。設定1の台が3000Gで同じ結果になる割合は約1％です。</p>
+    <h3>MB中のボイスは導入後に</h3>
+    <p>MB中に左リールへカバン・カバン・ベルを狙うとボイスが出て、設定の示唆があるとされています。導入前の時点では中身が公表されていないので、このツールではまだ使っていません。分かりしだい、押して絞り込めるボタンを足します。変身演出（3人）やART最上階到達時にも示唆があるとされていますが、こちらも調査中です。</p>
+    <h3>使い方のコツ</h3>
+    <p>データカウンターのBB（BIG）とRB（MB）の回数をそのまま入れれば計算できます。総回転にはART中のゲーム数を含めないでください。天井はないので、ART後にエンジェルチャレンジを失敗した時点がやめどきの基本です。夕方ステージは高確の示唆なので、滞在中は続行を考えてください。期待差枚は各設定の機械割（通常の値）を確率で重み付けした値で、閉店までの残り時間が短いほど小さくなります。</p>
+    </details>
+</section>
+
+<section id="specCard">
+  <details>
+    <summary>計算に使う設定差を見る・編集する</summary>
+    <table class="t" style="margin-top:8px;">
+      <thead><tr><th>設定</th><th>BIG</th><th>MB</th><th>機械割%</th></tr></thead>
+      <tbody id="specBody"></tbody>
+    </table>
+    <p class="note">解析サイトの公開値（2026年11月24日時点。2026年12月7日導入予定）。BIG・MB・機械割はちょんぼりすた・ななプレスで一致、完全攻略時の機械割はP-WORLDとも一致。</p>
+  </details>
+</section>
+
+<!--RELATED-->
+  <nav class="card rel" aria-label="ほかの機種の設定判別">
+    <style>.rel h2{font-size:15px;margin:0 0 10px;}.rel ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;}.rel li a{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:8px;color:var(--text);text-decoration:none;font-size:13px;line-height:1.4;}.rel .rel-all{display:block;margin-top:12px;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);text-decoration:none;}@media (max-width:360px){.rel ul{grid-template-columns:1fr;}}</style>
+    <h2>ほかの機種の設定判別</h2>
+    <ul><li><a href="../lycoris/">スマスロ リコリス・リコイル</a></li><li><a href="../juuou/">スマスロ 獣王</a></li><li><a href="../kokaku/">スマスロ 攻殻機動隊</a></li><li><a href="../bofuri/">スマスロ 痛いのは嫌なので防御力に極振りしたいと思います。</a></li><li><a href="../juggler/">ジャグラーシリーズ</a></li><li><a href="../sao2/">スロット ソードアート・オンラインⅡ</a></li><li><a href="../ggo/">L ソードアート・オンライン オルタナティブ ガンゲイル・オンライン</a></li><li><a href="../gojieva2/">Lパチスロ ゴジラ対エヴァンゲリオン2</a></li></ul>
+    <a class="rel-all" href="../list/">全機種一覧（47機種）を見る →</a>
+  </nav>
+  <!--/RELATED-->
+
+<div class="ad-slot">広告スペース</div>
+
+<footer>
+  数値は各解析サイトの公開値（2026年10月時点）。結果は確率の目安で、設定を保証するものではありません。遊技は自己責任・適正な範囲で。18歳未満の方はパチンコ・パチスロを遊技できません。<br>
+  <a href="../">機種一覧</a><a href="../privacy.html">プライバシーポリシー</a><a href="../about.html">運営者情報</a><a href="../contact.html">お問い合わせ</a>
+</footer>
+</div>
+
+<script>
+const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
+const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
+const HAS_B = true, HAS_C = false, HAS_CHECKS = false;
+const XDEF = [];
+const XG = null;
+const PDEF = [];
+const SPEC = { a: [273.1, 267.5, 262.1, 253.0, 248.2, 243.6], b: [448.9, 436.9, 425.6, 344.9, 337.8, 331.0], c: [1, 1, 1, 1, 1, 1], payout: [97.9, 99.0, 101.3, 105.0, 107.0, 109.0] };
+const BET = 3, LABEL_A = "BIG", LABEL_B = "MB", LABEL_C = "";
+const $ = id => document.getElementById(id);
+const specBody = $('specBody');
+for(let s=0; s<N; s++){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${SETS[s]}</td><td><input type="number" step="0.1" class="aInput" value="${SPEC.a[s].toFixed(DEC_A)}"></td>${HAS_B ? `<td><input type="number" step="0.1" class="bInput" value="${SPEC.b[s].toFixed(DEC_B)}"></td>` : ''}${HAS_C ? `<td><input type="number" step="0.1" class="cInput" value="${SPEC.c[s].toFixed(DEC_C)}"></td>` : ''}${XDEF.map((x, j) => `<td><input type="number" step="0.1" class="xInput${j}" value="${x.spec[s].toFixed(x.dec)}"></td>`).join('')}<td><input type="number" step="0.1" class="payoutInput" value="${SPEC.payout[s].toFixed(1)}"></td>`;
+  specBody.appendChild(tr);
+}
+const pBody = $('pSpecBody');
+if(pBody) for(let s=0; s<N; s++){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${SETS[s]}</td>` + PDEF.map((q, j) => `<td><input type="number" step="0.1" class="pInput${j}" value="${q.spec[s].toFixed(1)}"></td>`).join('');
+  pBody.appendChild(tr);
+}
+const readCol = cls => [...document.querySelectorAll('.' + cls)].map(el => parseFloat(el.value) || 1);
+const totalG = $('totalG'), aCount = $("bbCount"), bCount = $("mbCount") || { value: '', addEventListener(){}, dispatchEvent(){} };
+const cCount = $("_noC") || { value: '', addEventListener(){}, dispatchEvent(){} };
+const num = el => Math.max(parseFloat(el.value) || 0, 0);
+const bG = B_G ? $(B_G) : totalG;
+const xEls = XDEF.map(x => $(x.id));
+const xgEl = XG ? $(XG.id) : null;
+const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
+function livePct(){
+  PDEF.forEach((q, j) => {
+    const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(q.nfrom){ const f = $('pFrom' + j); if(f) f.textContent = n > 0 ? n : '-'; }
+    if(n > 0){
+      const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
+      $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
+      let best = 0; arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+      $('livePNote' + j).textContent = r <= Math.min(...arr) ? `設定${SETS[0]}以下` : (r >= Math.max(...arr) ? `設定${SETS[N-1]}以上` : `設定${SETS[best]}付近`);
+    } else { $('liveP' + j).textContent = '―'; $('livePNote' + j).textContent = ''; }
+  });
+}
+pEls.flat().forEach(el => el.addEventListener('input', livePct));
+setTimeout(livePct, 0);
+function nearLabel(r, arr){
+  if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
+  if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
+  let best = 0; arr.forEach((v, i) => { if(Math.abs(v - r) < Math.abs(arr[best] - r)) best = i; });
+  return `設定${SETS[best]}付近`;
+}
+const rate = (g, k) => k > 0 ? `1/${(g/k).toFixed(1)}` : '―';
+function live(el, cls, b, n, gEl){
+  const g = num(gEl || totalG), k = num(el);
+  if(g > 0 && k > 0){ $(b).textContent = rate(g, k); $(n).textContent = nearLabel(g/k, readCol(cls)); }
+  else { $(b).textContent = '―'; $(n).textContent = ''; }
+}
+function updateLive(){ live(aCount, 'aInput', 'liveA', 'liveANote'); if(HAS_B) live(bCount, 'bInput', 'liveB', 'liveBNote', bG); if(HAS_C) live(cCount, 'cInput', 'liveC', 'liveCNote'); xEls.forEach((el, j) => live(el, 'xInput' + j, 'liveX' + j, 'liveX' + j + 'Note', XDEF[j].g ? xgEl : null)); }
+[totalG, aCount, bCount, cCount, bG, ...xEls, xgEl].filter(Boolean).forEach(el => el.addEventListener('input', updateLive));
+specBody.addEventListener('input', updateLive);
+if(pBody) pBody.addEventListener('input', livePct);
+
+// タップで足す（データカウンターのように）
+const undo = [];
+document.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => {
+  const step = b.dataset.add.split(',').map(id => { const el = $(id), before = el.value; el.value = num(el) + Number(b.dataset.n); return [el, before]; });
+  undo.push(step); if(undo.length > 50) undo.shift();
+  step.forEach(([el]) => el.dispatchEvent(new Event('input', { bubbles: true })));
+}));
+$('undoBtn').addEventListener('click', () => {
+  const u = undo.pop(); if(!u) return;
+  u.forEach(([el, v]) => { el.value = v; el.dispatchEvent(new Event('input', { bubbles: true })); });
+});
+
+// 示唆
+const floorChecks = [...document.querySelectorAll('#floorGroup input[type=checkbox]')];
+const scrCards = [...document.querySelectorAll('.scr[data-check]')];
+const scrInput = c => floorChecks.find(x => x.dataset.name === c.dataset.check);
+function syncScr(){ scrCards.forEach(c => { const i = scrInput(c); c.classList.toggle('on', !!(i && i.checked)); }); }
+scrCards.forEach(c => {
+  const go = () => { const i = scrInput(c); if(i){ i.click(); syncScr(); } };
+  c.addEventListener('click', go);
+  c.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } });
+});
+floorChecks.forEach(x => x.addEventListener('change', syncScr));
+setTimeout(syncScr, 0); setTimeout(syncScr, 600);
+function currentAllow(){
+  const on = floorChecks.filter(c => c.checked);
+  let allow = new Set(SETS);
+  on.forEach(c => { const a = new Set(c.dataset.allow.split(',').map(Number)); allow = new Set([...allow].filter(s => a.has(s))); });
+  return { allow, names: on.map(c => c.dataset.name) };
+}
+const allowLabel = allow => [...allow].join('・');
+function updateFloorText(){
+  const { allow, names } = currentAllow(), el = $('floorNow');
+  if(!names.length) el.innerHTML = '絞り込み：なし';
+  else if(!allow.size) el.innerHTML = '<span style="color:var(--red);">押した示唆が矛盾しています。見間違いがないか確認してください。</span>';
+  else el.innerHTML = `絞り込み：設定<b>${allowLabel(allow)}</b>で計算（${names.join('・')}）`;
+}
+floorChecks.forEach(c => c.addEventListener('change', updateFloorText));
+
+// 計算
+const binomLL = (k, n, p) => k*Math.log(p) + Math.max(n - k, 0)*Math.log(Math.max(1 - p, 1e-12));
+function miniMsg(t){ $('miniRes').hidden = true; }
+$('miniRes').addEventListener('click', () => { $('result').scrollIntoView({ behavior: 'smooth', block: 'start' }); if (typeof gtag === 'function') gtag('event', 'result_jump', { machine: "twinangel2" }); });
+// 結果の数字（設定4以上〜）が画面に見えている間は、下の「結果を見る」を隠す
+if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => $('miniRes').classList.toggle('away', e.isIntersecting)), { threshold: 0.5 }).observe($('topSetting'));
+function showMsg(t){ miniMsg(t); $('topSetting').innerHTML = `<p style="margin:0;font-size:13px;color:var(--muted);">${t}</p>`; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; }
+const INIT_TOP = $('topSetting').innerHTML;
+let judgeTimer = null, judgeLast = 0;
+$('calcBtn').addEventListener('click', () => {
+  const useA = aCount.value.trim() !== '';
+  const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
+  // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
+  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && !q.nfrom && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
+  const pUse = PDEF.map((q, j) => { const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return { n, k, use: n > 0 || k > 0 }; });
+  const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }));
+  const { allow, names } = currentAllow();
+  const needG = useA || useC || xUse.some(x => x.use && x.gg === null) || (useB && !B_G);
+  if(!needG && !useB && !pUse.some(x => x.use) && !names.length){ miniMsg(''); $('topSetting').innerHTML = INIT_TOP; $('pieWrap').style.display = 'none'; $('evOutput').style.display = 'none'; $('tipPromptCalc').style.display = 'none'; return; }
+  if(needG && g <= 0){ showMsg("総回転（ボーナス・ART中を除く）を入れてください。"); return; }
+  if(useB && gb <= 0){ showMsg(""); return; }
+  if(XG && xUse.some(x => x.use && x.gg !== null && x.gg <= 0)){ showMsg(XG.gmsg || 'ゲーム数を入れてください。'); return; }
+  if(pUse.some(x => x.use && x.k > x.n)){ showMsg('「そのうち」の回数が、もとの回数より多くなっています。'); return; }
+  if(a > g || b > gb || c > g || xUse.some(x => x.k > (x.gg === null ? g : x.gg))){ showMsg('回数がゲーム数を超えています。'); return; }
+  if(!allow.size){ showMsg('押した示唆が矛盾しています。見間違いがないか確認してください。'); return; }
+  const pv = PDEF.map((q, j) => readCol('pInput' + j).map(v => Math.min(Math.max(v * q.f / 100, 1e-6), 1 - 1e-6)));
+  const xv = XDEF.map((x, j) => readCol('xInput' + j)), av = readCol('aInput'), bv = readCol('bInput'), cv = readCol('cInput'), payout = readCol('payoutInput');
+  const ll = SETS.map((s, i) => !allow.has(s) ? -Infinity : (useA ? binomLL(a, g, 1/av[i]) : 0) + (useB ? binomLL(b, gb, 1/bv[i]) : 0) + (useC ? binomLL(c, g, 1/cv[i]) : 0) + xUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.gg === null ? g : x.gg, 1/xv[j][i]) : 0), 0) + pUse.reduce((acc, x, j) => acc + (x.use ? binomLL(x.k, x.n, pv[j][i]) : 0), 0));
+  const mx = Math.max(...ll), w = ll.map(v => v === -Infinity ? 0 : Math.exp(v - mx)), sum = w.reduce((x, y) => x + y, 0), post = w.map(x => x / sum);
+  const exp = post.reduce((acc, p, i) => acc + p*SETS[i], 0);
+  clearTimeout(judgeTimer);
+  judgeTimer = setTimeout(() => { if(Date.now() - judgeLast < 60000) return; judgeLast = Date.now(); if (typeof gtag === 'function') gtag('event', 'judge_run', { machine: "twinangel2", has_a: useA, has_b: useB, hints: names.length }); }, 3000);
+  const top = Math.max(...post), best = post.indexOf(top), hi = post.reduce((x, p, i) => x + (HI[i] ? p : 0), 0);
+  $('legend').innerHTML = post.map((p, i) => `<div class="legend-row${HI[i] ? ' hi' : ''}${allow.has(SETS[i]) ? '' : ' cut'}"><span class="sl">設定${SETS[i]}</span><span class="track"><span class="swatch" style="width:${top > 0 ? (p/top*100).toFixed(1) : 0}%;"></span></span><span class="pct">${(p*100).toFixed(1)}%</span></div>`).join('');
+  $('pieWrap').style.display = 'block';
+  $('miniBars').innerHTML = post.map((p, i) => `<span class="${HI[i] ? 'hi' : ''}"><i style="height:${top > 0 ? Math.max(p/top*26, 2).toFixed(1) : 2}px"></i><em>${SETS[i]}</em></span>`).join('');
+  $('miniTxt').innerHTML = `<b>4以上 ${(hi*100).toFixed(0)}%</b>結果を見る ▼`; $('miniRes').hidden = false;
+  const parts = [];
+  if(g > 0) parts.push(`${B_G ? "総回転" : '通常時'}${g}G`);
+  if(useA) parts.push(`${LABEL_A} ${a}回（${rate(g, a)}）`);
+  if(useB && B_G) parts.push(`${""}${gb}G`);
+  if(useB) parts.push(`${LABEL_B} ${b}回（${rate(gb, b)}）`);
+  if(useC) parts.push(`${LABEL_C} ${c}回`);
+  if(XG && xUse.some(x => x.use && x.gg !== null)) parts.push(`${XG.gshare}${num(xgEl)}G`);
+  xUse.forEach((x, j) => { if(x.use) parts.push(`${XDEF[j].label} ${x.k}回`); });
+  pUse.forEach((x, j) => { if(x.use) parts.push(`${PDEF[j].label} ${x.k}/${x.n}`); });
+  if(names.length) parts.push(`示唆：${names.join('・')}`);
+  let say;
+  const minAllow = Math.min(...allow);
+  if(names.length && allow.size === 1) say = `示唆で設定${[...allow][0]}に絞れました。`;
+  else if(names.length && minAllow >= 4) say = `示唆で設定${minAllow}以上に絞れています。あとは回数で上の設定を見ます。`;
+  else if(hi >= 0.8) say = '高設定（4以上）の可能性がかなり高い。';
+  else if(hi >= 0.6) say = '高設定寄り。ただしまだ決めきれない。';
+  else if(hi <= 0.3) say = HAS_CHECKS ? '低設定寄り。示唆が出ないなら深追いは禁物。' : '低設定寄り。数字が戻らないなら深追いは禁物。';
+  else say = HAS_CHECKS ? 'まだ何とも言えない範囲。示唆が1つ出れば大きく変わります。' : 'まだ何とも言えない範囲。回すほど差がはっきりします。';
+  $('topSetting').innerHTML = `<div>設定4以上 <span class="big">${(hi*100).toFixed(0)}%</span>　期待設定 <span class="big">${exp.toFixed(1)}</span></div><div style="margin-top:4px;">${say}</div><span class="meta">${parts.join(' ／ ')}</span>`;
+  const sph = parseFloat($('spinsPerHour').value) || 0;
+  const [hh, mm] = $('closingTime').value.split(':').map(Number);
+  const closing = new Date(); closing.setHours(hh, mm, 0, 0);
+  let hours = Math.max((closing - new Date()) / 3600000, 0);
+  if(hours > 15) hours = 0; // 閉店後〜朝（翌日の閉店まで数えない）
+  const remainG = sph * hours;
+  const net = payout.map(p => BET * (p/100 - 1) * remainG);
+  const ev = Math.round(post.reduce((x, p, i) => x + p*net[i], 0)) || 0;
+  const sign = v => v > 0 ? '+' : (v < 0 ? '' : '±');
+  $('evOutput').style.display = 'flex';
+  $('evOutput').innerHTML = `<span><small>閉店まで（約${Math.round(remainG).toLocaleString()}G）の期待差枚</small></span><span class="n ${ev >= 0 ? 'pos' : 'neg'}">${sign(ev)}${ev.toLocaleString()}枚</span>`;
+  $('tipPromptCalc').style.display = 'block';
+});
+document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', () => {
+  if (typeof gtag === 'function') gtag('event', 'outbound_ref', { machine: "twinangel2", section: a.dataset.sec });
+}));
+// 入力やチェックを変えたら、その場で計算し直す（判別ボタンは counter.js・share.js 用に隠して残す）
+(function(){
+  const btn = $('calcBtn'); let timer = null;
+  function silent(){ const g = window.gtag; window.gtag = function(a, b){ if(a === 'event' && b === 'judge_run') return; if(typeof g === 'function') return g.apply(this, arguments); }; try { btn.click(); } finally { window.gtag = g; } }
+  function auto(){ clearTimeout(timer); timer = setTimeout(silent, 300); }
+  ['optionalCard', 'specCard', 'mainCard'].forEach(id => { const el = $(id); el.addEventListener('input', auto); el.addEventListener('change', auto); });
+  $('recalcBtn').addEventListener('click', () => { btn.click(); $('result').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+})();
+</script>
+<script src="../share.js"></script>
+<script>
+SettiShare.init({"key": "twinangel2", "name": "スマスロ 快盗天使ツインエンジェル2", "tags": "#ツインエンジェル #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "総回転", "unit": "G"}, {"id": "bbCount", "q": "bb", "label": "BIG", "unit": "回", "rateOf": "totalG"}, {"id": "mbCount", "q": "mb", "label": "MB", "unit": "回", "rateOf": "totalG"}]}]});
+</script>
+<script src="../counter.js"></script>
+<script>
+SettiCounter.init({"key": "twinangel2", "name": "ツインエンジェル2", "g": {"id": "totalG", "label": "総回転数"}, "counts": [{"id": "bbCount", "label": "BIG"}, {"id": "mbCount", "label": "MB", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "総回転・BIG・MBはデータカウンターの数字（ART中のゲーム数は含めない）。"});
+</script>
+</body>
+</html>
