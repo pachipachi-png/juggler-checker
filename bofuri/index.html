@@ -222,6 +222,19 @@
 <div class="data pdata">
   <div class="data-h"><span class="dot">DATA 2</span><small>数えたものだけ</small></div>
   <div class="pcard">
+    <p class="pt">300GゾーンのCZ当選</p>
+    <p class="pr">ボーナスなしで300Gゾーンに着いたら「300G到達」。そこで高確率ZONE（CZ）に入ったら「当選」も押す。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="z300n">300G到達</label><input type="number" id="z300n" inputmode="numeric" placeholder="-"></div>
+      <div><label for="z300k">そのうち当選</label><input type="number" id="z300k" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="z300n" data-n="1">300G到達 +1</button>
+      <button type="button" data-add="z300k" data-n="1">300G当選 +1</button>
+    </div>
+    <div class="rates dot"><span>300G <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  </div>
+  <div class="pcard">
     <p class="pt">ボーナス後のBET高確</p>
     <p class="pr">ボーナス（ループ）が終わって通常時に戻ったら「ボーナス終了」。最初のBETですぐ高確率ZONEに入ったら「BET高確」も押す。</p>
     <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
@@ -232,7 +245,7 @@
       <button type="button" data-add="bonusEnd" data-n="1">ボーナス終了 +1</button>
       <button type="button" data-add="betKaku" data-n="1">BET高確 +1</button>
     </div>
-    <div class="rates dot"><span>BET高確 <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+    <div class="rates dot"><span>BET高確 <b id="liveP1">―</b><small id="livePNote1"></small></span></div>
   </div>
   <div class="pcard">
     <p class="pt">450GゾーンのCZ当選</p>
@@ -245,7 +258,7 @@
       <button type="button" data-add="z450n" data-n="1">450G到達 +1</button>
       <button type="button" data-add="z450k" data-n="1">450G当選 +1</button>
     </div>
-    <div class="rates dot"><span>450G <b id="liveP1">―</b><small id="livePNote1"></small></span></div>
+    <div class="rates dot"><span>450G <b id="liveP2">―</b><small id="livePNote2"></small></span></div>
   </div>
   <div class="pcard">
     <p class="pt">650GゾーンのCZ当選</p>
@@ -258,7 +271,7 @@
       <button type="button" data-add="z650n" data-n="1">650G到達 +1</button>
       <button type="button" data-add="z650k" data-n="1">650G当選 +1</button>
     </div>
-    <div class="rates dot"><span>650G <b id="liveP2">―</b><small id="livePNote2"></small></span></div>
+    <div class="rates dot"><span>650G <b id="liveP3">―</b><small id="livePNote3"></small></span></div>
   </div>
   <div class="pcard">
     <p class="pt">サブ液晶のセリフ（偶数・奇数）</p>
@@ -271,9 +284,9 @@
       <button type="button" data-add="serifN" data-n="1">セリフ +1</button>
       <button type="button" data-add="serifK" data-n="1">メイプル +1</button>
     </div>
-    <div class="rates dot"><span>セリフ <b id="liveP3">―</b><small id="livePNote3"></small></span></div>
+    <div class="rates dot"><span>セリフ <b id="liveP4">―</b><small id="livePNote4"></small></span></div>
   </div>
-  <p class="hint">BET高確は設定1が2.5%、設定6が10.4%。450Gゾーンは18.3%→30.4%、650Gゾーンは10.0%→23.3%。セリフはメイプルが偶数設定（2・4・6で57〜58%）、サリーが奇数設定（3・5で57%）寄り。</p>
+  <p class="hint">BET高確は設定1が2.5%、設定6が10.4%。300Gゾーンは40.0%→50.0%、450Gゾーンは18.3%→30.4%、650Gゾーンは10.0%→23.3%。セリフはメイプルが偶数設定（2・4・6で57〜58%）、サリーが奇数設定（3・5で57%）寄り。</p>
 </div>
 <button class="judge" id="calcBtn" style="display:none;">判別する</button>
 
@@ -343,7 +356,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/11</span><p>新しいデザインに作り直し、エピソードボーナス直撃・ボーナス後のBET高確・450G／650GゾーンのCZ当選・サブ液晶のセリフ（偶数・奇数）を入れられるようにしました。直撃は出ない台のほうが多いので、0回でも低設定とは言えません。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/23</span><p>300GゾーンのCZ当選（設定1 40.0%→設定6 50.0%）も数えられるようにしました。設定3の値が食い違っていたため外していましたが、1geki・ななプレス・パチセブン・altemaの4サイトが42.1%でそろったので入れています。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -352,7 +365,7 @@
       <li><b>上段5枚ベル</b> 1/18.3→1/16.6。1回ごとの差は小さいが回数が多く、足すと精度が大きく上がる（設定2・3は非公表で、設定1と同じ値で計算）</li>
       <li><b>EP直撃</b> 1/23560→1/4889（約4.8倍）。ヒドラ目から高確率ZONEを経由せずエピソードボーナスに当たったもの</li>
       <li><b>BET高確</b> 2.5%→10.4%。ボーナス後の最初のBETで高確率ZONEに入るか</li>
-      <li><b>ゾーン</b> 450Gは18.3%→30.4%、650Gは10.0%→23.3%でCZ当選。150G・300Gゾーンは差が小さい</li>
+      <li><b>ゾーン</b> 300Gは40.0%→50.0%、450Gは18.3%→30.4%、650Gは10.0%→23.3%でCZ当選。150Gゾーンはほぼ差なし</li>
       <li>データカウンターのボーナス合算（1/122.4〜1/90.0）はボーナスループの連チャンを含むので、初当りの欄には入れない</li>
       <li>天井：ボーナス間950G＋α（無限高確率ZONEへ）</li>
   </ul>
@@ -373,17 +386,17 @@
   </table>
   <p class="note">確率は「1/〇〇」の分母。初当り・上段5枚ベル・EP直撃・BET高確・ゾーンのCZ当選率は1geki・ちょんぼりすたで一致（設定3の初当りは1/307.1と1/307.3で食い違い）。機械割はちょんぼりすた・DMMぱちタウン。</p>
   <table class="t" style="margin-top:14px;">
-    <thead><tr><th>設定</th><th>BET高確</th><th>450G</th><th>650G</th><th>セリフ</th></tr></thead>
+    <thead><tr><th>設定</th><th>300G</th><th>BET高確</th><th>450G</th><th>650G</th><th>セリフ</th></tr></thead>
     <tbody>
-        <tr><td>1</td><td>2.5%</td><td>18.3%</td><td>10.0%</td><td>50.0%</td></tr>
-        <tr><td>2</td><td>5.0%</td><td>20.4%</td><td>10.4%</td><td>57.0%</td></tr>
-        <tr><td>3</td><td>5.4%</td><td>20.8%</td><td>10.8%</td><td>43.0%</td></tr>
-        <tr class="hi"><td>4</td><td>7.9%</td><td>25.8%</td><td>17.9%</td><td>57.5%</td></tr>
-        <tr class="hi"><td>5</td><td>9.6%</td><td>29.2%</td><td>19.2%</td><td>42.5%</td></tr>
-        <tr class="hi"><td>6</td><td>10.4%</td><td>30.4%</td><td>23.3%</td><td>58.0%</td></tr>
+        <tr><td>1</td><td>40.0%</td><td>2.5%</td><td>18.3%</td><td>10.0%</td><td>50.0%</td></tr>
+        <tr><td>2</td><td>42.1%</td><td>5.0%</td><td>20.4%</td><td>10.4%</td><td>57.0%</td></tr>
+        <tr><td>3</td><td>42.1%</td><td>5.4%</td><td>20.8%</td><td>10.8%</td><td>43.0%</td></tr>
+        <tr class="hi"><td>4</td><td>47.5%</td><td>7.9%</td><td>25.8%</td><td>17.9%</td><td>57.5%</td></tr>
+        <tr class="hi"><td>5</td><td>48.8%</td><td>9.6%</td><td>29.2%</td><td>19.2%</td><td>42.5%</td></tr>
+        <tr class="hi"><td>6</td><td>50.0%</td><td>10.4%</td><td>30.4%</td><td>23.3%</td><td>58.0%</td></tr>
     </tbody>
   </table>
-  <p class="note">BET高確・ゾーンのCZ当選率・セリフの割合（%）。1geki・ちょんぼりすたで一致（ちょんぼりすたは一部の設定が空欄。300Gゾーンは設定3の値が食い違うので使っていません）。</p>
+  <p class="note">BET高確・ゾーンのCZ当選率・セリフの割合（%）。1geki・ちょんぼりすたで一致（ちょんぼりすたは一部の設定が空欄）。300Gゾーンは1geki・ななプレス・パチセブン・altemaで一致。</p>
 </section>
 
 <section id="uchikata">
@@ -431,7 +444,7 @@
       <tbody id="specBody"></tbody>
     </table>
     <table class="t" style="margin-top:10px;">
-      <thead><tr><th>設定</th><th>BET高確</th><th>450G</th><th>650G</th><th>セリフ</th></tr></thead>
+      <thead><tr><th>設定</th><th>300G</th><th>BET高確</th><th>450G</th><th>650G</th><th>セリフ</th></tr></thead>
       <tbody id="pSpecBody"></tbody>
     </table>
     <p class="note">解析サイトの公開値（2026年11月11日時点。2024年6月3日導入、メーカーはサミー）。初当り・上段5枚ベル・EP直撃・BET高確・ゾーン・セリフは1geki・ちょんぼりすたで確認。上段5枚ベルの設定2・3は公表されていません。</p>
@@ -461,7 +474,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = true, HAS_CHECKS = true;
 const XDEF = [];
 const XG = null;
-const PDEF = [{"n": "bonusEnd", "k": "betKaku", "spec": [2.5, 5.0, 5.4, 7.9, 9.6, 10.4], "f": 1, "label": "BET高確"}, {"n": "z450n", "k": "z450k", "spec": [18.3, 20.4, 20.8, 25.8, 29.2, 30.4], "f": 1, "label": "450G"}, {"n": "z650n", "k": "z650k", "spec": [10.0, 10.4, 10.8, 17.9, 19.2, 23.3], "f": 1, "label": "650G"}, {"n": "serifN", "k": "serifK", "spec": [50.0, 57.0, 43.0, 57.5, 42.5, 58.0], "f": 1, "label": "セリフ"}];
+const PDEF = [{"n": "z300n", "k": "z300k", "nfrom": false, "spec": [40.0, 42.1, 42.1, 47.5, 48.8, 50.0], "f": 1, "label": "300G"}, {"n": "bonusEnd", "k": "betKaku", "nfrom": false, "spec": [2.5, 5.0, 5.4, 7.9, 9.6, 10.4], "f": 1, "label": "BET高確"}, {"n": "z450n", "k": "z450k", "nfrom": false, "spec": [18.3, 20.4, 20.8, 25.8, 29.2, 30.4], "f": 1, "label": "450G"}, {"n": "z650n", "k": "z650k", "nfrom": false, "spec": [10.0, 10.4, 10.8, 17.9, 19.2, 23.3], "f": 1, "label": "650G"}, {"n": "serifN", "k": "serifK", "nfrom": false, "spec": [50.0, 57.0, 43.0, 57.5, 42.5, 58.0], "f": 1, "label": "セリフ"}];
 const SPEC = { a: [319.0, 309.8, 307.1, 266.8, 257.1, 229.7], b: [18.3, 18.3, 18.3, 17.9, 17.3, 16.6], c: [23560, 17029, 14743, 6902, 5663, 4889], payout: [97.9, 98.8, 100.5, 105.9, 109.5, 113.0] };
 const BET = 3, LABEL_A = "初当り", LABEL_B = "上段5枚ベル", LABEL_C = "EP直撃";
 const $ = id => document.getElementById(id);
@@ -488,6 +501,7 @@ const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
 function livePct(){
   PDEF.forEach((q, j) => {
     const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(q.nfrom){ const f = $('pFrom' + j); if(f) f.textContent = n > 0 ? n : '-'; }
     if(n > 0){
       const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
       $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
@@ -497,6 +511,7 @@ function livePct(){
   });
 }
 pEls.flat().forEach(el => el.addEventListener('input', livePct));
+setTimeout(livePct, 0);
 function nearLabel(r, arr){
   if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
   if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
@@ -566,7 +581,7 @@ $('calcBtn').addEventListener('click', () => {
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
   // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
-  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
+  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && !q.nfrom && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
   const pUse = PDEF.map((q, j) => { const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return { n, k, use: n > 0 || k > 0 }; });
   const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }));
   const { allow, names } = currentAllow();
@@ -636,11 +651,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "bofuri", "name": "スマスロ 痛いのは嫌なので防御力に極振りしたいと思います。", "tags": "#防振り #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "hitCount", "q": "hit", "label": "初当り", "unit": "回", "rateOf": "totalG"}, {"id": "bellCount", "q": "bell", "label": "上段5枚ベル", "unit": "回", "rateOf": "totalG"}, {"id": "epCount", "q": "ep", "label": "EP直撃", "unit": "回", "rateOf": "totalG"}, {"id": "bonusEnd", "q": "be", "label": "ボーナス終了", "unit": "回"}, {"id": "betKaku", "q": "bk", "label": "そのうちBET高確", "unit": "回"}, {"id": "z450n", "q": "zn4", "label": "450G到達", "unit": "回"}, {"id": "z450k", "q": "zk4", "label": "そのうち当選", "unit": "回"}, {"id": "z650n", "q": "zn6", "label": "650G到達", "unit": "回"}, {"id": "z650k", "q": "zk6", "label": "そのうち当選", "unit": "回"}, {"id": "serifN", "q": "sn", "label": "メイプル＋サリー", "unit": "回"}, {"id": "serifK", "q": "sk", "label": "そのうちメイプル", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "bofuri", "name": "スマスロ 痛いのは嫌なので防御力に極振りしたいと思います。", "tags": "#防振り #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "hitCount", "q": "hit", "label": "初当り", "unit": "回", "rateOf": "totalG"}, {"id": "bellCount", "q": "bell", "label": "上段5枚ベル", "unit": "回", "rateOf": "totalG"}, {"id": "epCount", "q": "ep", "label": "EP直撃", "unit": "回", "rateOf": "totalG"}, {"id": "z300n", "q": "tn", "label": "300G到達", "unit": "回"}, {"id": "z300k", "q": "tk", "label": "そのうち当選", "unit": "回"}, {"id": "bonusEnd", "q": "be", "label": "ボーナス終了", "unit": "回"}, {"id": "betKaku", "q": "bk", "label": "そのうちBET高確", "unit": "回"}, {"id": "z450n", "q": "zn4", "label": "450G到達", "unit": "回"}, {"id": "z450k", "q": "zk4", "label": "そのうち当選", "unit": "回"}, {"id": "z650n", "q": "zn6", "label": "650G到達", "unit": "回"}, {"id": "z650k", "q": "zk6", "label": "そのうち当選", "unit": "回"}, {"id": "serifN", "q": "sn", "label": "メイプル＋サリー", "unit": "回"}, {"id": "serifK", "q": "sk", "label": "そのうちメイプル", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "bofuri", "name": "防振り", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "hitCount", "label": "初当り"}, {"id": "bellCount", "label": "上段5枚ベル", "optional": true}, {"id": "epCount", "label": "EP直撃", "optional": true}, {"id": "bonusEnd", "label": "ボーナス終了", "optional": true, "group": "ボーナス後", "rate": false, "defaultOff": true}, {"id": "betKaku", "label": "BET高確", "optional": true, "group": "ボーナス後", "rate": false, "defaultOff": true}, {"id": "z450n", "label": "450G到達", "optional": true, "group": "ゾーン", "rate": false, "defaultOff": true}, {"id": "z450k", "label": "当選", "optional": true, "group": "ゾーン", "rate": false, "defaultOff": true}, {"id": "z650n", "label": "650G到達", "optional": true, "group": "ゾーン", "rate": false, "defaultOff": true}, {"id": "z650k", "label": "当選", "optional": true, "group": "ゾーン", "rate": false, "defaultOff": true}, {"id": "serifN", "label": "メイプル＋サリー", "optional": true, "group": "サブ液晶", "rate": false, "defaultOff": true}, {"id": "serifK", "label": "メイプル", "optional": true, "group": "サブ液晶", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・初当り・上段5枚ベル・EP直撃は通常時のみ。初当りはループの1回目だけ。EP直撃は高確率ZONEを経由しないエピソードボーナス当選（中段チェリーからは除く）。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・終了画面・セリフ・キャラ紹介", "short": "示唆", "optional": true}});
+SettiCounter.init({"key": "bofuri", "name": "防振り", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "hitCount", "label": "初当り"}, {"id": "bellCount", "label": "上段5枚ベル", "optional": true}, {"id": "epCount", "label": "EP直撃", "optional": true}, {"id": "z300n", "label": "300G到達", "optional": true, "group": "ゾーン", "rate": false, "defaultOff": true}, {"id": "z300k", "label": "当選", "optional": true, "group": "ゾーン", "rate": false, "defaultOff": true}, {"id": "bonusEnd", "label": "ボーナス終了", "optional": true, "group": "ボーナス後", "rate": false, "defaultOff": true}, {"id": "betKaku", "label": "BET高確", "optional": true, "group": "ボーナス後", "rate": false, "defaultOff": true}, {"id": "z450n", "label": "450G到達", "optional": true, "group": "ゾーン", "rate": false, "defaultOff": true}, {"id": "z450k", "label": "当選", "optional": true, "group": "ゾーン", "rate": false, "defaultOff": true}, {"id": "z650n", "label": "650G到達", "optional": true, "group": "ゾーン", "rate": false, "defaultOff": true}, {"id": "z650k", "label": "当選", "optional": true, "group": "ゾーン", "rate": false, "defaultOff": true}, {"id": "serifN", "label": "メイプル＋サリー", "optional": true, "group": "サブ液晶", "rate": false, "defaultOff": true}, {"id": "serifK", "label": "メイプル", "optional": true, "group": "サブ液晶", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・初当り・上段5枚ベル・EP直撃は通常時のみ。初当りはループの1回目だけ。EP直撃は高確率ZONEを経由しないエピソードボーナス当選（中段チェリーからは除く）。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・終了画面・セリフ・キャラ紹介", "short": "示唆", "optional": true}});
 </script>
 </body>
 </html>

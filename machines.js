@@ -130,7 +130,7 @@ var MACHINES = [
     path: 'paripi/',
     maker: '山佐ネクスト',
     date: '2026-10-05',
-    ease: { lv: 'normal', key: 'ボーナス・CZとも差が小さめ', p3000: 19, d: '2026-10-24' },
+    ease: { lv: 'normal', key: '150G以内のボーナス当選＋ボーナス・CZ', p3000: 31, d: '2026-11-23' },
     status: 'ready',
     hot: 25,
     tag: '新台',
@@ -586,7 +586,7 @@ var MACHINES = [
     path: 'shinuchi-yoshimune/',
     maker: '大都技研',
     date: '2026-04-06',
-    ease: { lv: 'hard', key: 'AT初当り（約1.38倍）＋CZ（約1.25倍）。示唆が決め手', p3000: 12, d: '2026-11-08' },
+    ease: { lv: 'hard', key: 'CZの柳生（約2.4倍）＋AT初当り。示唆が決め手', p3000: 23, d: '2026-11-23' },
     status: 'ready',
     hot: 9,
     keywords: 'L真打吉宗 真打吉宗 しんうちよしむね 真打 吉宗 よしむね しんうち 真打ち吉宗 shinuchi yoshimune 勧善懲悪ラッシュ 真BB 真ビッグ 宝船 御白州ビジョン 大岡越前 越前 柳生 大奥 天英院 抜刀チャンス 大都 だいと DAITO スマスロ すますろ'

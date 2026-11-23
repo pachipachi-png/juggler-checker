@@ -219,7 +219,22 @@
   </div>
   <p class="hint">回転数・AT初当り・CZは<b>通常時</b>で数えてください（AT・真BB中は除く）。CZは空欄ならAT初当りだけで計算します。</p>
 </div>
-
+<div class="data pdata">
+  <div class="data-h"><span class="dot">DATA 2</span><small>任意。CZのたびに</small></div>
+  <div class="pcard">
+    <p class="pt">CZの対戦相手「柳生」</p>
+    <p class="pr">CZ「悪人成敗チャンス」が始まったら上のCZを押す。対戦相手が柳生だったら「柳生」も押す。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label>CZ（上の回数）</label><p class="pfrom" id="pFrom0" style="margin:0;padding:10px 12px;font-size:20px;color:var(--muted);">-</p></div>
+      <div><label for="ygK">そのうち柳生</label><input type="number" id="ygK" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(1,minmax(0,1fr));">
+      <button type="button" data-add="ygK" data-n="1">柳生 +1</button>
+    </div>
+    <div class="rates dot"><span>柳生 <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  </div>
+  <p class="hint">CZの対戦相手が柳生になる割合は、設定1が3.7%、設定6が8.7%（約2.4倍）。CZの回数そのものより差が大きい項目です。</p>
+</div>
 <button class="judge" id="calcBtn" style="display:none;">判別する</button>
 
 <button type="button" class="mini" id="miniRes" hidden><span class="mini-bars" id="miniBars"></span><span class="mini-t" id="miniTxt"></span></button>
@@ -272,6 +287,7 @@
     </div>
     <p class="floor" id="floorNow">絞り込み：なし</p>
     <ul class="refs">
+        <li>抜刀メーターMAX時の抜刀チャンス当選率にも設定差あり（設定1 20.3%→設定6 25.8%、1geki・パチセブン）。AT後1周期目は必ず当選し、1周期目・5周期目は値の対象外なので計算には使いません</li>
         <li>真BBの吉宗のボイスは2種類：「胸が高鳴るのう！！！」＝2以上、「これで江戸も安泰じゃ！はっはっは！」＝5以上。越前は「この越前！この上ない喜びである！」、3人共演は「江戸を守る！」。セリフが聞き取れなかったときは、吉宗なら「胸が高鳴るのう」（2以上）を押してください</li>
         <li>AT終了画面：月なし＝デフォルト、三日月＝高設定（弱）、満月＝高設定（強）</li>
         <li>真BBのボイス：葵・桜＝奇数（弱・強）、翠・紅＝偶数（弱・強）、天英院＝高設定</li>
@@ -291,7 +307,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/18</span><p>真BBの吉宗のボイスを、セリフで分けました。「胸が高鳴るのう」は2以上、「これで江戸も安泰じゃ」は5以上が濃厚です（ななプレス・1gekiで一致）。聞き分けられなかったときは2以上のほうを押してください。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/23</span><p>CZ「悪人成敗チャンス」の対戦相手が柳生になる割合（設定1 3.7%→設定6 8.7%）を数えられるようにしました。CZのたびに上のCZを押し、相手が柳生なら「柳生」も押すだけです。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -318,6 +334,18 @@
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。AT初当り・CZ・機械割はななプレス・アルテマ・ちょんぼりすた・1gekiで一致。50枚あたり約31G。</p>
+  <table class="t" style="margin-top:14px;">
+    <thead><tr><th>設定</th><th>柳生</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>3.7%</td></tr>
+        <tr><td>2</td><td>3.9%</td></tr>
+        <tr><td>3</td><td>4.7%</td></tr>
+        <tr class="hi"><td>4</td><td>6.2%</td></tr>
+        <tr class="hi"><td>5</td><td>7.8%</td></tr>
+        <tr class="hi"><td>6</td><td>8.7%</td></tr>
+    </tbody>
+  </table>
+  <p class="note">CZ「悪人成敗チャンス」の対戦相手の柳生選択率（%）。1geki・パチセブンで一致。</p>
 </section>
 
 <section id="uchikata">
@@ -344,7 +372,7 @@
     <p>L真打吉宗で設定差が公表されているのは、AT初当り（設定1 1/488.9、設定6 1/354.9）とCZ（1/313.0、1/250.6）です。差はATが約1.38倍、CZが約1.25倍で、どちらも設定3と4の間で大きく軽くなります。3000G回したときの平均は、AT初当りが設定1で約6.1回・設定6で約8.5回、CZは約9.6回と約12.0回。ATは回数がとても少ないので、1回の差で結果が大きく動きます。</p>
     <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
     <h3>回数だけでは時間がかかる</h3>
-    <p>このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、AT初当りだけでは3000Gで約5％、CZも入れると3000Gで約12％、5000Gで約24％でした。設定1の台で同じ結果になってしまう割合は1％ほどです。回数は2つとも入れて、長く回したデータで見てください。</p>
+    <p>このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、AT初当りだけでは3000Gで約5％、CZも入れると3000Gで約12％、CZの対戦相手（柳生）まで数えると3000Gで約23％、5000Gで約39％でした。設定1の台で同じ結果になってしまう割合は1％ほどです。回数は2つとも入れて、長く回したデータで見てください。</p>
     <h3>見えたら押したい示唆</h3>
     <p>AT終了画面は大岡越前＝2以上、柳生＝4以上、大奥＝5以上、吉宗＝6濃厚です。真BBの宝船パート中にレア役を引いてPUSHを押したときのボイスは、吉宗「胸が高鳴るのう！！！」＝2以上、吉宗「これで江戸も安泰じゃ！」＝5以上、越前＝4以上、吉宗・越前・天英院の3人共演＝6濃厚。AT中の獲得枚数表示は456枚突破＝4以上、555枚突破＝5以上、666枚突破＝6濃厚です。押すと、当てはまらない設定を0％にして計算し直します。三日月・満月の終了画面や、葵・桜・翠・紅のボイスは「期待度アップ」止まりなので参考にしてください。</p>
     <h3>天井と使い方のコツ</h3>
@@ -358,6 +386,10 @@
     <table class="t" style="margin-top:8px;">
       <thead><tr><th>設定</th><th>AT初当り</th><th>CZ</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
+    </table>
+    <table class="t" style="margin-top:10px;">
+      <thead><tr><th>設定</th><th>柳生</th></tr></thead>
+      <tbody id="pSpecBody"></tbody>
     </table>
     <p class="note">解析サイトの公開値（2026年11月8日時点）。AT初当り・CZ・機械割はななプレス・アルテマ・ちょんぼりすた・1gekiで一致。示唆はななプレス・DMMぱちタウンで一致したものだけを計算に使っています（吉宗ボイスのセリフはななプレス・1geki、2026年11月18日確認）。天井はアルテマ・ちょんぼりすたで一致。</p>
   </details>
@@ -386,7 +418,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
 const XDEF = [];
 const XG = null;
-const PDEF = [];
+const PDEF = [{"n": "czCount", "k": "ygK", "nfrom": true, "spec": [3.7, 3.9, 4.7, 6.2, 7.81, 8.7], "f": 1, "label": "柳生"}];
 const SPEC = { a: [488.9, 471.5, 438.5, 398.1, 377.0, 354.9], b: [313.0, 303.0, 283.5, 267.1, 256.9, 250.6], c: [1, 1, 1, 1, 1, 1], payout: [97.8, 98.6, 101.0, 104.5, 108.0, 114.0] };
 const BET = 3, LABEL_A = "AT初当り", LABEL_B = "CZ", LABEL_C = "";
 const $ = id => document.getElementById(id);
@@ -563,11 +595,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "shinuchi-yoshimune", "name": "L真打吉宗", "tags": "#真打吉宗 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "shinuchi-yoshimune", "name": "L真打吉宗", "tags": "#真打吉宗 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "ygK", "q": "yk", "label": "そのうち柳生", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "shinuchi-yoshimune", "name": "真打吉宗", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "czCount", "label": "CZ", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・CZは通常時のみ。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "AT終了画面・真BBボイス・獲得枚数", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（AT終了画面）"}]});
+SettiCounter.init({"key": "shinuchi-yoshimune", "name": "真打吉宗", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "czCount", "label": "CZ", "optional": true}, {"id": "ygK", "label": "柳生", "optional": true, "group": "CZの対戦相手", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・CZは通常時のみ。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "AT終了画面・真BBボイス・獲得枚数", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（AT終了画面）"}]});
 </script>
 </body>
 </html>

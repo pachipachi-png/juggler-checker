@@ -121,11 +121,11 @@
  },
  "paripi/": {
   "name": "パリピ孔明",
-  "req3000": 8,
-  "all3000": 19,
-  "all5000": 36,
-  "false1": 1.0,
-  "lv": "hard"
+  "req3000": 7,
+  "all3000": 31,
+  "all5000": 51,
+  "false1": 1.2,
+  "lv": "normal"
  },
  "tenten/": {
   "name": "転生王女",
@@ -298,9 +298,9 @@
  "shinuchi-yoshimune/": {
   "name": "真打吉宗",
   "req3000": 5,
-  "all3000": 12,
-  "all5000": 24,
-  "false1": 1.0,
+  "all3000": 23,
+  "all5000": 39,
+  "false1": 1.2,
   "lv": "hard"
  },
  "enen2/": {

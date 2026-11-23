@@ -219,7 +219,23 @@
   </div>
   <p class="hint">G数・ボーナス・CZは<b>通常時</b>で数えます。ボーナス初当りは通常時から当たった最初のボーナス（チキチキバンバンボーナス）で、ST「パーティータイム」中に続けて当たったものは含めません。CZは三歌の礼・英子の試練・石兵八陣のどれでも1回（上位CZの渋谷決戦は数えない）。</p>
 </div>
-
+<div class="data pdata">
+  <div class="data-h"><span class="dot">DATA 2</span><small>任意。通常時に戻るたびに</small></div>
+  <div class="pcard">
+    <p class="pt">150G以内のボーナス当選</p>
+    <p class="pr">ST・ボーナスが終わって通常時に戻ったら、150Gまで見届けた（または150G以内に当たった）ところで「見た」。150G以内にボーナスに当たっていたら「150G以内」も押す。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="g150N">通常時（150Gまで見た）</label><input type="number" id="g150N" inputmode="numeric" placeholder="-"></div>
+      <div><label for="g150K">そのうち150G以内</label><input type="number" id="g150K" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="g150N" data-n="1">見た +1</button>
+      <button type="button" data-add="g150K" data-n="1">150G以内 +1</button>
+    </div>
+    <div class="rates dot"><span>150G以内 <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  </div>
+  <p class="hint">通常時に戻ってから150G以内にボーナスに当たる割合は、設定1が41.4%、設定6が53.9%（約1.3倍）。</p>
+</div>
 <button class="judge" id="calcBtn" style="display:none;">判別する</button>
 
 <button type="button" class="mini" id="miniRes" hidden><span class="mini-bars" id="miniBars"></span><span class="mini-t" id="miniTxt"></span></button>
@@ -292,7 +308,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/09</span><p>新しいデザインに作り直しました。数値は変わっていません。エンディング中にレア役で出るミニキャラの人数（2人＝2以上〜5人＝5以上、金の孔明＝6）が2サイトで一致したので、押せるボタンを足しました。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/23</span><p>通常時に戻ってから150G以内にボーナスに当たる割合（設定1 41.4%→設定6 53.9%）を数えられるようにしました。150Gまで見たら「見た」、その間に当たっていたら「150G以内」も押します。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -319,6 +335,18 @@
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。ボーナス初当り・CZはななプレス・1gekiで一致。機械割はスペックの公開値です。</p>
+  <table class="t" style="margin-top:14px;">
+    <thead><tr><th>設定</th><th>150G以内</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>41.4%</td></tr>
+        <tr><td>2</td><td>42.5%</td></tr>
+        <tr><td>3</td><td>45.6%</td></tr>
+        <tr class="hi"><td>4</td><td>48.1%</td></tr>
+        <tr class="hi"><td>5</td><td>51.2%</td></tr>
+        <tr class="hi"><td>6</td><td>53.9%</td></tr>
+    </tbody>
+  </table>
+  <p class="note">150G以内のボーナス当選期待度（%）。1geki・DMMぱちタウンで一致。</p>
 </section>
 
 <section id="uchikata">
@@ -346,7 +374,7 @@
     <p>スマスロ パリピ孔明は、ボーナス初当りが設定1で1/309.9、設定6で1/228.8（約1.35倍）、CZが設定1で1/213.6、設定6で1/171.7（約1.24倍）です。小役確率は全設定共通なので、数えても判別には使えません。3000G回したときのボーナス初当りの平均は、設定1で約9.7回、設定6で約13.1回です。</p>
     <details class="guide-more"><style>.guide-more>summary{list-style:none;cursor:pointer;display:block;margin:4px 0 2px;padding:9px 0;text-align:center;font-size:13.5px;font-weight:700;color:var(--teal);border:1px solid var(--line);border-radius:8px;}.guide-more>summary::-webkit-details-marker{display:none;}.guide-more .gm-c{display:none;}.guide-more[open]>summary .gm-o{display:none;}.guide-more[open]>summary .gm-c{display:inline;}.guide-more[open]>summary{margin-top:12px;}details.guide-more>summary::before,details.guide-more[open]>summary::before{content:none;}</style><summary><span class="gm-o">続きを読む ▼</span><span class="gm-c">閉じる ▲</span></summary>
     <h3>回転数を重ねるほど見えてくる</h3>
-    <p>このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、ボーナス初当りだけでは3000Gで約8％、CZ回数も足すと3000Gで約19％、5000Gで約36％でした。設定1の台で同じ結果になってしまう割合は1％前後です。回数は少しずつ寄せていく材料と考えて、示唆と合わせて見てください。</p>
+    <p>このツールと同じ計算で、設定6の台を打ったときに「設定4以上の合計が80％以上」になる割合をシミュレーションすると、ボーナス初当りだけでは3000Gで約8％、CZ回数も足すと3000Gで約19％、さらに150G以内のボーナス当選も数えると3000Gで約31％、5000Gで約51％でした。設定1の台で同じ結果になってしまう割合は1％前後です。回数は少しずつ寄せていく材料と考えて、示唆と合わせて見てください。</p>
     <h3>ST終了画面とミニキャラの人数</h3>
     <p>パーティータイム・超パーティータイムの終了画面は全12種あり、英子＆赤兎馬カンフー＝2以上、太人＆孔明＝3以上、英子＆七海＝4以上、赤背景の孔明＝5以上、着ぐるみの孔明＆英子＝6が濃厚です。エンディング中にレア役が成立すると液晶右上にキャラが出ることがあり、ミニキャラが2人なら2以上、3人なら3以上、4人なら4以上、5人なら5以上、金色の孔明なら6が濃厚です。見えたら押して計算し直してください。</p>
     <h3>数えるときのコツ</h3>
@@ -360,6 +388,10 @@
     <table class="t" style="margin-top:8px;">
       <thead><tr><th>設定</th><th>ボーナス初当り</th><th>CZ</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
+    </table>
+    <table class="t" style="margin-top:10px;">
+      <thead><tr><th>設定</th><th>150G以内</th></tr></thead>
+      <tbody id="pSpecBody"></tbody>
     </table>
     <p class="note">解析サイトの公開値（2026年11月9日時点）。ボーナス初当り・CZはななプレス（10/9）・1geki（10/27）で一致。ST終了画面・エンディングのミニキャラはななプレス・1gekiで一致したものだけを計算に使っています。</p>
   </details>
@@ -388,7 +420,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
 const XDEF = [];
 const XG = null;
-const PDEF = [];
+const PDEF = [{"n": "g150N", "k": "g150K", "nfrom": false, "spec": [41.4, 42.5, 45.6, 48.1, 51.2, 53.9], "f": 1, "label": "150G以内"}];
 const SPEC = { a: [309.9, 299.6, 280.0, 262.0, 243.9, 228.8], b: [213.6, 207.3, 199.2, 188.8, 179.4, 171.7], c: [1, 1, 1, 1, 1, 1], payout: [97.6, 98.9, 101.4, 104.5, 109.0, 113.6] };
 const BET = 3, LABEL_A = "ボーナス初当り", LABEL_B = "CZ", LABEL_C = "";
 const $ = id => document.getElementById(id);
@@ -565,11 +597,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "paripi", "name": "スマスロ パリピ孔明", "tags": "#パリピ孔明 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "bnCount", "q": "bn", "label": "ボーナス初当り", "unit": "回", "rateOf": "totalG"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "paripi", "name": "スマスロ パリピ孔明", "tags": "#パリピ孔明 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "bnCount", "q": "bn", "label": "ボーナス初当り", "unit": "回", "rateOf": "totalG"}, {"id": "czCount", "q": "cz", "label": "CZ", "unit": "回", "rateOf": "totalG"}, {"id": "g150N", "q": "un", "label": "通常時（150Gまで見た）", "unit": "回"}, {"id": "g150K", "q": "uk", "label": "そのうち150G以内", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "paripi", "name": "パリピ孔明", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "bnCount", "label": "ボーナス初当り"}, {"id": "czCount", "label": "CZ", "optional": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ボーナス・CZは通常時のみ。ボーナス初当りはST中の連チャンを含めない。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "ST終了画面・エンディングのミニキャラ", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（ST終了画面）"}]});
+SettiCounter.init({"key": "paripi", "name": "パリピ孔明", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "bnCount", "label": "ボーナス初当り"}, {"id": "czCount", "label": "CZ", "optional": true}, {"id": "g150N", "label": "通常時（150Gまで見た）", "optional": true, "group": "150G以内", "rate": false, "defaultOff": true}, {"id": "g150K", "label": "150G以内当選", "optional": true, "group": "150G以内", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ボーナス・CZは通常時のみ。ボーナス初当りはST中の連チャンを含めない。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "ST終了画面・エンディングのミニキャラ", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（ST終了画面）"}]});
 </script>
 </body>
 </html>
