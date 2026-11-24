@@ -222,6 +222,19 @@
 <div class="data pdata">
   <div class="data-h"><span class="dot">DATA 2</span><small>数えたものだけ</small></div>
   <div class="pcard">
+    <p class="pt">周期前兆失敗時の黒煙ポイント</p>
+    <p class="pr">通常時の周期前兆がボーナスに当たらず終わったら「前兆失敗」。その時に黒煙ポイントが加算されたら「黒煙pt」も押す。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="kkN">前兆失敗</label><input type="number" id="kkN" inputmode="numeric" placeholder="-"></div>
+      <div><label for="kkK">そのうち黒煙pt加算</label><input type="number" id="kkK" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="kkN" data-n="1">前兆失敗 +1</button>
+      <button type="button" data-add="kkK" data-n="1">黒煙pt +1</button>
+    </div>
+    <div class="rates dot"><span>黒煙pt <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  </div>
+  <div class="pcard">
     <p class="pt">キャラ紹介の男女比</p>
     <p class="pr">カバネリボーナス中のキャラ紹介で、女性（無名・菖蒲・鰍＆侑那）か男性（生駒・来栖・景之）が出たら「キャラ紹介」。女性だったら「女性」も押す。美馬は数えず、下の示唆で押す。</p>
     <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
@@ -232,7 +245,7 @@
       <button type="button" data-add="charaN" data-n="1">キャラ紹介 +1</button>
       <button type="button" data-add="charaF" data-n="1">女性 +1</button>
     </div>
-    <div class="rates dot"><span>女性キャラ <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+    <div class="rates dot"><span>女性キャラ <b id="liveP1">―</b><small id="livePNote1"></small></span></div>
   </div>
   <div class="pcard">
     <p class="pt">復讐の焔成功時の裏景之ST</p>
@@ -245,7 +258,7 @@
       <button type="button" data-add="homuraWin" data-n="1">焔成功 +1</button>
       <button type="button" data-add="uraKage" data-n="1">裏景之 +1</button>
     </div>
-    <div class="rates dot"><span>裏景之 <b id="liveP1">―</b><small id="livePNote1"></small></span></div>
+    <div class="rates dot"><span>裏景之 <b id="liveP2">―</b><small id="livePNote2"></small></span></div>
   </div>
   <div class="pcard">
     <p class="pt">3周期目のボーナス当選</p>
@@ -258,7 +271,7 @@
       <button type="button" data-add="cyc3n" data-n="1">3周期目 +1</button>
       <button type="button" data-add="cyc3k" data-n="1">3周期当選 +1</button>
     </div>
-    <div class="rates dot"><span>3周期目 <b id="liveP2">―</b><small id="livePNote2"></small></span></div>
+    <div class="rates dot"><span>3周期目 <b id="liveP3">―</b><small id="livePNote3"></small></span></div>
   </div>
   <div class="pcard">
     <p class="pt">4周期目のボーナス当選</p>
@@ -271,7 +284,7 @@
       <button type="button" data-add="cyc4n" data-n="1">4周期目 +1</button>
       <button type="button" data-add="cyc4k" data-n="1">4周期当選 +1</button>
     </div>
-    <div class="rates dot"><span>4周期目 <b id="liveP3">―</b><small id="livePNote3"></small></span></div>
+    <div class="rates dot"><span>4周期目 <b id="liveP4">―</b><small id="livePNote4"></small></span></div>
   </div>
   <p class="hint">女性キャラの割合は設定2・4・6が57.5〜60.0%、設定3・5が約40%、設定1は50%（総回転5000Gまでの値）。裏景之STは設定1〜3が約6%、設定5が25.0%、設定6が33.2%。3周期目の当選は18.4%→37.1%、4周期目は33.6%→46.9%。</p>
 </div>
@@ -354,7 +367,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/11</span><p>新しいデザインに作り直し、復讐の焔成功時の裏景之ST（設定6 33.2%）と3・4周期目のボーナス当選を入れられるようにしました。キャラ紹介の男女比も割合の入力に変えています。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/24</span><p>周期前兆に失敗した時の黒煙ポイント加算（設定1・2 50%→設定6 76%）を数えられるようにしました。前兆失敗で「前兆失敗」、黒煙ポイントが入ったら「黒煙pt」を押すだけです。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -383,14 +396,14 @@
   </table>
   <p class="note">確率は「1/〇〇」の分母。ボーナス初当り・機械割はパチセブン・1geki、下段ベル・キャラ紹介・周期・裏景之STはDMMぱちタウン（11/9更新）・1gekiほかで一致。</p>
   <table class="t" style="margin-top:14px;">
-    <thead><tr><th>設定</th><th>女性キャラ</th><th>裏景之</th><th>3周期目</th><th>4周期目</th></tr></thead>
+    <thead><tr><th>設定</th><th>黒煙pt</th><th>女性キャラ</th><th>裏景之</th><th>3周期目</th><th>4周期目</th></tr></thead>
     <tbody>
-        <tr><td>1</td><td>50.0%</td><td>6.2%</td><td>18.4%</td><td>33.6%</td></tr>
-        <tr><td>2</td><td>57.5%</td><td>6.2%</td><td>23.8%</td><td>35.2%</td></tr>
-        <tr><td>3</td><td>41.5%</td><td>6.6%</td><td>21.1%</td><td>36.3%</td></tr>
-        <tr class="hi"><td>4</td><td>58.5%</td><td>10.9%</td><td>28.5%</td><td>40.2%</td></tr>
-        <tr class="hi"><td>5</td><td>39.9%</td><td>25.0%</td><td>32.4%</td><td>43.4%</td></tr>
-        <tr class="hi"><td>6</td><td>60.0%</td><td>33.2%</td><td>37.1%</td><td>46.9%</td></tr>
+        <tr><td>1</td><td>50.0%</td><td>50.0%</td><td>6.2%</td><td>18.4%</td><td>33.6%</td></tr>
+        <tr><td>2</td><td>50.0%</td><td>57.5%</td><td>6.2%</td><td>23.8%</td><td>35.2%</td></tr>
+        <tr><td>3</td><td>56.0%</td><td>41.5%</td><td>6.6%</td><td>21.1%</td><td>36.3%</td></tr>
+        <tr class="hi"><td>4</td><td>63.0%</td><td>58.5%</td><td>10.9%</td><td>28.5%</td><td>40.2%</td></tr>
+        <tr class="hi"><td>5</td><td>69.0%</td><td>39.9%</td><td>25.0%</td><td>32.4%</td><td>43.4%</td></tr>
+        <tr class="hi"><td>6</td><td>76.0%</td><td>60.0%</td><td>33.2%</td><td>37.1%</td><td>46.9%</td></tr>
     </tbody>
   </table>
   <p class="note">キャラ紹介（総回転1〜5000Gと8001G以降）・裏景之ST・3／4周期目の当選率（%）。DMMぱちタウン（11/9更新）ほか。</p>
@@ -434,7 +447,7 @@
       <tbody id="specBody"></tbody>
     </table>
     <table class="t" style="margin-top:10px;">
-      <thead><tr><th>設定</th><th>女性キャラ</th><th>裏景之</th><th>3周期目</th><th>4周期目</th></tr></thead>
+      <thead><tr><th>設定</th><th>黒煙pt</th><th>女性キャラ</th><th>裏景之</th><th>3周期目</th><th>4周期目</th></tr></thead>
       <tbody id="pSpecBody"></tbody>
     </table>
     <p class="note">解析サイトの公開値（2026年11月11日に再確認。DMMぱちタウン 11/9更新）。ボーナス初当りの分母（通常時のみか）は、解析サイトに記載がありません。</p>
@@ -464,7 +477,7 @@ const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = "allG";
 const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
 const XDEF = [];
 const XG = null;
-const PDEF = [{"n": "charaN", "k": "charaF", "nfrom": false, "spec": [50.0, 57.5, 41.5, 58.5, 39.9, 60.0], "f": 1, "label": "女性キャラ"}, {"n": "homuraWin", "k": "uraKage", "nfrom": false, "spec": [6.2, 6.2, 6.6, 10.9, 25.0, 33.2], "f": 1, "label": "裏景之"}, {"n": "cyc3n", "k": "cyc3k", "nfrom": false, "spec": [18.4, 23.8, 21.1, 28.5, 32.4, 37.1], "f": 1, "label": "3周期目"}, {"n": "cyc4n", "k": "cyc4k", "nfrom": false, "spec": [33.6, 35.2, 36.3, 40.2, 43.4, 46.9], "f": 1, "label": "4周期目"}];
+const PDEF = [{"n": "kkN", "k": "kkK", "nfrom": false, "spec": [50, 50, 56, 63, 69, 76], "f": 0, "label": "黒煙pt"}, {"n": "charaN", "k": "charaF", "nfrom": false, "spec": [50.0, 57.5, 41.5, 58.5, 39.9, 60.0], "f": 1, "label": "女性キャラ"}, {"n": "homuraWin", "k": "uraKage", "nfrom": false, "spec": [6.2, 6.2, 6.6, 10.9, 25.0, 33.2], "f": 1, "label": "裏景之"}, {"n": "cyc3n", "k": "cyc3k", "nfrom": false, "spec": [18.4, 23.8, 21.1, 28.5, 32.4, 37.1], "f": 1, "label": "3周期目"}, {"n": "cyc4n", "k": "cyc4k", "nfrom": false, "spec": [33.6, 35.2, 36.3, 40.2, 43.4, 46.9], "f": 1, "label": "4周期目"}];
 const SPEC = { a: [254.2, 242.3, 239.6, 214.0, 203.2, 195.1], b: [121.1, 114.4, 112.8, 106.2, 104.2, 99.1], c: [1, 1, 1, 1, 1, 1], payout: [97.5, 98.5, 100.8, 106.0, 111.0, 114.9] };
 const BET = 3, LABEL_A = "ボーナス初当り", LABEL_B = "下段ベル", LABEL_C = "";
 const $ = id => document.getElementById(id);
@@ -641,11 +654,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "kabaneri2", "name": "スマスロ 甲鉄城のカバネリ 海門決戦", "tags": "#カバネリ #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "bnCount", "q": "bn", "label": "ボーナス初当り", "unit": "回", "rateOf": "totalG"}, {"id": "allG", "q": "tg", "label": "総回転", "unit": "G"}, {"id": "bellCount", "q": "bell", "label": "下段ベル", "unit": "回", "rateOf": "allG"}, {"id": "charaN", "q": "cn", "label": "キャラ紹介（男女）", "unit": "回"}, {"id": "charaF", "q": "cf", "label": "そのうち女性", "unit": "回"}, {"id": "homuraWin", "q": "hw", "label": "復讐の焔成功", "unit": "回"}, {"id": "uraKage", "q": "uk", "label": "そのうち裏景之ST", "unit": "回"}, {"id": "cyc3n", "q": "c3n", "label": "3周期目到達", "unit": "回"}, {"id": "cyc3k", "q": "c3k", "label": "そのうち当選", "unit": "回"}, {"id": "cyc4n", "q": "c4n", "label": "4周期目到達", "unit": "回"}, {"id": "cyc4k", "q": "c4k", "label": "そのうち当選", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "kabaneri2", "name": "スマスロ 甲鉄城のカバネリ 海門決戦", "tags": "#カバネリ #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "bnCount", "q": "bn", "label": "ボーナス初当り", "unit": "回", "rateOf": "totalG"}, {"id": "allG", "q": "tg", "label": "総回転", "unit": "G"}, {"id": "bellCount", "q": "bell", "label": "下段ベル", "unit": "回", "rateOf": "allG"}, {"id": "kkN", "q": "kn", "label": "前兆失敗", "unit": "回"}, {"id": "kkK", "q": "kk", "label": "そのうち黒煙pt加算", "unit": "回"}, {"id": "charaN", "q": "cn", "label": "キャラ紹介（男女）", "unit": "回"}, {"id": "charaF", "q": "cf", "label": "そのうち女性", "unit": "回"}, {"id": "homuraWin", "q": "hw", "label": "復讐の焔成功", "unit": "回"}, {"id": "uraKage", "q": "uk", "label": "そのうち裏景之ST", "unit": "回"}, {"id": "cyc3n", "q": "c3n", "label": "3周期目到達", "unit": "回"}, {"id": "cyc3k", "q": "c3k", "label": "そのうち当選", "unit": "回"}, {"id": "cyc4n", "q": "c4n", "label": "4周期目到達", "unit": "回"}, {"id": "cyc4k", "q": "c4k", "label": "そのうち当選", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "kabaneri2", "name": "カバネリ海門", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "bnCount", "label": "ボーナス初当り"}, {"id": "bellCount", "label": "下段ベル", "optional": true, "rateG": "allG"}, {"id": "charaN", "label": "キャラ紹介（男女）", "optional": true, "group": "カバネリボーナス中", "rate": false, "defaultOff": true}, {"id": "charaF", "label": "女性", "optional": true, "group": "カバネリボーナス中", "rate": false, "defaultOff": true}, {"id": "homuraWin", "label": "復讐の焔成功", "optional": true, "group": "復讐の焔", "rate": false, "defaultOff": true}, {"id": "uraKage", "label": "裏景之", "optional": true, "group": "復讐の焔", "rate": false, "defaultOff": true}, {"id": "cyc3n", "label": "3周期目到達", "optional": true, "group": "周期", "rate": false, "defaultOff": true}, {"id": "cyc3k", "label": "当選", "optional": true, "group": "周期", "rate": false, "defaultOff": true}, {"id": "cyc4n", "label": "4周期目到達", "optional": true, "group": "周期", "rate": false, "defaultOff": true}, {"id": "cyc4k", "label": "当選", "optional": true, "group": "周期", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ボーナス初当りは通常時のみ。下段ベルは総回転数（ボーナス・ST込み）で計算。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・おみくじ・ボイス・上乗せ", "short": "示唆", "optional": true}, "g2": [{"id": "allG", "label": "総回転数", "item": "bellCount"}], "links": [{"href": "shuryo/", "label": "画面系の早見表（ST終了画面・アイキャッチ）"}]});
+SettiCounter.init({"key": "kabaneri2", "name": "カバネリ海門", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "bnCount", "label": "ボーナス初当り"}, {"id": "bellCount", "label": "下段ベル", "optional": true, "rateG": "allG"}, {"id": "kkN", "label": "前兆失敗", "optional": true, "group": "黒煙", "rate": false, "defaultOff": true}, {"id": "kkK", "label": "黒煙pt", "optional": true, "group": "黒煙", "rate": false, "defaultOff": true}, {"id": "charaN", "label": "キャラ紹介（男女）", "optional": true, "group": "カバネリボーナス中", "rate": false, "defaultOff": true}, {"id": "charaF", "label": "女性", "optional": true, "group": "カバネリボーナス中", "rate": false, "defaultOff": true}, {"id": "homuraWin", "label": "復讐の焔成功", "optional": true, "group": "復讐の焔", "rate": false, "defaultOff": true}, {"id": "uraKage", "label": "裏景之", "optional": true, "group": "復讐の焔", "rate": false, "defaultOff": true}, {"id": "cyc3n", "label": "3周期目到達", "optional": true, "group": "周期", "rate": false, "defaultOff": true}, {"id": "cyc3k", "label": "当選", "optional": true, "group": "周期", "rate": false, "defaultOff": true}, {"id": "cyc4n", "label": "4周期目到達", "optional": true, "group": "周期", "rate": false, "defaultOff": true}, {"id": "cyc4k", "label": "当選", "optional": true, "group": "周期", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・ボーナス初当りは通常時のみ。下段ベルは総回転数（ボーナス・ST込み）で計算。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・おみくじ・ボイス・上乗せ", "short": "示唆", "optional": true}, "g2": [{"id": "allG", "label": "総回転数", "item": "bellCount"}], "links": [{"href": "shuryo/", "label": "画面系の早見表（ST終了画面・アイキャッチ）"}]});
 </script>
 </body>
 </html>

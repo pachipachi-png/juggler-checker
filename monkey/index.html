@@ -219,7 +219,61 @@
   </div>
   <p class="hint">5枚役は通常時もAT中も数えて、総回転もAT中を含めます。AT初当りは通常時Gで割るので、使うときは通常時G数も入れてください（「通常+100G」は総回転にも足します）。AT初当りが空欄なら5枚役だけで計算。</p>
 </div>
-
+<div class="data pdata">
+  <div class="data-h"><span class="dot">DATA 2</span><small>任意。見たときだけ押す</small></div>
+  <div class="pcard">
+    <p class="pt">強レア役からのAT直撃</p>
+    <p class="pr">通常時に強チェリー・強チャンス目が出たら「強レア役」。そこからATに直撃したら「直撃」も押す。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="srN">強レア役</label><input type="number" id="srN" inputmode="numeric" placeholder="-"></div>
+      <div><label for="srK">そのうち直撃</label><input type="number" id="srK" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="srN" data-n="1">強レア役 +1</button>
+      <button type="button" data-add="srK" data-n="1">強レア直撃 +1</button>
+    </div>
+    <div class="rates dot"><span>強レア直撃 <b id="liveP0">―</b><small id="livePNote0"></small></span></div>
+  </div>
+  <div class="pcard">
+    <p class="pt">激走チャージ中のEXアイテム（弱チャンス目）</p>
+    <p class="pr">激走チャージ中に弱チャンス目が出たら「弱チャ目」。EXアイテムをもらったら「EX」も押す。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="exN">弱チャ目</label><input type="number" id="exN" inputmode="numeric" placeholder="-"></div>
+      <div><label for="exK">そのうちEX</label><input type="number" id="exK" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="exN" data-n="1">弱チャ目 +1</button>
+      <button type="button" data-add="exK" data-n="1">EX（チャ目） +1</button>
+    </div>
+    <div class="rates dot"><span>EX（弱チャ目） <b id="liveP1">―</b><small id="livePNote1"></small></span></div>
+  </div>
+  <div class="pcard">
+    <p class="pt">激走チャージ中のEXアイテム（ボート弱チェリー）</p>
+    <p class="pr">激走チャージ中にボート弱チェリーが出たら「弱チェリー」。EXアイテムをもらったら「EX」も押す。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label for="ebN">弱チェリー</label><input type="number" id="ebN" inputmode="numeric" placeholder="-"></div>
+      <div><label for="ebK">そのうちEX</label><input type="number" id="ebK" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button type="button" data-add="ebN" data-n="1">弱チェリー +1</button>
+      <button type="button" data-add="ebK" data-n="1">EX（弱チェ） +1</button>
+    </div>
+    <div class="rates dot"><span>EX（弱チェ） <b id="liveP2">―</b><small id="livePNote2"></small></span></div>
+  </div>
+  <div class="pcard">
+    <p class="pt">AT終了後の即優出</p>
+    <p class="pr">AT終了後すぐに優出（AT）に当たったら「即優出」を押す。AT初当りの回数は上で入れた数をそのまま使います。</p>
+    <div class="cells" style="grid-template-columns:repeat(2,minmax(0,1fr));">
+      <div><label>AT初当り（上の回数）</label><p class="pfrom" id="pFrom3" style="margin:0;padding:10px 12px;font-size:20px;color:var(--muted);">-</p></div>
+      <div><label for="syK">即優出</label><input type="number" id="syK" inputmode="numeric" placeholder="-"></div>
+    </div>
+    <div class="taps" style="grid-template-columns:repeat(1,minmax(0,1fr));">
+      <button type="button" data-add="syK" data-n="1">即優出 +1</button>
+    </div>
+    <div class="rates dot"><span>即優出 <b id="liveP3">―</b><small id="livePNote3"></small></span></div>
+  </div>
+  <p class="hint">差が大きいのは強レア役からのAT直撃（設定1 0.4%→設定6 6.3%）。激走チャージ中のEXアイテムも高設定ほどもらいやすい。</p>
+</div>
 <button class="judge" id="calcBtn" style="display:none;">判別する</button>
 
 <button type="button" class="mini" id="miniRes" hidden><span class="mini-bars" id="miniBars"></span><span class="mini-t" id="miniTxt"></span></button>
@@ -291,7 +345,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/01</span><p>新しいデザインに作り直しました。弱レア役からのAT直撃（設定4以上濃厚）と、SGラッシュ中の山佐キャラ集合（設定5以上濃厚）を絞り込みに足しています。5枚役の数値はメーカー非公表の参考値なので、結果は「高設定寄りかどうか」の目安にしてください。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/24</span><p>強チェリー・強チャンス目からのAT直撃（設定1 0.4%→設定6 6.3%）、激走チャージ中のEXアイテム、AT後の即優出を数えられるようにしました。どれも「起きた」「当たった」を押すだけです。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -317,6 +371,17 @@
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。5枚役はメーカー非公表のため解析サイト掲載の参考値。AT初当り・機械割は解析サイトの公開値。</p>
+  <table class="t" style="margin-top:14px;">
+    <thead><tr><th>設定</th><th>強レア直撃</th><th>EX（弱チャ目）</th><th>EX（弱チェ）</th><th>即優出</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>0.4%</td><td>31.3%</td><td>25.0%</td><td>1.6%</td></tr>
+        <tr><td>2</td><td>1.2%</td><td>32.0%</td><td>26.2%</td><td>1.7%</td></tr>
+        <tr class="hi"><td>4</td><td>2.0%</td><td>37.5%</td><td>32.8%</td><td>2.2%</td></tr>
+        <tr class="hi"><td>5</td><td>3.9%</td><td>40.6%</td><td>39.1%</td><td>3.0%</td></tr>
+        <tr class="hi"><td>6</td><td>6.3%</td><td>46.9%</td><td>43.0%</td><td>3.7%</td></tr>
+    </tbody>
+  </table>
+  <p class="note">AT直撃当選率・EXアイテム当選率・即優出当選率（%）。1gekiの値。</p>
 </section>
 
 <section id="uchikata">
@@ -361,6 +426,10 @@
       <thead><tr><th>設定</th><th>5枚役</th><th>AT初当り</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
+    <table class="t" style="margin-top:10px;">
+      <thead><tr><th>設定</th><th>強レア直撃</th><th>EX（弱チャ目）</th><th>EX（弱チェ）</th><th>即優出</th></tr></thead>
+      <tbody id="pSpecBody"></tbody>
+    </table>
     <p class="note">AT初当り・機械割は解析サイトの公開値、5枚役はメーカー非公表のため解析サイト掲載の参考値（2026年11月時点）。実戦値として「設定1：1/40、設定4：1/29、設定5：1/25、設定6：1/23」とするサイトもあります。この機種に設定3はありません。</p>
   </details>
 </section>
@@ -388,7 +457,7 @@ const DEC_A = 2, DEC_B = 1, DEC_C = 1, B_G = "normalG";
 const HAS_B = true, HAS_C = false, HAS_CHECKS = true;
 const XDEF = [];
 const XG = null;
-const PDEF = [];
+const PDEF = [{"n": "srN", "k": "srK", "nfrom": false, "spec": [0.4, 1.2, 2.0, 3.9, 6.3], "f": 1, "label": "強レア直撃"}, {"n": "exN", "k": "exK", "nfrom": false, "spec": [31.3, 32.0, 37.5, 40.6, 46.9], "f": 1, "label": "EX（弱チャ目）"}, {"n": "ebN", "k": "ebK", "nfrom": false, "spec": [25.0, 26.2, 32.8, 39.1, 43.0], "f": 1, "label": "EX（弱チェ）"}, {"n": "atCount", "k": "syK", "nfrom": true, "spec": [1.6, 1.7, 2.2, 3.0, 3.7], "f": 1, "label": "即優出"}];
 const SPEC = { a: [38.15, 36.86, 30.27, 24.51, 22.53], b: [299.8, 295.5, 258.8, 235.7, 222.9], c: [1, 1, 1, 1, 1], payout: [97.9, 98.9, 104.5, 110.2, 114.9] };
 const BET = 3, LABEL_A = "5枚役", LABEL_B = "AT初当り", LABEL_C = "";
 const $ = id => document.getElementById(id);
@@ -415,6 +484,7 @@ const pEls = PDEF.map(q => [$(q.n), $(q.k)]);
 function livePct(){
   PDEF.forEach((q, j) => {
     const n = num(pEls[j][0]), k = num(pEls[j][1]);
+    if(q.nfrom){ const f = $('pFrom' + j); if(f) f.textContent = n > 0 ? n : '-'; }
     if(n > 0){
       const r = k / n * 100, arr = readCol('pInput' + j).map(v => v * q.f);
       $('liveP' + j).textContent = `${k}/${n}（${r.toFixed(0)}%）`;
@@ -424,6 +494,7 @@ function livePct(){
   });
 }
 pEls.flat().forEach(el => el.addEventListener('input', livePct));
+setTimeout(livePct, 0);
 function nearLabel(r, arr){
   if(r >= Math.max(...arr)) return `設定${SETS[0]}より重い`;
   if(r <= Math.min(...arr)) return `設定${SETS[N-1]}より軽い`;
@@ -493,7 +564,7 @@ $('calcBtn').addEventListener('click', () => {
   const useA = aCount.value.trim() !== '';
   const g = num(totalG), a = useA ? num(aCount) : 0, useB = HAS_B && bCount.value.trim() !== '', b = useB ? num(bCount) : 0, gb = useB ? num(bG) : 0, useC = HAS_C && cCount.value.trim() !== '', c = useC ? num(cCount) : 0;
   // 「そのうち」だけ先に押した時は、もとの回数も同じ数まで自動で上げる（成功したなら、その回も起きているため）
-  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
+  PDEF.forEach((q, j) => { const n = num(pEls[j][0]), k = num(pEls[j][1]); if(k > n && !q.nfrom && document.activeElement !== pEls[j][0]){ pEls[j][0].value = String(k); } });
   const pUse = PDEF.map((q, j) => { const k = num(pEls[j][1]), n = Math.max(num(pEls[j][0]), k); return { n, k, use: n > 0 || k > 0 }; });
   const xUse = xEls.map((el, j) => ({ k: num(el), use: el.value.trim() !== '', gg: XDEF[j].g ? num(xgEl) : null }));
   const { allow, names } = currentAllow();
@@ -563,11 +634,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "monkey", "name": "スマスロ モンキーターンV", "tags": "#モンキーターン #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "tg", "label": "総", "unit": "G"}, {"id": "fiveCount", "q": "five", "label": "5枚役", "unit": "回", "rateOf": "totalG"}, {"id": "normalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "normalG"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "monkey", "name": "スマスロ モンキーターンV", "tags": "#モンキーターン #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "tg", "label": "総", "unit": "G"}, {"id": "fiveCount", "q": "five", "label": "5枚役", "unit": "回", "rateOf": "totalG"}, {"id": "normalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "normalG"}, {"id": "srN", "q": "sn", "label": "強レア役", "unit": "回"}, {"id": "srK", "q": "sk", "label": "そのうち直撃", "unit": "回"}, {"id": "exN", "q": "en", "label": "弱チャ目", "unit": "回"}, {"id": "exK", "q": "ek", "label": "そのうちEX", "unit": "回"}, {"id": "ebN", "q": "bn", "label": "弱チェリー", "unit": "回"}, {"id": "ebK", "q": "bk", "label": "そのうちEX", "unit": "回"}, {"id": "syK", "q": "yk", "label": "即優出", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "monkey", "name": "モンキーターンV", "g": {"id": "totalG", "label": "総ゲーム数"}, "counts": [{"id": "fiveCount", "label": "5枚役"}, {"id": "atCount", "label": "AT初当り", "optional": true, "rateG": "normalG"}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "5枚役は通常時もAT中も数えます（総ゲーム数もAT中を含める）。AT初当りの確率は通常時G数で計算します。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・舟券・獲得枚数・AT直撃などの示唆", "short": "示唆", "optional": true}, "g2": [{"id": "normalG", "label": "通常時G数", "item": "atCount"}]});
+SettiCounter.init({"key": "monkey", "name": "モンキーターンV", "g": {"id": "totalG", "label": "総ゲーム数"}, "counts": [{"id": "fiveCount", "label": "5枚役"}, {"id": "atCount", "label": "AT初当り", "optional": true, "rateG": "normalG"}, {"id": "srN", "label": "強レア役", "optional": true, "group": "AT直撃", "rate": false, "defaultOff": true}, {"id": "srK", "label": "強レア直撃", "optional": true, "group": "AT直撃", "rate": false, "defaultOff": true}, {"id": "exN", "label": "弱チャ目", "optional": true, "group": "激走チャージ", "rate": false, "defaultOff": true}, {"id": "exK", "label": "EX（チャ目）", "optional": true, "group": "激走チャージ", "rate": false, "defaultOff": true}, {"id": "ebN", "label": "弱チェリー", "optional": true, "group": "激走チャージ", "rate": false, "defaultOff": true}, {"id": "ebK", "label": "EX（弱チェ）", "optional": true, "group": "激走チャージ", "rate": false, "defaultOff": true}, {"id": "syK", "label": "即優出", "optional": true, "group": "即優出", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "5枚役は通常時もAT中も数えます（総ゲーム数もAT中を含める）。AT初当りの確率は通常時G数で計算します。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "トロフィー・舟券・獲得枚数・AT直撃などの示唆", "short": "示唆", "optional": true}, "g2": [{"id": "normalG", "label": "通常時G数", "item": "atCount"}]});
 </script>
 </body>
 </html>

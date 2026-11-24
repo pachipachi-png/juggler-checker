@@ -202,20 +202,20 @@
     <div><label for="atCount">AT初当り</label><input type="number" id="atCount" inputmode="numeric" placeholder="0"></div>
     
     
-    <div><label for="obCount">戦国乙女ボーナス</label><input type="number" id="obCount" inputmode="numeric" placeholder="-"></div>
+    <div><label for="obCount">戦国乙女ボーナス</label><input type="number" id="obCount" inputmode="numeric" placeholder="-"></div><div><label for="otomeBn">戦国乙女ボーナス</label><input type="number" id="otomeBn" inputmode="numeric" placeholder="-"></div>
   </div>
   <div class="taps" style="grid-template-columns:repeat(3,minmax(0,1fr));">
     <button type="button" data-add="totalG" data-n="100">+100G</button>
     <button type="button" data-add="atCount" data-n="1">AT +1</button>
     
     
-    <button type="button" data-add="obCount" data-n="1">乙女B +1</button>
+    <button type="button" data-add="obCount" data-n="1">乙女B +1</button><button type="button" data-add="otomeBn" data-n="1">乙女ボーナス +1</button>
     <button type="button" class="undo" id="undoBtn">1つ戻す</button>
   </div>
   <div class="rates dot">
     <span>AT <b id="liveA">―</b><small id="liveANote"></small></span>
     
-    <span>乙女B <b id="liveC">―</b><small id="liveCNote"></small></span>
+    <span>乙女B <b id="liveC">―</b><small id="liveCNote"></small></span><span>乙女ボーナス <b id="liveX0">―</b><small id="liveX0Note"></small></span>
   </div>
   <p class="hint">G数・AT初当り・戦国乙女ボーナスは<b>通常時</b>で数えます。AT初当りは通常時から当たったATを1回とし、乙女アタック経由・戦国乙女ボーナス経由も含めます（AT中の上乗せや継続は含めない）。戦国乙女ボーナスはAT初当りにも数えたままで大丈夫です（少しだけ二重に数える形になります）。空欄の項目は計算に使いません。</p>
 </div>
@@ -340,7 +340,7 @@
   </details>
 </section>
 
-<div class="memo"><span class="dot">運営メモ 11/11</span><p>新しいデザインに作り直しました。2026年11月9日時点の解析を確認し、新しく数値が出た設定差はありませんでした。</p></div>
+<div class="memo"><span class="dot">運営メモ 11/24</span><p>戦国乙女ボーナスの回数を入れられるようにしました（設定1 1/21206.7→設定6 1/5502.7、約3.9倍）。</p></div>
 
 <section id="know">
   <div class="sh"><h2>先に知っておくこと</h2></div>
@@ -355,14 +355,14 @@
 <section id="gousei">
   <div class="sh"><h2>設定差・機械割</h2></div>
   <table class="t">
-    <thead><tr><th>設定</th><th>AT初当り</th><th>戦国乙女ボーナス</th><th>機械割</th></tr></thead>
+    <thead><tr><th>設定</th><th>AT初当り</th><th>戦国乙女ボーナス</th><th>戦国乙女ボーナス</th><th>機械割</th></tr></thead>
     <tbody>
-        <tr><td>1</td><td>359.5</td><td>21206.7</td><td>97.9</td></tr>
-        <tr><td>2</td><td>350.8</td><td>15648.9</td><td>98.9</td></tr>
-        <tr><td>3</td><td>332.5</td><td>13143.5</td><td>101.0</td></tr>
-        <tr class="hi"><td>4</td><td>302.8</td><td>8143.4</td><td>106.2</td></tr>
-        <tr class="hi"><td>5</td><td>281.0</td><td>6427.6</td><td>111.1</td></tr>
-        <tr class="hi"><td>6</td><td>262.9</td><td>5502.7</td><td>114.9</td></tr>
+        <tr><td>1</td><td>359.5</td><td>21206.7</td><td>21206.7</td><td>97.9</td></tr>
+        <tr><td>2</td><td>350.8</td><td>15648.9</td><td>15648.9</td><td>98.9</td></tr>
+        <tr><td>3</td><td>332.5</td><td>13143.5</td><td>13143.5</td><td>101.0</td></tr>
+        <tr class="hi"><td>4</td><td>302.8</td><td>8143.4</td><td>8143.4</td><td>106.2</td></tr>
+        <tr class="hi"><td>5</td><td>281.0</td><td>6427.6</td><td>6427.6</td><td>111.1</td></tr>
+        <tr class="hi"><td>6</td><td>262.9</td><td>5502.7</td><td>5502.7</td><td>114.9</td></tr>
     </tbody>
   </table>
   <p class="note">確率は「1/〇〇」の分母。AT初当り・戦国乙女ボーナス・乙女アタック突入率は1geki・altema・ちょんぼりすた・パチセブン・nana-pressで一致。機械割はちょんぼりすた。</p>
@@ -419,7 +419,7 @@
   <details>
     <summary>計算に使う設定差を見る・編集する</summary>
     <table class="t" style="margin-top:8px;">
-      <thead><tr><th>設定</th><th>AT初当り</th><th>戦国乙女ボーナス</th><th>機械割%</th></tr></thead>
+      <thead><tr><th>設定</th><th>AT初当り</th><th>戦国乙女ボーナス</th><th>戦国乙女ボーナス</th><th>機械割%</th></tr></thead>
       <tbody id="specBody"></tbody>
     </table>
     <table class="t" style="margin-top:10px;">
@@ -451,7 +451,7 @@
 const SETS = [1, 2, 3, 4, 5, 6], N = SETS.length, HI = SETS.map(s => s >= 4);
 const DEC_A = 1, DEC_B = 1, DEC_C = 1, B_G = null;
 const HAS_B = false, HAS_C = true, HAS_CHECKS = true;
-const XDEF = [];
+const XDEF = [{"id": "otomeBn", "spec": [21206.7, 15648.9, 13143.5, 8143.4, 6427.6, 5502.7], "dec": 1, "label": "戦国乙女ボーナス", "g": null}];
 const XG = null;
 const PDEF = [{"n": "zeroPt", "k": "oaIn", "nfrom": false, "spec": [20.3, 21.4, 23.2, 24.7, 25.2, 25.7], "f": 1, "label": "乙女アタック"}];
 const SPEC = { a: [359.5, 350.8, 332.5, 302.8, 281.0, 262.9], b: [1, 1, 1, 1, 1, 1], c: [21206.7, 15648.9, 13143.5, 8143.4, 6427.6, 5502.7], payout: [97.9, 98.9, 101.0, 106.2, 111.1, 114.9] };
@@ -630,11 +630,11 @@ document.querySelectorAll('a.ref-out').forEach(a => a.addEventListener('click', 
 </script>
 <script src="../share.js"></script>
 <script>
-SettiShare.init({"key": "otome5", "name": "L戦国乙女5 業火を穿つ宿焔の双刃", "tags": "#戦国乙女5 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "obCount", "q": "ob", "label": "戦国乙女ボーナス", "unit": "回", "rateOf": "totalG"}, {"id": "zeroPt", "q": "zp", "label": "0pt到達", "unit": "回"}, {"id": "oaIn", "q": "oa", "label": "そのうち乙女アタック", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
+SettiShare.init({"key": "otome5", "name": "L戦国乙女5 業火を穿つ宿焔の双刃", "tags": "#戦国乙女5 #設定示唆くん", "boxes": [{"id": "main", "btn": "calcBtn", "wrap": "pieWrap", "legend": "legend", "after": "evOutput", "label": "判別", "title": "判別結果をシェア", "xLabel": "𝕏でシェア", "fields": [{"id": "totalG", "q": "g", "label": "通常時", "unit": "G"}, {"id": "atCount", "q": "at", "label": "AT初当り", "unit": "回", "rateOf": "totalG"}, {"id": "obCount", "q": "ob", "label": "戦国乙女ボーナス", "unit": "回", "rateOf": "totalG"}, {"id": "otomeBn", "q": "ob", "label": "戦国乙女ボーナス", "unit": "回", "rateOf": "totalG"}, {"id": "zeroPt", "q": "zp", "label": "0pt到達", "unit": "回"}, {"id": "oaIn", "q": "oa", "label": "そのうち乙女アタック", "unit": "回"}]}], "hints": "#floorGroup input[type=checkbox]"});
 </script>
 <script src="../counter.js"></script>
 <script>
-SettiCounter.init({"key": "otome5", "name": "戦国乙女5", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "obCount", "label": "戦国乙女ボーナス", "optional": true}, {"id": "zeroPt", "label": "0pt到達", "optional": true, "group": "乙女ポイント0pt", "rate": false, "defaultOff": true}, {"id": "oaIn", "label": "突入", "optional": true, "group": "乙女ポイント0pt", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・戦国乙女ボーナスは通常時のみ。AT初当りは乙女アタック・乙女ボーナス経由も含む。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "スタンプ・獲得枚数・終了画面・ボイス", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（ボーナス終了画面・AT終了画面・アイキャッチ）"}]});
+SettiCounter.init({"key": "otome5", "name": "戦国乙女5", "g": {"id": "totalG", "label": "通常時G数"}, "counts": [{"id": "atCount", "label": "AT初当り"}, {"id": "obCount", "label": "戦国乙女ボーナス", "optional": true}, {"id": "otomeBn", "label": "戦国乙女ボーナス", "optional": true}, {"id": "zeroPt", "label": "0pt到達", "optional": true, "group": "乙女ポイント0pt", "rate": false, "defaultOff": true}, {"id": "oaIn", "label": "突入", "optional": true, "group": "乙女ポイント0pt", "rate": false, "defaultOff": true}], "hiFrom": 4, "judge": "calcBtn", "wrap": "pieWrap", "legend": "legend", "note": "G数・AT初当り・戦国乙女ボーナスは通常時のみ。AT初当りは乙女アタック・乙女ボーナス経由も含む。", "checks": {"selector": "#floorGroup input[type=checkbox]", "title": "スタンプ・獲得枚数・終了画面・ボイス", "short": "示唆", "optional": true}, "links": [{"href": "shuryo/", "label": "画面系の早見表（ボーナス終了画面・AT終了画面・アイキャッチ）"}]});
 </script>
 </body>
 </html>
