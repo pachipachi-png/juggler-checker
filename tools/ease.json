@@ -340,5 +340,13 @@
   "all5000": 23,
   "false1": 0.9,
   "lv": "hard"
+ },
+ "zegapain/": {
+  "name": "ゼーガペインETR",
+  "req3000": 11,
+  "all3000": 11,
+  "all5000": 24,
+  "false1": 0.9,
+  "lv": "hard"
  }
 }
